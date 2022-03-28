@@ -94,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 4
   spawned: 0
+  closedRoom: {fileID: 1586528034238900, guid: 24748702334080641848dad0edf7271c, type: 3}
 --- !u!1 &1181847182452446
 GameObject:
   m_ObjectHideFlags: 0

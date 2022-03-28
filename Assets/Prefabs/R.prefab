@@ -291,6 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 3
   spawned: 0
+  closedRoom: {fileID: 1586528034238900, guid: 24748702334080641848dad0edf7271c, type: 3}
 --- !u!1 &1188367545517966
 GameObject:
   m_ObjectHideFlags: 0

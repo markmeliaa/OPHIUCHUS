@@ -253,7 +253,7 @@ MonoBehaviour:
   - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
   - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
   - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
-  closedRoom: {fileID: 0}
+  closedRoom: {fileID: 5604431807221491164, guid: 24748702334080641848dad0edf7271c, type: 3}
   roomPlaceholder: {fileID: 635502956}
 --- !u!4 &1667192299 stripped
 Transform:
@@ -414,6 +414,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3149780896488178880, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 3540081461111046863, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
       propertyPath: spawned
       value: 0
@@ -421,6 +425,10 @@ PrefabInstance:
     - target: {fileID: 4603401157583876382, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
       propertyPath: spawned
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6920066519917858896, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7470007546414797451, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
       propertyPath: spawned
