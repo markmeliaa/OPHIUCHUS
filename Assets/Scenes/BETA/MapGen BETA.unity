@@ -202,8 +202,26 @@ MonoBehaviour:
   - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
   - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
   - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
+  - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
+  - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
+  - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
+  - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
+  - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
+  - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
+  - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
+  - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
+  - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
   topRooms:
   - {fileID: 1369664336951714, guid: 16d2ad34820b8a343a682fd2333cde30, type: 3}
+  - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
+  - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
+  - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
+  - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
+  - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
+  - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
+  - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
+  - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
+  - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
   - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
   - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
   - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
@@ -212,12 +230,30 @@ MonoBehaviour:
   - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
   - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
   - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
+  - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
+  - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
+  - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
+  - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
+  - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
+  - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
+  - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
+  - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
+  - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
   rightRooms:
   - {fileID: 1580888179356958, guid: adac8ac0f501c8b4ba76adc714c6ebc6, type: 3}
   - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
   - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
   - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
-  closedRoom: {fileID: 1586528034238900, guid: 24748702334080641848dad0edf7271c, type: 3}
+  - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
+  - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
+  - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
+  - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
+  - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
+  - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
+  - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
+  - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
+  - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
+  closedRoom: {fileID: 0}
   roomPlaceholder: {fileID: 635502956}
 --- !u!4 &1667192299 stripped
 Transform:
