@@ -335,8 +335,10 @@ MonoBehaviour:
   shopRoom: {fileID: 5604431807221491164, guid: 24748702334080641848dad0edf7271c, type: 3}
   healRoom: {fileID: 5604431807221491164, guid: 1b379bc50303c9e46912d611003c00cf, type: 3}
   initialRoom: {fileID: 1384366362914734, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
+  normalRoom: {fileID: 5604431807221491164, guid: c472f731062cf2841abb5df3167dc96a, type: 3}
   roomPlaceholder: {fileID: 635502956}
   shopPlaced: 0
+  healPlaced: 0
   rooms: []
   boss: {fileID: 1898445321837384, guid: b836ff339548c264d8d8ef71f0b49ba5, type: 3}
   generateAgainButton: {fileID: 1822646233}
@@ -578,7 +580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1830954600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,6 +700,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 535426075446203890, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3149780896488178880, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -742,7 +748,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2069745301
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,10 +17,12 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject shopRoom;
 	public GameObject healRoom;
 	public GameObject initialRoom;
+	public GameObject normalRoom;
 
 	public Transform roomPlaceholder;
 
 	public bool shopPlaced = false;
+	public bool healPlaced = false;
 
 	public List<GameObject> rooms;
 
@@ -47,7 +49,7 @@ public class RoomTemplates : MonoBehaviour
 
 		else
 			waitTime -= Time.deltaTime;
-    }
+	}
 
 	public void RestartGame()
     {
@@ -60,7 +62,9 @@ public class RoomTemplates : MonoBehaviour
 		spawnedBoss = false;
 		waitTime = 2f;
 		generateAgainButton.SetActive(false);
+        shopPlaced = false;
+		healPlaced = false;
 
-		Instantiate(initialRoom, new Vector3(0, 0, 0), initialRoom.transform.rotation, roomPlaceholder);
+        Instantiate(initialRoom, new Vector3(0, 0, 0), initialRoom.transform.rotation, roomPlaceholder);
     }
 }

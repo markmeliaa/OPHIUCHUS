@@ -112,30 +112,66 @@ public class RoomSpawner : MonoBehaviour
 
 				}
 
-				else
+				else if (!templates.healPlaced)
                 {
 					if (openingDirection == 1)
                     {
 						Instantiate(templates.healRoom, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+						templates.healPlaced = true;
 						templates.shopPlaced = false;
 					}
 
 					else if (openingDirection == 2)
                     {
 						Instantiate(templates.healRoom, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+						templates.healPlaced = true;
 						templates.shopPlaced = false;
 					}
 
 					else if (openingDirection == 3)
                     {
 						Instantiate(templates.healRoom, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+						templates.healPlaced = true;
 						templates.shopPlaced = false;
 					}
 
 					else if (openingDirection == 4)
                     {
 						Instantiate(templates.healRoom, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+						templates.healPlaced = true;
 						templates.shopPlaced = false;
+					}
+				}
+
+				else
+				{
+					if (openingDirection == 1)
+					{
+						// Need to spawn a room with a BOTTOM door
+						rand = Random.Range(0, templates.bottomRooms.Length);
+						//Instantiate(templates.bottomRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
+						Instantiate(templates.bottomRooms[rand], new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
+					}
+					else if (openingDirection == 2)
+					{
+						// Need to spawn a room with a TOP door
+						rand = Random.Range(0, templates.topRooms.Length);
+						//Instantiate(templates.topRooms[rand], transform.position, templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
+						Instantiate(templates.topRooms[rand], new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
+					}
+					else if (openingDirection == 3)
+					{
+						// Need to spawn a room with a LEFT door
+						rand = Random.Range(0, templates.leftRooms.Length);
+						//Instantiate(templates.leftRooms[rand], transform.position, templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
+						Instantiate(templates.leftRooms[rand], new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
+					}
+					else if (openingDirection == 4)
+					{
+						// Need to spawn a room with a RIGHT door
+						rand = Random.Range(0, templates.rightRooms.Length);
+						//Instantiate(templates.rightRooms[rand], transform.position, templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
+						Instantiate(templates.rightRooms[rand], new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
 					}
 				}
 
@@ -185,6 +221,7 @@ public class RoomSpawner : MonoBehaviour
 			}
 
 			other.GetComponent<RoomSpawner>().spawned = true;
+			spawned = true;
 		}
 	}
 }

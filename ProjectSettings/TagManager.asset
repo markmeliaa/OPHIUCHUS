@@ -7,6 +7,9 @@ TagManager:
   - SpawnPoint
   - Rooms
   - BossRoom
+  - ShopRoom
+  - HealRoom
+  - Room
   layers:
   - Default
   - TransparentFX

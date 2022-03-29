@@ -723,7 +723,7 @@ GameObject:
   - component: {fileID: 3084369642531816921}
   m_Layer: 0
   m_Name: Shop Room
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -769,7 +769,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9771429, y: 0.9771429}
+  m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!50 &6647464363437774738
 Rigidbody2D:
