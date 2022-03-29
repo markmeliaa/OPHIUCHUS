@@ -8,7 +8,16 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject[] topRooms;
 	public GameObject[] leftRooms;
 	public GameObject[] rightRooms;
-	public GameObject closedRoom;
+
+	public GameObject T;
+	public GameObject B;
+	public GameObject L;
+	public GameObject R;
+
+	public GameObject shopRoom;
+	public GameObject healRoom;
 
 	public Transform roomPlaceholder;
+
+	public bool shopPlaced = false;
 }

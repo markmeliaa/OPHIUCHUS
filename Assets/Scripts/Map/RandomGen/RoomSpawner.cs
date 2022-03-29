@@ -20,7 +20,7 @@ public class RoomSpawner : MonoBehaviour
 
 	void Start()
 	{
-		//Destroy(gameObject, waitTime);
+		Destroy(gameObject, waitTime);
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 
 		// Call a function after certain time
@@ -30,7 +30,7 @@ public class RoomSpawner : MonoBehaviour
 
 	void Spawn()
 	{
-		if (spawned == false)
+		if (spawned == false && transform.position.y > -63 && transform.position.y < 63 && transform.position.x > -117 && transform.position.x < 117)
 		{
 			if (openingDirection == 1)
 			{
@@ -62,6 +62,18 @@ public class RoomSpawner : MonoBehaviour
 			}
 		}
 
+		else if (!spawned && transform.position.y >= 63)
+			Instantiate(templates.B, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.B.transform.rotation, templates.roomPlaceholder);
+
+		else if (!spawned && transform.position.y <= -63)
+			Instantiate(templates.T, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.T.transform.rotation, templates.roomPlaceholder);
+
+		else if (!spawned && transform.position.x >= 117)
+			Instantiate(templates.L, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.L.transform.rotation, templates.roomPlaceholder);
+
+		else if (!spawned && transform.position.x <= -117)
+			Instantiate(templates.R, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.R.transform.rotation, templates.roomPlaceholder);
+
 		spawned = true;
 	}
 
@@ -70,16 +82,63 @@ public class RoomSpawner : MonoBehaviour
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 		if (other.CompareTag("SpawnPoint"))
 		{
-			if (other.GetComponent<RoomSpawner>().spawned == false && spawned == false && transform.position.x != 0 && transform.position.y != 0)
+			if (!other.GetComponent<RoomSpawner>().spawned && !spawned)
 			{
-				if (openingDirection == 1)
-					Instantiate(templates.closedRoom, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
-				else if (openingDirection == 2)
-					Instantiate(templates.closedRoom, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
-				else if (openingDirection == 3)
-					Instantiate(templates.closedRoom, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
-				else if (openingDirection == 4)
-					Instantiate(templates.closedRoom, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+				if (!templates.shopPlaced)
+                {
+					if (openingDirection == 1)
+                    {
+						templates.shopPlaced = true;
+						Instantiate(templates.shopRoom, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+					}
+
+					else if (openingDirection == 2)
+                    {
+						templates.shopPlaced = true;
+						Instantiate(templates.shopRoom, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);					
+					}
+
+					else if (openingDirection == 3)
+                    {
+						templates.shopPlaced = true;
+						Instantiate(templates.shopRoom, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);					
+					}
+
+					else if (openingDirection == 4)
+                    {
+						templates.shopPlaced = true;
+						Instantiate(templates.shopRoom, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);					
+					}
+
+				}
+
+				else
+                {
+					if (openingDirection == 1)
+                    {
+						Instantiate(templates.healRoom, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+						templates.shopPlaced = false;
+					}
+
+					else if (openingDirection == 2)
+                    {
+						Instantiate(templates.healRoom, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+						templates.shopPlaced = false;
+					}
+
+					else if (openingDirection == 3)
+                    {
+						Instantiate(templates.healRoom, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+						templates.shopPlaced = false;
+					}
+
+					else if (openingDirection == 4)
+                    {
+						Instantiate(templates.healRoom, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
+						templates.shopPlaced = false;
+					}
+				}
+
 				Destroy(gameObject);
 
 				/*
