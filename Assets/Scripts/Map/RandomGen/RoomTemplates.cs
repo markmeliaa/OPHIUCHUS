@@ -20,4 +20,23 @@ public class RoomTemplates : MonoBehaviour
 	public Transform roomPlaceholder;
 
 	public bool shopPlaced = false;
+
+	public List<GameObject> rooms;
+
+	private float waitTime = 2f;
+	private bool spawnedBoss;
+	public GameObject boss;
+
+	// Spawn final zone boss
+    private void Update()
+    {
+		if (waitTime <= 0 && !spawnedBoss)
+		{
+			Instantiate(boss, rooms[rooms.Count - 1].transform.position, Quaternion.identity, roomPlaceholder);
+			spawnedBoss = true;
+		}
+
+		else
+			waitTime -= Time.deltaTime;
+    }
 }

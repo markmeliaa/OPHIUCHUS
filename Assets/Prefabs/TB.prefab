@@ -343,7 +343,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 1
   spawned: 0
-  closedRoom: {fileID: 1586528034238900, guid: 24748702334080641848dad0edf7271c, type: 3}
 --- !u!1 &1532460050559808
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +505,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 2
   spawned: 0
-  closedRoom: {fileID: 1586528034238900, guid: 24748702334080641848dad0edf7271c, type: 3}
 --- !u!1 &1821337426962794
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,6 +763,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4767410067509144}
+  - component: {fileID: 5284482097800478006}
   m_Layer: 0
   m_Name: TB
   m_TagString: Untagged
@@ -788,3 +787,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &5284482097800478006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974744948600924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e018058e802ef6f44917560db11d0615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
