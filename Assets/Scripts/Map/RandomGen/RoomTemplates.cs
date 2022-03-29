@@ -16,6 +16,7 @@ public class RoomTemplates : MonoBehaviour
 
 	public GameObject shopRoom;
 	public GameObject healRoom;
+	public GameObject initialRoom;
 
 	public Transform roomPlaceholder;
 
@@ -39,4 +40,18 @@ public class RoomTemplates : MonoBehaviour
 		else
 			waitTime -= Time.deltaTime;
     }
+
+	/*
+	public void RestartGame()
+    {
+		foreach (GameObject room in rooms)
+			Destroy(room);
+
+		Destroy(GameObject.FindGameObjectWithTag("BossRoom").gameObject);
+		rooms = new List<GameObject>();
+		//spawnedBoss = false;
+
+		Instantiate(initialRoom, new Vector3(0, 0, 0), initialRoom.transform.rotation, roomPlaceholder);
+    }
+	*/
 }
