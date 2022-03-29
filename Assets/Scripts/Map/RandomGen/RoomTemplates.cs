@@ -28,20 +28,27 @@ public class RoomTemplates : MonoBehaviour
 	private bool spawnedBoss;
 	public GameObject boss;
 
-	// Spawn final zone boss
+	public GameObject generateAgainButton;
+
+    private void Start()
+    {
+		generateAgainButton.SetActive(false);
+    }
+
+    // Spawn final zone boss
     private void Update()
     {
 		if (waitTime <= 0 && !spawnedBoss)
 		{
 			Instantiate(boss, rooms[rooms.Count - 1].transform.position, Quaternion.identity, roomPlaceholder);
 			spawnedBoss = true;
+			generateAgainButton.SetActive(true);
 		}
 
 		else
 			waitTime -= Time.deltaTime;
     }
 
-	/*
 	public void RestartGame()
     {
 		foreach (GameObject room in rooms)
@@ -49,9 +56,11 @@ public class RoomTemplates : MonoBehaviour
 
 		Destroy(GameObject.FindGameObjectWithTag("BossRoom").gameObject);
 		rooms = new List<GameObject>();
-		//spawnedBoss = false;
+
+		spawnedBoss = false;
+		waitTime = 2f;
+		generateAgainButton.SetActive(false);
 
 		Instantiate(initialRoom, new Vector3(0, 0, 0), initialRoom.transform.rotation, roomPlaceholder);
     }
-	*/
 }

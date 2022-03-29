@@ -339,6 +339,7 @@ MonoBehaviour:
   shopPlaced: 0
   rooms: []
   boss: {fileID: 1898445321837384, guid: b836ff339548c264d8d8ef71f0b49ba5, type: 3}
+  generateAgainButton: {fileID: 1822646233}
 --- !u!4 &1667192299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4284646200961232, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
@@ -463,8 +464,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -624, y: 76}
-  m_SizeDelta: {x: 527.091, y: 79.1659}
+  m_AnchoredPosition: {x: -700, y: 26}
+  m_SizeDelta: {x: 468.1151, y: 70.3081}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1822646235
 MonoBehaviour:

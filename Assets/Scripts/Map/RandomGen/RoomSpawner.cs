@@ -24,7 +24,7 @@ public class RoomSpawner : MonoBehaviour
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 
 		// Call a function after certain time
-		Invoke("Spawn", 0.05f);
+		Invoke("Spawn", 0.075f);
 	}
 
 
