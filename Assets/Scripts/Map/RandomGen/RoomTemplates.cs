@@ -14,6 +14,15 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject L;
 	public GameObject R;
 
+	public GameObject TB;
+	public GameObject TL;
+	public GameObject TR;
+
+	public GameObject LB;
+	public GameObject RB;
+
+	public GameObject LR;
+
 	public GameObject shopRoom;
 	public GameObject healRoom;
 	public GameObject initialRoom;
