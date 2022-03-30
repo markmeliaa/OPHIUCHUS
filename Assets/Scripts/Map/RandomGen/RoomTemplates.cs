@@ -38,6 +38,9 @@ public class RoomTemplates : MonoBehaviour
 
 	public GameObject generateAgainButton;
 
+	public int minRooms = 15;
+	public int maxRooms = 25;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);
@@ -48,7 +51,7 @@ public class RoomTemplates : MonoBehaviour
     {
 		if (waitTime <= 0 && !spawnedBoss)
 		{
-			if (rooms.Count < 15 || rooms.Count > 25)
+			if (rooms.Count <= minRooms || rooms.Count > maxRooms)
 				RestartGame();
 
 			else
