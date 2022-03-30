@@ -32,7 +32,7 @@ public class RoomTemplates : MonoBehaviour
 
 	public List<GameObject> rooms;
 
-	private float waitTime = 1f;
+	private float waitTime = 0.5f;
 	private bool spawnedBoss;
 	public GameObject boss;
 
@@ -48,36 +48,42 @@ public class RoomTemplates : MonoBehaviour
     {
 		if (waitTime <= 0 && !spawnedBoss)
 		{
-			// Spawn boss room
-			Instantiate(boss, rooms[rooms.Count - 1].transform.position, Quaternion.identity, rooms[rooms.Count - 1].transform);
-			rooms[rooms.Count - 1].tag = "BossRoom";
-			spawnedBoss = true;
+			if (rooms.Count < 15 || rooms.Count > 25)
+				RestartGame();
 
-			// Spawn heal and money room
-			int rand = Random.Range(1, rooms.Count - 1);
-			int rand2 = Random.Range(1, rooms.Count - 1);
-
-			while (rand == rand2)
-				rand2 = Random.Range(1, rooms.Count - 1);
-
-			//Debug.Log(rooms.Count / 10);
-
-			for (int i = 1; i <= rooms.Count - 2; i++)
+			else
             {
-				if (i == rand && Random.Range(0, 10) < rooms.Count/10 + 1)
+				// Spawn boss room
+				Instantiate(boss, rooms[rooms.Count - 1].transform.position, Quaternion.identity, rooms[rooms.Count - 1].transform);
+				rooms[rooms.Count - 1].tag = "BossRoom";
+				spawnedBoss = true;
+
+				// Spawn heal and money room
+				int rand = Random.Range(1, rooms.Count - 1);
+				int rand2 = Random.Range(1, rooms.Count - 1);
+
+				while (rand == rand2)
+					rand2 = Random.Range(1, rooms.Count - 1);
+
+				//Debug.Log(rooms.Count / 10);
+
+				for (int i = 1; i <= rooms.Count - 2; i++)
 				{
-					Instantiate(shopRoom, rooms[i].transform.position, Quaternion.identity, rooms[i].transform);
-					rooms[i].tag = "ShopRoom";
+					if (i == rand && Random.Range(0, 10) < rooms.Count / 10 * 2)
+					{
+						Instantiate(shopRoom, rooms[i].transform.position, Quaternion.identity, rooms[i].transform);
+						rooms[i].tag = "ShopRoom";
+					}
+
+					else if (i == rand2 && Random.Range(0, 10) < rooms.Count / 10)
+					{
+						Instantiate(healRoom, rooms[i].transform.position, Quaternion.identity, rooms[i].transform);
+						rooms[i].tag = "HealRoom";
+					}
 				}
 
-				else if (i == rand2 && Random.Range(0, 10) < rooms.Count/10 + 1)
-                {
-					Instantiate(healRoom, rooms[i].transform.position, Quaternion.identity, rooms[i].transform);
-					rooms[i].tag = "HealRoom";
-				}
-            }
-
-			generateAgainButton.SetActive(true);
+				generateAgainButton.SetActive(true);
+			}
 		}
 
 		else
