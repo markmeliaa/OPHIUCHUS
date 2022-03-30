@@ -18,13 +18,13 @@ public class RoomSpawner : MonoBehaviour
 
 	private float waitTime = 3f;
 
-	void Awake()
+	void Start()
 	{
-		Destroy(gameObject, waitTime);
+		//Destroy(gameObject, waitTime);
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 
 		// Call a function after certain time
-		Invoke("Spawn", 0.075f);
+		Invoke("Spawn", Time.fixedUnscaledDeltaTime);
 	}
 
 
@@ -37,28 +37,80 @@ public class RoomSpawner : MonoBehaviour
 				// Need to spawn a room with a BOTTOM door
 				rand = Random.Range(0, templates.bottomRooms.Length);
 				//Instantiate(templates.bottomRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
-				Instantiate(templates.bottomRooms[rand], new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
+				GameObject newRoom = Instantiate(templates.bottomRooms[rand], new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
+				
+				GameObject roomSpawnpoints = null;
+				for (int i = 0; i < newRoom.transform.childCount; i++)
+                {
+					if (newRoom.transform.GetChild(i).name == "Spawn Points")
+						roomSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                }
+
+                for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
+                {
+					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+				}
 			}
 			else if (openingDirection == 2)
 			{
 				// Need to spawn a room with a TOP door
 				rand = Random.Range(0, templates.topRooms.Length);
 				//Instantiate(templates.topRooms[rand], transform.position, templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
-				Instantiate(templates.topRooms[rand], new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
+				GameObject newRoom = Instantiate(templates.topRooms[rand], new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
+
+				GameObject roomSpawnpoints = null;
+				for (int i = 0; i < newRoom.transform.childCount; i++)
+				{
+					if (newRoom.transform.GetChild(i).name == "Spawn Points")
+						roomSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+				}
+
+				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
+				{
+					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+				}
 			}
 			else if (openingDirection == 3)
 			{
 				// Need to spawn a room with a LEFT door
 				rand = Random.Range(0, templates.leftRooms.Length);
 				//Instantiate(templates.leftRooms[rand], transform.position, templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
-				Instantiate(templates.leftRooms[rand], new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
+				GameObject newRoom = Instantiate(templates.leftRooms[rand], new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
+
+				GameObject roomSpawnpoints = null;
+				for (int i = 0; i < newRoom.transform.childCount; i++)
+				{
+					if (newRoom.transform.GetChild(i).name == "Spawn Points")
+						roomSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+				}
+
+				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
+				{
+					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+				}
 			}
 			else if (openingDirection == 4)
 			{
 				// Need to spawn a room with a RIGHT door
 				rand = Random.Range(0, templates.rightRooms.Length);
 				//Instantiate(templates.rightRooms[rand], transform.position, templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
-				Instantiate(templates.rightRooms[rand], new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
+				GameObject newRoom = Instantiate(templates.rightRooms[rand], new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
+
+				GameObject roomSpawnpoints = null;
+				for (int i = 0; i < newRoom.transform.childCount; i++)
+				{
+					if (newRoom.transform.GetChild(i).name == "Spawn Points")
+						roomSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+				}
+
+				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
+				{
+					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+				}
 			}
 		}
 
@@ -82,142 +134,10 @@ public class RoomSpawner : MonoBehaviour
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 		if (other.CompareTag("SpawnPoint"))
 		{
-			if (!other.GetComponent<RoomSpawner>().spawned && !spawned)
+			if (other.GetComponent<RoomSpawner>().spawned == false && !spawned)
 			{
-				if (!templates.shopPlaced)
-                {
-					if (openingDirection == 1)
-                    {
-						templates.shopPlaced = true;
-						Instantiate(templates.shopRoom, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
-					}
-
-					else if (openingDirection == 2)
-                    {
-						templates.shopPlaced = true;
-						Instantiate(templates.shopRoom, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);					
-					}
-
-					else if (openingDirection == 3)
-                    {
-						templates.shopPlaced = true;
-						Instantiate(templates.shopRoom, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);					
-					}
-
-					else if (openingDirection == 4)
-                    {
-						templates.shopPlaced = true;
-						Instantiate(templates.shopRoom, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);					
-					}
-
-				}
-
-				else if (!templates.healPlaced)
-                {
-					if (openingDirection == 1)
-                    {
-						Instantiate(templates.healRoom, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
-						templates.healPlaced = true;
-						templates.shopPlaced = false;
-					}
-
-					else if (openingDirection == 2)
-                    {
-						Instantiate(templates.healRoom, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
-						templates.healPlaced = true;
-						templates.shopPlaced = false;
-					}
-
-					else if (openingDirection == 3)
-                    {
-						Instantiate(templates.healRoom, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
-						templates.healPlaced = true;
-						templates.shopPlaced = false;
-					}
-
-					else if (openingDirection == 4)
-                    {
-						Instantiate(templates.healRoom, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), Quaternion.identity, templates.roomPlaceholder);
-						templates.healPlaced = true;
-						templates.shopPlaced = false;
-					}
-				}
-
-				else
-				{
-					if (openingDirection == 1)
-					{
-						// Need to spawn a room with a BOTTOM door
-						rand = Random.Range(0, templates.bottomRooms.Length);
-						//Instantiate(templates.bottomRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
-						Instantiate(templates.bottomRooms[rand], new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
-					}
-					else if (openingDirection == 2)
-					{
-						// Need to spawn a room with a TOP door
-						rand = Random.Range(0, templates.topRooms.Length);
-						//Instantiate(templates.topRooms[rand], transform.position, templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
-						Instantiate(templates.topRooms[rand], new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
-					}
-					else if (openingDirection == 3)
-					{
-						// Need to spawn a room with a LEFT door
-						rand = Random.Range(0, templates.leftRooms.Length);
-						//Instantiate(templates.leftRooms[rand], transform.position, templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
-						Instantiate(templates.leftRooms[rand], new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
-					}
-					else if (openingDirection == 4)
-					{
-						// Need to spawn a room with a RIGHT door
-						rand = Random.Range(0, templates.rightRooms.Length);
-						//Instantiate(templates.rightRooms[rand], transform.position, templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
-						Instantiate(templates.rightRooms[rand], new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
-					}
-				}
-
-				Destroy(gameObject);
-
-				/*
-				if (other.GetComponent<RoomSpawner>().openingDirection == 1)
-                {
-					if (openingDirection == 2)
-						Instantiate(templates.TB, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.TB.transform.rotation, templates.roomPlaceholder);
-					else if (openingDirection == 3)
-						Instantiate(templates.LB, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.LB.transform.rotation, templates.roomPlaceholder);
-					else if (openingDirection == 4)
-						Instantiate(templates.RB, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.RB.transform.rotation, templates.roomPlaceholder);
-				}
-
-				else if (other.GetComponent<RoomSpawner>().openingDirection == 2)
-				{
-					if (openingDirection == 1)
-						Instantiate(templates.TB, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.TB.transform.rotation, templates.roomPlaceholder);
-					else if (openingDirection == 3)
-						Instantiate(templates.TL, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.TL.transform.rotation, templates.roomPlaceholder);
-					else if (openingDirection == 4)
-						Instantiate(templates.TR, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.TR.transform.rotation, templates.roomPlaceholder);
-				}
-
-				else if (other.GetComponent<RoomSpawner>().openingDirection == 3)
-				{
-					if (openingDirection == 1)
-						Instantiate(templates.LB, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.LB.transform.rotation, templates.roomPlaceholder);
-					else if (openingDirection == 2)
-						Instantiate(templates.TL, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.TL.transform.rotation, templates.roomPlaceholder);
-					else if (openingDirection == 4)
-						Instantiate(templates.LR, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.LR.transform.rotation, templates.roomPlaceholder);
-				}
-
-				else if (other.GetComponent<RoomSpawner>().openingDirection == 4)
-				{
-					if (openingDirection == 1)
-						Instantiate(templates.RB, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.RB.transform.rotation, templates.roomPlaceholder);
-					else if (openingDirection == 2)
-						Instantiate(templates.TR, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.TR.transform.rotation, templates.roomPlaceholder);
-					else if (openingDirection == 3)
-						Instantiate(templates.LR, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.LR.transform.rotation, templates.roomPlaceholder);
-				}
-				*/
+				Debug.Log(1);
+				Debug.Log("Collision at " + this.gameObject.transform.parent.transform.parent.transform.position + " with " + other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.transform.position);
 			}
 
 			other.GetComponent<RoomSpawner>().spawned = true;

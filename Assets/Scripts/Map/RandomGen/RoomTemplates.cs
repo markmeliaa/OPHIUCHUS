@@ -26,7 +26,7 @@ public class RoomTemplates : MonoBehaviour
 
 	public List<GameObject> rooms;
 
-	private float waitTime = 2f;
+	private float waitTime = 1f;
 	private bool spawnedBoss;
 	public GameObject boss;
 
@@ -60,7 +60,7 @@ public class RoomTemplates : MonoBehaviour
 		rooms = new List<GameObject>();
 
 		spawnedBoss = false;
-		waitTime = 2f;
+		waitTime = 1f;
 		generateAgainButton.SetActive(false);
         shopPlaced = false;
 		healPlaced = false;
