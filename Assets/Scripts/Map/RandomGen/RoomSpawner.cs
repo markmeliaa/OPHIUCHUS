@@ -30,14 +30,17 @@ public class RoomSpawner : MonoBehaviour
 
 	void Spawn()
 	{
-		if (spawned == false && transform.position.y > -63 && transform.position.y < 63 && transform.position.x > -117 && transform.position.x < 117)
+		if (spawned == false && templates.mainCamera.WorldToViewportPoint(transform.position).x < 1 - 0.028 
+			&& templates.mainCamera.WorldToViewportPoint(transform.position).x > 0 + 0.028 
+			&& templates.mainCamera.WorldToViewportPoint(transform.position).y < 1 - 0.038 
+			&& templates.mainCamera.WorldToViewportPoint(transform.position).y > 0 + 0.038)
 		{
 			if (openingDirection == 1)
 			{
 				// Need to spawn a room with a BOTTOM door
 				rand = Random.Range(0, templates.bottomRooms.Length);
 				//Instantiate(templates.bottomRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
-				GameObject newRoom = Instantiate(templates.bottomRooms[rand], new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
+				GameObject newRoom = Instantiate(templates.bottomRooms[rand], new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), templates.bottomRooms[rand].transform.rotation, templates.roomPlaceholder);
 				
 				GameObject roomSpawnpoints = null;
 				for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -57,7 +60,7 @@ public class RoomSpawner : MonoBehaviour
 				// Need to spawn a room with a TOP door
 				rand = Random.Range(0, templates.topRooms.Length);
 				//Instantiate(templates.topRooms[rand], transform.position, templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
-				GameObject newRoom = Instantiate(templates.topRooms[rand], new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
+				GameObject newRoom = Instantiate(templates.topRooms[rand], new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z), templates.topRooms[rand].transform.rotation, templates.roomPlaceholder);
 
 				GameObject roomSpawnpoints = null;
 				for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -77,7 +80,7 @@ public class RoomSpawner : MonoBehaviour
 				// Need to spawn a room with a LEFT door
 				rand = Random.Range(0, templates.leftRooms.Length);
 				//Instantiate(templates.leftRooms[rand], transform.position, templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
-				GameObject newRoom = Instantiate(templates.leftRooms[rand], new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
+				GameObject newRoom = Instantiate(templates.leftRooms[rand], new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z), templates.leftRooms[rand].transform.rotation, templates.roomPlaceholder);
 
 				GameObject roomSpawnpoints = null;
 				for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -97,7 +100,7 @@ public class RoomSpawner : MonoBehaviour
 				// Need to spawn a room with a RIGHT door
 				rand = Random.Range(0, templates.rightRooms.Length);
 				//Instantiate(templates.rightRooms[rand], transform.position, templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
-				GameObject newRoom = Instantiate(templates.rightRooms[rand], new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
+				GameObject newRoom = Instantiate(templates.rightRooms[rand], new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z), templates.rightRooms[rand].transform.rotation, templates.roomPlaceholder);
 
 				GameObject roomSpawnpoints = null;
 				for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -114,17 +117,17 @@ public class RoomSpawner : MonoBehaviour
 			}
 		}
 
-		else if (!spawned && transform.position.y >= 63)
-			Instantiate(templates.B, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.B.transform.rotation, templates.roomPlaceholder);
+		else if (!spawned && templates.mainCamera.WorldToViewportPoint(transform.position).y >= 1 - 0.038) // 63
+			Instantiate(templates.B, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), templates.B.transform.rotation, templates.roomPlaceholder);
 
-		else if (!spawned && transform.position.y <= -63)
-			Instantiate(templates.T, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.T.transform.rotation, templates.roomPlaceholder);
+		else if (!spawned && templates.mainCamera.WorldToViewportPoint(transform.position).y <= 0 + 0.038)
+			Instantiate(templates.T, new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z), templates.T.transform.rotation, templates.roomPlaceholder);
 
-		else if (!spawned && transform.position.x >= 117)
-			Instantiate(templates.L, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.L.transform.rotation, templates.roomPlaceholder);
+		else if (!spawned && templates.mainCamera.WorldToViewportPoint(transform.position).x >= 1 - 0.028) // 117
+			Instantiate(templates.L, new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z), templates.L.transform.rotation, templates.roomPlaceholder);
 
-		else if (!spawned && transform.position.x <= -117)
-			Instantiate(templates.R, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.R.transform.rotation, templates.roomPlaceholder);
+		else if (!spawned && templates.mainCamera.WorldToViewportPoint(transform.position).x <= 0 + 0.028)
+			Instantiate(templates.R, new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z), templates.R.transform.rotation, templates.roomPlaceholder);
 
 		spawned = true;
 	}
@@ -146,7 +149,7 @@ public class RoomSpawner : MonoBehaviour
                     {
 						//Debug.Log("Spawn TB");
 						// Need to spawn a room with a BOTTOM TOP door
-						GameObject newRoom = Instantiate(templates.TB, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.TB.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.TB, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), templates.TB.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -169,7 +172,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn LB");
 						// Need to spawn a room with a BOTTOM LEFT door
-						GameObject newRoom = Instantiate(templates.LB, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.LB.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.LB, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), templates.LB.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -192,7 +195,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn RB");
 						// Need to spawn a room with a BOTTOM RIGHT door
-						GameObject newRoom = Instantiate(templates.RB, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), templates.RB.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.RB, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), templates.RB.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -218,7 +221,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn TB");
 						// Need to spawn a room with a TOP BOTTOM door
-						GameObject newRoom = Instantiate(templates.TB, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.TB.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.TB, new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z), templates.TB.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -241,7 +244,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn TL");
 						// Need to spawn a room with a TOP LEFT door
-						GameObject newRoom = Instantiate(templates.TL, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.TL.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.TL, new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z), templates.TL.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -264,7 +267,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn TR");
 						// Need to spawn a room with a TOP RIGHT door
-						GameObject newRoom = Instantiate(templates.TR, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), templates.TR.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.TR, new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z), templates.TR.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -290,7 +293,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn LB");
 						// Need to spawn a room with a LEFT BOTTOM door
-						GameObject newRoom = Instantiate(templates.LB, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.LB.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.LB, new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z), templates.LB.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -313,7 +316,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn TL");
 						// Need to spawn a room with a LEFT TOP door
-						GameObject newRoom = Instantiate(templates.TL, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.TL.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.TL, new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z), templates.TL.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -336,7 +339,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn LR");
 						// Need to spawn a room with a LEFT RIGHT door
-						GameObject newRoom = Instantiate(templates.LR, new Vector3(transform.position.x - 1, transform.position.y, transform.position.z), templates.LR.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.LR, new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z), templates.LR.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -362,7 +365,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn RB");
 						// Need to spawn a room with a RIGHT BOTTOM door
-						GameObject newRoom = Instantiate(templates.RB, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.RB.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.RB, new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z), templates.RB.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -385,7 +388,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn TR");
 						// Need to spawn a room with a RIGHT TOP door
-						GameObject newRoom = Instantiate(templates.TR, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.TR.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.TR, new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z), templates.TR.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)
@@ -408,7 +411,7 @@ public class RoomSpawner : MonoBehaviour
 					{
 						//Debug.Log("Spawn LR");
 						// Need to spawn a room with a RIGHT LEFT door
-						GameObject newRoom = Instantiate(templates.LR, new Vector3(transform.position.x + 1, transform.position.y, transform.position.z), templates.LR.transform.rotation, templates.roomPlaceholder);
+						GameObject newRoom = Instantiate(templates.LR, new Vector3(transform.position.x + 0.01f, transform.position.y, transform.position.z), templates.LR.transform.rotation, templates.roomPlaceholder);
 
 						GameObject roomSpawnpoints = null;
 						for (int i = 0; i < newRoom.transform.childCount; i++)

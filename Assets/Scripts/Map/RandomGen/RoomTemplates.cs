@@ -41,6 +41,9 @@ public class RoomTemplates : MonoBehaviour
 	public int minRooms = 15;
 	public int maxRooms = 25;
 
+	public Transform roomSpawner;
+	public Camera mainCamera;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);
@@ -85,7 +88,7 @@ public class RoomTemplates : MonoBehaviour
 					}
 				}
 
-				generateAgainButton.SetActive(true);
+				//generateAgainButton.SetActive(true);
 			}
 		}
 
@@ -104,6 +107,6 @@ public class RoomTemplates : MonoBehaviour
 		waitTime = 1f;
 		generateAgainButton.SetActive(false);
 
-        Instantiate(initialRoom, new Vector3(0, 0, 0), initialRoom.transform.rotation, roomPlaceholder);
+        Instantiate(initialRoom, roomSpawner.position, initialRoom.transform.rotation, roomPlaceholder);
     }
 }
