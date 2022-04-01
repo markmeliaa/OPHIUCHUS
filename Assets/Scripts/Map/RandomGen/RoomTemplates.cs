@@ -44,6 +44,8 @@ public class RoomTemplates : MonoBehaviour
 	public Transform roomSpawner;
 	public Camera mainCamera;
 
+	public float roomOffset;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);
