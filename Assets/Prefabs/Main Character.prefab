@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1597769208920597346}
   - component: {fileID: 1597769208920597347}
   - component: {fileID: 1597769208920597344}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -93,9 +93,9 @@ GameObject:
   m_Component:
   - component: {fileID: 429483923833420941}
   - component: {fileID: 2299686608544590928}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MC Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 4866597230954502384}
   - component: {fileID: 4056468908336733325}
   - component: {fileID: 7878979493392822680}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Character
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: 1ab8c3bef1c8d41c2bcaeb963b25c84f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
