@@ -508,6 +508,8 @@ MonoBehaviour:
   mainCamera: {fileID: 1461300596}
   roomOffset: 0.022
   currentRoom: {fileID: 1558707656}
+  realTLRB: {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
+  realRoomPlaceholder: {fileID: 1412537187}
 --- !u!4 &636516570
 Transform:
   m_ObjectHideFlags: 0
@@ -520,7 +522,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 974995061}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &974995060
 GameObject:
@@ -549,7 +551,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1170283686}
   - {fileID: 636516570}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -663,36 +664,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088494610}
   m_CullTransparentMesh: 1
---- !u!1 &1170283685
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1170283686}
-  m_Layer: 0
-  m_Name: Room Generator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1170283686
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170283685}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5551145, y: -1.0869541, z: -1.3662633}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 974995061}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1412537186
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,7 +958,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
       propertyPath: m_Name
-      value: Grid -- Room TLRB
+      value: Room TLRB
       objectReference: {fileID: 0}
     - target: {fileID: 2802847374156715140, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
       propertyPath: m_RootOrder

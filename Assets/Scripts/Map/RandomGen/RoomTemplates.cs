@@ -48,6 +48,10 @@ public class RoomTemplates : MonoBehaviour
 
 	public GameObject currentRoom;
 
+	public GameObject realTLRB;
+
+	public Transform realRoomPlaceholder;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);

@@ -14,6 +14,7 @@ TagManager:
   - South
   - East
   - West
+  - RealSpawnPoint
   layers:
   - Default
   - TransparentFX
