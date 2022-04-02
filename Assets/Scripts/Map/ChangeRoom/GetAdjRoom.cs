@@ -48,7 +48,7 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             if (connectedRoom == null)
                             {
-                                newRoom = Instantiate(templates.realTLRB, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), templates.realTLRB.transform.rotation, templates.realRoomPlaceholder);
+                                newRoom = Instantiate(templates.realB, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), templates.realB.transform.rotation, templates.realRoomPlaceholder);
                                 connectedRoom = newRoom;
                                 break;
                             }
@@ -86,7 +86,7 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             if (connectedRoom == null)
                             {
-                                newRoom = Instantiate(templates.realTLRB, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), templates.realTLRB.transform.rotation, templates.realRoomPlaceholder);
+                                newRoom = Instantiate(templates.realT, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), templates.realT.transform.rotation, templates.realRoomPlaceholder);
                                 connectedRoom = newRoom;
                                 break;
                             }
@@ -124,7 +124,7 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             if (connectedRoom == null)
                             {
-                                newRoom = Instantiate(templates.realTLRB, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), templates.realTLRB.transform.rotation, templates.realRoomPlaceholder);
+                                newRoom = Instantiate(templates.realL, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), templates.realL.transform.rotation, templates.realRoomPlaceholder);
                                 connectedRoom = newRoom;
                                 break;
                             }
@@ -162,7 +162,7 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             if (connectedRoom == null)
                             {
-                                newRoom = Instantiate(templates.realTLRB, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), templates.realTLRB.transform.rotation, templates.realRoomPlaceholder);
+                                newRoom = Instantiate(templates.realR, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), templates.realR.transform.rotation, templates.realRoomPlaceholder);
                                 connectedRoom = newRoom;
                                 break;
                             }

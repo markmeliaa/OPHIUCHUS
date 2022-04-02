@@ -49,6 +49,10 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject currentRoom;
 
 	public GameObject realTLRB;
+	public GameObject realT;
+	public GameObject realB;
+	public GameObject realL;
+	public GameObject realR;
 
 	public Transform realRoomPlaceholder;
 
