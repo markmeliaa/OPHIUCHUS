@@ -60,7 +60,7 @@ public class PlayerRendIso : MonoBehaviour
         if (angle < 0)
             angle += 360;
 
-        // Calculate how many steps areneeded to reach the angle
+        // Calculate how many steps are needed to reach the angle
         float stepCount = angle / step;
 
         // Round it and return it

@@ -46,6 +46,8 @@ public class RoomTemplates : MonoBehaviour
 
 	public float roomOffset;
 
+	public GameObject currentRoom;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);
@@ -109,6 +111,6 @@ public class RoomTemplates : MonoBehaviour
 		waitTime = 1f;
 		generateAgainButton.SetActive(false);
 
-        Instantiate(initialRoom, roomSpawner.position, initialRoom.transform.rotation, roomPlaceholder);
+        currentRoom = Instantiate(initialRoom, roomSpawner.position, initialRoom.transform.rotation, roomPlaceholder);
     }
 }
