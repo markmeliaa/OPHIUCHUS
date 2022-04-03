@@ -46,27 +46,59 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 1)
                         {
-                            newRoom = Instantiate(templates.realB, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), templates.realB.transform.rotation, templates.realRoomPlaceholder);
-                            connectedRoom = newRoom;
+                            foreach (GameObject room in templates.realRooms)
+                            {
+                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
+                                {
+                                    templates.currentRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
+                                    connectedRoom = newRoom;
+                                    break;
+                                }
+                            }
+
                             break;
+                        }
+                    }
+
+                    for (int i = 0; i < newRoom.transform.childCount; i++)
+                    {
+                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        {
+                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        }
+                    }
+
+                    // Move the player to the new room
+                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    {
+                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
+                        {
+                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
                         }
                     }
                 }
 
-                for (int i = 0; i < newRoom.transform.childCount; i++)
+                else
                 {
-                    if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                    for (int i = 0; i < newRoom.transform.childCount; i++)
                     {
-                        neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        {
+                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        }
                     }
-                }
 
-                for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
-                {
-                    if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
+                    // Move the player to the new room
+                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
                     {
-                        player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                        neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
+                        {
+                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                            templates.currentRoom = connectedRoom;
+                        }
                     }
                 }
             }
@@ -81,27 +113,59 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 2)
                         {
-                            newRoom = Instantiate(templates.realT, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), templates.realT.transform.rotation, templates.realRoomPlaceholder);
-                            connectedRoom = newRoom;
+                            foreach (GameObject room in templates.realRooms)
+                            {
+                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
+                                {
+                                    templates.currentRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
+                                    connectedRoom = newRoom;
+                                    break;
+                                }
+                            }
+
                             break;
+                        }
+                    }
+
+                    for (int i = 0; i < newRoom.transform.childCount; i++)
+                    {
+                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        {
+                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        }
+                    }
+
+                    // Move the player to the new room
+                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    {
+                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
+                        {
+                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
                         }
                     }
                 }
 
-                for (int i = 0; i < newRoom.transform.childCount; i++)
+                else
                 {
-                    if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                    for (int i = 0; i < newRoom.transform.childCount; i++)
                     {
-                        neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        {
+                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        }
                     }
-                }
 
-                for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
-                {
-                    if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
+                    // Move the player to the new room
+                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
                     {
-                        player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                        neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
+                        {
+                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                            templates.currentRoom = connectedRoom;
+                        }
                     }
                 }
             }
@@ -116,27 +180,59 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 3)
                         {
-                            newRoom = Instantiate(templates.realL, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), templates.realL.transform.rotation, templates.realRoomPlaceholder);
-                            connectedRoom = newRoom;
+                            foreach (GameObject room in templates.realRooms)
+                            {
+                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
+                                {
+                                    templates.currentRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    newRoom = Instantiate(room, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
+                                    connectedRoom = newRoom;
+                                    break;
+                                }
+                            }
+
                             break;
+                        }
+                    }
+
+                    for (int i = 0; i < newRoom.transform.childCount; i++)
+                    {
+                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        {
+                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        }
+                    }
+
+                    // Move the player to the new room
+                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    {
+                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
+                        {
+                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
                         }
                     }
                 }
 
-                for (int i = 0; i < newRoom.transform.childCount; i++)
+                else
                 {
-                    if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                    for (int i = 0; i < newRoom.transform.childCount; i++)
                     {
-                        neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        {
+                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        }
                     }
-                }
 
-                for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
-                {
-                    if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
+                    // Move the player to the new room
+                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
                     {
-                        player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                        neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
+                        {
+                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                            templates.currentRoom = connectedRoom;
+                        }
                     }
                 }
             }
@@ -151,27 +247,59 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 4)
                         {
-                            newRoom = Instantiate(templates.realR, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), templates.realR.transform.rotation, templates.realRoomPlaceholder);
-                            connectedRoom = newRoom;
+                            foreach (GameObject room in templates.realRooms)
+                            {
+                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
+                                {
+                                    templates.currentRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    newRoom = Instantiate(room, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
+                                    connectedRoom = newRoom;
+                                    break;
+                                }
+                            }
+
                             break;
+                        }
+                    }
+
+                    for (int i = 0; i < newRoom.transform.childCount; i++)
+                    {
+                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        {
+                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        }
+                    }
+
+                    // Move the player to the new room
+                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    {
+                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
+                        {
+                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
                         }
                     }
                 }
 
-                for (int i = 0; i < newRoom.transform.childCount; i++)
+                else
                 {
-                    if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                    for (int i = 0; i < newRoom.transform.childCount; i++)
                     {
-                        neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        {
+                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                        }
                     }
-                }
 
-                for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
-                {
-                    if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
+                    // Move the player to the new room
+                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
                     {
-                        player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                        neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
+                        {
+                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                            templates.currentRoom = connectedRoom;
+                        }
                     }
                 }
             }

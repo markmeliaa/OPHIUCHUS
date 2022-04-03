@@ -508,12 +508,20 @@ MonoBehaviour:
   mainCamera: {fileID: 1461300596}
   roomOffset: 0.022
   currentRoom: {fileID: 1558707656}
-  realTLRB: {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
-  realT: {fileID: 3204322981890868227, guid: fdc35d6dca49aa54db03276362a8ca87, type: 3}
-  realB: {fileID: 8777243000210257298, guid: b6d8b63bac2cd7445860578cc45bd80d, type: 3}
-  realL: {fileID: 1082812505288664128, guid: d6ad207f8e837104b918f0a7c8329ef4, type: 3}
-  realR: {fileID: 4743246120840131611, guid: 0e026994f55598b46a0d2a33a6702564, type: 3}
+  realRooms:
+  - {fileID: 8777243000210257298, guid: b6d8b63bac2cd7445860578cc45bd80d, type: 3}
+  - {fileID: 1082812505288664128, guid: d6ad207f8e837104b918f0a7c8329ef4, type: 3}
+  - {fileID: 2273983854462674528, guid: ac49774e36a0885468d8bd52acd6d699, type: 3}
+  - {fileID: 4265712902267737857, guid: af03c3d69efbc494fa187a4d7b3e1b1e, type: 3}
+  - {fileID: 4743246120840131611, guid: 0e026994f55598b46a0d2a33a6702564, type: 3}
+  - {fileID: 2193011589466218250, guid: 5b6d0f4af9978544daf085291b35f7cc, type: 3}
+  - {fileID: 3204322981890868227, guid: fdc35d6dca49aa54db03276362a8ca87, type: 3}
+  - {fileID: 2537011847850634418, guid: e723bf77a04f72a4b826f0d2b3b54c81, type: 3}
+  - {fileID: 2742362444550781606, guid: b3a3ca0086a095e40b740acb4c7d7c0a, type: 3}
+  - {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
+  - {fileID: 8190081602717007065, guid: c8ef6e836be0bbe488d57bb6cfdb4f5e, type: 3}
   realRoomPlaceholder: {fileID: 1412537187}
+  mapFormed: 0
 --- !u!4 &636516570
 Transform:
   m_ObjectHideFlags: 0
