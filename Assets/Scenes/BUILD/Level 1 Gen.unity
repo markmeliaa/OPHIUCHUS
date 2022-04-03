@@ -909,11 +909,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1597769208225337712, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.24
+      value: -2.01
       objectReference: {fileID: 0}
     - target: {fileID: 1597769208225337712, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.16
+      value: -0.18
       objectReference: {fileID: 0}
     - target: {fileID: 1597769208225337712, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
       propertyPath: m_LocalPosition.z
@@ -966,7 +966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2802847374156715140, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
       propertyPath: m_RootOrder
@@ -1014,7 +1014,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2802847374280089940, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
