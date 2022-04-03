@@ -56,6 +56,8 @@ public class RoomTemplates : MonoBehaviour
 
 	public Transform realRoomPlaceholder;
 
+	public bool mapFormed = false;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);
@@ -100,6 +102,8 @@ public class RoomTemplates : MonoBehaviour
 					}
 				}
 
+				mapFormed = true;
+
 				//generateAgainButton.SetActive(true);
 			}
 		}
@@ -118,6 +122,7 @@ public class RoomTemplates : MonoBehaviour
 		spawnedBoss = false;
 		waitTime = 1f;
 		generateAgainButton.SetActive(false);
+		mapFormed = false;
 
         currentRoom = Instantiate(initialRoom, roomSpawner.position, initialRoom.transform.rotation, roomPlaceholder);
     }

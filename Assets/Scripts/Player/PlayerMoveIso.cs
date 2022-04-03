@@ -8,15 +8,20 @@ public class PlayerMoveIso : MonoBehaviour
     PlayerRendIso rendIso;
 
     Rigidbody2D rb;
+    private RoomTemplates templates;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rendIso = GetComponent<PlayerRendIso>();
+        templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
     }
 
     private void FixedUpdate()
     {
+        if (!templates.mapFormed)
+            return;
+
         Vector2 currentPos = rb.position;
 
         float horInput = Input.GetAxis("Horizontal");

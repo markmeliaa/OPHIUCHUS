@@ -46,12 +46,9 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 1)
                         {
-                            if (connectedRoom == null)
-                            {
-                                newRoom = Instantiate(templates.realB, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), templates.realB.transform.rotation, templates.realRoomPlaceholder);
-                                connectedRoom = newRoom;
-                                break;
-                            }
+                            newRoom = Instantiate(templates.realB, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), templates.realB.transform.rotation, templates.realRoomPlaceholder);
+                            connectedRoom = newRoom;
+                            break;
                         }
                     }
                 }
@@ -84,12 +81,9 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 2)
                         {
-                            if (connectedRoom == null)
-                            {
-                                newRoom = Instantiate(templates.realT, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), templates.realT.transform.rotation, templates.realRoomPlaceholder);
-                                connectedRoom = newRoom;
-                                break;
-                            }
+                            newRoom = Instantiate(templates.realT, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), templates.realT.transform.rotation, templates.realRoomPlaceholder);
+                            connectedRoom = newRoom;
+                            break;
                         }
                     }
                 }
@@ -122,12 +116,9 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 3)
                         {
-                            if (connectedRoom == null)
-                            {
-                                newRoom = Instantiate(templates.realL, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), templates.realL.transform.rotation, templates.realRoomPlaceholder);
-                                connectedRoom = newRoom;
-                                break;
-                            }
+                            newRoom = Instantiate(templates.realL, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), templates.realL.transform.rotation, templates.realRoomPlaceholder);
+                            connectedRoom = newRoom;
+                            break;
                         }
                     }
                 }
@@ -160,12 +151,9 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 4)
                         {
-                            if (connectedRoom == null)
-                            {
-                                newRoom = Instantiate(templates.realR, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), templates.realR.transform.rotation, templates.realRoomPlaceholder);
-                                connectedRoom = newRoom;
-                                break;
-                            }
+                            newRoom = Instantiate(templates.realR, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), templates.realR.transform.rotation, templates.realRoomPlaceholder);
+                            connectedRoom = newRoom;
+                            break;
                         }
                     }
                 }
