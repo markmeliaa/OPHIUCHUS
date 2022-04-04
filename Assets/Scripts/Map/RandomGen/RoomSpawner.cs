@@ -56,7 +56,11 @@ public class RoomSpawner : MonoBehaviour
 				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 				{
 					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+                    {
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
+					}
+						
 				}
 			}
 			else if (openingDirection == 2)
@@ -77,7 +81,10 @@ public class RoomSpawner : MonoBehaviour
 				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 				{
 					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+					{
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
+					}
 				}
 			}
 			else if (openingDirection == 3)
@@ -98,7 +105,10 @@ public class RoomSpawner : MonoBehaviour
 				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 				{
 					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+					{
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
+					}
 				}
 			}
 			else if (openingDirection == 4)
@@ -119,7 +129,10 @@ public class RoomSpawner : MonoBehaviour
 				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 				{
 					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+					{
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
+					}
 				}
 			}
 		}
@@ -139,6 +152,7 @@ public class RoomSpawner : MonoBehaviour
 			for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 			{
 				roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+				roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
 			}
 		}
 
@@ -157,6 +171,7 @@ public class RoomSpawner : MonoBehaviour
 			for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 			{
 				roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+				roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
 			}
 		}
 
@@ -175,6 +190,7 @@ public class RoomSpawner : MonoBehaviour
 			for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 			{
 				roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+				roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
 			}
 		}
 
@@ -192,6 +208,7 @@ public class RoomSpawner : MonoBehaviour
 			for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 			{
 				roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
+				roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
 			}
 		}
 
