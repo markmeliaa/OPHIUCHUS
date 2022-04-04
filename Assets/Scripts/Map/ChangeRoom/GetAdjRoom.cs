@@ -10,6 +10,7 @@ public class GetAdjRoom : MonoBehaviour
     private RoomTemplates templates;
     private GameObject spawnPoints;
     private GameObject thisRoom;
+    private GameObject nextRoom;
     private GameObject thisRealRoom;
 
     [HideInInspector] public GameObject connectedRoom = null;
@@ -25,13 +26,14 @@ public class GetAdjRoom : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log(thisRoom);
+        //Debug.Log(thisRoom + " this");
+        //Debug.Log(nextRoom + " next");
+        Debug.Log(templates.currentRoom + " index");
 
         if (other.CompareTag("Player") && Input.GetButton("Fire1") && teleport == true)
         {
             teleport = false;
 
-            thisRoom = templates.currentRoom;
             for (int i = 0; i < templates.currentRoom.transform.childCount; i++)
             {
                 if (templates.currentRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
@@ -63,7 +65,8 @@ public class GetAdjRoom : MonoBehaviour
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
-                                    templates.currentRoom = thisRoom;
+                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    templates.currentRoom = nextRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
                                     templates.realCreatedRooms.Add(newRoom);
@@ -91,6 +94,8 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
                         }
                     }
                 }
@@ -112,8 +117,7 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
-                            templates.currentRoom = thisRoom;
+                            templates.currentRoom = nextRoom;
                         }
                     }
                 }
@@ -142,7 +146,8 @@ public class GetAdjRoom : MonoBehaviour
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
-                                    templates.currentRoom = thisRoom;
+                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    templates.currentRoom = nextRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
                                     templates.realCreatedRooms.Add(newRoom);
@@ -170,6 +175,8 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
                         }
                     }
                 }
@@ -191,8 +198,7 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
-                            templates.currentRoom = thisRoom;
+                            templates.currentRoom = nextRoom;
                         }
                     }
                 }
@@ -221,7 +227,8 @@ public class GetAdjRoom : MonoBehaviour
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
-                                    templates.currentRoom = thisRoom;
+                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    templates.currentRoom = nextRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
                                     templates.realCreatedRooms.Add(newRoom);
@@ -249,6 +256,8 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
                         }
                     }
                 }
@@ -270,8 +279,7 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
-                            templates.currentRoom = thisRoom;
+                            templates.currentRoom = nextRoom;
                         }
                     }
                 }
@@ -300,7 +308,8 @@ public class GetAdjRoom : MonoBehaviour
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
-                                    templates.currentRoom = thisRoom;
+                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    templates.currentRoom = nextRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
                                     templates.realCreatedRooms.Add(newRoom);
@@ -328,6 +337,8 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
                         }
                     }
                 }
@@ -349,8 +360,7 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
-                            templates.currentRoom = thisRoom;
+                            templates.currentRoom = nextRoom;
                         }
                     }
                 }
