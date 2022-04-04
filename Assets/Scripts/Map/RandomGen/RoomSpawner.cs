@@ -15,6 +15,7 @@ public class RoomSpawner : MonoBehaviour
 	private RoomTemplates templates;
 	private int rand;
 	public bool spawned = false;
+	public GameObject actualRoom;
 	public GameObject nextRoom;
 
 	//private float waitTime = 3f;
@@ -23,6 +24,7 @@ public class RoomSpawner : MonoBehaviour
 	{
 		//Destroy(gameObject, waitTime);
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
+		actualRoom = transform.parent.transform.parent.gameObject;
 
 		// Call a function after certain time
 		Invoke("Spawn", Time.fixedDeltaTime);

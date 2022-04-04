@@ -20,7 +20,6 @@ public class GetAdjRoom : MonoBehaviour
     {
         templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
         player = GameObject.FindGameObjectWithTag("Player");
-        thisRoom = templates.initialRoom;
         thisRealRoom = transform.parent.transform.parent.gameObject;
     }
 
@@ -32,6 +31,7 @@ public class GetAdjRoom : MonoBehaviour
         {
             teleport = false;
 
+            thisRoom = templates.currentRoom;
             for (int i = 0; i < templates.currentRoom.transform.childCount; i++)
             {
                 if (templates.currentRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
@@ -59,9 +59,10 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
+                                //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                                     templates.currentRoom = thisRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
@@ -74,6 +75,7 @@ public class GetAdjRoom : MonoBehaviour
                         }
                     }
 
+                    // Get the player spawnpoints
                     for (int i = 0; i < newRoom.transform.childCount; i++)
                     {
                         if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
@@ -95,6 +97,7 @@ public class GetAdjRoom : MonoBehaviour
 
                 else
                 {
+                    // Get the player spawnpoints
                     for (int i = 0; i < connectedRoom.transform.childCount; i++)
                     {
                         if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
@@ -135,9 +138,10 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
+                                //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                                     templates.currentRoom = thisRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
@@ -150,6 +154,7 @@ public class GetAdjRoom : MonoBehaviour
                         }
                     }
 
+                    // Get the player spawnpoints
                     for (int i = 0; i < newRoom.transform.childCount; i++)
                     {
                         if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
@@ -171,6 +176,7 @@ public class GetAdjRoom : MonoBehaviour
 
                 else
                 {
+                    // Get the player spawnpoints
                     for (int i = 0; i < connectedRoom.transform.childCount; i++)
                     {
                         if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
@@ -211,9 +217,10 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
+                                //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                                     templates.currentRoom = thisRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
@@ -226,6 +233,7 @@ public class GetAdjRoom : MonoBehaviour
                         }
                     }
 
+                    // Get the player spawnpoints
                     for (int i = 0; i < newRoom.transform.childCount; i++)
                     {
                         if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
@@ -247,6 +255,7 @@ public class GetAdjRoom : MonoBehaviour
 
                 else
                 {
+                    // Get the player spawnpoints
                     for (int i = 0; i < connectedRoom.transform.childCount; i++)
                     {
                         if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
@@ -287,9 +296,10 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
+                                //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                                     templates.currentRoom = thisRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
@@ -302,6 +312,7 @@ public class GetAdjRoom : MonoBehaviour
                         }
                     }
 
+                    // Get the player spawnpoints
                     for (int i = 0; i < newRoom.transform.childCount; i++)
                     {
                         if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
@@ -323,6 +334,7 @@ public class GetAdjRoom : MonoBehaviour
 
                 else
                 {
+                    // Get the player spawnpoints
                     for (int i = 0; i < connectedRoom.transform.childCount; i++)
                     {
                         if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
