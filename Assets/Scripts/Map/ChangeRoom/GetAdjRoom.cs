@@ -63,18 +63,70 @@ public class GetAdjRoom : MonoBehaviour
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
+                                    newRoom = room;
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
-                                    newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
-                                    connectedRoom = newRoom;
-                                    templates.realCreatedRooms.Add(newRoom);
+
                                     break;
                                 }
                             }
-
                             break;
                         }
+                    }
+
+                    if (newRoom.name != "Room T" && newRoom.name != "Room B" && newRoom.name != "Room L" && newRoom.name != "Room R")
+                    {
+                        GameObject newSpawnpoints = null;
+                        int openings = 0;
+                        // Check if the number of openings is correct
+                        for (int i = 0; i < nextRoom?.transform.childCount; i++)
+                        {
+                            if (nextRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                            {
+                                newSpawnpoints = nextRoom.transform.GetChild(i).gameObject;
+                            }
+                        }
+
+                        for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
+                        {
+                            //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom != null)
+                                openings++;
+                        }
+
+                        //Debug.Log(openings);
+                        //Debug.Log(newRoom.name);
+
+                        if (openings > 1)
+                        {
+                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                            connectedRoom = newRoom;
+                            templates.realCreatedRooms.Add(newRoom);
+                        }
+
+                        else
+                        {
+                            if (newRoom.name == "Room TB" || newRoom.name == "Room LB" || newRoom.name == "Room RB")
+                            {
+                                foreach (GameObject room in templates.realRooms)
+                                {
+                                    if (room.name == "Room B")
+                                        newRoom = room;
+                                }
+
+                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                                connectedRoom = newRoom;
+                                templates.realCreatedRooms.Add(newRoom);
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                        connectedRoom = newRoom;
+                        templates.realCreatedRooms.Add(newRoom);
                     }
 
                     // Get the player spawnpoints
@@ -155,18 +207,70 @@ public class GetAdjRoom : MonoBehaviour
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
+                                    newRoom = room;
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
-                                    newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
-                                    connectedRoom = newRoom;
-                                    templates.realCreatedRooms.Add(newRoom);
+
                                     break;
                                 }
                             }
-
                             break;
                         }
+                    }
+
+                    if (newRoom.name != "Room T" && newRoom.name != "Room B" && newRoom.name != "Room L" && newRoom.name != "Room R")
+                    {
+                        GameObject newSpawnpoints = null;
+                        int openings = 0;
+                        // Check if the number of openings is correct
+                        for (int i = 0; i < nextRoom?.transform.childCount; i++)
+                        {
+                            if (nextRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                            {
+                                newSpawnpoints = nextRoom.transform.GetChild(i).gameObject;
+                            }
+                        }
+
+                        for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
+                        {
+                            //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom != null)
+                                openings++;
+                        }
+
+                        //Debug.Log(openings);
+                        //Debug.Log(newRoom.name);
+
+                        if (openings > 1)
+                        {
+                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                            connectedRoom = newRoom;
+                            templates.realCreatedRooms.Add(newRoom);
+                        }
+
+                        else
+                        {
+                            if (newRoom.name == "Room TB" || newRoom.name == "Room TL" || newRoom.name == "Room TR")
+                            {
+                                foreach (GameObject room in templates.realRooms)
+                                {
+                                    if (room.name == "Room T")
+                                        newRoom = room;
+                                }
+
+                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                                connectedRoom = newRoom;
+                                templates.realCreatedRooms.Add(newRoom);
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                        connectedRoom = newRoom;
+                        templates.realCreatedRooms.Add(newRoom);
                     }
 
                     // Get the player spawnpoints
@@ -247,18 +351,70 @@ public class GetAdjRoom : MonoBehaviour
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
+                                    newRoom = room;
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
-                                    newRoom = Instantiate(room, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
-                                    connectedRoom = newRoom;
-                                    templates.realCreatedRooms.Add(newRoom);
+
                                     break;
                                 }
                             }
-
                             break;
                         }
+                    }
+
+                    if (newRoom.name != "Room T" && newRoom.name != "Room B" && newRoom.name != "Room L" && newRoom.name != "Room R")
+                    {
+                        GameObject newSpawnpoints = null;
+                        int openings = 0;
+                        // Check if the number of openings is correct
+                        for (int i = 0; i < nextRoom?.transform.childCount; i++)
+                        {
+                            if (nextRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                            {
+                                newSpawnpoints = nextRoom.transform.GetChild(i).gameObject;
+                            }
+                        }
+
+                        for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
+                        {
+                            //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom != null)
+                                openings++;
+                        }
+
+                        //Debug.Log(openings);
+                        //Debug.Log(newRoom.name);
+
+                        if (openings > 1)
+                        {
+                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                            connectedRoom = newRoom;
+                            templates.realCreatedRooms.Add(newRoom);
+                        }
+
+                        else
+                        {
+                            if (newRoom.name == "Room TL" || newRoom.name == "Room LB" || newRoom.name == "Room LR")
+                            {
+                                foreach (GameObject room in templates.realRooms)
+                                {
+                                    if (room.name == "Room L")
+                                        newRoom = room;
+                                }
+
+                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                                connectedRoom = newRoom;
+                                templates.realCreatedRooms.Add(newRoom);
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                        connectedRoom = newRoom;
+                        templates.realCreatedRooms.Add(newRoom);
                     }
 
                     // Get the player spawnpoints
@@ -340,18 +496,70 @@ public class GetAdjRoom : MonoBehaviour
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
+                                    newRoom = room;
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
-                                    newRoom = Instantiate(room, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
-                                    connectedRoom = newRoom;
-                                    templates.realCreatedRooms.Add(newRoom);
+
                                     break;
                                 }
                             }
-
                             break;
                         }
+                    }
+
+                    if (newRoom.name != "Room T" && newRoom.name != "Room B" && newRoom.name != "Room L" && newRoom.name != "Room R")
+                    {
+                        GameObject newSpawnpoints = null;
+                        int openings = 0;
+                        // Check if the number of openings is correct
+                        for (int i = 0; i < nextRoom?.transform.childCount; i++)
+                        {
+                            if (nextRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                            {
+                                newSpawnpoints = nextRoom.transform.GetChild(i).gameObject;
+                            }
+                        }
+
+                        for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
+                        {
+                            //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom != null)
+                                openings++;
+                        }
+
+                        //Debug.Log(openings);
+                        //Debug.Log(newRoom.name);
+
+                        if (openings > 1)
+                        {
+                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                            connectedRoom = newRoom;
+                            templates.realCreatedRooms.Add(newRoom);
+                        }
+
+                        else
+                        {
+                            if (newRoom.name == "Room TR" || newRoom.name == "Room LR" || newRoom.name == "Room RB")
+                            {
+                                foreach (GameObject room in templates.realRooms)
+                                {
+                                    if (room.name == "Room R")
+                                        newRoom = room;
+                                }
+
+                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                                connectedRoom = newRoom;
+                                templates.realCreatedRooms.Add(newRoom);
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
+                        connectedRoom = newRoom;
+                        templates.realCreatedRooms.Add(newRoom);
                     }
 
                     // Get the player spawnpoints
