@@ -508,6 +508,7 @@ MonoBehaviour:
   mainCamera: {fileID: 1461300596}
   roomOffset: 0.022
   currentRoom: {fileID: 1558707656}
+  currentRealRoom: {fileID: 1594822905}
   realRooms:
   - {fileID: 8777243000210257298, guid: b6d8b63bac2cd7445860578cc45bd80d, type: 3}
   - {fileID: 1082812505288664128, guid: d6ad207f8e837104b918f0a7c8329ef4, type: 3}
@@ -520,6 +521,7 @@ MonoBehaviour:
   - {fileID: 2742362444550781606, guid: b3a3ca0086a095e40b740acb4c7d7c0a, type: 3}
   - {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
   - {fileID: 8190081602717007065, guid: c8ef6e836be0bbe488d57bb6cfdb4f5e, type: 3}
+  realCreatedRooms: []
   realRoomPlaceholder: {fileID: 1412537187}
   mapFormed: 0
 --- !u!4 &636516570
@@ -716,6 +718,11 @@ Camera:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1384366362914734, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
   m_PrefabInstance: {fileID: 1869982793}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1594822905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
+  m_PrefabInstance: {fileID: 2802847374855306144}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1851184630
 GameObject:

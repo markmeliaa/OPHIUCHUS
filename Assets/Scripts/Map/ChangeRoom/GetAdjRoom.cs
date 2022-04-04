@@ -10,6 +10,7 @@ public class GetAdjRoom : MonoBehaviour
     private RoomTemplates templates;
     private GameObject spawnPoints;
     private GameObject thisRoom;
+    private GameObject thisRealRoom;
 
     [HideInInspector] public GameObject connectedRoom = null;
     public GameObject playerSpawn = null;
@@ -19,11 +20,14 @@ public class GetAdjRoom : MonoBehaviour
     {
         templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
         player = GameObject.FindGameObjectWithTag("Player");
-        thisRoom = transform.parent.transform.parent.gameObject;
+        thisRoom = templates.initialRoom;
+        thisRealRoom = transform.parent.transform.parent.gameObject;
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        Debug.Log(thisRoom);
+
         if (other.CompareTag("Player") && Input.GetButton("Fire1") && teleport == true)
         {
             teleport = false;
@@ -38,10 +42,17 @@ public class GetAdjRoom : MonoBehaviour
 
             if (CompareTag("North"))
             {
-                GameObject newRoom = connectedRoom;
+                foreach (GameObject createdRoom in templates.realCreatedRooms)
+                {
+                    if (createdRoom.transform.position == new Vector3(transform.position.x, transform.position.y + 15, transform.position.z))
+                    {
+                        connectedRoom = createdRoom;
+                    }
+                }
 
                 if (connectedRoom == null)
                 {
+                    GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 1)
@@ -50,9 +61,11 @@ public class GetAdjRoom : MonoBehaviour
                             {
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
-                                    templates.currentRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    templates.currentRoom = thisRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
+                                    templates.realCreatedRooms.Add(newRoom);
                                     break;
                                 }
                             }
@@ -75,18 +88,18 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                         }
                     }
                 }
 
                 else
                 {
-                    for (int i = 0; i < newRoom.transform.childCount; i++)
+                    for (int i = 0; i < connectedRoom.transform.childCount; i++)
                     {
-                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                            neighbourRealSpawnpoints = connectedRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
@@ -96,8 +109,8 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
-                            templates.currentRoom = connectedRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
+                            templates.currentRoom = thisRoom;
                         }
                     }
                 }
@@ -105,10 +118,17 @@ public class GetAdjRoom : MonoBehaviour
 
             else if (CompareTag("South"))
             {
-                GameObject newRoom = connectedRoom;
+                foreach (GameObject createdRoom in templates.realCreatedRooms)
+                {
+                    if (createdRoom.transform.position == new Vector3(transform.position.x, transform.position.y - 15, transform.position.z))
+                    {
+                        connectedRoom = createdRoom;
+                    }
+                }
 
                 if (connectedRoom == null)
                 {
+                    GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 2)
@@ -117,9 +137,11 @@ public class GetAdjRoom : MonoBehaviour
                             {
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
-                                    templates.currentRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    templates.currentRoom = thisRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
+                                    templates.realCreatedRooms.Add(newRoom);
                                     break;
                                 }
                             }
@@ -142,18 +164,18 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                         }
                     }
                 }
 
                 else
                 {
-                    for (int i = 0; i < newRoom.transform.childCount; i++)
+                    for (int i = 0; i < connectedRoom.transform.childCount; i++)
                     {
-                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                            neighbourRealSpawnpoints = connectedRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
@@ -163,8 +185,8 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
-                            templates.currentRoom = connectedRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
+                            templates.currentRoom = thisRoom;
                         }
                     }
                 }
@@ -172,10 +194,17 @@ public class GetAdjRoom : MonoBehaviour
 
             else if (CompareTag("East"))
             {
-                GameObject newRoom = connectedRoom;
+                foreach (GameObject createdRoom in templates.realCreatedRooms)
+                {
+                    if (createdRoom.transform.position == new Vector3(transform.position.x + 25, transform.position.y, transform.position.z))
+                    {
+                        connectedRoom = createdRoom;
+                    }
+                }
 
                 if (connectedRoom == null)
                 {
+                    GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 3)
@@ -184,9 +213,11 @@ public class GetAdjRoom : MonoBehaviour
                             {
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
-                                    templates.currentRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    templates.currentRoom = thisRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
+                                    templates.realCreatedRooms.Add(newRoom);
                                     break;
                                 }
                             }
@@ -209,18 +240,18 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                         }
                     }
                 }
 
                 else
                 {
-                    for (int i = 0; i < newRoom.transform.childCount; i++)
+                    for (int i = 0; i < connectedRoom.transform.childCount; i++)
                     {
-                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                            neighbourRealSpawnpoints = connectedRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
@@ -230,8 +261,8 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
-                            templates.currentRoom = connectedRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
+                            templates.currentRoom = thisRoom;
                         }
                     }
                 }
@@ -239,10 +270,17 @@ public class GetAdjRoom : MonoBehaviour
 
             else if (CompareTag("West"))
             {
-                GameObject newRoom = connectedRoom;
+                foreach (GameObject createdRoom in templates.realCreatedRooms)
+                {
+                    if (createdRoom.transform.position == new Vector3(transform.position.x - 25, transform.position.y, transform.position.z))
+                    {
+                        connectedRoom = createdRoom;
+                    }
+                }
 
                 if (connectedRoom == null)
                 {
+                    GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 4)
@@ -251,9 +289,11 @@ public class GetAdjRoom : MonoBehaviour
                             {
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
-                                    templates.currentRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    templates.currentRoom = thisRoom;
                                     newRoom = Instantiate(room, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), room.transform.rotation, templates.realRoomPlaceholder);
                                     connectedRoom = newRoom;
+                                    templates.realCreatedRooms.Add(newRoom);
                                     break;
                                 }
                             }
@@ -276,18 +316,18 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                         }
                     }
                 }
 
                 else
                 {
-                    for (int i = 0; i < newRoom.transform.childCount; i++)
+                    for (int i = 0; i < connectedRoom.transform.childCount; i++)
                     {
-                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                            neighbourRealSpawnpoints = connectedRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
@@ -297,8 +337,8 @@ public class GetAdjRoom : MonoBehaviour
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
                         {
                             player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRoom;
-                            templates.currentRoom = connectedRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
+                            templates.currentRoom = thisRoom;
                         }
                     }
                 }

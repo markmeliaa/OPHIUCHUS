@@ -47,8 +47,10 @@ public class RoomTemplates : MonoBehaviour
 	public float roomOffset;
 
 	public GameObject currentRoom;
+	public GameObject currentRealRoom;
 
 	public List<GameObject> realRooms;
+	public List<GameObject> realCreatedRooms;
 
 	public Transform realRoomPlaceholder;
 
@@ -57,6 +59,7 @@ public class RoomTemplates : MonoBehaviour
     private void Start()
     {
 		generateAgainButton.SetActive(false);
+		realCreatedRooms.Add(currentRealRoom);
     }
 
     // Spawn final zone boss
