@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146500437}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6, y: 9, z: -9034.116}
+  m_LocalPosition: {x: -11, y: 6, z: -9034.116}
   m_LocalScale: {x: 100.379074, y: 100.379074, z: 100.379074}
   m_Children: []
   m_Father: {fileID: 1760044983}
@@ -218,7 +218,6 @@ GameObject:
   - component: {fileID: 337491338}
   - component: {fileID: 337491337}
   - component: {fileID: 337491340}
-  - component: {fileID: 337491339}
   m_Layer: 5
   m_Name: GameTitle
   m_TagString: Untagged
@@ -242,7 +241,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8, y: 74}
+  m_AnchoredPosition: {x: 11, y: 74}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!102 &337491337
@@ -309,18 +308,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &337491339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 337491335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf4e49b192a464243ba9481a8ccc5bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &337491340
 Animator:
   serializedVersion: 3
@@ -535,7 +522,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1760044983}
   - component: {fileID: 1760044984}
-  - component: {fileID: 1760044985}
   m_Layer: 0
   m_Name: WholeZCircle
   m_TagString: Untagged
@@ -579,18 +565,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1760044985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760044982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf4e49b192a464243ba9481a8ccc5bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1832859742
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,7 +791,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1986933728}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9, y: 6, z: -9034.116}
+  m_LocalPosition: {x: -9, y: 8, z: -9034.116}
   m_LocalScale: {x: 100.379074, y: 100.379074, z: 100.379074}
   m_Children: []
   m_Father: {fileID: 1760044983}
