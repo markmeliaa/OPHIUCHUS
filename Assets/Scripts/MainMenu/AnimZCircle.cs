@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimGameTitle : MonoBehaviour
+public class AnimZCircle : MonoBehaviour
 {
     private Animator gtitleAnim;
 
