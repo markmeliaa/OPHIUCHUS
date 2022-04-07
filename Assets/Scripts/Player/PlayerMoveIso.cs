@@ -10,11 +10,27 @@ public class PlayerMoveIso : MonoBehaviour
     Rigidbody2D rb;
     private RoomTemplates templates;
 
+    private AudioSource audioSource;
+
+    private float horInput = 0;
+    private float vertInput = 0;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rendIso = GetComponent<PlayerRendIso>();
         templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.mute = true;
+    }
+
+    private void Update()
+    {
+        if (horInput != 0 || vertInput != 0 && !audioSource.isPlaying)
+            audioSource.mute = false;
+
+        if (horInput == 0 && vertInput == 0 && audioSource.isPlaying)
+            audioSource.mute = true;
     }
 
     private void FixedUpdate()
@@ -24,8 +40,12 @@ public class PlayerMoveIso : MonoBehaviour
 
         Vector2 currentPos = rb.position;
 
-        float horInput = Input.GetAxis("Horizontal");
-        float vertInput = Input.GetAxis("Vertical");
+        horInput = Input.GetAxis("Horizontal");
+        vertInput = Input.GetAxis("Vertical");
+
+        Debug.Log(horInput + ", " + vertInput);
+
+
         Vector2 inputVect = new Vector2(horInput, vertInput);
 
         // Prevent diagonal movement to be faster than cardinal direction movement

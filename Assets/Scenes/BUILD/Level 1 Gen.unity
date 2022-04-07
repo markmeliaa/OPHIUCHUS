@@ -1021,25 +1021,76 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1236462836 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1597769208920597345, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+--- !u!82 &1236462837 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1236462837, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
   m_PrefabInstance: {fileID: 1597769209409487289}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &1236462837
+--- !u!1 &1412537186
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1412537187}
+  m_Layer: 0
+  m_Name: Game Rooms
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1412537187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412537186}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 44100192}
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1461300596 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1597769208920597347, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+  m_PrefabInstance: {fileID: 1597769209409487289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1558707656 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1384366362914734, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
+  m_PrefabInstance: {fileID: 1869982793}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1594822905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
+  m_PrefabInstance: {fileID: 2802847374855306144}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1807207170 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4211481905605825173, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+  m_PrefabInstance: {fileID: 1597769209409487289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1807207171
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1236462836}
+  m_GameObject: {fileID: 1807207170}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a85d15f74cc921641a6b5682c5a2efcf, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.45
-  m_Pitch: 1
+  m_audioClip: {fileID: 8300000, guid: a6bfad53620a8064ebf1412af915a1aa, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.25
+  m_Pitch: 1.2
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -1122,52 +1173,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1412537186
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1412537187}
-  m_Layer: 0
-  m_Name: Game Rooms
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1412537187
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1412537186}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 44100192}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &1461300596 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 1597769208920597347, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
-  m_PrefabInstance: {fileID: 1597769209409487289}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1558707656 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1384366362914734, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
-  m_PrefabInstance: {fileID: 1869982793}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1594822905 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
-  m_PrefabInstance: {fileID: 2802847374855306144}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1851184630
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,6 +1386,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1236462837, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_Volume
+      value: 0.35
+      objectReference: {fileID: 0}
     - target: {fileID: 1597769208225337712, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
       propertyPath: m_RootOrder
       value: 0
