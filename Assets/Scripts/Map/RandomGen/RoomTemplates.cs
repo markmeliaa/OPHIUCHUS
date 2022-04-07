@@ -32,7 +32,7 @@ public class RoomTemplates : MonoBehaviour
 
 	public List<GameObject> rooms;
 
-	private float waitTime = 0.5f;
+	private float waitTime = 2f;
 	private bool spawnedBoss;
 	public GameObject boss;
 
@@ -55,6 +55,10 @@ public class RoomTemplates : MonoBehaviour
 	public Transform realRoomPlaceholder;
 
 	public bool mapFormed = false;
+
+	public Animator circleAnimator;
+	public GameObject loadScreen;
+	public AudioSource gameMusic;
 
     private void Start()
     {
@@ -101,7 +105,10 @@ public class RoomTemplates : MonoBehaviour
 					}
 				}
 
-				mapFormed = true;
+				gameMusic.Play();
+				loadScreen.SetActive(false);
+				circleAnimator.SetBool("Show", true);
+				StartCoroutine("StartGame");
 
 				//generateAgainButton.SetActive(true);
 			}
@@ -125,4 +132,11 @@ public class RoomTemplates : MonoBehaviour
 
         currentRoom = Instantiate(initialRoom, roomSpawner.position, initialRoom.transform.rotation, roomPlaceholder);
     }
+
+	IEnumerator StartGame()
+    {
+		yield return new WaitForSeconds(1.05f);
+
+		mapFormed = true;
+	}
 }

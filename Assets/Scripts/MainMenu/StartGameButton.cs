@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StartGameButton : MonoBehaviour
 {
@@ -18,5 +19,13 @@ public class StartGameButton : MonoBehaviour
             return;
 
         changeSceneAnim.SetBool("StartGame", true);
+        StartCoroutine("ShowGame");
+    }
+
+    IEnumerator ShowGame()
+    {
+        yield return new WaitForSeconds(3.05f);
+
+        SceneManager.LoadScene(1);
     }
 }
