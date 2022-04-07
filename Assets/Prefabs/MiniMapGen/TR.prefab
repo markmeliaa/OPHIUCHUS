@@ -426,6 +426,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 1
   spawned: 0
+  actualRoom: {fileID: 0}
+  nextRoom: {fileID: 0}
 --- !u!1 &1525034897592524
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +522,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 3
   spawned: 0
+  actualRoom: {fileID: 0}
+  nextRoom: {fileID: 0}
 --- !u!1 &1709453575458850
 GameObject:
   m_ObjectHideFlags: 0

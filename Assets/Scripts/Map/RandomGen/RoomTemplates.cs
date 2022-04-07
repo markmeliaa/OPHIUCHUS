@@ -60,6 +60,8 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject loadScreen;
 	public AudioSource gameMusic;
 
+	public GameObject actualRoom;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);
@@ -104,6 +106,13 @@ public class RoomTemplates : MonoBehaviour
 						rooms[i].tag = "HealRoom";
 					}
 				}
+
+				for (int i = 1; i < rooms.Count; i++)
+                {
+					rooms[i].SetActive(false);
+                }
+
+				actualRoom = Instantiate(actualRoom, rooms[0].transform.position, Quaternion.identity, rooms[0].transform);
 
 				gameMusic.Play();
 				loadScreen.SetActive(false);

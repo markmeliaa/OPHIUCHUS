@@ -260,6 +260,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 2
   spawned: 0
+  actualRoom: {fileID: 0}
+  nextRoom: {fileID: 0}
 --- !u!1 &3713955591733021786
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,6 +872,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 4
   spawned: 0
+  actualRoom: {fileID: 0}
+  nextRoom: {fileID: 0}
 --- !u!1 &6474746995141547413
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,6 +968,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 3
   spawned: 0
+  actualRoom: {fileID: 0}
+  nextRoom: {fileID: 0}
 --- !u!1 &7154930080882998195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,6 +1147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 1
   spawned: 0
+  actualRoom: {fileID: 0}
+  nextRoom: {fileID: 0}
 --- !u!1 &8672953811076981590
 GameObject:
   m_ObjectHideFlags: 0

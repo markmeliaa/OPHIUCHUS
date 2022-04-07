@@ -94,6 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingDirection: 4
   spawned: 0
+  actualRoom: {fileID: 0}
+  nextRoom: {fileID: 0}
 --- !u!1 &1181847182452446
 GameObject:
   m_ObjectHideFlags: 0

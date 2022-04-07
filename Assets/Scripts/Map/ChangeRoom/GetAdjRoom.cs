@@ -147,6 +147,11 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
+                            nextRoom.SetActive(true);
+
+                            // Follow player location
+                            templates.actualRoom.transform.parent = nextRoom.transform;
+                            templates.actualRoom.transform.position = nextRoom.transform.position;
                         }
                     }
                 }
@@ -180,6 +185,10 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
                             templates.currentRoom = nextRoom;
+
+                            // Follow player location
+                            templates.actualRoom.transform.parent = nextRoom.transform;
+                            templates.actualRoom.transform.position = nextRoom.transform.position;
                         }
                     }
                 }
@@ -291,6 +300,11 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
+                            nextRoom.SetActive(true);
+
+                            // Follow player location
+                            templates.actualRoom.transform.parent = nextRoom.transform;
+                            templates.actualRoom.transform.position = nextRoom.transform.position;
                         }
                     }
                 }
@@ -324,6 +338,10 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
                             templates.currentRoom = nextRoom;
+
+                            // Follow player location
+                            templates.actualRoom.transform.parent = nextRoom.transform;
+                            templates.actualRoom.transform.position = nextRoom.transform.position;
                         }
                     }
                 }
@@ -435,6 +453,11 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
+                            nextRoom.SetActive(true);
+
+                            // Follow player location
+                            templates.actualRoom.transform.parent = nextRoom.transform;
+                            templates.actualRoom.transform.position = nextRoom.transform.position;
                         }
                     }
                 }
@@ -469,6 +492,10 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
                             templates.currentRoom = nextRoom;
+
+                            // Follow player location
+                            templates.actualRoom.transform.parent = nextRoom.transform;
+                            templates.actualRoom.transform.position = nextRoom.transform.position;
                         }
                     }
                 }
@@ -580,6 +607,11 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
+                            nextRoom.SetActive(true);
+
+                            // Follow player location
+                            templates.actualRoom.transform.parent = nextRoom.transform;
+                            templates.actualRoom.transform.position = nextRoom.transform.position;
                         }
                     }
                 }
@@ -613,6 +645,10 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
                             templates.currentRoom = nextRoom;
+
+                            // Follow player location
+                            templates.actualRoom.transform.parent = nextRoom.transform;
+                            templates.actualRoom.transform.position = nextRoom.transform.position;
                         }
                     }
                 }
