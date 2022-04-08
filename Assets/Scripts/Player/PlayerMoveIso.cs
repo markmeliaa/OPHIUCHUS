@@ -43,9 +43,6 @@ public class PlayerMoveIso : MonoBehaviour
         horInput = Input.GetAxis("Horizontal");
         vertInput = Input.GetAxis("Vertical");
 
-        Debug.Log(horInput + ", " + vertInput);
-
-
         Vector2 inputVect = new Vector2(horInput, vertInput);
 
         // Prevent diagonal movement to be faster than cardinal direction movement
