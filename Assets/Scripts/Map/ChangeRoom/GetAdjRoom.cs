@@ -36,6 +36,7 @@ public class GetAdjRoom : MonoBehaviour
         playerRendIso = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRendIso>();
     }
 
+    // Manage change room animation
     private void FixedUpdate()
     {
         if (templates.changingRoom)
@@ -294,23 +295,8 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
 
-                            if (isCorrect)
-                                nextRoom.SetActive(true);
-                            else
-                                otherRoom.SetActive(true);
-
                             // Follow player location
-                            if (isCorrect)
-                            {
-                                templates.actualRoom.transform.parent = nextRoom.transform;
-                                templates.actualRoom.transform.position = nextRoom.transform.position;
-                            }
-
-                            else
-                            {
-                                templates.actualRoom.transform.parent = otherRoom.transform;
-                                templates.actualRoom.transform.position = otherRoom.transform.position;
-                            }
+                            StartCoroutine("MovePlayerLocation");
                         }
                     }
                 }
@@ -349,17 +335,7 @@ public class GetAdjRoom : MonoBehaviour
                             templates.currentRoom = nextRoom;
 
                             // Follow player location
-                            if (isCorrect)
-                            {
-                                templates.actualRoom.transform.parent = nextRoom.transform;
-                                templates.actualRoom.transform.position = nextRoom.transform.position;
-                            }
-
-                            else
-                            {
-                                templates.actualRoom.transform.parent = otherRoom.transform;
-                                templates.actualRoom.transform.position = otherRoom.transform.position;
-                            }
+                            StartCoroutine("MovePlayerLocation");
                         }
                     }
                 }
@@ -480,23 +456,8 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
 
-                            if (isCorrect)
-                                nextRoom.SetActive(true);
-                            else
-                                otherRoom.SetActive(true);
-
                             // Follow player location
-                            if (isCorrect)
-                            {
-                                templates.actualRoom.transform.parent = nextRoom.transform;
-                                templates.actualRoom.transform.position = nextRoom.transform.position;
-                            }
-
-                            else
-                            {
-                                templates.actualRoom.transform.parent = otherRoom.transform;
-                                templates.actualRoom.transform.position = otherRoom.transform.position;
-                            }
+                            StartCoroutine("MovePlayerLocation");
                         }
                     }
                 }
@@ -535,17 +496,7 @@ public class GetAdjRoom : MonoBehaviour
                             templates.currentRoom = nextRoom;
 
                             // Follow player location
-                            if (isCorrect)
-                            {
-                                templates.actualRoom.transform.parent = nextRoom.transform;
-                                templates.actualRoom.transform.position = nextRoom.transform.position;
-                            }
-
-                            else
-                            {
-                                templates.actualRoom.transform.parent = otherRoom.transform;
-                                templates.actualRoom.transform.position = otherRoom.transform.position;
-                            }
+                            StartCoroutine("MovePlayerLocation");
                         }
                     }
                 }
@@ -666,23 +617,8 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
 
-                            if (isCorrect)
-                                nextRoom.SetActive(true);
-                            else
-                                otherRoom.SetActive(true);
-
                             // Follow player location
-                            if (isCorrect)
-                            {
-                                templates.actualRoom.transform.parent = nextRoom.transform;
-                                templates.actualRoom.transform.position = nextRoom.transform.position;
-                            }
-
-                            else
-                            {
-                                templates.actualRoom.transform.parent = otherRoom.transform;
-                                templates.actualRoom.transform.position = otherRoom.transform.position;
-                            }
+                            StartCoroutine("MovePlayerLocation");
                         }
                     }
                 }
@@ -722,17 +658,7 @@ public class GetAdjRoom : MonoBehaviour
                             templates.currentRoom = nextRoom;
 
                             // Follow player location
-                            if (isCorrect)
-                            {
-                                templates.actualRoom.transform.parent = nextRoom.transform;
-                                templates.actualRoom.transform.position = nextRoom.transform.position;
-                            }
-
-                            else
-                            {
-                                templates.actualRoom.transform.parent = otherRoom.transform;
-                                templates.actualRoom.transform.position = otherRoom.transform.position;
-                            }
+                            StartCoroutine("MovePlayerLocation");
                         }
                     }
                 }
@@ -853,23 +779,8 @@ public class GetAdjRoom : MonoBehaviour
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
 
-                            if (isCorrect)
-                                nextRoom.SetActive(true);
-                            else
-                                otherRoom.SetActive(true);
-
                             // Follow player location
-                            if (isCorrect)
-                            {
-                                templates.actualRoom.transform.parent = nextRoom.transform;
-                                templates.actualRoom.transform.position = nextRoom.transform.position;
-                            }
-                            
-                            else
-                            {
-                                templates.actualRoom.transform.parent = otherRoom.transform;
-                                templates.actualRoom.transform.position = otherRoom.transform.position;
-                            }
+                            StartCoroutine("MovePlayerLocation");
                         }
                     }
                 }
@@ -908,17 +819,7 @@ public class GetAdjRoom : MonoBehaviour
                             templates.currentRoom = nextRoom;
 
                             // Follow player location
-                            if (isCorrect)
-                            {
-                                templates.actualRoom.transform.parent = nextRoom.transform;
-                                templates.actualRoom.transform.position = nextRoom.transform.position;
-                            }
-
-                            else
-                            {
-                                templates.actualRoom.transform.parent = otherRoom.transform;
-                                templates.actualRoom.transform.position = otherRoom.transform.position;
-                            }
+                            StartCoroutine("MovePlayerLocation");
                         }
                     }
                 }
@@ -935,5 +836,16 @@ public class GetAdjRoom : MonoBehaviour
     {
         yield return new WaitForSeconds(0.75f);
         player.transform.position = moveTo;
+    }
+
+    IEnumerator MovePlayerLocation()
+    {
+        yield return new WaitForSeconds(0.75f);
+        nextRoom.SetActive(true);
+        if (!isCorrect)
+            otherRoom.SetActive(true);
+
+        templates.actualRoom.transform.parent = nextRoom.transform;
+        templates.actualRoom.transform.position = nextRoom.transform.position;
     }
 }
