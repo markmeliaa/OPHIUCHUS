@@ -18,12 +18,148 @@ public class GetAdjRoom : MonoBehaviour
     public GameObject playerSpawn = null;
     [HideInInspector] public GameObject neighbourRealSpawnpoints = null;
 
+    private PlayerRendIso playerRendIso;
+    private bool north = false;
+    private bool south = false;
+    private bool east = false;
+    private bool west = false;
+
     private bool isCorrect = true;
+    private float animTime = 0.75f;
+    private float animTime2 = 0.75f;
+
     private void Start()
     {
         templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
         player = GameObject.FindGameObjectWithTag("Player");
         thisRealRoom = transform.parent.transform.parent.gameObject;
+        playerRendIso = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRendIso>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (templates.changingRoom)
+        {
+            if (north)
+            {
+                if (animTime > 0)
+                {
+                    templates.changeRoomAnim.SetBool("ChangeRoom", true);
+                    player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
+                    player.transform.position += new Vector3(-0.045f, 0.024f, 0);
+                    playerRendIso.SetDirection(new Vector2(-1, 1));
+                    animTime -= Time.deltaTime;
+                }
+
+                else if (animTime2 > 0)
+                {
+                    templates.changeRoomAnim.SetBool("ChangeRoom", false);
+                    player.transform.position += new Vector3(-0.045f, 0.024f, 0);
+                    playerRendIso.SetDirection(new Vector2(-1, 1));
+                    animTime2 -= Time.deltaTime;
+                }
+
+                else
+                {
+                    templates.changingRoom = false;
+                    north = false;
+                    playerRendIso.SetDirection(new Vector2(0, 0));
+                    player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
+                    animTime = 0.75f;
+                    animTime2 = 0.75f;
+                }
+            }
+
+            else if (south)
+            {
+                if (animTime > 0)
+                {
+                    templates.changeRoomAnim.SetBool("ChangeRoom", true);
+                    player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
+                    player.transform.position += new Vector3(0.045f, -0.024f, 0);
+                    playerRendIso.SetDirection(new Vector2(1, -1));
+                    animTime -= Time.deltaTime;
+                }
+
+                else if (animTime2 > 0)
+                {
+                    templates.changeRoomAnim.SetBool("ChangeRoom", false);
+                    player.transform.position += new Vector3(0.045f, -0.024f, 0);
+                    playerRendIso.SetDirection(new Vector2(1, -1));
+                    animTime2 -= Time.deltaTime;
+                }
+
+                else
+                {
+                    templates.changingRoom = false;
+                    south = false;
+                    playerRendIso.SetDirection(new Vector2(0, 0));
+                    player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
+                    animTime = 0.75f;
+                    animTime2 = 0.75f;
+                }
+            }
+
+            else if (east)
+            {
+                if (animTime > 0)
+                {
+                    templates.changeRoomAnim.SetBool("ChangeRoom", true);
+                    player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
+                    player.transform.position += new Vector3(0.045f, 0.024f, 0);
+                    playerRendIso.SetDirection(new Vector2(1, 1));
+                    animTime -= Time.deltaTime;
+                }
+
+                else if (animTime2 > 0)
+                {
+                    templates.changeRoomAnim.SetBool("ChangeRoom", false);
+                    player.transform.position += new Vector3(0.045f, 0.024f, 0);
+                    playerRendIso.SetDirection(new Vector2(1, 1));
+                    animTime2 -= Time.deltaTime;
+                }
+
+                else
+                {
+                    templates.changingRoom = false;
+                    east = false;
+                    playerRendIso.SetDirection(new Vector2(0, 0));
+                    player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
+                    animTime = 0.75f;
+                    animTime2 = 0.75f;
+                }
+            }
+
+            else if (west)
+            {
+                if (animTime > 0)
+                {
+                    templates.changeRoomAnim.SetBool("ChangeRoom", true);
+                    player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
+                    player.transform.position += new Vector3(-0.045f, -0.024f, 0);
+                    playerRendIso.SetDirection(new Vector2(-1, -1));
+                    animTime -= Time.deltaTime;
+                }
+
+                else if (animTime2 > 0)
+                {
+                    templates.changeRoomAnim.SetBool("ChangeRoom", false);
+                    player.transform.position += new Vector3(-0.045f, -0.024f, 0);
+                    playerRendIso.SetDirection(new Vector2(-1, -1));
+                    animTime2 -= Time.deltaTime;
+                }
+
+                else
+                {
+                    templates.changingRoom = false;
+                    west = false;
+                    playerRendIso.SetDirection(new Vector2(0, 0));
+                    player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
+                    animTime = 0.75f;
+                    animTime2 = 0.75f;
+                }
+            }
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -149,7 +285,11 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
                         {
-                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            templates.changingRoom = true;
+                            north = true;
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
@@ -199,7 +339,10 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
                         {
-                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            templates.changingRoom = true;
+                            north = true;
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
 
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
@@ -328,7 +471,11 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
                         {
-                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            templates.changingRoom = true;
+                            south = true;
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
@@ -378,7 +525,10 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
                         {
-                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            templates.changingRoom = true;
+                            south = true;
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
 
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
@@ -507,7 +657,11 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
                         {
-                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            templates.changingRoom = true;
+                            east = true;
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
@@ -558,7 +712,10 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
                         {
-                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            templates.changingRoom = true;
+                            east = true;
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
 
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
@@ -687,7 +844,11 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
                         {
-                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            templates.changingRoom = true;
+                            west = true;
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
@@ -737,7 +898,10 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
                         {
-                            player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
+                            templates.changingRoom = true;
+                            west = true;
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
 
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
                             neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
@@ -765,5 +929,11 @@ public class GetAdjRoom : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         teleport = true;
+    }
+
+    IEnumerator MovePlayerRoom(Vector3 moveTo)
+    {
+        yield return new WaitForSeconds(0.75f);
+        player.transform.position = moveTo;
     }
 }

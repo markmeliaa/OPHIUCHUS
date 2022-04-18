@@ -35,7 +35,7 @@ public class PlayerMoveIso : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!templates.mapFormed)
+        if (!templates.mapFormed || templates.changingRoom) 
             return;
 
         Vector2 currentPos = rb.position;

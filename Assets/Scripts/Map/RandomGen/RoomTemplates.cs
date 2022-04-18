@@ -62,6 +62,9 @@ public class RoomTemplates : MonoBehaviour
 
 	public GameObject actualRoom;
 
+	[HideInInspector] public bool changingRoom = false;
+	public Animator changeRoomAnim;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);
