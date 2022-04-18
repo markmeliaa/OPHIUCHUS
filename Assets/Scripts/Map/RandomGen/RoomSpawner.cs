@@ -137,6 +137,7 @@ public class RoomSpawner : MonoBehaviour
 			}
 		}
 
+		// Check that rooms do not leave the camera area
 		else if (!spawned && templates.mainCamera.WorldToViewportPoint(transform.position).y >= 1 - 0.038) // 63
 		{
 			GameObject newRoom = Instantiate(templates.B, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), templates.B.transform.rotation, templates.roomPlaceholder);
@@ -222,7 +223,6 @@ public class RoomSpawner : MonoBehaviour
 		{
 			if (other.GetComponent<RoomSpawner>().spawned == false && !spawned)
 			{
-				//Debug.Log(1);
 				//Debug.Log("Collision at " + this.gameObject.transform.parent.transform.parent.transform.position + " with " + other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.transform.position);
 				//Debug.Log(openingDirection + ", " + other.GetComponent<RoomSpawner>().openingDirection);
 				
