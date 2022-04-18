@@ -6,7 +6,7 @@ public class ButtonManager : MonoBehaviour
 {
     public List<GameObject> battleButtons;
 
-    public bool pressed = false;
+    private bool pressed = false;
     private int currentButtonIndex;
 
     // Start is called before the first frame update
