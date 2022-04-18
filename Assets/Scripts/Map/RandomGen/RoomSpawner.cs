@@ -140,7 +140,7 @@ public class RoomSpawner : MonoBehaviour
 		// Check that rooms do not leave the camera area
 		else if (!spawned && templates.mainCamera.WorldToViewportPoint(transform.position).y >= 1 - 0.038) // 63
 		{
-			GameObject newRoom = Instantiate(templates.B, new Vector3(transform.position.x, transform.position.y - 0.01f, transform.position.z), templates.B.transform.rotation, templates.roomPlaceholder);
+			GameObject newRoom = Instantiate(templates.B, new Vector3(transform.position.x, transform.position.y - 0.025f, transform.position.z), templates.B.transform.rotation, templates.roomPlaceholder);
 			nextRoom = newRoom;
 
 			GameObject roomSpawnpoints = null;
@@ -179,7 +179,7 @@ public class RoomSpawner : MonoBehaviour
 
 		else if (!spawned && templates.mainCamera.WorldToViewportPoint(transform.position).x >= 1 - 0.03) // 117
 		{
-			GameObject newRoom = Instantiate(templates.L, new Vector3(transform.position.x - 0.01f, transform.position.y, transform.position.z), templates.L.transform.rotation, templates.roomPlaceholder);
+			GameObject newRoom = Instantiate(templates.L, new Vector3(transform.position.x - 0.025f, transform.position.y, transform.position.z), templates.L.transform.rotation, templates.roomPlaceholder);
 			nextRoom = newRoom;
 
 			GameObject roomSpawnpoints = null;
