@@ -1,7 +1,16 @@
 fileFormatVersion: 2
-guid: c744e7bf8217978499136ff2b73e4271
+guid: d089244cd4b7a0448825357c0f206d17
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -9058409083814480651
+    second: jokerCards_0
+  - first:
+      213: -6654693310649021752
+    second: jokerCards_1
+  - first:
+      213: -8774178720802965204
+    second: jokerCards_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,7 +50,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -161,7 +170,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: jokerCards_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 189
+        width: 116
+        height: 180
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f4f0198ee01a4280800000000000000
+      internalID: -9058409083814480651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jokerCards_1
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 189
+        width: 116
+        height: 180
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cac89921b7c5a3a0800000000000000
+      internalID: -6654693310649021752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jokerCards_2
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 3
+        width: 116
+        height: 180
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c297fb6e0fadb3680800000000000000
+      internalID: -8774178720802965204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
