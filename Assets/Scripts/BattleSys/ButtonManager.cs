@@ -95,8 +95,20 @@ public class ButtonManager : MonoBehaviour
             for (int i = 0; i < battleManager.enemiesSpawned.Count; i++)
             {
                 enemyTexts[i].SetActive(true);
-                enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].name;
-                enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].name;
+                enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
+                enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
+
+                if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
+                {
+                    enemyTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
+                }
+
+                else if (battleManager.enemiesSpawned[i].name[0].ToString() == "S" || battleManager.enemiesSpawned[i].name[0].ToString() == "C" || battleManager.enemiesSpawned[i].name[0].ToString() == "B")
+                {
+                    enemyTexts[i].GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
+                }
             }
 
             currentTextIndex = 0;

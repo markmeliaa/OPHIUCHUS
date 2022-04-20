@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class EnemyCard : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public string cardName;
+    public int vida = 0;
+    public int speed = 5;
+
+    private Animator cardAnimator;
+
+    private void Start()
     {
-        
+        cardAnimator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (vida <= 0)
+            OnDie();
+    }
+
+    private void OnDie()
+    {
+        cardAnimator.SetBool("Death", true);
     }
 }
