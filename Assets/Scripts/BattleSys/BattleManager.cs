@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum gameStates { choosing, attacking, acting }
+public enum gameStates { choosing, attacking, talking, waiting }
 
 public class BattleManager : MonoBehaviour
 {
