@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4869057773114546143}
   - component: {fileID: 6974833639248321157}
   - component: {fileID: -1305828088299216465}
+  - component: {fileID: -1640054272975376431}
   m_Layer: 0
   m_Name: Hearts10
   m_TagString: Untagged
@@ -103,3 +104,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-1640054272975376431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8487894137990946439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bc5f5e04c09dd488dd6dfc5b36c564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

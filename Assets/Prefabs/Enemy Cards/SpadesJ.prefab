@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2436761825714020770}
   - component: {fileID: 1943931509008746281}
   - component: {fileID: -1051684541534705217}
+  - component: {fileID: -5476260550627823965}
   m_Layer: 0
   m_Name: SpadesJ
   m_TagString: Untagged
@@ -103,3 +104,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-5476260550627823965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878206406270111312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bc5f5e04c09dd488dd6dfc5b36c564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

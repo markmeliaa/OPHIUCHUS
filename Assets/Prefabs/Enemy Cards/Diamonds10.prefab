@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5398301008698077571}
   - component: {fileID: 6646699769439259367}
   - component: {fileID: -4850180450778519290}
+  - component: {fileID: 3948042233395275697}
   m_Layer: 0
   m_Name: Diamonds10
   m_TagString: Untagged
@@ -103,3 +104,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3948042233395275697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609498739579462940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bc5f5e04c09dd488dd6dfc5b36c564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
