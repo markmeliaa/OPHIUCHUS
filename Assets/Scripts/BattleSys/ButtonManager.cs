@@ -17,8 +17,6 @@ public class ButtonManager : MonoBehaviour
 
     public List<GameObject> enemyTexts;
 
-    private gameStates lastState;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +30,11 @@ public class ButtonManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Z))
             pressedZ = false;
 
-        // Go back
+        // The enemy is attacking
+        if (battleManager.state == gameStates.defend)
+            return;
+
+        // Go back in the menu
         if (Input.GetKeyDown(KeyCode.X) && battleManager.state != gameStates.choosing && battleManager.state != gameStates.waiting)
         {
             battleManager.state = gameStates.choosing;
@@ -52,14 +54,14 @@ public class ButtonManager : MonoBehaviour
         // Do nothing
         if (battleManager.state == gameStates.waiting)
         {
-            if (Input.GetKeyDown(KeyCode.X) && lastState == gameStates.talking)
+            if (Input.GetKeyDown(KeyCode.X) && battleManager.lastState == gameStates.talking)
             {
                 foreach (GameObject text in enemyTexts)
                     text.SetActive(true);
 
                 battleManager.normalText.SetActive(false);
                 battleManager.state = gameStates.talking;
-                lastState = gameStates.waiting;
+                battleManager.lastState = gameStates.waiting;
             }
 
             else
@@ -146,7 +148,7 @@ public class ButtonManager : MonoBehaviour
         if (battleManager.state == gameStates.attacking && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
         {
             pressedZ = true;
-            battleManager.enemiesSpawned[currentTextIndex].GetComponent<EnemyCard>().vida -= 20;
+            battleManager.Attack(currentTextIndex);
         }
 
         // Listen and talk
@@ -185,16 +187,10 @@ public class ButtonManager : MonoBehaviour
         if (battleManager.state == gameStates.talking && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
         {
             pressedZ = true;
-
-            foreach (GameObject text in enemyTexts)
-                text.SetActive(false);
-
-            battleManager.normalText.SetActive(true);
-            battleManager.normalText.GetComponent<Text>().text = "    YOU CAN'T TALK TO AN NPC LOL";
-
-            battleManager.state = gameStates.waiting;
-            lastState = gameStates.talking;
+            battleManager.Talk(enemyTexts);
         }
+
+        // Open inventory
 
         // Change selected enemy
         float topBottom = Input.GetAxis("Vertical");

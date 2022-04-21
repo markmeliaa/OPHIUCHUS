@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum gameStates { choosing, attacking, talking, waiting }
+public enum gameStates { choosing, attacking, talking, inventory, waiting, defend }
 
 public class BattleManager : MonoBehaviour
 {
@@ -16,6 +16,7 @@ public class BattleManager : MonoBehaviour
     public List<GameObject> enemiesSpawned;
 
     [HideInInspector] public gameStates state = gameStates.choosing;
+    [HideInInspector] public gameStates lastState;
 
     public GameObject normalText;
     [HideInInspector] public string baseText;
@@ -96,5 +97,27 @@ public class BattleManager : MonoBehaviour
             spawnPosition = new Vector3(-halfhalfScreenPosition.x, halfhalfScreenPosition.y, halfhalfScreenPosition.z);
             enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
         }
+    }
+
+    public void Attack(int target)
+    {
+        enemiesSpawned[target].GetComponent<EnemyCard>().vida -= 20;
+    }
+
+    public void Talk(List<GameObject> enemyTexts)
+    {
+        foreach (GameObject text in enemyTexts)
+            text.SetActive(false);
+
+        normalText.SetActive(true);
+        normalText.GetComponent<Text>().text = "    YOU CAN'T TALK TO AN NPC LOL";
+
+        state = gameStates.waiting;
+        lastState = gameStates.talking;
+    }
+
+    public void Items()
+    {
+
     }
 }
