@@ -64,6 +64,18 @@ public class ButtonManager : MonoBehaviour
                 battleManager.lastState = gameStates.waiting;
             }
 
+            else if (Input.GetKeyDown(KeyCode.Z) && battleManager.lastState == gameStates.attacking)
+            {
+                foreach (GameObject text in enemyTexts)
+                    text.SetActive(true);
+
+                battleManager.normalText.SetActive(false);
+                battleManager.state = gameStates.attacking;
+                battleManager.lastState = gameStates.waiting;
+
+                pressedZ = true;
+            }
+
             else
                 return;
         }
@@ -148,7 +160,7 @@ public class ButtonManager : MonoBehaviour
         if (battleManager.state == gameStates.attacking && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
         {
             pressedZ = true;
-            battleManager.Attack(currentTextIndex);
+            battleManager.Attack(currentTextIndex, enemyTexts, currentTextIndex);
         }
 
         // Listen and talk

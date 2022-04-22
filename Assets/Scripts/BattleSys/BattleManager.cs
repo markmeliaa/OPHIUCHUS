@@ -99,9 +99,22 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void Attack(int target)
+    public void Attack(int target, List<GameObject> enemyTexts, int attackedEnemy)
     {
-        enemiesSpawned[target].GetComponent<EnemyCard>().vida -= 20;
+        foreach (GameObject text in enemyTexts)
+            text.SetActive(false);
+
+        int random = Random.Range(10, 21);
+        normalText.SetActive(true);
+        if (enemiesSpawned[target].GetComponent<EnemyCard>().vida - random <= 0)
+            normalText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text + ", YOU KILLED " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
+        else
+            normalText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
+
+        enemiesSpawned[target].GetComponent<EnemyCard>().vida -= random;
+
+        state = gameStates.waiting;
+        lastState = gameStates.attacking;
     }
 
     public void Talk(List<GameObject> enemyTexts)
