@@ -118,8 +118,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardName: Jack of Hearts
-  vida: 20
+  life: 20
   speed: 5
+  nameText: {fileID: 0}
 --- !u!1 &7404702025087179432
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +132,7 @@ GameObject:
   - component: {fileID: 8977529209646611303}
   - component: {fileID: 4455646941673493697}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BackCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 7404702025087179432}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9400027, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7763896760176392697}
   m_RootOrder: 0
