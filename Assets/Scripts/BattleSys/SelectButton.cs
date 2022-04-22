@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PressBattleButton : MonoBehaviour
+public class SelectButton : MonoBehaviour
 {
     private Image buttonSprite;
     public Sprite borderSelected;

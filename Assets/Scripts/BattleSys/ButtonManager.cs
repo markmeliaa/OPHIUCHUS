@@ -12,15 +12,15 @@ public class ButtonManager : MonoBehaviour
     private bool pressedVer = false;
     private bool pressedZ = false;
 
-    private int currentButtonIndex;
-    private int currentTextIndex;
+    [HideInInspector] public int currentButtonIndex;
+    [HideInInspector] public int currentTextIndex;
 
     public List<GameObject> enemyTexts;
 
     // Start is called before the first frame update
     void Start()
     {
-        battleButtons[0].GetComponent<PressBattleButton>().OnSelection();
+        battleButtons[0].GetComponent<SelectButton>().OnSelection();
         currentButtonIndex = 0;
     }
 
@@ -31,7 +31,7 @@ public class ButtonManager : MonoBehaviour
             pressedZ = false;
 
         // The enemy is attacking
-        if (battleManager.state == gameStates.defend)
+        if (battleManager.state == gameStates.defend || battleManager.state == gameStates.win)
             return;
 
         // Go back in the menu
@@ -88,16 +88,16 @@ public class ButtonManager : MonoBehaviour
             pressedHor = true;
             if (currentButtonIndex == 0)
             {
-                battleButtons[currentButtonIndex].GetComponent<PressBattleButton>().OnExitSelection();
+                battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
                 currentButtonIndex = battleButtons.Count - 1;
-                battleButtons[currentButtonIndex].GetComponent<PressBattleButton>().OnSelection();
+                battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnSelection();
             }
 
             else
             {
-                battleButtons[currentButtonIndex].GetComponent<PressBattleButton>().OnExitSelection();
+                battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
                 currentButtonIndex--;
-                battleButtons[currentButtonIndex].GetComponent<PressBattleButton>().OnSelection();
+                battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnSelection();
             }
         }
 
@@ -106,16 +106,16 @@ public class ButtonManager : MonoBehaviour
             pressedHor = true;
             if (currentButtonIndex == battleButtons.Count - 1)
             {
-                battleButtons[currentButtonIndex].GetComponent<PressBattleButton>().OnExitSelection();
+                battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
                 currentButtonIndex = 0;
-                battleButtons[currentButtonIndex].GetComponent<PressBattleButton>().OnSelection();
+                battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnSelection();
             }
 
             else
             {
-                battleButtons[currentButtonIndex].GetComponent<PressBattleButton>().OnExitSelection();
+                battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
                 currentButtonIndex++;
-                battleButtons[currentButtonIndex].GetComponent<PressBattleButton>().OnSelection();
+                battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnSelection();
             }
         }
 
@@ -135,6 +135,7 @@ public class ButtonManager : MonoBehaviour
                 enemyTexts[i].SetActive(true);
                 enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
                 enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
+                battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
                 if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
                 {
@@ -174,6 +175,7 @@ public class ButtonManager : MonoBehaviour
                 enemyTexts[i].SetActive(true);
                 enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
                 enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
+                battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
                 if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
                 {

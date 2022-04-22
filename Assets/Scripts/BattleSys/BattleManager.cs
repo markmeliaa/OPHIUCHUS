@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum gameStates { choosing, attacking, talking, inventory, waiting, defend }
+public enum gameStates { choosing, attacking, talking, inventory, waiting, defend, win }
 
 public class BattleManager : MonoBehaviour
 {
@@ -21,9 +21,11 @@ public class BattleManager : MonoBehaviour
     public GameObject normalText;
     [HideInInspector] public string baseText;
 
+    public ButtonManager buttonManager;
+
     private void Start()
     {
-        amountSpawn = Random.Range(1,5);
+        amountSpawn = Random.Range(1, 5);
         if (amountSpawn == 1)
             normalText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + amountSpawn + " ENEMY";
         else
@@ -33,6 +35,11 @@ public class BattleManager : MonoBehaviour
         enemiesSpawned = new List<GameObject>();
 
         SpawnCards();
+    }
+
+    private void Update()
+    {
+        //Debug.Log(state);
     }
 
     private void SpawnCards()
@@ -99,6 +106,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    // Attack functions
     public void Attack(int target, List<GameObject> enemyTexts, int attackedEnemy)
     {
         foreach (GameObject text in enemyTexts)
@@ -106,17 +114,88 @@ public class BattleManager : MonoBehaviour
 
         int random = Random.Range(10, 21);
         normalText.SetActive(true);
-        if (enemiesSpawned[target].GetComponent<EnemyCard>().vida - random <= 0)
+        if (enemiesSpawned[target].GetComponent<EnemyCard>().life - random <= 0)
             normalText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text + ", YOU KILLED " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
         else
             normalText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
 
-        enemiesSpawned[target].GetComponent<EnemyCard>().vida -= random;
+        enemiesSpawned[target].GetComponent<EnemyCard>().life -= random;
 
         state = gameStates.waiting;
         lastState = gameStates.attacking;
     }
 
+    public void RedistributeTexts()
+    {
+        amountSpawn--;
+        if (amountSpawn == 1)
+            baseText = "    YOU ARE UP AGAINST " + amountSpawn + " ENEMY";
+        else
+            baseText = "    YOU ARE UP AGAINST " + amountSpawn + " ENEMIES";
+
+        int deleteTarget = 0;
+        for (int i = 0; i <= amountSpawn; i++)
+        {
+            if (enemiesSpawned[i].GetComponent<EnemyCard>().life <= 0)
+            {
+                deleteTarget = i;
+                break;
+            }
+        }
+
+        // If 0 enemies, the player wins
+        if (amountSpawn == 0)
+        {
+            buttonManager.enemyTexts[deleteTarget].GetComponent<Text>().text = "";
+            buttonManager.enemyTexts[deleteTarget].transform.GetChild(1).GetComponent<Text>().text = "";
+
+            enemiesSpawned.RemoveAt(deleteTarget);
+            buttonManager.enemyTexts.RemoveAt(amountSpawn);
+
+            state = gameStates.win;
+        }
+
+        else if (deleteTarget != amountSpawn)
+        {
+            for (int i = deleteTarget; i < amountSpawn; i++)
+            {
+                buttonManager.enemyTexts[i].GetComponent<Text>().text = buttonManager.enemyTexts[i + 1].GetComponent<Text>().text;
+                buttonManager.enemyTexts[i].GetComponent<Text>().color = buttonManager.enemyTexts[i + 1].GetComponent<Text>().color;
+                buttonManager.enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + buttonManager.enemyTexts[i + 1].GetComponent<Text>().text;
+                buttonManager.enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = buttonManager.enemyTexts[i + 1].GetComponent<Text>().color;
+            }
+
+            enemiesSpawned.RemoveAt(deleteTarget);
+            buttonManager.enemyTexts.RemoveAt(amountSpawn);
+
+            buttonManager.enemyTexts[deleteTarget].GetComponent<Text>().enabled = true;
+            buttonManager.enemyTexts[deleteTarget].transform.GetChild(0).gameObject.SetActive(false);
+            buttonManager.enemyTexts[deleteTarget].transform.GetChild(1).gameObject.SetActive(false);
+            buttonManager.currentTextIndex = 0;
+            buttonManager.enemyTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = false;
+            buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+            buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+        }
+
+        else
+        {
+            buttonManager.enemyTexts[amountSpawn].GetComponent<Text>().text = "";
+            buttonManager.enemyTexts[amountSpawn].transform.GetChild(1).GetComponent<Text>().text = "";
+
+            enemiesSpawned.RemoveAt(amountSpawn);
+            buttonManager.enemyTexts.RemoveAt(amountSpawn);
+
+            buttonManager.enemyTexts[amountSpawn].GetComponent<Text>().enabled = true;
+            buttonManager.enemyTexts[amountSpawn].transform.GetChild(0).gameObject.SetActive(false);
+            buttonManager.enemyTexts[amountSpawn].transform.GetChild(1).gameObject.SetActive(false);
+            buttonManager.currentTextIndex = 0;
+            buttonManager.enemyTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = false;
+            buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+            buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+        }
+    }
+
+    // Listen functions
     public void Talk(List<GameObject> enemyTexts)
     {
         foreach (GameObject text in enemyTexts)
@@ -129,6 +208,7 @@ public class BattleManager : MonoBehaviour
         lastState = gameStates.talking;
     }
 
+    // Items functions
     public void Items()
     {
 

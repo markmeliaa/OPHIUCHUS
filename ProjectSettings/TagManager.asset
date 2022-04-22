@@ -15,6 +15,7 @@ TagManager:
   - East
   - West
   - RealSpawnPoint
+  - Battle
   layers:
   - Default
   - TransparentFX

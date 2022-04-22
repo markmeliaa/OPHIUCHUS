@@ -1,28 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyCard : MonoBehaviour
 {
     public string cardName;
-    public int vida = 0;
+    public int life = 20;
     public int speed = 5;
+    [HideInInspector] public GameObject nameText;
 
     private Animator cardAnimator;
+    private BattleManager battleManager;
 
-    private void Start()
+    private void Awake()
     {
         cardAnimator = GetComponent<Animator>();
+        battleManager = GameObject.FindGameObjectWithTag("Battle").GetComponent<BattleManager>();
     }
 
     private void Update()
     {
-        if (vida <= 0)
+        if (life <= 0 && !cardAnimator.GetBool("Death"))
             OnDie();
     }
 
     private void OnDie()
     {
         cardAnimator.SetBool("Death", true);
+
+        battleManager?.RedistributeTexts();
     }
 }
