@@ -1921,7 +1921,7 @@ GameObject:
   - component: {fileID: 1122845887}
   - component: {fileID: 1122845886}
   m_Layer: 5
-  m_Name: NoEnemy
+  m_Name: Enemy5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2431,6 +2431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCards:
+  - {fileID: 7425794949545923117, guid: a4678599d5bb63444b8564d8d3a87d03, type: 3}
   - {fileID: 3882759419480868398, guid: 1788157e04785c046b6d2e1bd9e8c5a8, type: 3}
   - {fileID: 3608854520674148003, guid: a62ac8df88047064a9a0fd215abe106a, type: 3}
   - {fileID: 627467396895059752, guid: 5e2a44b0b5a0b7745b3c9c9ef44d0cf4, type: 3}
@@ -2470,7 +2471,6 @@ MonoBehaviour:
   - {fileID: 3287815506790418274, guid: 1d12dcef3d4203442aad929f857d3ad7, type: 3}
   - {fileID: 2808805614408548258, guid: 8e9e627ca152ba4459d18cfdf77c1947, type: 3}
   - {fileID: 5893364768678554428, guid: 2212551a93788be40856420e14b7cd1c, type: 3}
-  - {fileID: 7425794949545923117, guid: a4678599d5bb63444b8564d8d3a87d03, type: 3}
   - {fileID: 6553891928995206529, guid: 88e6108b51358194795554ef83619f3f, type: 3}
   - {fileID: 242928262661985818, guid: 0bf283e4696674e489f76cca72c63aee, type: 3}
   - {fileID: 618115187221704903, guid: d3f94a8954a714940a469c2c524c3a44, type: 3}
@@ -3534,7 +3534,6 @@ MonoBehaviour:
   - {fileID: 429797472}
   - {fileID: 722510202}
   - {fileID: 1113403176}
-  - {fileID: 1122845884}
 --- !u!114 &1881453259
 MonoBehaviour:
   m_ObjectHideFlags: 0

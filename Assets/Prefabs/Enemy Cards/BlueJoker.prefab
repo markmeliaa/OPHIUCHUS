@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4105672226070862379}
   - component: {fileID: 2221429668485431832}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BackCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 4604017634247648269}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9400027, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2739256490366988386}
   m_RootOrder: 0
@@ -92,9 +92,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2739256490366988386}
-  - component: {fileID: 4886366678560783540}
-  - component: {fileID: -2939925774048459289}
   - component: {fileID: 8258909198074537880}
+  - component: {fileID: 6581159840359793059}
+  - component: {fileID: 5595795409957024659}
   m_Layer: 0
   m_Name: BlueJoker
   m_TagString: Untagged
@@ -117,7 +117,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &4886366678560783540
+--- !u!114 &8258909198074537880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7425794949545923117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bc5f5e04c09dd488dd6dfc5b36c564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardName: Blue Joker
+  life: 20
+  speed: 5
+  nameText: {fileID: 0}
+--- !u!212 &6581159840359793059
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,7 +185,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &-2939925774048459289
+--- !u!95 &5595795409957024659
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -188,18 +204,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8258909198074537880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7425794949545923117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2bc5f5e04c09dd488dd6dfc5b36c564, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardName: Blue Joker
-  vida: 20
-  speed: 5
