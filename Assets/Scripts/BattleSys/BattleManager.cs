@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum gameStates { choosing, attacking, talking, inventory, waiting, defend, win }
+public enum gameStates { choosing, attacking, talking, inventory, waiting, defend, win, end }
 
 public class BattleManager : MonoBehaviour
 {
     public List<GameObject> enemyCards;
     private int amountSpawn;
+    private int baseAmountSpawn;
     public Transform leftLimitSpawn;
     public Transform rightLimitSpawn;
 
@@ -26,6 +27,8 @@ public class BattleManager : MonoBehaviour
     private void Start()
     {
         amountSpawn = Random.Range(1, 5);
+        baseAmountSpawn = amountSpawn;
+
         if (amountSpawn == 1)
             normalText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + amountSpawn + " ENEMY";
         else
@@ -212,5 +215,15 @@ public class BattleManager : MonoBehaviour
     public void Items()
     {
 
+    }
+
+    // Win functions
+    public void Win()
+    {
+        int moneyWon = Random.Range(1, 6) * baseAmountSpawn;
+
+        state = gameStates.end;
+        baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY";
+        normalText.GetComponent<Text>().text = baseText;
     }
 }

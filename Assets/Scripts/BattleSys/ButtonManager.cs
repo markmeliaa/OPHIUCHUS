@@ -31,8 +31,18 @@ public class ButtonManager : MonoBehaviour
             pressedZ = false;
 
         // The enemy is attacking
-        if (battleManager.state == gameStates.defend || battleManager.state == gameStates.win)
+        if (battleManager.state == gameStates.defend || battleManager.state == gameStates.end)
             return;
+
+        if (battleManager.state == gameStates.win)
+        {
+            if (!pressedZ && Input.GetKeyDown(KeyCode.Z))
+            {
+                battleManager.Win();
+            }
+
+            return;
+        }
 
         // Go back in the menu
         if (Input.GetKeyDown(KeyCode.X) && battleManager.state != gameStates.choosing && battleManager.state != gameStates.waiting)
