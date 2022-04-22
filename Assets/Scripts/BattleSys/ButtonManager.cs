@@ -17,6 +17,9 @@ public class ButtonManager : MonoBehaviour
 
     public List<GameObject> enemyTexts;
 
+    [HideInInspector] public bool playerCanMove = false;
+    public GameObject playerStar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +33,41 @@ public class ButtonManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Z))
             pressedZ = false;
 
-        // The enemy is attacking
-        if (battleManager.state == gameStates.defend || battleManager.state == gameStates.end)
+        // The battle has ended or is paused
+        if (battleManager.state == gameStates.stop)
             return;
+
+        // The enemy is attacking and the player avoids the attacks
+        if (battleManager.state == gameStates.defend)
+        {
+            if (!pressedZ && Input.GetKeyDown(KeyCode.Z))
+            {
+                battleManager.StartEnemyAttack();
+                StartCoroutine("WaitMove");
+            }
+
+            if (playerCanMove)
+            {
+                Rigidbody2D rb = playerStar.GetComponent<Rigidbody2D>();
+
+                Vector2 currentPos = rb.position;
+
+                float horInput = Input.GetAxis("Horizontal");
+                float vertInput = Input.GetAxis("Vertical");
+
+                Vector2 inputVect = new Vector2(horInput, vertInput);
+
+                // Prevent diagonal movement to be faster than cardinal direction movement
+                inputVect = Vector2.ClampMagnitude(inputVect, 1);
+
+                Vector2 movement = inputVect * GameMaster.playerSpeed;
+                Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
+
+                rb.MovePosition(newPos);
+            }
+
+            return;
+        }
 
         if (battleManager.state == gameStates.win)
         {
@@ -282,5 +317,12 @@ public class ButtonManager : MonoBehaviour
         {
             pressedVer = false;
         }
+    }
+
+    IEnumerator WaitMove()
+    {
+        yield return new WaitForSeconds(1f);
+
+        playerCanMove = true;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum gameStates { choosing, attacking, talking, inventory, waiting, defend, win, end }
+public enum gameStates { choosing, attacking, talking, inventory, waiting, defend, win, stop }
 
 public class BattleManager : MonoBehaviour
 {
@@ -23,6 +23,9 @@ public class BattleManager : MonoBehaviour
     [HideInInspector] public string baseText;
 
     public ButtonManager buttonManager;
+
+    public GameObject textArea;
+    public GameObject battleArea;
 
     private void Start()
     {
@@ -124,7 +127,7 @@ public class BattleManager : MonoBehaviour
 
         enemiesSpawned[target].GetComponent<EnemyCard>().life -= random;
 
-        state = gameStates.waiting;
+        state = gameStates.defend;
         lastState = gameStates.attacking;
     }
 
@@ -198,6 +201,30 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public void StartEnemyAttack()
+    {
+        textArea.SetActive(false);
+        battleArea.SetActive(true);
+
+        battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", true);
+        StartCoroutine("EndBattle");
+    }
+
+    public void ResetBattleArea()
+    {
+        normalText.GetComponent<Text>().text = baseText;
+
+        // Disable enemy texts
+        buttonManager.enemyTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = true;
+        buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+        buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+        foreach (GameObject text in buttonManager.enemyTexts)
+            text.SetActive(false);
+
+        normalText.SetActive(true);
+    }
+
     // Listen functions
     public void Talk(List<GameObject> enemyTexts)
     {
@@ -222,8 +249,25 @@ public class BattleManager : MonoBehaviour
     {
         int moneyWon = Random.Range(1, 6) * baseAmountSpawn;
 
-        state = gameStates.end;
+        state = gameStates.stop;
         baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY";
         normalText.GetComponent<Text>().text = baseText;
+    }
+
+    IEnumerator EndBattle()
+    {
+        yield return new WaitForSeconds(2f);
+        state = gameStates.stop;
+        buttonManager.playerCanMove = false;
+        buttonManager.playerStar.transform.position = new Vector3(0, -0.7937222f, 0);
+        battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", false);
+
+        yield return new WaitForSeconds(1f);
+        textArea.SetActive(true);
+        battleArea.SetActive(false);
+        ResetBattleArea();
+
+        yield return new WaitForSeconds(0.25f);
+        state = gameStates.choosing;
     }
 }
