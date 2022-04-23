@@ -16,7 +16,7 @@ public class BattleManager : MonoBehaviour
     public GameObject parentEnemies;
     public List<GameObject> enemiesSpawned;
 
-    [HideInInspector] public gameStates state = gameStates.choosing;
+    [HideInInspector] public gameStates state = gameStates.stop;
     [HideInInspector] public gameStates lastState;
 
     public GameObject normalText;
@@ -29,8 +29,8 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        amountSpawn = 1;
-        //amountSpawn = Random.Range(1, 5);
+        //amountSpawn = 1;
+        amountSpawn = Random.Range(1, 5);
         baseAmountSpawn = amountSpawn;
 
         if (amountSpawn == 1)
@@ -40,10 +40,6 @@ public class BattleManager : MonoBehaviour
 
         baseText = normalText.GetComponent<Text>().text;
         enemiesSpawned = new List<GameObject>();
-
-        SpawnCards();
-
-        AddItems();
     }
 
     private void Update()
@@ -51,7 +47,7 @@ public class BattleManager : MonoBehaviour
         //Debug.Log(state);
     }
 
-    private void SpawnCards()
+    public void SpawnCards()
     {
         // Only one card spawns
         if (amountSpawn == 1)

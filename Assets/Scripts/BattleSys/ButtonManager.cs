@@ -21,11 +21,22 @@ public class ButtonManager : MonoBehaviour
     [HideInInspector] public bool playerCanMove = false;
     public GameObject playerStar;
 
+    public List<GameObject> starAnimators;
+    public GameObject blackScreen;
+
+    public GameObject animCanvas;
+    public GameObject battleCanvas;
+
     // Start is called before the first frame update
     void Start()
     {
-        battleButtons[0].GetComponent<SelectButton>().OnSelection();
-        currentButtonIndex = 0;
+        foreach (GameObject animator in starAnimators)
+        {
+            animator.GetComponent<Animator>().SetBool("Change", true);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", true);
+        }
+
+        StartCoroutine("WaitStartGame");
     }
 
     // Update is called once per frame
@@ -516,5 +527,31 @@ public class ButtonManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         playerCanMove = true;
+    }
+
+    IEnumerator WaitStartGame()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        foreach (GameObject animator in starAnimators)
+        {
+            animator.GetComponent<Animator>().SetBool("Change", false);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", false);
+        }
+
+        animCanvas.SetActive(false);
+        battleCanvas.SetActive(true);
+        battleManager.SpawnCards();
+        battleManager.AddItems();
+
+        blackScreen.GetComponent<Animator>().SetBool("Change", true);
+        //blackScreen.SetActive(false);
+
+        yield return new WaitForSeconds(0.6f);
+        battleButtons[0].GetComponent<SelectButton>().OnSelection();
+        currentButtonIndex = 0;
+        battleManager.state = gameStates.choosing;
+
+        
     }
 }
