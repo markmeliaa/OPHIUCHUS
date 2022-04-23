@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum gameStates { choosing, attacking, talking, inventory, waiting, defend, win, stop }
+public enum gameStates { choosing, attacking, talking, inventory, waiting, defend, win, stop, end }
 
 public class BattleManager : MonoBehaviour
 {
@@ -344,7 +344,7 @@ public class BattleManager : MonoBehaviour
         int moneyWon = Random.Range(1, 6) * baseAmountSpawn;
         GameMaster.runMoney += moneyWon;
 
-        state = gameStates.stop;
+        state = gameStates.end;
         if (moneyWon == 1)
             baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
         else
@@ -371,6 +371,9 @@ public class BattleManager : MonoBehaviour
         textArea.SetActive(true);
         battleArea.SetActive(false);
         ResetBattleArea();
+        buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
+        buttonManager.currentButtonIndex = 0;
+        buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<SelectButton>().OnSelection();
 
         yield return new WaitForSeconds(0.25f);
         state = gameStates.choosing;

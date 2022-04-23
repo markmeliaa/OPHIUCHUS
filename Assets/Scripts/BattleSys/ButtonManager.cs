@@ -45,9 +45,20 @@ public class ButtonManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Z))
             pressedZ = false;
 
-        // The battle has ended or is paused
+        // The battle is paused
         if (battleManager.state == gameStates.stop)
             return;
+
+        // The battle has ended
+        if (battleManager.state == gameStates.end)
+        {
+            if (!pressedZ && Input.GetKeyDown(KeyCode.Z))
+            {
+                StartCoroutine("WaitFinishGame");
+            }
+
+            return;
+        }
 
         // The enemy is attacking and the player avoids the attacks
         if (battleManager.state == gameStates.defend)
@@ -86,6 +97,7 @@ public class ButtonManager : MonoBehaviour
             if (!pressedZ && Input.GetKeyDown(KeyCode.Z))
             {
                 battleManager.Win();
+                pressedZ = true;
             }
 
             return;
@@ -539,7 +551,7 @@ public class ButtonManager : MonoBehaviour
             animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", false);
         }
 
-        animCanvas.SetActive(false);
+        //animCanvas.SetActive(false);
         battleCanvas.SetActive(true);
         battleManager.SpawnCards();
         battleManager.AddItems();
@@ -547,11 +559,33 @@ public class ButtonManager : MonoBehaviour
         blackScreen.GetComponent<Animator>().SetBool("Change", true);
         //blackScreen.SetActive(false);
 
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.25f);
         battleButtons[0].GetComponent<SelectButton>().OnSelection();
         currentButtonIndex = 0;
         battleManager.state = gameStates.choosing;
+    }
 
-        
+    IEnumerator WaitFinishGame()
+    {
+        blackScreen.GetComponent<Animator>().SetBool("Change", false);
+        battleManager.state = gameStates.stop;
+
+        yield return new WaitForSeconds(1.0f);
+
+        foreach (GameObject animator in starAnimators)
+        {
+            animator.GetComponent<Animator>().SetBool("ChangeBack", true);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", true);
+        }
+
+        yield return new WaitForSeconds(0.25f);
+        battleCanvas.SetActive(false);
+
+        yield return new WaitForSeconds(3.0f);
+        foreach (GameObject animator in starAnimators)
+        {
+            animator.GetComponent<Animator>().SetBool("ChangeBack", false);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", false);
+        }
     }
 }
