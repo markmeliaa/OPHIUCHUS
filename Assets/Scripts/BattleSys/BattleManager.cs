@@ -29,7 +29,8 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        amountSpawn = Random.Range(1, 5);
+        amountSpawn = 1;
+        //amountSpawn = Random.Range(1, 5);
         baseAmountSpawn = amountSpawn;
 
         if (amountSpawn == 1)
@@ -41,6 +42,8 @@ public class BattleManager : MonoBehaviour
         enemiesSpawned = new List<GameObject>();
 
         SpawnCards();
+
+        AddItems();
     }
 
     private void Update()
@@ -110,6 +113,18 @@ public class BattleManager : MonoBehaviour
             spawnPosition = new Vector3(-halfhalfScreenPosition.x, halfhalfScreenPosition.y, halfhalfScreenPosition.z);
             enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
         }
+    }
+
+    public void AddItems()
+    {
+        GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
+        GameMaster.inventory.Add(new ItemObject("Defense Potion", objectTypes.defense, 1));
+        GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 2));
+        GameMaster.inventory.Add(new ItemObject("Defense Potion", objectTypes.defense, 1));
+        GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
+        GameMaster.inventory.Add(new ItemObject("Defense Potion", objectTypes.defense, 3));
+        GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 2));
+        GameMaster.inventory.Add(new ItemObject("Defense Potion", objectTypes.defense, 5));
     }
 
     // Attack functions
@@ -248,9 +263,19 @@ public class BattleManager : MonoBehaviour
     public void Win()
     {
         int moneyWon = Random.Range(1, 6) * baseAmountSpawn;
+        GameMaster.runMoney += moneyWon;
 
         state = gameStates.stop;
-        baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY";
+        if (moneyWon == 1)
+            baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
+        else
+            baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+
+        if (Random.Range(0,3) == 2)
+        {
+            baseText += "YOU ALSO RECIEVED A LVL.1 HEALTH POTION!";
+        }
+
         normalText.GetComponent<Text>().text = baseText;
     }
 

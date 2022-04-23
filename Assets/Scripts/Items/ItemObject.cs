@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemObject : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public enum objectTypes { health, attack, defense, speed }
 
-    // Update is called once per frame
-    void Update()
+public class ItemObject
+{
+    public string objectName { get; set; }
+    public objectTypes type { get; set; }
+    public int level { get; set; }
+
+    public ItemObject (string _objectName, objectTypes _type, int _level)
     {
-        
+        objectName = _objectName;
+        type = _type;
+        level = _level;
     }
 }

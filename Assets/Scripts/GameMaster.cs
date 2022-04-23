@@ -7,5 +7,7 @@ public static class GameMaster
     public static int playerLife = 50; 
     public static int playerSpeed = 3;
 
+    public static int runMoney = 0;
+
     public static List<ItemObject> inventory = new List<ItemObject>();
 }

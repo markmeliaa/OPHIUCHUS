@@ -16,6 +16,7 @@ public class ButtonManager : MonoBehaviour
     [HideInInspector] public int currentTextIndex;
 
     public List<GameObject> enemyTexts;
+    public List<GameObject> itemTexts;
 
     [HideInInspector] public bool playerCanMove = false;
     public GameObject playerStar;
@@ -80,20 +81,39 @@ public class ButtonManager : MonoBehaviour
         }
 
         // Go back in the menu
-        if (Input.GetKeyDown(KeyCode.X) && battleManager.state != gameStates.choosing && battleManager.state != gameStates.waiting)
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            battleManager.state = gameStates.choosing;
-            battleManager.normalText.GetComponent<Text>().text = battleManager.baseText;
+            if (battleManager.state == gameStates.attacking || battleManager.state == gameStates.talking)
+            {
+                battleManager.state = gameStates.choosing;
+                battleManager.normalText.GetComponent<Text>().text = battleManager.baseText;
 
-            // Disable enemy texts
-            enemyTexts[currentTextIndex].GetComponent<Text>().enabled = true;
-            enemyTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-            enemyTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+                // Disable enemy texts
+                enemyTexts[currentTextIndex].GetComponent<Text>().enabled = true;
+                enemyTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+                enemyTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
 
-            foreach (GameObject text in enemyTexts)
-                text.SetActive(false);
+                foreach (GameObject text in enemyTexts)
+                    text.SetActive(false);
 
-            battleManager.normalText.SetActive(true);
+                battleManager.normalText.SetActive(true);
+            }
+
+            else if (battleManager.state == gameStates.inventory)
+            {
+                battleManager.state = gameStates.choosing;
+                battleManager.normalText.GetComponent<Text>().text = battleManager.baseText;
+
+                // Disable item texts
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = true;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+                foreach (GameObject text in itemTexts)
+                    text.SetActive(false);
+
+                battleManager.normalText.SetActive(true);
+            }
         }
 
         // Do nothing
@@ -250,6 +270,41 @@ public class ButtonManager : MonoBehaviour
         }
 
         // Open inventory
+        else if (currentButtonIndex == 2 && Input.GetKeyDown(KeyCode.Z) && (battleManager.state != gameStates.attacking && battleManager.state != gameStates.talking && battleManager.state != gameStates.inventory))
+        {
+            battleManager.state = gameStates.inventory;
+            battleManager.normalText.SetActive(false);
+
+            for (int i = 0; i < GameMaster.inventory.Count; i++)
+            {
+                itemTexts[i].SetActive(true);
+                itemTexts[i].GetComponent<Text>().text = GameMaster.inventory[i].objectName + " LVL." + GameMaster.inventory[i].level;
+                itemTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + GameMaster.inventory[i].objectName + " LVL." + GameMaster.inventory[i].level;
+
+                /*
+                battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
+
+                if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
+                {
+                    enemyTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
+                }
+
+                else if (battleManager.enemiesSpawned[i].name[0].ToString() == "S" || battleManager.enemiesSpawned[i].name[0].ToString() == "C" || battleManager.enemiesSpawned[i].name[0].ToString() == "B")
+                {
+                    enemyTexts[i].GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
+                }
+                */
+            }
+
+            currentTextIndex = 0;
+            itemTexts[currentTextIndex].GetComponent<Text>().enabled = false;
+            itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+            itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+
+            pressedZ = true;
+        }
 
         // Change selected enemy
         float topBottom = Input.GetAxis("Vertical");
@@ -316,6 +371,105 @@ public class ButtonManager : MonoBehaviour
         else if (topBottom == 0 && pressedVer)
         {
             pressedVer = false;
+        }
+
+        // Change selected item
+        if (topBottom > 0 && !pressedVer && battleManager.state == gameStates.inventory)
+        {
+            pressedVer = true;
+            if (currentTextIndex == 0)
+            {
+                // Nothing
+            }
+
+            else
+            {
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = true;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+                currentTextIndex--;
+
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = false;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+            }
+        }
+
+        else if (topBottom < 0 && !pressedVer && battleManager.state == gameStates.inventory)
+        {
+            pressedVer = true;
+            if (currentTextIndex == GameMaster.inventory.Count - 1)
+            {
+                // Nothing
+            }
+
+            else
+            {
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = true;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+                currentTextIndex++;
+
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = false;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+            }
+        }
+
+        else if (leftRight > 0 && !pressedHor && battleManager.state == gameStates.inventory)
+        {
+            pressedHor = true;
+            if (currentTextIndex + 4 > GameMaster.inventory.Count - 1)
+            {
+                // Nothing
+            }
+
+            else
+            {
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = true;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+                currentTextIndex += 4;
+
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = false;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+            }
+        }
+
+        else if (leftRight < 0 && !pressedHor && battleManager.state == gameStates.inventory)
+        {
+            pressedHor = true;
+            if (currentTextIndex - 4 < 0)
+            {
+                // Nothing
+            }
+
+            else
+            {
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = true;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+                currentTextIndex -= 4;
+
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = false;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+            }
+        }
+
+        else if (topBottom == 0 && pressedVer)
+        {
+            pressedVer = false;
+        }
+
+        else if (leftRight == 0 && pressedHor)
+        {
+            pressedHor = false;
         }
     }
 
