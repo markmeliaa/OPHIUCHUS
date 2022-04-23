@@ -118,35 +118,30 @@ public class BattleManager : MonoBehaviour
     public void AddItems()
     {
         GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
-        GameMaster.inventory.Add(new ItemObject("Defense Potion", objectTypes.defense, 1));
-        GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 2));
-        GameMaster.inventory.Add(new ItemObject("Defense Potion", objectTypes.defense, 1));
-        GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
-        GameMaster.inventory.Add(new ItemObject("Defense Potion", objectTypes.defense, 3));
-        GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 2));
-        GameMaster.inventory.Add(new ItemObject("Defense Potion", objectTypes.defense, 5));
+        GameMaster.inventory.Add(new ItemObject("Speed Potion", objectTypes.speed, 2));
     }
 
     // Attack functions
-    public void Attack(int target, List<GameObject> enemyTexts, int attackedEnemy)
+    public void Attack(List<GameObject> enemyTexts, int attackedEnemy)
     {
         foreach (GameObject text in enemyTexts)
             text.SetActive(false);
 
-        int random = Random.Range(10, 21);
         normalText.SetActive(true);
-        if (enemiesSpawned[target].GetComponent<EnemyCard>().life - random <= 0)
+
+        int random = Random.Range(10, 21);
+        if (enemiesSpawned[attackedEnemy].GetComponent<EnemyCard>().life - random <= 0)
             normalText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text + ", YOU KILLED " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
         else
             normalText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
 
-        enemiesSpawned[target].GetComponent<EnemyCard>().life -= random;
+        enemiesSpawned[attackedEnemy].GetComponent<EnemyCard>().life -= random;
 
         state = gameStates.defend;
         lastState = gameStates.attacking;
     }
 
-    public void RedistributeTexts()
+    public void RedistributeEnemyTexts()
     {
         amountSpawn--;
         if (amountSpawn == 1)
@@ -222,6 +217,8 @@ public class BattleManager : MonoBehaviour
         battleArea.SetActive(true);
 
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", true);
+        buttonManager.playerStar.transform.position = new Vector3(0, -0.7937222f, 0);
+
         StartCoroutine("EndBattle");
     }
 
@@ -254,9 +251,95 @@ public class BattleManager : MonoBehaviour
     }
 
     // Items functions
-    public void Items()
+    public void Items(List<GameObject> itemTexts, int itemUsed)
     {
+        foreach (GameObject text in itemTexts)
+            text.SetActive(false);
 
+        normalText.SetActive(true);
+
+        int usefulness = GameMaster.inventory[itemUsed].type == objectTypes.health ? GameMaster.inventory[itemUsed].level * 5 : GameMaster.inventory[itemUsed].level;
+        if (GameMaster.inventory[itemUsed].type == objectTypes.health)
+        {
+            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOU HEALED " + usefulness + " HP";
+            GameMaster.playerLife += usefulness;
+            if (GameMaster.playerLife > GameMaster.maxPlayerLife)
+                GameMaster.playerLife = GameMaster.maxPlayerLife;
+        }
+
+        else if (GameMaster.inventory[itemUsed].type == objectTypes.attack)
+        {
+            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOUR ATTACK INCREASED BY " + usefulness;
+        }
+
+        else if (GameMaster.inventory[itemUsed].type == objectTypes.defense)
+        {
+            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOUR DEFENSE INCREASED BY " + usefulness;
+        }
+
+        else
+        {
+            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOUR SPEED INCREASED BY " + usefulness;
+            GameMaster.playerSpeed += usefulness;
+        }
+
+        GameMaster.inventory[itemUsed].used = true;
+        RedistributeItemTexts();
+
+        state = gameStates.defend;
+        lastState = gameStates.inventory;
+    }
+
+    public void RedistributeItemTexts()
+    {
+        int deleteTarget = 0;
+        for (int i = 0; i < GameMaster.inventory.Count; i++)
+        {
+            if (GameMaster.inventory[i].used)
+            {
+                deleteTarget = i;
+                break;
+            }
+        }
+
+        if (deleteTarget != GameMaster.inventory.Count - 1)
+        {
+            for (int i = deleteTarget; i < GameMaster.inventory.Count; i++)
+            {
+                buttonManager.itemTexts[i].GetComponent<Text>().text = buttonManager.itemTexts[i + 1].GetComponent<Text>().text;
+                buttonManager.itemTexts[i].GetComponent<Text>().color = buttonManager.itemTexts[i + 1].GetComponent<Text>().color;
+                buttonManager.itemTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + buttonManager.itemTexts[i + 1].GetComponent<Text>().text;
+                buttonManager.itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = buttonManager.itemTexts[i + 1].GetComponent<Text>().color;
+            }
+
+            GameMaster.inventory.RemoveAt(deleteTarget);
+            buttonManager.itemTexts.RemoveAt(GameMaster.inventory.Count);
+
+            buttonManager.itemTexts[deleteTarget].GetComponent<Text>().enabled = true;
+            buttonManager.itemTexts[deleteTarget].transform.GetChild(0).gameObject.SetActive(false);
+            buttonManager.itemTexts[deleteTarget].transform.GetChild(1).gameObject.SetActive(false);
+            buttonManager.currentTextIndex = 0;
+            buttonManager.itemTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = false;
+            buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+            buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+        }
+
+        else
+        {
+            buttonManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
+            buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
+
+            GameMaster.inventory.RemoveAt(GameMaster.inventory.Count - 1);
+            buttonManager.itemTexts.RemoveAt(GameMaster.inventory.Count);
+
+            buttonManager.itemTexts[GameMaster.inventory.Count].GetComponent<Text>().enabled = true;
+            buttonManager.itemTexts[GameMaster.inventory.Count].transform.GetChild(0).gameObject.SetActive(false);
+            buttonManager.itemTexts[GameMaster.inventory.Count].transform.GetChild(1).gameObject.SetActive(false);
+            buttonManager.currentTextIndex = 0;
+            buttonManager.itemTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = false;
+            buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+            buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+        }
     }
 
     // Win functions
@@ -274,6 +357,7 @@ public class BattleManager : MonoBehaviour
         if (Random.Range(0,3) == 2)
         {
             baseText += "YOU ALSO RECIEVED A LVL.1 HEALTH POTION!";
+            GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
         }
 
         normalText.GetComponent<Text>().text = baseText;
@@ -284,8 +368,8 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         state = gameStates.stop;
         buttonManager.playerCanMove = false;
-        buttonManager.playerStar.transform.position = new Vector3(0, -0.7937222f, 0);
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", false);
+        //buttonManager.playerStar.SetActive(false);
 
         yield return new WaitForSeconds(1f);
         textArea.SetActive(true);

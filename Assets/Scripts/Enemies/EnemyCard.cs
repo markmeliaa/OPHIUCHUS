@@ -29,6 +29,6 @@ public class EnemyCard : MonoBehaviour
     {
         cardAnimator.SetBool("Death", true);
 
-        battleManager?.RedistributeTexts();
+        battleManager.RedistributeEnemyTexts();
     }
 }

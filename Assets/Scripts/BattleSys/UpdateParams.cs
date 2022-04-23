@@ -10,7 +10,7 @@ public class UpdateParams : MonoBehaviour
 
     private void Update()
     {
-        lifeText.text = GameMaster.playerLife + "/50";
+        lifeText.text = GameMaster.playerLife + "/" + GameMaster.maxPlayerLife;
         speedText.text = GameMaster.playerSpeed.ToString();
     }
 }

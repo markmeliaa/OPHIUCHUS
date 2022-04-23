@@ -141,6 +141,16 @@ public class ButtonManager : MonoBehaviour
                 pressedZ = true;
             }
 
+            else if (Input.GetKeyDown(KeyCode.X) && battleManager.lastState == gameStates.inventory)
+            {
+                battleManager.normalText.GetComponent<Text>().text = battleManager.baseText;
+
+                battleManager.state = gameStates.choosing;
+                battleManager.lastState = gameStates.waiting;
+
+                pressedZ = true;
+            }
+
             else
                 return;
         }
@@ -226,7 +236,7 @@ public class ButtonManager : MonoBehaviour
         if (battleManager.state == gameStates.attacking && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
         {
             pressedZ = true;
-            battleManager.Attack(currentTextIndex, enemyTexts, currentTextIndex);
+            battleManager.Attack(enemyTexts, currentTextIndex);
         }
 
         // Listen and talk
@@ -272,38 +282,66 @@ public class ButtonManager : MonoBehaviour
         // Open inventory
         else if (currentButtonIndex == 2 && Input.GetKeyDown(KeyCode.Z) && (battleManager.state != gameStates.attacking && battleManager.state != gameStates.talking && battleManager.state != gameStates.inventory))
         {
-            battleManager.state = gameStates.inventory;
-            battleManager.normalText.SetActive(false);
 
-            for (int i = 0; i < GameMaster.inventory.Count; i++)
+            if (GameMaster.inventory.Count == 0)
             {
-                itemTexts[i].SetActive(true);
-                itemTexts[i].GetComponent<Text>().text = GameMaster.inventory[i].objectName + " LVL." + GameMaster.inventory[i].level;
-                itemTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + GameMaster.inventory[i].objectName + " LVL." + GameMaster.inventory[i].level;
+                battleManager.state = gameStates.waiting;
+                battleManager.lastState = gameStates.inventory;
 
-                /*
-                battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
-
-                if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
-                {
-                    enemyTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
-                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
-                }
-
-                else if (battleManager.enemiesSpawned[i].name[0].ToString() == "S" || battleManager.enemiesSpawned[i].name[0].ToString() == "C" || battleManager.enemiesSpawned[i].name[0].ToString() == "B")
-                {
-                    enemyTexts[i].GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
-                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
-                }
-                */
+                battleManager.normalText.GetComponent<Text>().text = "    YOU HAVE NO ITEMS NOW";
             }
 
-            currentTextIndex = 0;
-            itemTexts[currentTextIndex].GetComponent<Text>().enabled = false;
-            itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-            itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+            else
+            {
+                battleManager.state = gameStates.inventory;
+                battleManager.normalText.SetActive(false);
+
+                for (int i = 0; i < GameMaster.inventory.Count; i++)
+                {
+                    itemTexts[i].SetActive(true);
+                    itemTexts[i].GetComponent<Text>().text = GameMaster.inventory[i].objectName + " LVL." + GameMaster.inventory[i].level;
+                    itemTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + GameMaster.inventory[i].objectName + " LVL." + GameMaster.inventory[i].level;
+
+                    GameMaster.inventory[i].gameText = itemTexts[i];
+
+                    if (GameMaster.inventory[i].type == objectTypes.health)
+                    {
+                        itemTexts[i].GetComponent<Text>().color = Color.red;
+                        itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = Color.red;
+                    }
+
+                    else if (GameMaster.inventory[i].type == objectTypes.attack)
+                    {
+                        itemTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.37f, 0.0f);
+                        itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.37f, 0.0f);
+                    }
+
+                    else if (GameMaster.inventory[i].type == objectTypes.defense)
+                    {
+                        itemTexts[i].GetComponent<Text>().color = new Color(0.0f, 0.36f, 1.0f);
+                        itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.0f, 0.36f, 1.0f);
+                    }
+
+                    else
+                    {
+                        itemTexts[i].GetComponent<Text>().color = Color.green;
+                        itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = Color.green;
+                    }
+                }
+
+                currentTextIndex = 0;
+                itemTexts[currentTextIndex].GetComponent<Text>().enabled = false;
+                itemTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
+                itemTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+            }
 
             pressedZ = true;
+        }
+
+        if (battleManager.state == gameStates.inventory && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
+        {
+            pressedZ = true;
+            battleManager.Items(itemTexts, currentTextIndex);
         }
 
         // Change selected enemy
