@@ -29,7 +29,7 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        amountSpawn = 4;
+        amountSpawn = 1;
         //amountSpawn = Random.Range(1, 5);
         baseAmountSpawn = amountSpawn;
 

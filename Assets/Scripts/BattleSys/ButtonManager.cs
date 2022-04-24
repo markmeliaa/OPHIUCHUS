@@ -570,7 +570,7 @@ public class ButtonManager : MonoBehaviour
         blackScreen.GetComponent<Animator>().SetBool("Change", false);
         battleManager.state = gameStates.stop;
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.6f);
 
         foreach (GameObject animator in starAnimators)
         {
