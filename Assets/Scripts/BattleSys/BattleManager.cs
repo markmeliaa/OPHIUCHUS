@@ -29,8 +29,8 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        //amountSpawn = 1;
-        amountSpawn = Random.Range(1, 5);
+        amountSpawn = 4;
+        //amountSpawn = Random.Range(1, 5);
         baseAmountSpawn = amountSpawn;
 
         if (amountSpawn == 1)
@@ -162,7 +162,7 @@ public class BattleManager : MonoBehaviour
             buttonManager.enemyTexts[deleteTarget].transform.GetChild(1).GetComponent<Text>().text = "";
 
             enemiesSpawned.RemoveAt(deleteTarget);
-            buttonManager.enemyTexts.RemoveAt(amountSpawn);
+            //buttonManager.enemyTexts.RemoveAt(amountSpawn);
 
             state = gameStates.win;
         }
@@ -178,7 +178,10 @@ public class BattleManager : MonoBehaviour
             }
 
             enemiesSpawned.RemoveAt(deleteTarget);
-            buttonManager.enemyTexts.RemoveAt(amountSpawn);
+            //buttonManager.enemyTexts.RemoveAt(amountSpawn);
+
+            buttonManager.enemyTexts[amountSpawn].GetComponent<Text>().text = "";
+            buttonManager.enemyTexts[amountSpawn].transform.GetChild(1).GetComponent<Text>().text = "";
 
             buttonManager.enemyTexts[deleteTarget].GetComponent<Text>().enabled = true;
             buttonManager.enemyTexts[deleteTarget].transform.GetChild(0).gameObject.SetActive(false);
@@ -195,7 +198,7 @@ public class BattleManager : MonoBehaviour
             buttonManager.enemyTexts[amountSpawn].transform.GetChild(1).GetComponent<Text>().text = "";
 
             enemiesSpawned.RemoveAt(amountSpawn);
-            buttonManager.enemyTexts.RemoveAt(amountSpawn);
+            //buttonManager.enemyTexts.RemoveAt(amountSpawn);
 
             buttonManager.enemyTexts[amountSpawn].GetComponent<Text>().enabled = true;
             buttonManager.enemyTexts[amountSpawn].transform.GetChild(0).gameObject.SetActive(false);
@@ -309,7 +312,10 @@ public class BattleManager : MonoBehaviour
             }
 
             GameMaster.inventory.RemoveAt(deleteTarget);
-            buttonManager.itemTexts.RemoveAt(GameMaster.inventory.Count);
+            //buttonManager.itemTexts.RemoveAt(GameMaster.inventory.Count);
+
+            buttonManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
+            buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
 
             buttonManager.itemTexts[deleteTarget].GetComponent<Text>().enabled = true;
             buttonManager.itemTexts[deleteTarget].transform.GetChild(0).gameObject.SetActive(false);
@@ -326,7 +332,7 @@ public class BattleManager : MonoBehaviour
             buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
 
             GameMaster.inventory.RemoveAt(GameMaster.inventory.Count - 1);
-            buttonManager.itemTexts.RemoveAt(GameMaster.inventory.Count);
+            //buttonManager.itemTexts.RemoveAt(GameMaster.inventory.Count);
 
             buttonManager.itemTexts[GameMaster.inventory.Count].GetComponent<Text>().enabled = true;
             buttonManager.itemTexts[GameMaster.inventory.Count].transform.GetChild(0).gameObject.SetActive(false);

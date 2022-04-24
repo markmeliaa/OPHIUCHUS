@@ -311,7 +311,7 @@ public class ButtonManager : MonoBehaviour
                 battleManager.state = gameStates.waiting;
                 battleManager.lastState = gameStates.inventory;
 
-                battleManager.normalText.GetComponent<Text>().text = "    YOU HAVE NO ITEMS NOW";
+                battleManager.normalText.GetComponent<Text>().text = "    YOU HAVE NO ITEMS RIGHT NOW";
             }
 
             else
@@ -543,7 +543,7 @@ public class ButtonManager : MonoBehaviour
 
     IEnumerator WaitStartGame()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.2f);
 
         foreach (GameObject animator in starAnimators)
         {
@@ -581,7 +581,7 @@ public class ButtonManager : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         battleCanvas.SetActive(false);
 
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.2f);
         foreach (GameObject animator in starAnimators)
         {
             animator.GetComponent<Animator>().SetBool("ChangeBack", false);
