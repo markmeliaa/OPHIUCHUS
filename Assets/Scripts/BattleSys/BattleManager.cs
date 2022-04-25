@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum gameStates { choosing, attacking, talking, inventory, waiting, defend, win, stop, end }
+public enum gameStates { stop, choosing, attacking, talking, inventory, run, waiting, defend, win, end }
 
 public class BattleManager : MonoBehaviour
 {
@@ -359,6 +359,18 @@ public class BattleManager : MonoBehaviour
             buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
             buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
         }
+    }
+
+    // Run functions
+    public void Run()
+    {
+        if (GameMaster.playerSpeed >= 5)
+            normalText.GetComponent<Text>().text = "    YOU WERE ABLE TO RUN FROM THE BATTLE";
+        else
+            normalText.GetComponent<Text>().text = "    YOU WERE NOT ABLE TO RUN, NOT ENOUGH SPEED";
+
+        state = gameStates.waiting;
+        lastState = gameStates.run;
     }
 
     // Win functions
