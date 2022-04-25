@@ -29,8 +29,9 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        amountSpawn = 1;
-        //amountSpawn = Random.Range(1, 5);
+        /*
+        //amountSpawn = 1;
+        amountSpawn = Random.Range(1, 5);
         baseAmountSpawn = amountSpawn;
 
         if (amountSpawn == 1)
@@ -40,11 +41,27 @@ public class BattleManager : MonoBehaviour
 
         baseText = normalText.GetComponent<Text>().text;
         enemiesSpawned = new List<GameObject>();
+        */
     }
 
     private void Update()
     {
         //Debug.Log(state);
+    }
+
+    public void SetUpBattle()
+    {
+        //amountSpawn = 1;
+        amountSpawn = Random.Range(1, 5);
+        baseAmountSpawn = amountSpawn;
+
+        if (amountSpawn == 1)
+            normalText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + amountSpawn + " ENEMY";
+        else
+            normalText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + amountSpawn + " ENEMIES";
+
+        baseText = normalText.GetComponent<Text>().text;
+        enemiesSpawned = new List<GameObject>();
     }
 
     public void SpawnCards()

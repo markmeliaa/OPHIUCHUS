@@ -30,6 +30,7 @@ public class ButtonManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         foreach (GameObject animator in starAnimators)
         {
             animator.GetComponent<Animator>().SetBool("Change", true);
@@ -37,11 +38,15 @@ public class ButtonManager : MonoBehaviour
         }
 
         StartCoroutine("WaitStartGame");
+        */
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+            StartBattle();
+
         if (Input.GetKeyUp(KeyCode.Z))
             pressedZ = false;
 
@@ -534,6 +539,27 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
+    public void StartBattle()
+    {
+        battleManager.SetUpBattle();
+
+        foreach (GameObject animator in starAnimators)
+        {
+            animator.GetComponent<Animator>().SetBool("Change", true);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", true);
+        }
+
+        StartCoroutine("WaitStartGame");
+    }
+
+    public void ClearGame()
+    {
+        for (int i = 2; i < battleManager.parentEnemies.transform.childCount; i++)
+        {
+            Destroy(battleManager.parentEnemies.transform.GetChild(i).gameObject);
+        }
+    }
+
     IEnumerator WaitMove()
     {
         yield return new WaitForSeconds(1f);
@@ -567,6 +593,7 @@ public class ButtonManager : MonoBehaviour
 
     IEnumerator WaitFinishGame()
     {
+        ClearGame();
         blackScreen.GetComponent<Animator>().SetBool("Change", false);
         battleManager.state = gameStates.stop;
 
