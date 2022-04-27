@@ -169,14 +169,12 @@ public class ButtonManager : MonoBehaviour
                 pressedZ = true;
             }
 
-            else if (Input.GetKeyDown(KeyCode.Z) && battleManager.lastState == gameStates.inventory)
+            else if (Input.GetKeyDown(KeyCode.X) && battleManager.lastState == gameStates.inventory)
             {
                 battleManager.normalText.GetComponent<Text>().text = battleManager.baseText;
 
                 battleManager.state = gameStates.choosing;
                 battleManager.lastState = gameStates.waiting;
-
-                pressedZ = true;
             }
 
             else if (battleManager.lastState == gameStates.run)

@@ -402,14 +402,24 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        int numAttack = 1;
+        int numAttack = attacks.Count;
 
         attacks[numAttack].SetActive(true);
 
-        yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamage>().waitTime);
+        if (attacks[numAttack].GetComponent<ActivateChilds>() != null)
+        {
+            attacks[numAttack].GetComponent<ActivateChilds>().ActivateMeteos();
+            yield return new WaitForSeconds(11f);
+            StartCoroutine("EndBattle");
+            attacks[numAttack].GetComponent<ActivateChilds>().DeactivateMeteos();
+        }
 
-        StartCoroutine("EndBattle");
-        attacks[numAttack].SetActive(false);
+        else
+        {
+            yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamage>().waitTime);
+            StartCoroutine("EndBattle");
+            attacks[numAttack].SetActive(false);
+        }
     }
 
     IEnumerator EndBattle()
