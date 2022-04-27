@@ -44,7 +44,7 @@ public class ButtonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && battleManager.state == gameStates.stop)
             StartBattle();
 
         if (Input.GetKeyUp(KeyCode.Z))

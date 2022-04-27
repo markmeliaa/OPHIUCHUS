@@ -27,6 +27,8 @@ public class BattleManager : MonoBehaviour
     public GameObject textArea;
     public GameObject battleArea;
 
+    public List<GameObject> attacks;
+
     private void Start()
     {
         /*
@@ -235,7 +237,9 @@ public class BattleManager : MonoBehaviour
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", true);
         buttonManager.playerStar.transform.position = new Vector3(0, -0.7937222f, 0);
 
-        StartCoroutine("EndBattle");
+        StartCoroutine("InitiateAttack");
+
+        //StartCoroutine("EndBattle");
     }
 
     public void ResetBattleArea()
@@ -394,9 +398,23 @@ public class BattleManager : MonoBehaviour
         normalText.GetComponent<Text>().text = baseText;
     }
 
+    IEnumerator InitiateAttack()
+    {
+        yield return new WaitForSeconds(1f);
+
+        int numAttack = Random.Range(0, attacks.Count);
+
+        attacks[numAttack].SetActive(true);
+
+        yield return new WaitForSeconds(3.5f);
+
+        StartCoroutine("EndBattle");
+        attacks[numAttack].SetActive(false);
+    }
+
     IEnumerator EndBattle()
     {
-        yield return new WaitForSeconds(2f);
+        //yield return new WaitForSeconds(2f);
         state = gameStates.stop;
         buttonManager.playerCanMove = false;
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", false);
