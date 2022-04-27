@@ -402,11 +402,11 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        int numAttack = Random.Range(0, attacks.Count);
+        int numAttack = 1;
 
         attacks[numAttack].SetActive(true);
 
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamage>().waitTime);
 
         StartCoroutine("EndBattle");
         attacks[numAttack].SetActive(false);
