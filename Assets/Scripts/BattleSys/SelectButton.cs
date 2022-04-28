@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SelectButton : MonoBehaviour
 {
     private Image buttonSprite;
+    private AudioSource audioSource;
     public Sprite borderSelected;
     public Sprite borderUnselected;
 
@@ -15,6 +16,7 @@ public class SelectButton : MonoBehaviour
     private void Awake()
     {
         buttonSprite = GetComponent<Image>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void OnSelection()
@@ -22,6 +24,7 @@ public class SelectButton : MonoBehaviour
         buttonSprite.sprite = borderSelected;
         buttonText.color = Color.red;
         star.SetActive(true);
+        audioSource.Play();
     }
 
     public void OnExitSelection()

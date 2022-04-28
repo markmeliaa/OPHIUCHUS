@@ -27,6 +27,12 @@ public class ButtonManager : MonoBehaviour
     public GameObject animCanvas;
     public GameObject battleCanvas;
 
+    public AudioSource globalAudioSource;
+    public AudioClip selectEnemy;
+    public AudioClip attackEnemy;
+    public AudioClip useItem;
+    public AudioClip goBack;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -125,6 +131,11 @@ public class ButtonManager : MonoBehaviour
                     text.SetActive(false);
 
                 battleManager.normalText.SetActive(true);
+
+                /*
+                globalAudioSource.clip = goBack;
+                globalAudioSource.Play();
+                */
             }
 
             else if (battleManager.state == gameStates.inventory)
@@ -141,6 +152,11 @@ public class ButtonManager : MonoBehaviour
                     text.SetActive(false);
 
                 battleManager.normalText.SetActive(true);
+
+                /*
+                globalAudioSource.clip = goBack;
+                globalAudioSource.Play();
+                */
             }
         }
 
@@ -155,6 +171,11 @@ public class ButtonManager : MonoBehaviour
                 battleManager.normalText.SetActive(false);
                 battleManager.state = gameStates.talking;
                 battleManager.lastState = gameStates.waiting;
+
+                /*
+                globalAudioSource.clip = goBack;
+                globalAudioSource.Play();
+                */
             }
 
             else if (Input.GetKeyDown(KeyCode.Z) && battleManager.lastState == gameStates.attacking)
@@ -167,6 +188,11 @@ public class ButtonManager : MonoBehaviour
                 battleManager.lastState = gameStates.waiting;
 
                 pressedZ = true;
+
+                /*
+                globalAudioSource.clip = goBack;
+                globalAudioSource.Play();
+                */
             }
 
             else if (Input.GetKeyDown(KeyCode.X) && battleManager.lastState == gameStates.inventory)
@@ -175,6 +201,9 @@ public class ButtonManager : MonoBehaviour
 
                 battleManager.state = gameStates.choosing;
                 battleManager.lastState = gameStates.waiting;
+
+                globalAudioSource.clip = selectEnemy;
+                globalAudioSource.Play();
             }
 
             else if (battleManager.lastState == gameStates.run)
@@ -187,6 +216,9 @@ public class ButtonManager : MonoBehaviour
                     StartCoroutine("WaitFinishGame");
 
                     pressedZ = true;
+
+                    globalAudioSource.clip = selectEnemy;
+                    globalAudioSource.Play();
                 }
 
                 else if (GameMaster.playerSpeed < 5 && Input.GetKeyDown(KeyCode.X))
@@ -195,6 +227,11 @@ public class ButtonManager : MonoBehaviour
                     battleManager.lastState = gameStates.waiting;
 
                     battleManager.normalText.GetComponent<Text>().text = battleManager.baseText;
+
+                    /*
+                    globalAudioSource.clip = goBack;
+                    globalAudioSource.Play();
+                    */
                 }
             }
 
@@ -252,6 +289,9 @@ public class ButtonManager : MonoBehaviour
             battleManager.state = gameStates.attacking;
             battleManager.normalText.SetActive(false);
 
+            globalAudioSource.clip = selectEnemy;
+            globalAudioSource.Play();
+
             for (int i = 0; i < battleManager.enemiesSpawned.Count; i++)
             {
                 enemyTexts[i].SetActive(true);
@@ -284,6 +324,11 @@ public class ButtonManager : MonoBehaviour
         {
             pressedZ = true;
             battleManager.Attack(enemyTexts, currentTextIndex);
+
+            /*
+            globalAudioSource.clip = attackEnemy;
+            globalAudioSource.Play();
+            */
         }
 
         // Listen and talk
@@ -291,6 +336,9 @@ public class ButtonManager : MonoBehaviour
         {
             battleManager.state = gameStates.talking;
             battleManager.normalText.SetActive(false);
+
+            globalAudioSource.clip = selectEnemy;
+            globalAudioSource.Play();
 
             for (int i = 0; i < battleManager.enemiesSpawned.Count; i++)
             {
@@ -324,11 +372,16 @@ public class ButtonManager : MonoBehaviour
         {
             pressedZ = true;
             battleManager.Talk(enemyTexts);
+
+            globalAudioSource.clip = selectEnemy;
+            globalAudioSource.Play();
         }
 
         // Open inventory
         else if (currentButtonIndex == 2 && Input.GetKeyDown(KeyCode.Z) && (battleManager.state != gameStates.attacking && battleManager.state != gameStates.talking && battleManager.state != gameStates.inventory && battleManager.state != gameStates.run))
         {
+            globalAudioSource.clip = selectEnemy;
+            globalAudioSource.Play();
 
             if (GameMaster.inventory.Count == 0)
             {
@@ -389,6 +442,11 @@ public class ButtonManager : MonoBehaviour
         {
             pressedZ = true;
             battleManager.Items(itemTexts, currentTextIndex);
+
+            /*
+            globalAudioSource.clip = useItem;
+            globalAudioSource.Play();
+            */
         }
 
         // Run from battle
@@ -396,6 +454,9 @@ public class ButtonManager : MonoBehaviour
         {
             battleManager.Run();
             pressedZ = true;
+
+            globalAudioSource.clip = selectEnemy;
+            globalAudioSource.Play();
         }
 
         // Change selected enemy
@@ -640,7 +701,7 @@ public class ButtonManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.6f);
 
-        animCanvas.GetComponent<AudioSource>().Play();
+        //animCanvas.GetComponent<AudioSource>().Play();
 
         foreach (GameObject animator in starAnimators)
         {
