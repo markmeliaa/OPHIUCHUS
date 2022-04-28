@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AttackTwoMoon
+  m_Controller: {fileID: 9100000, guid: 6f033403022af6442b77e22eb6623685, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 24c5dd151894aa549a38f7f1936ee705, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 24c5dd151894aa549a38f7f1936ee705, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f311712e13cc4d243b15440f5782b6c7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c1aa6149e9e7b9a44819b0c8d1ab8e19, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c1aa6149e9e7b9a44819b0c8d1ab8e19, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f311712e13cc4d243b15440f5782b6c7, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ba679da63cccb744fa91d7f8bcf838c9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: bfe5800ddc02dca48bc91bac7910c139, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: bfe5800ddc02dca48bc91bac7910c139, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ba679da63cccb744fa91d7f8bcf838c9, type: 2}

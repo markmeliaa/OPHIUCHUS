@@ -402,7 +402,7 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        int numAttack = attacks.Count;
+        int numAttack = Random.Range(0, attacks.Count);
 
         attacks[numAttack].SetActive(true);
 
