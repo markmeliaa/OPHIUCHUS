@@ -569,7 +569,7 @@ public class ButtonManager : MonoBehaviour
     {
         battleManager.SetUpBattle();
 
-        animCanvas.GetComponent<AudioSource>().Play();
+        //animCanvas.GetComponent<AudioSource>().Play();
 
         foreach (GameObject animator in starAnimators)
         {
