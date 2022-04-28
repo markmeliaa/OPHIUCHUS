@@ -569,6 +569,8 @@ public class ButtonManager : MonoBehaviour
     {
         battleManager.SetUpBattle();
 
+        animCanvas.GetComponent<AudioSource>().Play();
+
         foreach (GameObject animator in starAnimators)
         {
             animator.GetComponent<Animator>().SetBool("Change", true);
@@ -637,6 +639,8 @@ public class ButtonManager : MonoBehaviour
         battleManager.state = gameStates.stop;
 
         yield return new WaitForSeconds(0.6f);
+
+        animCanvas.GetComponent<AudioSource>().Play();
 
         foreach (GameObject animator in starAnimators)
         {
