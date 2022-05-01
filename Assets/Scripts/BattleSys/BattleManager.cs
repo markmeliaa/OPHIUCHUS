@@ -364,7 +364,7 @@ public class BattleManager : MonoBehaviour
         else
             baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
 
-        if (Random.Range(0,3) < 5)
+        if (Random.Range(0,3) == 2)
         {
             baseText += "YOU ALSO RECIEVED A LVL.1 HEALTH POTION!";
 
