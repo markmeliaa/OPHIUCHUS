@@ -5,15 +5,15 @@ using UnityEngine;
 public class PlayerMoveIso : MonoBehaviour
 {
     public float playerSpeed = 1f;
-    PlayerRendIso rendIso;
+    [HideInInspector] public PlayerRendIso rendIso;
 
     Rigidbody2D rb;
     private RoomTemplates templates;
 
     private AudioSource audioSource;
 
-    private float horInput = 0;
-    private float vertInput = 0;
+    [HideInInspector] public float horInput = 0;
+    [HideInInspector] public float vertInput = 0;
 
     private void Awake()
     {

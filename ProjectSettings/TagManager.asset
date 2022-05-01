@@ -16,6 +16,7 @@ TagManager:
   - West
   - RealSpawnPoint
   - Battle
+  - Buttons
   layers:
   - Default
   - TransparentFX

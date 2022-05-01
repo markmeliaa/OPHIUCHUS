@@ -58,8 +58,8 @@ public class BattleManager : MonoBehaviour
 
     public void SetUpBattle()
     {
-        amountSpawn = 2;
-        //amountSpawn = Random.Range(1, 5);
+        //amountSpawn = 2;
+        amountSpawn = Random.Range(1, 5);
         baseAmountSpawn = amountSpawn;
 
         if (amountSpawn == 1)
@@ -109,12 +109,6 @@ public class BattleManager : MonoBehaviour
                 enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawn.transform.position, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
             }
         }
-    }
-
-    public void AddItems()
-    {
-        GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
-        GameMaster.inventory.Add(new ItemObject("Speed Potion", objectTypes.speed, 2));
     }
 
     // Attack functions
@@ -370,10 +364,19 @@ public class BattleManager : MonoBehaviour
         else
             baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
 
-        if (Random.Range(0,3) == 2)
+        if (Random.Range(0,3) < 5)
         {
             baseText += "YOU ALSO RECIEVED A LVL.1 HEALTH POTION!";
-            GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
+
+            if (GameMaster.inventory.Count < 8)
+            {
+                GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
+            }
+
+            else
+            {
+                baseText += " (but you have no space in your inventory).";
+            }
         }
 
         normalText.GetComponent<Text>().text = baseText;

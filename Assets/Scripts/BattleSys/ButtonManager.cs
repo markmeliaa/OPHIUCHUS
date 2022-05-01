@@ -56,9 +56,6 @@ public class ButtonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && battleManager.state == gameStates.stop)
-            StartBattle();
-
         if (Input.GetKeyUp(KeyCode.Z))
             pressedZ = false;
 
@@ -80,10 +77,12 @@ public class ButtonManager : MonoBehaviour
         // The enemy is attacking and the player avoids the attacks
         if (battleManager.state == gameStates.defend)
         {
-            if (!pressedZ && Input.GetKeyDown(KeyCode.Z))
+            if (!pressedZ && Input.GetKeyDown(KeyCode.Z) && !playerCanMove)
             {
                 battleManager.StartEnemyAttack();
                 StartCoroutine("WaitMove");
+
+                pressedZ = true;
             }
 
             if (playerCanMove)
@@ -622,6 +621,11 @@ public class ButtonManager : MonoBehaviour
     {
         battleManager.SetUpBattle();
 
+        templates.changingRoom = true;
+        player.GetComponent<PlayerMoveIso>().horInput = 0;
+        player.GetComponent<PlayerMoveIso>().vertInput = 0;
+        player.GetComponent<PlayerMoveIso>().rendIso.SetDirection(new Vector2(0, 0));
+
         //animCanvas.GetComponent<AudioSource>().Play();
 
         foreach (GameObject animator in starAnimators)
@@ -675,14 +679,14 @@ public class ButtonManager : MonoBehaviour
         //animCanvas.SetActive(false);
         battleCanvas.SetActive(true);
 
-        templates.changingRoom = true;
         player.GetComponent<SpriteRenderer>().sortingOrder = -10;
         player.transform.GetChild(1).GetComponent<AudioSource>().Stop();
+        player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
 
         realRooms.SetActive(false);
         miniMap.SetActive(false);
+
         battleManager.SpawnCards();
-        battleManager.AddItems();
 
         blackScreen.GetComponent<Animator>().SetBool("Change", true);
         //blackScreen.SetActive(false);
@@ -724,6 +728,7 @@ public class ButtonManager : MonoBehaviour
             animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", false);
         }
 
+        player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
         templates.changingRoom = false;
     }
 }

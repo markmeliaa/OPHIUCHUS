@@ -120,6 +120,7 @@ public class RoomTemplates : MonoBehaviour
 				gameMusic.Play();
 				loadScreen.SetActive(false);
 				circleAnimator.SetBool("Show", true);
+				AddItems();
 				StartCoroutine("StartGame");
 
 				//generateAgainButton.SetActive(true);
@@ -145,9 +146,15 @@ public class RoomTemplates : MonoBehaviour
         currentRoom = Instantiate(initialRoom, roomSpawner.position, initialRoom.transform.rotation, roomPlaceholder);
     }
 
+	public void AddItems()
+	{
+		GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
+		GameMaster.inventory.Add(new ItemObject("Speed Potion", objectTypes.speed, 2));
+	}
+
 	IEnumerator StartGame()
     {
-		yield return new WaitForSeconds(1.05f);
+		yield return new WaitForSeconds(1.0f);
 
 		mapFormed = true;
 	}
