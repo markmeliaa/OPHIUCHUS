@@ -11296,9 +11296,11 @@ MonoBehaviour:
   animCanvas: {fileID: 1438067101}
   battleCanvas: {fileID: 1708892351}
   globalAudioSource: {fileID: 1923994397}
+  backAudioSource: {fileID: 0}
   selectEnemy: {fileID: 8300000, guid: be506e233197a1d48bdad3387ec55119, type: 3}
-  attackEnemy: {fileID: 0}
-  useItem: {fileID: 0}
+  attackEnemy: {fileID: 8300000, guid: 8c278d194498c0447b08da2d07321ae0, type: 3}
+  useItem: {fileID: 8300000, guid: daa6df5281a14394b9744d21f0134733, type: 3}
+  goBack: {fileID: 0}
 --- !u!114 &1881453259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11623,7 +11625,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: be506e233197a1d48bdad3387ec55119, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 2.5

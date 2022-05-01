@@ -31,7 +31,6 @@ public class ButtonManager : MonoBehaviour
     public AudioClip selectEnemy;
     public AudioClip attackEnemy;
     public AudioClip useItem;
-    public AudioClip goBack;
 
     // Start is called before the first frame update
     void Start()
@@ -132,10 +131,8 @@ public class ButtonManager : MonoBehaviour
 
                 battleManager.normalText.SetActive(true);
 
-                /*
-                globalAudioSource.clip = goBack;
+                globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
-                */
             }
 
             else if (battleManager.state == gameStates.inventory)
@@ -153,10 +150,8 @@ public class ButtonManager : MonoBehaviour
 
                 battleManager.normalText.SetActive(true);
 
-                /*
-                globalAudioSource.clip = goBack;
+                globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
-                */
             }
         }
 
@@ -172,10 +167,8 @@ public class ButtonManager : MonoBehaviour
                 battleManager.state = gameStates.talking;
                 battleManager.lastState = gameStates.waiting;
 
-                /*
-                globalAudioSource.clip = goBack;
+                globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
-                */
             }
 
             else if (Input.GetKeyDown(KeyCode.Z) && battleManager.lastState == gameStates.attacking)
@@ -189,10 +182,8 @@ public class ButtonManager : MonoBehaviour
 
                 pressedZ = true;
 
-                /*
-                globalAudioSource.clip = goBack;
+                globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
-                */
             }
 
             else if (Input.GetKeyDown(KeyCode.X) && battleManager.lastState == gameStates.inventory)
@@ -228,10 +219,8 @@ public class ButtonManager : MonoBehaviour
 
                     battleManager.normalText.GetComponent<Text>().text = battleManager.baseText;
 
-                    /*
-                    globalAudioSource.clip = goBack;
+                    globalAudioSource.clip = selectEnemy;
                     globalAudioSource.Play();
-                    */
                 }
             }
 
@@ -325,10 +314,8 @@ public class ButtonManager : MonoBehaviour
             pressedZ = true;
             battleManager.Attack(enemyTexts, currentTextIndex);
 
-            /*
             globalAudioSource.clip = attackEnemy;
             globalAudioSource.Play();
-            */
         }
 
         // Listen and talk
@@ -443,10 +430,8 @@ public class ButtonManager : MonoBehaviour
             pressedZ = true;
             battleManager.Items(itemTexts, currentTextIndex);
 
-            /*
             globalAudioSource.clip = useItem;
             globalAudioSource.Play();
-            */
         }
 
         // Run from battle
