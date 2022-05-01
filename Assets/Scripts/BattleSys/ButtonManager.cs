@@ -625,6 +625,7 @@ public class ButtonManager : MonoBehaviour
         player.GetComponent<PlayerMoveIso>().horInput = 0;
         player.GetComponent<PlayerMoveIso>().vertInput = 0;
         player.GetComponent<PlayerMoveIso>().rendIso.SetDirection(new Vector2(0, 0));
+        miniMap.SetActive(false);
 
         //animCanvas.GetComponent<AudioSource>().Play();
 
@@ -684,7 +685,6 @@ public class ButtonManager : MonoBehaviour
         player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
 
         realRooms.SetActive(false);
-        miniMap.SetActive(false);
 
         battleManager.SpawnCards();
 
@@ -719,7 +719,6 @@ public class ButtonManager : MonoBehaviour
         player.GetComponent<SpriteRenderer>().sortingOrder = -3;
         player.transform.GetChild(1).GetComponent<AudioSource>().Play();
         realRooms.SetActive(true);
-        miniMap.SetActive(true);
 
         yield return new WaitForSeconds(1.2f);
         foreach (GameObject animator in starAnimators)
@@ -728,6 +727,7 @@ public class ButtonManager : MonoBehaviour
             animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", false);
         }
 
+        miniMap.SetActive(true);
         player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
         templates.changingRoom = false;
     }
