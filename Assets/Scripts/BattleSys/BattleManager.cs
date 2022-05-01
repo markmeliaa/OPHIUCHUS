@@ -29,6 +29,11 @@ public class BattleManager : MonoBehaviour
 
     public List<GameObject> attacks;
 
+    public GameObject oneSpawner;
+    public List<GameObject> twoSpawners;
+    public List<GameObject> threeSpawners;
+    public List<GameObject> fourSpawners;
+
     private void Start()
     {
         /*
@@ -53,8 +58,8 @@ public class BattleManager : MonoBehaviour
 
     public void SetUpBattle()
     {
-        //amountSpawn = 1;
-        amountSpawn = Random.Range(1, 5);
+        amountSpawn = 2;
+        //amountSpawn = Random.Range(1, 5);
         baseAmountSpawn = amountSpawn;
 
         if (amountSpawn == 1)
@@ -72,61 +77,37 @@ public class BattleManager : MonoBehaviour
         if (amountSpawn == 1)
         {
             int numberCard = Random.Range(0, enemyCards.Count);
-            Vector3 halfScreenPosition = new Vector3(leftLimitSpawn.position.x + (Mathf.Abs(rightLimitSpawn.position.x) + Mathf.Abs(leftLimitSpawn.position.x)) / 2, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], halfScreenPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
+            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], oneSpawner.transform.position, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
         }
 
         // Two cards spawn
         else if (amountSpawn == 2)
         {
-            int numberCard = Random.Range(0, enemyCards.Count);
-            Vector3 halfScreenPosition = new Vector3(leftLimitSpawn.position.x + (Mathf.Abs(rightLimitSpawn.position.x) + Mathf.Abs(leftLimitSpawn.position.x)) / 2, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-            
-            Vector3 spawnPosition = new Vector3(leftLimitSpawn.position.x + (Mathf.Abs(leftLimitSpawn.position.x) + Mathf.Abs(halfScreenPosition.x)) / 2 + 1, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
-
-            numberCard = Random.Range(0, enemyCards.Count);
-            spawnPosition = new Vector3(halfScreenPosition.x + (Mathf.Abs(leftLimitSpawn.position.x) + Mathf.Abs(halfScreenPosition.x)) / 2 - 1, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
+            foreach (GameObject spawn in twoSpawners)
+            {
+                int numberCard = Random.Range(0, enemyCards.Count);
+                enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawn.transform.position, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
+            }
         }
 
         // Three cards spawn
         else if (amountSpawn == 3)
         {
-            int numberCard = Random.Range(0, enemyCards.Count);
-            Vector3 halfScreenPosition = new Vector3(leftLimitSpawn.position.x + (Mathf.Abs(rightLimitSpawn.position.x) + Mathf.Abs(leftLimitSpawn.position.x)) / 2, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-            
-            Vector3 spawnPosition = new Vector3(leftLimitSpawn.position.x + (Mathf.Abs(leftLimitSpawn.position.x) + Mathf.Abs(halfScreenPosition.x)) / 2, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
-
-            numberCard = Random.Range(0, enemyCards.Count);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], halfScreenPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
-
-            numberCard = Random.Range(0, enemyCards.Count);
-            spawnPosition = new Vector3(halfScreenPosition.x + (Mathf.Abs(leftLimitSpawn.position.x) + Mathf.Abs(halfScreenPosition.x)) / 2, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
+            foreach (GameObject spawn in threeSpawners)
+            {
+                int numberCard = Random.Range(0, enemyCards.Count);
+                enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawn.transform.position, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
+            }
         }
 
         // Four cards spawn
         else
         {
-            int numberCard = Random.Range(0, enemyCards.Count);
-            Vector3 halfScreenPosition = new Vector3(leftLimitSpawn.position.x + (Mathf.Abs(rightLimitSpawn.position.x) + Mathf.Abs(leftLimitSpawn.position.x)) / 4, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-            Vector3 halfhalfScreenPosition = new Vector3(leftLimitSpawn.position.x + (Mathf.Abs(rightLimitSpawn.position.x) + Mathf.Abs(leftLimitSpawn.position.x)) / 8, rightLimitSpawn.position.y, rightLimitSpawn.position.z);
-
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], halfhalfScreenPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
-
-            numberCard = Random.Range(0, enemyCards.Count);
-            Vector3 spawnPosition = new Vector3(leftLimitSpawn.position.x - halfhalfScreenPosition.x, halfhalfScreenPosition.y, halfhalfScreenPosition.z);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
-
-            numberCard = Random.Range(0, enemyCards.Count);
-            spawnPosition = new Vector3(halfScreenPosition.x - halfhalfScreenPosition.x, halfhalfScreenPosition.y, halfhalfScreenPosition.z);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
-
-            numberCard = Random.Range(0, enemyCards.Count);
-            spawnPosition = new Vector3(-halfhalfScreenPosition.x, halfhalfScreenPosition.y, halfhalfScreenPosition.z);
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawnPosition, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
+            foreach (GameObject spawn in fourSpawners)
+            {
+                int numberCard = Random.Range(0, enemyCards.Count);
+                enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawn.transform.position, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
+            }
         }
     }
 

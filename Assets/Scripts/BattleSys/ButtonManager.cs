@@ -25,12 +25,18 @@ public class ButtonManager : MonoBehaviour
     public GameObject blackScreen;
 
     public GameObject animCanvas;
+    public GameObject player;
+    public GameObject realRooms;
+    public GameObject miniMap;
+
     public GameObject battleCanvas;
 
     public AudioSource globalAudioSource;
     public AudioClip selectEnemy;
     public AudioClip attackEnemy;
     public AudioClip useItem;
+
+    public RoomTemplates templates;
 
     // Start is called before the first frame update
     void Start()
@@ -667,6 +673,13 @@ public class ButtonManager : MonoBehaviour
 
         //animCanvas.SetActive(false);
         battleCanvas.SetActive(true);
+
+        templates.changingRoom = true;
+        player.GetComponent<SpriteRenderer>().sortingOrder = -10;
+        player.transform.GetChild(1).GetComponent<AudioSource>().Stop();
+
+        realRooms.SetActive(false);
+        miniMap.SetActive(false);
         battleManager.SpawnCards();
         battleManager.AddItems();
 
@@ -698,11 +711,18 @@ public class ButtonManager : MonoBehaviour
         ClearGame();
         battleCanvas.SetActive(false);
 
+        player.GetComponent<SpriteRenderer>().sortingOrder = -3;
+        player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        realRooms.SetActive(true);
+        miniMap.SetActive(true);
+
         yield return new WaitForSeconds(1.2f);
         foreach (GameObject animator in starAnimators)
         {
             animator.GetComponent<Animator>().SetBool("ChangeBack", false);
             animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", false);
         }
+
+        templates.changingRoom = false;
     }
 }
