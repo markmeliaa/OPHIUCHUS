@@ -10,7 +10,11 @@ public class DealDamage : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            GameMaster.playerLife -= 2;
+            if (GameMaster.playerLife > 2)
+                GameMaster.playerLife -= 2;
+            else
+                GameMaster.playerLife = 0;
+
             collision.gameObject.GetComponent<AudioSource>().Play();
             collision.gameObject.GetComponent<Animator>().SetBool("Hit", true);
         }
