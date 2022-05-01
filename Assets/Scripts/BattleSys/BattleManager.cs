@@ -216,7 +216,7 @@ public class BattleManager : MonoBehaviour
         battleArea.SetActive(true);
 
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", true);
-        buttonManager.playerStar.transform.position = new Vector3(0, -0.7937222f, 0);
+        buttonManager.playerStar.transform.position = buttonManager.playerStarSpawn.transform.position;
 
         StartCoroutine("InitiateAttack");
 

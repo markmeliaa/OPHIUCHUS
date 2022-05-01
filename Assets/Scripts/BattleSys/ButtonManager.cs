@@ -20,6 +20,7 @@ public class ButtonManager : MonoBehaviour
 
     [HideInInspector] public bool playerCanMove = false;
     public GameObject playerStar;
+    public GameObject playerStarSpawn;
 
     public List<GameObject> starAnimators;
     public GameObject blackScreen;
