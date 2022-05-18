@@ -168,8 +168,9 @@ public class GetAdjRoom : MonoBehaviour
         thisRoom = templates.currentRoom;
         //Debug.Log(templates.currentRoom);
 
-        if (other.CompareTag("Player") && Input.GetButton("Fire1") && teleport == true)
+        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.E) && teleport == true)
         {
+            Debug.Log(true);
             teleport = false;
 
             for (int i = 0; i < templates.currentRoom.transform.childCount; i++)

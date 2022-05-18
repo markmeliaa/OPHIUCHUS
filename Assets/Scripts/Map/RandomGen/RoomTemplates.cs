@@ -86,6 +86,7 @@ public class RoomTemplates : MonoBehaviour
 				rooms[rooms.Count - 1].tag = "BossRoom";
 				spawnedBoss = true;
 
+				/*
 				// Spawn heal and money room
 				int rand = Random.Range(1, rooms.Count - 1);
 				int rand2 = Random.Range(1, rooms.Count - 1);
@@ -109,6 +110,7 @@ public class RoomTemplates : MonoBehaviour
 						rooms[i].tag = "HealRoom";
 					}
 				}
+				*/
 
 				for (int i = 1; i < rooms.Count; i++)
                 {

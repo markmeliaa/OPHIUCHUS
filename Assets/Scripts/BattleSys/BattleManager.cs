@@ -239,7 +239,7 @@ public class BattleManager : MonoBehaviour
             text.SetActive(false);
 
         normalText.SetActive(true);
-        normalText.GetComponent<Text>().text = "    YOU CAN'T TALK TO AN NPC LOL";
+        normalText.GetComponent<Text>().text = "    YOU CAN'T TALK TO AN NPC";
 
         state = gameStates.waiting;
         lastState = gameStates.talking;
