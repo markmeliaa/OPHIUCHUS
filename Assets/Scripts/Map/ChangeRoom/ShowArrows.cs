@@ -11,19 +11,37 @@ public class ShowArrows : MonoBehaviour
     void Start()
     {
         arrow = gameObject.transform.GetChild(0).gameObject;
-        templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
+        templates = GameObject.FindGameObjectWithTag("Rooms")?.GetComponent<RoomTemplates>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !templates.changingRoom)
-            arrow.SetActive(true);
+        if (other.CompareTag("Player"))
+        {
+            if (templates != null)
+            {
+                if (!templates.changingRoom)
+                    arrow.SetActive(true);
+            }
+
+            else
+                arrow.SetActive(true);
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !templates.changingRoom)
-            arrow.SetActive(true);
+        if (other.CompareTag("Player"))
+        {
+            if (templates != null)
+            {
+                if (!templates.changingRoom)
+                    arrow.SetActive(true);
+            }
+
+            else
+                arrow.SetActive(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

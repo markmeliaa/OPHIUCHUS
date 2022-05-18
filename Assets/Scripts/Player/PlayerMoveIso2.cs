@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveIso : MonoBehaviour
+public class PlayerMoveIso2 : MonoBehaviour
 {
     public float playerSpeed = 1f;
     [HideInInspector] public PlayerRendIso rendIso;
 
     Rigidbody2D rb;
-    private RoomTemplates templates;
 
     private AudioSource audioSource;
 
@@ -21,26 +20,23 @@ public class PlayerMoveIso : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rendIso = GetComponent<PlayerRendIso>();
-        templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
+
         audioSource = GetComponent<AudioSource>();
         audioSource.mute = true;
     }
 
     private void Update()
     {
-        if (horInput != 0 || vertInput != 0 && !audioSource.isPlaying)
+        if (horInput != 0 || vertInput != 0)
             audioSource.mute = false;
 
-        else if (horInput == 0 && vertInput == 0 && audioSource.isPlaying)
+        if (horInput == 0 && vertInput == 0)
             audioSource.mute = true;
-
-        if (!templates.mapFormed || templates.changingRoom)
-            moving = false;
     }
 
     private void FixedUpdate()
     {
-        if (!moving) 
+        if (!moving)
             return;
 
         Vector2 currentPos = rb.position;

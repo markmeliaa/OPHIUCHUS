@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ManageSettings : MonoBehaviour
 {
     public RoomTemplates templates;
+    public PlayerMoveIso2 playerMove;
     public Button menuButton;
     public AudioSource stepsSound;
 
@@ -31,9 +32,21 @@ public class ManageSettings : MonoBehaviour
         stepsSound.Stop();
     }
 
+    public void ActivateSettings2()
+    {
+        playerMove.moving = false;
+        stepsSound.Stop();
+    }
+
     public void DeactivateSettings()
     {
         templates.changingRoom = false;
+        stepsSound.Play();
+    }
+
+    public void DeactivateSettings2()
+    {
+        playerMove.moving = true;
         stepsSound.Play();
     }
 

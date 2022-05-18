@@ -32,7 +32,7 @@ public class RoomTemplates : MonoBehaviour
 
 	public List<GameObject> rooms;
 
-	private float waitTime = 3f;
+	private float waitTime = 7f;
 	private bool spawnedBoss;
 	public GameObject boss;
 
