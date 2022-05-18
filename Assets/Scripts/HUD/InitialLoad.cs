@@ -6,7 +6,7 @@ public class InitialLoad : MonoBehaviour
 {
     public PlayerMoveIso2 playerMove;
 
-    private float waitTime = 3.5f;
+    private float waitTime = 4f;
 
     public GameObject overScreen;
     public Animator screen;

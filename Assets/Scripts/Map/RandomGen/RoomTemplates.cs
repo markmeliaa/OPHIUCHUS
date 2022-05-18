@@ -65,6 +65,10 @@ public class RoomTemplates : MonoBehaviour
 	[HideInInspector] public bool changingRoom = false;
 	public Animator changeRoomAnim;
 
+	public GameObject mainCharacter;
+
+	public GameObject tpCharacter;
+
     private void Start()
     {
 		generateAgainButton.SetActive(false);
@@ -154,10 +158,20 @@ public class RoomTemplates : MonoBehaviour
 		GameMaster.inventory.Add(new ItemObject("Speed Potion", objectTypes.speed, 2));
 	}
 
+	public void EnterAnimation()
+    {
+		mainCharacter.GetComponent<SpriteRenderer>().enabled = false;
+		tpCharacter.SetActive(true);
+    }
+
 	IEnumerator StartGame()
     {
+		yield return new WaitForSeconds(0.5f);
+		EnterAnimation();
 		yield return new WaitForSeconds(1.0f);
 
 		mapFormed = true;
+		mainCharacter.GetComponent<SpriteRenderer>().enabled = true; 
+		tpCharacter.SetActive(false);
 	}
 }

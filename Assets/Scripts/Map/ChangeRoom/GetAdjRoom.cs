@@ -170,7 +170,7 @@ public class GetAdjRoom : MonoBehaviour
 
         if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.E) && teleport == true)
         {
-            Debug.Log(true);
+            //Debug.Log(true);
             teleport = false;
 
             for (int i = 0; i < templates.currentRoom.transform.childCount; i++)

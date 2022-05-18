@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ShowArrows : MonoBehaviour
 {
     private GameObject arrow;
     private RoomTemplates templates;
+
+    public GameObject mainChar;
+    public GameObject upAnim;
+    public PlayerMoveIso2 playerMove;
+
+    public Animator hideGame;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +32,20 @@ public class ShowArrows : MonoBehaviour
             }
 
             else
+            {
                 arrow.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    mainChar.GetComponent<SpriteRenderer>().enabled = false;
+                    mainChar.GetComponent<AudioSource>().Stop();
+
+                    upAnim.SetActive(true);
+                    playerMove.moving = false;
+
+                    hideGame.SetBool("Show", false);
+                    StartCoroutine("ChangeScene");
+                }
+            }
         }
     }
 
@@ -40,7 +60,20 @@ public class ShowArrows : MonoBehaviour
             }
 
             else
+            {
                 arrow.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    mainChar.GetComponent<SpriteRenderer>().enabled = false;
+                    mainChar.GetComponent<AudioSource>().Stop();
+
+                    upAnim.SetActive(true);
+                    playerMove.moving = false;
+
+                    hideGame.SetBool("Show", false);
+                    StartCoroutine("ChangeScene");
+                }
+            }
         }
     }
 
@@ -48,5 +81,11 @@ public class ShowArrows : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             arrow.SetActive(false);
+    }
+
+    IEnumerator ChangeScene()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(2);
     }
 }

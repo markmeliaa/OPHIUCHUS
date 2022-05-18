@@ -36,6 +36,9 @@ public class PlayerMoveIso : MonoBehaviour
 
         if (!templates.mapFormed || templates.changingRoom)
             moving = false;
+
+        else if (templates.mapFormed && !templates.changingRoom)
+            moving = true;
     }
 
     private void FixedUpdate()
