@@ -18,10 +18,10 @@ public class ManageSettings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (templates.mapFormed == false || templates.changingRoom == true)
+        if (templates?.mapFormed == false || templates?.changingRoom == true)
             menuButton.enabled = false;
 
-        else
+        else if (templates != null)
             menuButton.enabled = true;
     }
 

@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 106799361}
+  - component: {fileID: 106799362}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -160,6 +161,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &106799362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106799360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4aa3168722f7ae4c88ba6c4f2f53c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templates: {fileID: 0}
+  menuButton: {fileID: 0}
+  stepsSound: {fileID: 0}
 --- !u!1 &146500437
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,7 +817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1358311339
 RectTransform:
   m_ObjectHideFlags: 0
@@ -942,7 +958,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1358311344}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 106799362}
+        m_TargetAssemblyTypeName: ManageSettings, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1358311344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,7 +1239,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: GAME SETTINGS
+  m_Text: EXIT GAME
 --- !u!222 &1798268222
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1624,7 +1652,7 @@ AudioSource:
   m_GameObject: {fileID: 2092472474}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 8e099adfbdd4639448ca9f9bdd66c8f6, type: 2}
   m_audioClip: {fileID: 8300000, guid: 6e384123dd7045140907c0cdcc43f4fb, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
