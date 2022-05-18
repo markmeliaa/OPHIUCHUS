@@ -20,10 +20,10 @@ public class ManageSettings : MonoBehaviour
     void Update()
     {
         if (templates?.mapFormed == false || templates?.changingRoom == true)
-            menuButton.enabled = false;
+            menuButton.gameObject.SetActive(false);
 
         else if (templates != null)
-            menuButton.enabled = true;
+            menuButton.gameObject.SetActive(true);
     }
 
     public void ActivateSettings()

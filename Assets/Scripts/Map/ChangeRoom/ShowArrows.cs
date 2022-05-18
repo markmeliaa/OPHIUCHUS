@@ -14,6 +14,8 @@ public class ShowArrows : MonoBehaviour
 
     public Animator hideGame;
 
+    private bool ePressed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +36,9 @@ public class ShowArrows : MonoBehaviour
             else
             {
                 arrow.SetActive(true);
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKey(KeyCode.E) && !ePressed)
                 {
+                    ePressed = true;
                     mainChar.GetComponent<SpriteRenderer>().enabled = false;
                     mainChar.GetComponent<AudioSource>().Stop();
 
@@ -62,8 +65,9 @@ public class ShowArrows : MonoBehaviour
             else
             {
                 arrow.SetActive(true);
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKey(KeyCode.E) && !ePressed)
                 {
+                    ePressed = true;
                     mainChar.GetComponent<SpriteRenderer>().enabled = false;
                     mainChar.GetComponent<AudioSource>().Stop();
 

@@ -28,6 +28,8 @@ public class GetAdjRoom : MonoBehaviour
     private float animTime = 0.75f;
     private float animTime2 = 0.75f;
 
+    private bool ePressed = false;
+
     private void Start()
     {
         templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
@@ -168,8 +170,9 @@ public class GetAdjRoom : MonoBehaviour
         thisRoom = templates.currentRoom;
         //Debug.Log(templates.currentRoom);
 
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.E) && teleport == true)
+        if (other.CompareTag("Player") && Input.GetKey(KeyCode.E) && !ePressed && teleport == true && !templates.changingRoom)
         {
+            ePressed = true;
             //Debug.Log(true);
             teleport = false;
 
@@ -848,5 +851,8 @@ public class GetAdjRoom : MonoBehaviour
 
         templates.actualRoom.transform.parent = nextRoom.transform;
         templates.actualRoom.transform.position = nextRoom.transform.position;
+
+        yield return new WaitForSeconds(2f);
+        ePressed = false;
     }
 }
