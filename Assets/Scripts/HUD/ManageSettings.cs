@@ -79,6 +79,6 @@ public class ManageSettings : MonoBehaviour
     {
         yield return new WaitForSeconds(3.1f);
 
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(sceneLoad);
     }
 }

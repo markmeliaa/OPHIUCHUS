@@ -423,6 +423,7 @@ public class BattleManager : MonoBehaviour
             direction++;
         }
         StartCoroutine("WaitAnim");
+        GameMaster.Reset();
     }
 
     IEnumerator WaitAnim()
@@ -436,7 +437,7 @@ public class BattleManager : MonoBehaviour
         gameOverCanvas.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);
-        gameOverCanvas.transform.GetChild(2).gameObject.GetComponent<Image>().enabled = false;
+        gameOverCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
     }
 
     IEnumerator InitiateAttack()

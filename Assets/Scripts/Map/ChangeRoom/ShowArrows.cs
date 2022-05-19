@@ -90,6 +90,6 @@ public class ShowArrows : MonoBehaviour
     IEnumerator ChangeScene()
     {
         yield return new WaitForSeconds(1.75f);
-        SceneManager.LoadScene(GameMaster.attempts + 2);
+        SceneManager.LoadScene(2);
     }
 }

@@ -16,4 +16,9 @@ public static class GameMaster
     public static List<ItemObject> inventory = new List<ItemObject>();
 
     public static int attempts = 0;
+
+    public static void Reset()
+    {
+        playerLife = 2;
+    }
 }
