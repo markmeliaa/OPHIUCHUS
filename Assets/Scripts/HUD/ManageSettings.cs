@@ -10,6 +10,8 @@ public class ManageSettings : MonoBehaviour
     public Button menuButton;
     public AudioSource stepsSound;
 
+    public Button exitMenuButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,11 @@ public class ManageSettings : MonoBehaviour
 
     public void ExitGame()
     {
+        if (exitMenuButton != null)
+        {
+            exitMenuButton.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().color = Color.white;
+        }
+
         Application.Quit();
     }
 }

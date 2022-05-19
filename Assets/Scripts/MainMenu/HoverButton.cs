@@ -23,6 +23,7 @@ public class HoverButton : MonoBehaviour
         if (waitTime > 0)
             return;
 
+        buttonAnim.enabled = true;
         buttonAnim.Play("FloatButton");
         buttonAnim.SetBool("Hovering", true);
     }
@@ -32,6 +33,6 @@ public class HoverButton : MonoBehaviour
         if (waitTime > 0)
             return;
 
-        buttonAnim.SetBool("Hovering", false);
+        buttonAnim.enabled = false;
     }
 }
