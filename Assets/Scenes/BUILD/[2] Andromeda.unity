@@ -11988,6 +11988,7 @@ MonoBehaviour:
   playerMove: {fileID: 0}
   menuButton: {fileID: 1751806222}
   stepsSound: {fileID: 385806753}
+  exitMenuButton: {fileID: 0}
 --- !u!1 &1084896816
 GameObject:
   m_ObjectHideFlags: 0
@@ -12848,7 +12849,7 @@ GameObject:
   - component: {fileID: 1184626916}
   m_Layer: 0
   m_Name: BattleZone
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

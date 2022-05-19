@@ -54,6 +54,8 @@ public class BattleManager : MonoBehaviour
     private void Update()
     {
         //Debug.Log(state);
+        if (GameMaster.playerLife <= 0 && state != gameStates.end)
+            Die();
     }
 
     public void SetUpBattle()
@@ -380,6 +382,29 @@ public class BattleManager : MonoBehaviour
         }
 
         normalText.GetComponent<Text>().text = baseText;
+    }
+
+    // Die functions
+    public void Die()
+    {
+        state = gameStates.end;
+
+        Debug.Log("You Died");
+
+        for (int i = 1; i < buttonManager.battleCanvas.transform.childCount; i++)
+        {
+            if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.CompareTag("Player"))
+                buttonManager.battleCanvas.transform.GetChild(i).gameObject.SetActive(false);
+            else
+            {
+                for (int j = 0; j < buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.childCount; j++)
+                {
+                    if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).CompareTag("Player"))
+                        buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject.SetActive(false);
+                }
+            }
+        }
+        buttonManager.battleCanvas.GetComponent<AudioSource>().Stop();
     }
 
     IEnumerator InitiateAttack()
