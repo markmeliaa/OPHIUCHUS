@@ -5,7 +5,7 @@ using UnityEngine;
 public class HoverButton : MonoBehaviour
 {
     private Animator buttonAnim;
-    [HideInInspector] public float waitTime = 3.2f;
+    public float waitTime = 3.2f;
 
     // Start is called before the first frame update
     void Start()

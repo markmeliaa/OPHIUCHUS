@@ -434,6 +434,9 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.65f);
         gameOverCanvas.SetActive(true);
+
+        yield return new WaitForSeconds(1.0f);
+        gameOverCanvas.transform.GetChild(2).gameObject.GetComponent<Image>().enabled = false;
     }
 
     IEnumerator InitiateAttack()
