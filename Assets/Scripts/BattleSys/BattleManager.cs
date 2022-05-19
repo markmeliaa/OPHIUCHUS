@@ -36,6 +36,9 @@ public class BattleManager : MonoBehaviour
 
     public List<GameObject> starPieces;
     private Vector2[] directions = new Vector2[] { new Vector2(0, 1.25f), new Vector2(1.25f, 1.5f), new Vector2(0.5f, 0.5f), new Vector2(-0.5f, 0.5f), new Vector2(-1.25f, 1.5f)};
+    public AudioClip dieSong;
+
+    public GameObject gameOverCanvas;
 
     private void Start()
     {
@@ -391,6 +394,7 @@ public class BattleManager : MonoBehaviour
     public void Die()
     {
         state = gameStates.end;
+        GameMaster.attempts++;
 
         Debug.Log("You Died");
 
@@ -418,6 +422,18 @@ public class BattleManager : MonoBehaviour
             piece.GetComponent<Rigidbody2D>().AddTorque(360, ForceMode2D.Impulse);
             direction++;
         }
+        StartCoroutine("WaitAnim");
+    }
+
+    IEnumerator WaitAnim()
+    {
+        yield return new WaitForSeconds(0.55f);
+
+        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = dieSong;
+        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+
+        yield return new WaitForSeconds(0.65f);
+        gameOverCanvas.SetActive(true);
     }
 
     IEnumerator InitiateAttack()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InitialLoad : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class InitialLoad : MonoBehaviour
     public GameObject overScreen;
     public Animator screen;
     public AudioSource globalMusic;
+
+    public Text attemptsText;
 
     private void Awake()
     {
@@ -31,6 +34,8 @@ public class InitialLoad : MonoBehaviour
             globalMusic.Play();
             StartCoroutine("CanMove");
         }
+
+        attemptsText.text = GameMaster.attempts.ToString();
     }
 
     IEnumerator CanMove()

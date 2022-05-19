@@ -14,4 +14,6 @@ public static class GameMaster
     public static string[] realmLocations = { "Andromeda", "Triangulum", "Hoags", "Melotte", "Circinus", "The Deep Void" };
 
     public static List<ItemObject> inventory = new List<ItemObject>();
+
+    public static int attempts = 0;
 }
