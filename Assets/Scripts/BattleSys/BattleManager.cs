@@ -34,6 +34,9 @@ public class BattleManager : MonoBehaviour
     public List<GameObject> threeSpawners;
     public List<GameObject> fourSpawners;
 
+    public List<GameObject> starPieces;
+    private Vector2[] directions = new Vector2[] { new Vector2(0, 1.25f), new Vector2(1.25f, 1.5f), new Vector2(0.5f, 0.5f), new Vector2(-0.5f, 0.5f), new Vector2(-1.25f, 1.5f)};
+
     private void Start()
     {
         /*
@@ -405,6 +408,16 @@ public class BattleManager : MonoBehaviour
             }
         }
         buttonManager.battleCanvas.GetComponent<AudioSource>().Stop();
+
+        buttonManager.playerStar.GetComponent<SpriteRenderer>().enabled = false;
+        int direction = 0;
+        foreach(GameObject piece in starPieces)
+        {
+            piece.SetActive(true);
+            piece.GetComponent<Rigidbody2D>().AddForce(directions[direction] * 2, ForceMode2D.Impulse);
+            piece.GetComponent<Rigidbody2D>().AddTorque(360, ForceMode2D.Impulse);
+            direction++;
+        }
     }
 
     IEnumerator InitiateAttack()
@@ -434,20 +447,25 @@ public class BattleManager : MonoBehaviour
     IEnumerator EndBattle()
     {
         //yield return new WaitForSeconds(2f);
-        state = gameStates.stop;
+        if (state != gameStates.end)
+            state = gameStates.stop;
         buttonManager.playerCanMove = false;
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", false);
         //buttonManager.playerStar.SetActive(false);
 
         yield return new WaitForSeconds(1f);
-        textArea.SetActive(true);
-        battleArea.SetActive(false);
+        if (state != gameStates.end)
+        {
+            textArea.SetActive(true);
+            battleArea.SetActive(false);
+        }
         ResetBattleArea();
         buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
         buttonManager.currentButtonIndex = 0;
         buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<SelectButton>().OnSelection();
 
         yield return new WaitForSeconds(0.25f);
-        state = gameStates.choosing;
+        if (state != gameStates.end)
+            state = gameStates.choosing;
     }
 }
