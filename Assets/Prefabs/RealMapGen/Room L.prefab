@@ -7947,8 +7947,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eKey: {fileID: 1588531092353457509}
   playBarrier: {fileID: 0}
-  buttonManager: {fileID: 0}
-  zodiac: Cancer
+  zodiac: CANCER
 --- !u!1 &7426354112922934398
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,6 +28,7 @@ public class BattleManager : MonoBehaviour
     public GameObject battleArea;
 
     public List<GameObject> attacks;
+    public List<GameObject> bossAttacks;
 
     public GameObject oneSpawner;
     public List<GameObject> twoSpawners;
@@ -40,7 +41,7 @@ public class BattleManager : MonoBehaviour
 
     public GameObject gameOverCanvas;
 
-    [HideInInspector] public string Zodiac;
+    [HideInInspector] public string Zodiac = "";
     public GameObject Cancer;
     public GameObject Capricorn;
 
@@ -138,10 +139,10 @@ public class BattleManager : MonoBehaviour
 
     public void SpawnBoss()
     {
-        if (Zodiac == "Cancer")
+        if (Zodiac == "CANCER")
             enemiesSpawned.Add(Instantiate(Cancer, oneSpawner.transform.position, Cancer.transform.rotation, parentEnemies.transform));
 
-        else if (Zodiac == "Capricorn")
+        else if (Zodiac == "CAPRICORN")
             enemiesSpawned.Add(Instantiate(Capricorn, oneSpawner.transform.position, Capricorn.transform.rotation, parentEnemies.transform));
     }
 
@@ -274,7 +275,7 @@ public class BattleManager : MonoBehaviour
 
         normalText.SetActive(true);
         if (Zodiac != "")
-            normalText.GetComponent<Text>().text = "    " + Zodiac + " IS BUSY FIGHTING, CAN'T TALK NOW";
+            normalText.GetComponent<Text>().text = "    SHE IS BUSY FIGHTING, CAN'T TALK NOW";
 
         else
             normalText.GetComponent<Text>().text = "    YOU CAN'T TALK TO AN NPC";
@@ -393,14 +394,27 @@ public class BattleManager : MonoBehaviour
     // Win functions
     public void Win()
     {
-        int moneyWon = Random.Range(1, 6) * baseAmountSpawn;
-        GameMaster.runMoney += moneyWon;
+        if (Zodiac == "")
+        {
+            int moneyWon = Random.Range(1, 6) * baseAmountSpawn;
+            GameMaster.runMoney += moneyWon;
 
-        state = gameStates.end;
-        if (moneyWon == 1)
-            baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
+            state = gameStates.end;
+            if (moneyWon == 1)
+                baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
+            else
+                baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+        }
+        
         else
-            baseText = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+        {
+            int moneyWon = 50;
+            GameMaster.runMoney += moneyWon;
+            GameMaster.totalMoney += GameMaster.runMoney;
+
+            state = gameStates.end;
+            baseText = "    BOSS DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+        }
 
         if (Random.Range(0,3) == 2)
         {
@@ -474,23 +488,83 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        int numAttack = Random.Range(0, attacks.Count);
-
-        attacks[numAttack].SetActive(true);
-
-        if (attacks[numAttack].GetComponent<ActivateChilds>() != null)
+        if (Zodiac == "")
         {
-            attacks[numAttack].GetComponent<ActivateChilds>().ActivateMeteos();
-            yield return new WaitForSeconds(11f);
-            StartCoroutine("EndBattle");
-            attacks[numAttack].GetComponent<ActivateChilds>().DeactivateMeteos();
-        }
+            int numAttack = Random.Range(0, attacks.Count);
 
+            attacks[numAttack].SetActive(true);
+
+            if (attacks[numAttack].GetComponent<ActivateChilds>() != null)
+            {
+                attacks[numAttack].GetComponent<ActivateChilds>().ActivateMeteos();
+                yield return new WaitForSeconds(11f);
+                StartCoroutine("EndBattle");
+                attacks[numAttack].GetComponent<ActivateChilds>().DeactivateMeteos();
+            }
+
+            else
+            {
+                yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamage>().waitTime);
+                StartCoroutine("EndBattle");
+                attacks[numAttack].SetActive(false);
+            }
+        }
+        
         else
         {
-            yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamage>().waitTime);
+            int numAttack = Random.Range(0, bossAttacks.Count);
+            bossAttacks[numAttack].SetActive(true);
+
+            if (numAttack != 2)
+            {
+                //yield return new WaitForSeconds(5.25f);
+                int activatedOnes = 0;
+
+                while (activatedOnes < 3)
+                {
+                    int activate = Random.Range(0, bossAttacks[numAttack].transform.childCount);
+
+                    if (!bossAttacks[numAttack].transform.GetChild(activate).gameObject.activeSelf)
+                    {
+                        activatedOnes++;
+                        bossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(true);
+                        yield return new WaitForSeconds(1.55f);
+                        //bossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(false);
+                    }
+                }
+
+                for (int i = 0; i < bossAttacks[numAttack].transform.childCount; i++)
+                {
+                    bossAttacks[numAttack].transform.GetChild(i).gameObject.SetActive(false);
+                }
+            }
+
+            else
+            {
+                //yield return new WaitForSeconds(8.55f);
+                int activatedOnes = 0;
+
+                while (activatedOnes < 5)
+                {
+                    int activate = Random.Range(0, bossAttacks[numAttack].transform.childCount);
+
+                    if (!bossAttacks[numAttack].transform.GetChild(activate).gameObject.activeSelf)
+                    {
+                        activatedOnes++;
+                        bossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(true);
+                        yield return new WaitForSeconds(1.55f);
+                        //bossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(false);
+                    }
+                }
+
+                for (int i = 0; i < bossAttacks[numAttack].transform.childCount; i++)
+                {
+                    bossAttacks[numAttack].transform.GetChild(i).gameObject.SetActive(false);
+                }
+            }
+
+            bossAttacks[numAttack].SetActive(false);
             StartCoroutine("EndBattle");
-            attacks[numAttack].SetActive(false);
         }
     }
 

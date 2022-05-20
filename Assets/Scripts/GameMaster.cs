@@ -9,6 +9,7 @@ public static class GameMaster
     public static int playerSpeed = 3;
 
     public static int runMoney = 0;
+    public static int totalMoney = 0;
 
     public static int runRealmNumber = 0;
     public static string[] realmLocations = { "Andromeda", "Triangulum", "Hoags", "Melotte", "Circinus", "The Deep Void" };
@@ -21,5 +22,6 @@ public static class GameMaster
     {
         playerLife = 10;
         inventory = new List<ItemObject>();
+        runMoney = 0;
     }
 }
