@@ -1421,6 +1421,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eKey: {fileID: 1772101734954108029}
   playBarrier: {fileID: 0}
+  buttonManager: {fileID: 0}
+  zodiac: Capricorn
 --- !u!1 &6879417436608195346
 GameObject:
   m_ObjectHideFlags: 0

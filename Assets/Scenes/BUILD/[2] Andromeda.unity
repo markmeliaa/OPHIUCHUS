@@ -4172,6 +4172,9 @@ MonoBehaviour:
   - {fileID: 1300840357}
   dieSong: {fileID: 8300000, guid: 2916af5f981f97c478a69f49b2bb747b, type: 3}
   gameOverCanvas: {fileID: 1217280918}
+  Zodiac: 
+  Cancer: {fileID: 7425794949545923117, guid: 8a8d4252aeae72d4c80b6722c71e9dfe, type: 3}
+  Capricorn: {fileID: 7425794949545923117, guid: cc296051e00fa494cbf597135e938959, type: 3}
 --- !u!1 &343561207
 GameObject:
   m_ObjectHideFlags: 0

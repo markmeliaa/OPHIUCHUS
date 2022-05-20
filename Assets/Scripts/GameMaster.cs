@@ -19,6 +19,7 @@ public static class GameMaster
 
     public static void Reset()
     {
-        playerLife = 2;
+        playerLife = 10;
+        inventory = new List<ItemObject>();
     }
 }

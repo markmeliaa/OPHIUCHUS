@@ -294,7 +294,13 @@ public class ButtonManager : MonoBehaviour
                 enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
                 battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
-                if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
+                if (battleManager.Zodiac != "")
+                {
+                    enemyTexts[i].GetComponent<Text>().color = new Color(0.925f, 0.835f, 0.0f);
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.925f, 0.835f, 0.0f);
+                }
+
+                else if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
                 {
                     enemyTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
                     enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
@@ -340,7 +346,13 @@ public class ButtonManager : MonoBehaviour
                 enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
                 battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
-                if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
+                if (battleManager.Zodiac != "")
+                {
+                    enemyTexts[i].GetComponent<Text>().color = new Color(0.925f, 0.835f, 0.0f);
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.925f, 0.835f, 0.0f);
+                }
+
+                else if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
                 {
                     enemyTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
                     enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
@@ -635,7 +647,28 @@ public class ButtonManager : MonoBehaviour
             animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", true);
         }
 
-        StartCoroutine("WaitStartGame");
+        StartCoroutine("WaitStartGame", 1);
+    }
+
+    public void StartBossBattle(string zodiac)
+    {
+        battleManager.SetUpBossBattle(zodiac);
+
+        templates.changingRoom = true;
+        player.GetComponent<PlayerMoveIso>().horInput = 0;
+        player.GetComponent<PlayerMoveIso>().vertInput = 0;
+        player.GetComponent<PlayerMoveIso>().rendIso.SetDirection(new Vector2(0, 0));
+        miniMap.SetActive(false);
+
+        //animCanvas.GetComponent<AudioSource>().Play();
+
+        foreach (GameObject animator in starAnimators)
+        {
+            animator.GetComponent<Animator>().SetBool("Change", true);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", true);
+        }
+
+        StartCoroutine("WaitStartGame", 2);
     }
 
     public void ClearGame()
@@ -667,34 +700,75 @@ public class ButtonManager : MonoBehaviour
         playerCanMove = true;
     }
 
-    IEnumerator WaitStartGame()
+    IEnumerator WaitStartGame(int option)
     {
-        yield return new WaitForSeconds(1.2f);
-
-        foreach (GameObject animator in starAnimators)
+        if (option == 1)
         {
-            animator.GetComponent<Animator>().SetBool("Change", false);
-            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", false);
+            yield return new WaitForSeconds(1.2f);
+
+            foreach (GameObject animator in starAnimators)
+            {
+                animator.GetComponent<Animator>().SetBool("Change", false);
+                animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", false);
+            }
+
+            //animCanvas.SetActive(false);
+            battleCanvas.SetActive(true);
+
+            player.GetComponent<SpriteRenderer>().sortingOrder = -10;
+            player.transform.GetChild(1).GetComponent<AudioSource>().Stop();
+            player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
+
+            realRooms.SetActive(false);
+
+            battleManager.SpawnCards();
+
+            blackScreen.GetComponent<Animator>().SetBool("Change", true);
+            //blackScreen.SetActive(false);
+
+            yield return new WaitForSeconds(0.25f);
+            foreach (GameObject button in battleButtons)
+            {
+                button.GetComponent<SelectButton>().OnExitSelection();
+            }
+            battleButtons[0].GetComponent<SelectButton>().OnSelection();
+            currentButtonIndex = 0;
+            battleManager.state = gameStates.choosing;
         }
+        
+        else if (option == 2)
+        {
+            yield return new WaitForSeconds(1.2f);
 
-        //animCanvas.SetActive(false);
-        battleCanvas.SetActive(true);
+            foreach (GameObject animator in starAnimators)
+            {
+                animator.GetComponent<Animator>().SetBool("Change", false);
+                animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", false);
+            }
 
-        player.GetComponent<SpriteRenderer>().sortingOrder = -10;
-        player.transform.GetChild(1).GetComponent<AudioSource>().Stop();
-        player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
+            //animCanvas.SetActive(false);
+            battleCanvas.SetActive(true);
 
-        realRooms.SetActive(false);
+            player.GetComponent<SpriteRenderer>().sortingOrder = -10;
+            player.transform.GetChild(1).GetComponent<AudioSource>().Stop();
+            player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
 
-        battleManager.SpawnCards();
+            realRooms.SetActive(false);
 
-        blackScreen.GetComponent<Animator>().SetBool("Change", true);
-        //blackScreen.SetActive(false);
+            battleManager.SpawnBoss();
 
-        yield return new WaitForSeconds(0.25f);
-        battleButtons[0].GetComponent<SelectButton>().OnSelection();
-        currentButtonIndex = 0;
-        battleManager.state = gameStates.choosing;
+            blackScreen.GetComponent<Animator>().SetBool("Change", true);
+            //blackScreen.SetActive(false);
+
+            yield return new WaitForSeconds(0.25f);
+            foreach (GameObject button in battleButtons)
+            {
+                button.GetComponent<SelectButton>().OnExitSelection();
+            }
+            battleButtons[0].GetComponent<SelectButton>().OnSelection();
+            currentButtonIndex = 0;
+            battleManager.state = gameStates.choosing;
+        }
     }
 
     IEnumerator WaitFinishGame()

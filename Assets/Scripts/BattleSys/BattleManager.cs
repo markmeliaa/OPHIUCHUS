@@ -40,6 +40,10 @@ public class BattleManager : MonoBehaviour
 
     public GameObject gameOverCanvas;
 
+    [HideInInspector] public string Zodiac;
+    public GameObject Cancer;
+    public GameObject Capricorn;
+
     private void Start()
     {
         /*
@@ -74,6 +78,19 @@ public class BattleManager : MonoBehaviour
             normalText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + amountSpawn + " ENEMY";
         else
             normalText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + amountSpawn + " ENEMIES";
+
+        baseText = normalText.GetComponent<Text>().text;
+        enemiesSpawned = new List<GameObject>();
+    }
+
+    public void SetUpBossBattle(string zodiac)
+    {
+        amountSpawn = 1;
+        //amountSpawn = Random.Range(1, 5);
+        baseAmountSpawn = amountSpawn;
+        Zodiac = zodiac;
+
+        normalText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + zodiac;
 
         baseText = normalText.GetComponent<Text>().text;
         enemiesSpawned = new List<GameObject>();
@@ -117,6 +134,15 @@ public class BattleManager : MonoBehaviour
                 enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawn.transform.position, enemyCards[numberCard].transform.rotation, parentEnemies.transform));
             }
         }
+    }
+
+    public void SpawnBoss()
+    {
+        if (Zodiac == "Cancer")
+            enemiesSpawned.Add(Instantiate(Cancer, oneSpawner.transform.position, Cancer.transform.rotation, parentEnemies.transform));
+
+        else if (Zodiac == "Capricorn")
+            enemiesSpawned.Add(Instantiate(Capricorn, oneSpawner.transform.position, Capricorn.transform.rotation, parentEnemies.transform));
     }
 
     // Attack functions
@@ -247,7 +273,11 @@ public class BattleManager : MonoBehaviour
             text.SetActive(false);
 
         normalText.SetActive(true);
-        normalText.GetComponent<Text>().text = "    YOU CAN'T TALK TO AN NPC";
+        if (Zodiac != "")
+            normalText.GetComponent<Text>().text = "    " + Zodiac + " IS BUSY FIGHTING, CAN'T TALK NOW";
+
+        else
+            normalText.GetComponent<Text>().text = "    YOU CAN'T TALK TO AN NPC";
 
         state = gameStates.waiting;
         lastState = gameStates.talking;
@@ -396,7 +426,7 @@ public class BattleManager : MonoBehaviour
         state = gameStates.end;
         GameMaster.attempts++;
 
-        Debug.Log("You Died");
+        //Debug.Log("You Died");
 
         for (int i = 1; i < buttonManager.battleCanvas.transform.childCount; i++)
         {
