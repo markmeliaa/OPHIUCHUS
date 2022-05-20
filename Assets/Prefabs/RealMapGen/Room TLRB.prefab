@@ -304,6 +304,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63c2ac1bd8bd7a42a2fdc4949c3b5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainChar: {fileID: 0}
+  upAnim: {fileID: 0}
+  playerMove: {fileID: 0}
+  hideGame: {fileID: 0}
 --- !u!114 &25914838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8408,6 +8412,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63c2ac1bd8bd7a42a2fdc4949c3b5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainChar: {fileID: 0}
+  upAnim: {fileID: 0}
+  playerMove: {fileID: 0}
+  hideGame: {fileID: 0}
 --- !u!114 &292639131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10154,6 +10162,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63c2ac1bd8bd7a42a2fdc4949c3b5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainChar: {fileID: 0}
+  upAnim: {fileID: 0}
+  playerMove: {fileID: 0}
+  hideGame: {fileID: 0}
 --- !u!114 &1065989861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10536,6 +10548,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63c2ac1bd8bd7a42a2fdc4949c3b5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainChar: {fileID: 0}
+  upAnim: {fileID: 0}
+  playerMove: {fileID: 0}
+  hideGame: {fileID: 0}
 --- !u!114 &151019763
 MonoBehaviour:
   m_ObjectHideFlags: 0

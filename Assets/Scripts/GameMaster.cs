@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class GameMaster
 {
-    public static int playerLife = 2;
+    public static int playerLife = 10;
     public static int maxPlayerLife = 20;
     public static int playerSpeed = 3;
 

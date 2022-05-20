@@ -38,7 +38,7 @@ public class GetAdjRoom : MonoBehaviour
         playerRendIso = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRendIso>();
     }
 
-    // Manage change room animation
+    // Manage change room animation movement
     private void FixedUpdate()
     {
         if (templates.changingRoom)
@@ -165,6 +165,7 @@ public class GetAdjRoom : MonoBehaviour
         }
     }
 
+    // Manage the change of rooms
     private void OnTriggerStay2D(Collider2D other)
     {
         thisRoom = templates.currentRoom;
@@ -246,6 +247,12 @@ public class GetAdjRoom : MonoBehaviour
                             newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
                             connectedRoom = newRoom;
                             templates.realCreatedRooms.Add(newRoom);
+
+                            if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                            {
+                                newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                                newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                            }
                         }
 
                         else
@@ -262,6 +269,12 @@ public class GetAdjRoom : MonoBehaviour
                                 connectedRoom = newRoom;
                                 templates.realCreatedRooms.Add(newRoom);
 
+                                if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                                {
+                                    newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                                    newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                                }
+
                                 isCorrect = false;
                                 otherRoom = Instantiate(templates.B, nextRoom.transform.position, templates.B.transform.rotation, templates.roomPlaceholder);
                                 otherRoom.SetActive(false);
@@ -274,6 +287,12 @@ public class GetAdjRoom : MonoBehaviour
                         newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
                         connectedRoom = newRoom;
                         templates.realCreatedRooms.Add(newRoom);
+
+                        if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                        {
+                            newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                            newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                        }
                     }
 
                     // Get the player spawnpoints
@@ -407,6 +426,12 @@ public class GetAdjRoom : MonoBehaviour
                             newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
                             connectedRoom = newRoom;
                             templates.realCreatedRooms.Add(newRoom);
+
+                            if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                            {
+                                newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                                newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                            }
                         }
 
                         else
@@ -423,6 +448,12 @@ public class GetAdjRoom : MonoBehaviour
                                 connectedRoom = newRoom;
                                 templates.realCreatedRooms.Add(newRoom);
 
+                                if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                                {
+                                    newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                                    newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                                }
+
                                 isCorrect = false;
                                 otherRoom = Instantiate(templates.T, nextRoom.transform.position, templates.T.transform.rotation, templates.roomPlaceholder);
                                 otherRoom.SetActive(false);
@@ -435,6 +466,12 @@ public class GetAdjRoom : MonoBehaviour
                         newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
                         connectedRoom = newRoom;
                         templates.realCreatedRooms.Add(newRoom);
+
+                        if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                        {
+                            newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                            newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                        }
                     }
 
                     // Get the player spawnpoints
@@ -568,6 +605,12 @@ public class GetAdjRoom : MonoBehaviour
                             newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
                             connectedRoom = newRoom;
                             templates.realCreatedRooms.Add(newRoom);
+
+                            if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                            {
+                                newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                                newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                            }
                         }
 
                         else
@@ -584,6 +627,12 @@ public class GetAdjRoom : MonoBehaviour
                                 connectedRoom = newRoom;
                                 templates.realCreatedRooms.Add(newRoom);
 
+                                if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                                {
+                                    newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                                    newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                                }
+
                                 isCorrect = false;
                                 otherRoom = Instantiate(templates.L, nextRoom.transform.position, templates.L.transform.rotation, templates.roomPlaceholder);
                                 otherRoom.SetActive(false);
@@ -596,6 +645,12 @@ public class GetAdjRoom : MonoBehaviour
                         newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
                         connectedRoom = newRoom;
                         templates.realCreatedRooms.Add(newRoom);
+
+                        if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                        {
+                            newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                            newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                        }
                     }
 
                     // Get the player spawnpoints
@@ -730,6 +785,12 @@ public class GetAdjRoom : MonoBehaviour
                             newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
                             connectedRoom = newRoom;
                             templates.realCreatedRooms.Add(newRoom);
+
+                            if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                            {
+                                newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                                newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                            }
                         }
 
                         else
@@ -746,6 +807,12 @@ public class GetAdjRoom : MonoBehaviour
                                 connectedRoom = newRoom;
                                 templates.realCreatedRooms.Add(newRoom);
 
+                                if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                                {
+                                    newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                                    newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                                }
+
                                 isCorrect = false;
                                 otherRoom = Instantiate(templates.R, nextRoom.transform.position, templates.R.transform.rotation, templates.roomPlaceholder);
                                 otherRoom.SetActive(false);
@@ -758,6 +825,12 @@ public class GetAdjRoom : MonoBehaviour
                         newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.realRoomPlaceholder);
                         connectedRoom = newRoom;
                         templates.realCreatedRooms.Add(newRoom);
+
+                        if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                        {
+                            newRoom.transform.GetChild(4).gameObject.SetActive(false);
+                            newRoom.transform.GetChild(5).gameObject.SetActive(true);
+                        }
                     }
 
                     // Get the player spawnpoints
