@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InitateDialogue : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class InitateDialogue : MonoBehaviour
 
     private void Awake()
     {
-        buttonManager = GameObject.FindGameObjectWithTag("Buttons").GetComponent<ButtonManager>();
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+            buttonManager = GameObject.FindGameObjectWithTag("Buttons").GetComponent<ButtonManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
