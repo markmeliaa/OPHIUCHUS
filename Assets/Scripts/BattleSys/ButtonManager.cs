@@ -39,6 +39,16 @@ public class ButtonManager : MonoBehaviour
 
     public RoomTemplates templates;
 
+    public GameObject dialogueBox;
+    public GameObject menuButton;
+    public Text dialogueText;
+    public GameObject nextButton;
+
+    public PlayerMoveIso playerMove;
+
+    private string dialogue = "Vas a morir Theo Lof, añsldkfjñ lasñldkf añslkdfj ñj ñlkasjd lksadjfñ sldfj  sañlkdfjñlsakdfjñalskfdjñlsakfd " +
+        "jñlksadjf ñlksajdñ fksjfñ alkjsa fsñalkjdfñlkalksdjfñlasdjfñ kjañ lksja dñlkfjasñdlk fjasñdlkf jñsalkdj fñlksajdfñ kajsdñflk jsañlkf jsañ ñaksjd ñlfsajd ñflskadjfñ sañl";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -628,7 +638,8 @@ public class ButtonManager : MonoBehaviour
             pressedHor = false;
         }
     }
-
+    
+    // Start and end battle functions
     public void StartBattle()
     {
         battleManager.SetUpBattle();
@@ -691,6 +702,49 @@ public class ButtonManager : MonoBehaviour
             text.GetComponent<Text>().text = "";
             text.transform.GetChild(1).GetComponent<Text>().text = "";
         }
+    }
+
+    // Dialogue funcitions
+    public void StartDialogue(string zodiac)
+    {
+        battleManager.Zodiac = zodiac;
+        playerMove.moving = false;
+        playerMove.rendIso.SetDirection(new Vector2(0, 0));
+        playerMove.horInput = 0;
+        playerMove.vertInput = 0;
+
+        dialogueText.text = "";
+        dialogueBox.SetActive(true);
+        menuButton.SetActive(false);
+        StartCoroutine("WriteDialogue", dialogue);
+    }
+
+    public void PressButton()
+    {
+        nextButton.SetActive(true);
+
+        StartCoroutine("HideDialogue");
+    }
+
+    IEnumerator WriteDialogue(string writeDialogue)
+    {
+        foreach (char c in writeDialogue)
+        {
+            dialogueText.text += c;
+            yield return new WaitForSeconds(0.012f);
+        }
+
+        nextButton.SetActive(true);
+    }
+
+    IEnumerator HideDialogue()
+    {
+        dialogueBox.GetComponent<Animator>().SetBool("Hide", true);
+
+        yield return new WaitForSeconds(0.2f);
+        //playerMove.moving = true;
+        dialogueBox.SetActive(false);
+        StartBossBattle(battleManager.Zodiac);
     }
 
     IEnumerator WaitMove()

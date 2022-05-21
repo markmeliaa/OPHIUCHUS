@@ -178,6 +178,7 @@ MonoBehaviour:
   menuButton: {fileID: 0}
   stepsSound: {fileID: 0}
   exitMenuButton: {fileID: 1358311343}
+  changeSceneAnim: {fileID: 0}
 --- !u!1 &146500437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2404,6 +2405,7 @@ MonoBehaviour:
   menuButton: {fileID: 0}
   stepsSound: {fileID: 0}
   exitMenuButton: {fileID: 933066707}
+  changeSceneAnim: {fileID: 0}
 --- !u!1 &2092472474
 GameObject:
   m_ObjectHideFlags: 0

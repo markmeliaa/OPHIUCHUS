@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class InitateDialogue : MonoBehaviour
 {
@@ -9,6 +10,16 @@ public class InitateDialogue : MonoBehaviour
     public GameObject playBarrier;
     private ButtonManager buttonManager;
     public string zodiac;
+
+    public GameObject dialogueBox;
+    public GameObject menuButton;
+    public Text dialogueText;
+    public GameObject nextButton;
+
+    public PlayerMoveIso2 playerMove;
+
+    private string dialogue = "Hola muy buenas Theo Lof, añsldkfjñ lasñldkf añslkdfj ñj ñlkasjd lksadjfñ sldfj  sañlkdfjñlsakdfjñalskfdjñlsakfd " +
+        "jñlksadjf ñlksajdñ fksjfñ alkjsa fsñalkjdfñlkalksdjfñlasdjfñ kjañ lksja dñlkfjasñdlk fjasñdlkf jñsalkdj fñlksajdfñ kajsdñflk jsañlkf jsañ ñaksjd ñlfsajd ñflskadjfñ sañl";
 
     private bool ePressed = false;
 
@@ -18,11 +29,31 @@ public class InitateDialogue : MonoBehaviour
             buttonManager = GameObject.FindGameObjectWithTag("Buttons").GetComponent<ButtonManager>();
     }
 
+    private void Update()
+    {
+        if (zodiac == "")
+        {
+            if (nextButton.activeSelf && Input.GetKey(KeyCode.Z))
+            {
+                PressButton();
+            }
+        }
+
+        else
+        {
+            if (buttonManager.nextButton.activeSelf && Input.GetKey(KeyCode.Z))
+            {
+                PressButton();
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            eKey.SetActive(true);
+            if (!ePressed)
+                eKey.SetActive(true);
         }
     }
 
@@ -30,15 +61,32 @@ public class InitateDialogue : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            eKey.SetActive(true);
+            if (!ePressed)
+                eKey.SetActive(true);
 
             if (Input.GetKey(KeyCode.E) && !ePressed)
             {
                 ePressed = true;
+                eKey.SetActive(false);
                 //Debug.Log("Start Conversation");
 
                 if (zodiac != "")
-                    buttonManager.StartBossBattle(zodiac);
+                {
+                    buttonManager.StartDialogue(zodiac);
+                }
+
+                else
+                {
+                    playerMove.moving = false;
+                    playerMove.rendIso.SetDirection(new Vector2(0, 0));
+                    playerMove.horInput = 0;
+                    playerMove.vertInput = 0;
+
+                    dialogueText.text = "";
+                    dialogueBox.SetActive(true);
+                    menuButton.SetActive(false);
+                    StartCoroutine("WriteDialogue", dialogue);
+                }
 
                 // Leave the access to Andromeda open
                 if (playBarrier != null)
@@ -47,11 +95,38 @@ public class InitateDialogue : MonoBehaviour
         }
     }
 
+    public void PressButton()
+    {
+        nextButton.SetActive(true);
+
+        StartCoroutine("HideDialogue");
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             eKey.SetActive(false);
         }
+    }
+
+    IEnumerator WriteDialogue(string writeDialogue)
+    {
+        foreach (char c in writeDialogue)
+        {
+            dialogueText.text += c;
+            yield return new WaitForSeconds(0.012f);
+        }
+
+        nextButton.SetActive(true);
+    }
+
+    IEnumerator HideDialogue()
+    {
+        dialogueBox.GetComponent<Animator>().SetBool("Hide", true);
+
+        yield return new WaitForSeconds(0.2f);
+        playerMove.moving = true;
+        dialogueBox.SetActive(false);
     }
 }
