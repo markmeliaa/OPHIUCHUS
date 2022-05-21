@@ -21,7 +21,9 @@ public static class GameMaster
     public static void Reset()
     {
         playerLife = 10;
+        playerSpeed = 3;
         inventory = new List<ItemObject>();
         runMoney = 0;
+        runRealmNumber = 0;
     }
 }

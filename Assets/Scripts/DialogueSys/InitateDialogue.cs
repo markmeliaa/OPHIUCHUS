@@ -22,6 +22,7 @@ public class InitateDialogue : MonoBehaviour
         "jñlksadjf ñlksajdñ fksjfñ alkjsa fsñalkjdfñlkalksdjfñlasdjfñ kjañ lksja dñlkfjasñdlk fjasñdlkf jñsalkdj fñlksajdfñ kajsdñflk jsañlkf jsañ ñaksjd ñlfsajd ñflskadjfñ sañl";
 
     private bool ePressed = false;
+    private bool pressedZ = false;
 
     private void Awake()
     {
@@ -31,19 +32,21 @@ public class InitateDialogue : MonoBehaviour
 
     private void Update()
     {
-        if (zodiac == "")
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            if (nextButton.activeSelf && Input.GetKey(KeyCode.Z))
+            if (nextButton.activeSelf && Input.GetKey(KeyCode.Z) && !pressedZ)
             {
+                pressedZ = true;
                 PressButton();
             }
         }
 
         else
         {
-            if (buttonManager.nextButton.activeSelf && Input.GetKey(KeyCode.Z))
+            if (buttonManager.nextButton.activeSelf && Input.GetKey(KeyCode.Z) && !pressedZ)
             {
-                PressButton();
+                pressedZ = true;
+                buttonManager.PressButton();
             }
         }
     }
@@ -70,7 +73,7 @@ public class InitateDialogue : MonoBehaviour
                 eKey.SetActive(false);
                 //Debug.Log("Start Conversation");
 
-                if (zodiac != "")
+                if (SceneManager.GetActiveScene().buildIndex != 1)
                 {
                     buttonManager.StartDialogue(zodiac);
                 }
@@ -97,7 +100,8 @@ public class InitateDialogue : MonoBehaviour
 
     public void PressButton()
     {
-        nextButton.SetActive(true);
+        nextButton.SetActive(false);
+        pressedZ = false;
 
         StartCoroutine("HideDialogue");
     }

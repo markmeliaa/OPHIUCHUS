@@ -708,7 +708,7 @@ public class ButtonManager : MonoBehaviour
     public void StartDialogue(string zodiac)
     {
         battleManager.Zodiac = zodiac;
-        playerMove.moving = false;
+        templates.mapFormed = false;
         playerMove.rendIso.SetDirection(new Vector2(0, 0));
         playerMove.horInput = 0;
         playerMove.vertInput = 0;
@@ -721,7 +721,8 @@ public class ButtonManager : MonoBehaviour
 
     public void PressButton()
     {
-        nextButton.SetActive(true);
+        nextButton.SetActive(false);
+        pressedZ = false;
 
         StartCoroutine("HideDialogue");
     }
@@ -742,9 +743,10 @@ public class ButtonManager : MonoBehaviour
         dialogueBox.GetComponent<Animator>().SetBool("Hide", true);
 
         yield return new WaitForSeconds(0.2f);
-        //playerMove.moving = true;
+        //templates.mapFormed = true;
         dialogueBox.SetActive(false);
         StartBossBattle(battleManager.Zodiac);
+        Debug.Log(battleManager.Zodiac);
     }
 
     IEnumerator WaitMove()

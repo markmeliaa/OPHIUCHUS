@@ -4019,7 +4019,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &311039725
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10397,8 +10397,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: InitateDialogue, Assembly-CSharp
+      - m_Target: {fileID: 1386816545}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
         m_MethodName: PressButton
         m_Mode: 1
         m_Arguments:
@@ -12089,7 +12089,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &877021604
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17816,8 +17816,8 @@ MonoBehaviour:
   attackEnemy: {fileID: 8300000, guid: 8c278d194498c0447b08da2d07321ae0, type: 3}
   useItem: {fileID: 8300000, guid: daa6df5281a14394b9744d21f0134733, type: 3}
   templates: {fileID: 636516569}
-  dialogueBox: {fileID: 0}
-  menuButton: {fileID: 818453872}
+  dialogueBox: {fileID: 818453872}
+  menuButton: {fileID: 1751806220}
   dialogueText: {fileID: 61240474}
   nextButton: {fileID: 773193930}
   playerMove: {fileID: 1597769209409487290}
