@@ -370,6 +370,14 @@ MonoBehaviour:
   eKey: {fileID: 1747730283498100926}
   playBarrier: {fileID: 0}
   zodiac: CAPRICORN
+  dialogueBox: {fileID: 0}
+  menuButton: {fileID: 0}
+  dialogueText: {fileID: 0}
+  nextButton: {fileID: 0}
+  playerMove: {fileID: 0}
+  thisCharacter: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
+  dialogueImage: {fileID: 0}
+  dialogueNameText: {fileID: 0}
 --- !u!1 &2515708876847513472
 GameObject:
   m_ObjectHideFlags: 0

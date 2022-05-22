@@ -7948,6 +7948,14 @@ MonoBehaviour:
   eKey: {fileID: 1588531092353457509}
   playBarrier: {fileID: 0}
   zodiac: CANCER
+  dialogueBox: {fileID: 0}
+  menuButton: {fileID: 0}
+  dialogueText: {fileID: 0}
+  nextButton: {fileID: 0}
+  playerMove: {fileID: 0}
+  thisCharacter: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
+  dialogueImage: {fileID: 0}
+  dialogueNameText: {fileID: 0}
 --- !u!1 &7426354112922934398
 GameObject:
   m_ObjectHideFlags: 0

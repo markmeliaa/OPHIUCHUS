@@ -24,6 +24,10 @@ public class InitateDialogue : MonoBehaviour
     private bool ePressed = false;
     private bool pressedZ = false;
 
+    public DialogueBox thisCharacter;
+    public Image dialogueImage;
+    public Text dialogueNameText;
+
     private void Awake()
     {
         if (SceneManager.GetActiveScene().buildIndex != 1)
@@ -75,7 +79,7 @@ public class InitateDialogue : MonoBehaviour
 
                 if (SceneManager.GetActiveScene().buildIndex != 1)
                 {
-                    buttonManager.StartDialogue(zodiac);
+                    buttonManager.StartDialogue(zodiac, thisCharacter);
                 }
 
                 else
@@ -84,6 +88,9 @@ public class InitateDialogue : MonoBehaviour
                     playerMove.rendIso.SetDirection(new Vector2(0, 0));
                     playerMove.horInput = 0;
                     playerMove.vertInput = 0;
+
+                    dialogueImage.sprite = thisCharacter.imageSpeaker;
+                    dialogueNameText.text = thisCharacter.nameSpeaker;
 
                     dialogueText.text = "";
                     dialogueBox.SetActive(true);

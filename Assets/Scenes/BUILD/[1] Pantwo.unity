@@ -9183,6 +9183,9 @@ MonoBehaviour:
   dialogueText: {fileID: 1799468685}
   nextButton: {fileID: 561889711}
   playerMove: {fileID: 3197092685319377709}
+  thisCharacter: {fileID: 11400000, guid: 5d20c1d69bc3f204ca3e8eaf12b87f12, type: 2}
+  dialogueImage: {fileID: 1777811204}
+  dialogueNameText: {fileID: 648000239}
 --- !u!1 &1742171133
 GameObject:
   m_ObjectHideFlags: 0

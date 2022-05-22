@@ -4496,6 +4496,7 @@ MonoBehaviour:
   - {fileID: 1300840357}
   dieSong: {fileID: 8300000, guid: 2916af5f981f97c478a69f49b2bb747b, type: 3}
   gameOverCanvas: {fileID: 1217280918}
+  dialogueCanvas: {fileID: 211195709}
   Zodiac: 
   Cancer: {fileID: 7425794949545923117, guid: 8a8d4252aeae72d4c80b6722c71e9dfe, type: 3}
   Capricorn: {fileID: 7425794949545923117, guid: cc296051e00fa494cbf597135e938959, type: 3}
@@ -5074,7 +5075,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2247624644634006498, guid: a22aaf1b7f6a5934097367fc637031cd, type: 3}
+  m_Sprite: {fileID: 984050055398416876, guid: a22aaf1b7f6a5934097367fc637031cd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14310,7 +14311,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CAPRICORN
+  m_Text: 'TEMPERANCE
+
+'
 --- !u!222 &1136876402
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17821,6 +17824,8 @@ MonoBehaviour:
   dialogueText: {fileID: 61240474}
   nextButton: {fileID: 773193930}
   playerMove: {fileID: 1597769209409487290}
+  dialogueImage: {fileID: 363308984}
+  dialogueNameText: {fileID: 1136876401}
 --- !u!114 &1386816546
 MonoBehaviour:
   m_ObjectHideFlags: 0

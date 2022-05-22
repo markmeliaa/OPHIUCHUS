@@ -6,6 +6,6 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "DialogueBox", menuName = "DialogueItems/DialogueBox")]
 public class DialogueBox : ScriptableObject
 {
-    public string boxSpeaker;
-    public Sprite boxImageSpeaker;
+    public string nameSpeaker;
+    public Sprite imageSpeaker;
 }

@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa37dedccabd664e96300afb2fdb224, type: 3}
+  m_Name: CAPRICORN
+  m_EditorClassIdentifier: 
+  nameSpeaker: CAPRICORN
+  imageSpeaker: {fileID: -2247624644634006498, guid: a22aaf1b7f6a5934097367fc637031cd, type: 3}

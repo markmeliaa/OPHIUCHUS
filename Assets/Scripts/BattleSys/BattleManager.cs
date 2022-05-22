@@ -40,6 +40,7 @@ public class BattleManager : MonoBehaviour
     public AudioClip dieSong;
 
     public GameObject gameOverCanvas;
+    public GameObject dialogueCanvas;
 
     [HideInInspector] public string Zodiac = "";
     public GameObject Cancer;
@@ -439,6 +440,7 @@ public class BattleManager : MonoBehaviour
     {
         state = gameStates.end;
         GameMaster.attempts++;
+        dialogueCanvas.SetActive(false);
 
         //Debug.Log("You Died");
 
