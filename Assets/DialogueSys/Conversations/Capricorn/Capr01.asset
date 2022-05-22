@@ -17,4 +17,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b1675880ec3f4c14b962d74f06fe5667, type: 2}
   - {fileID: 11400000, guid: ac93e845f6b458f4fb5e88e3b00789c4, type: 2}
   - {fileID: 11400000, guid: 0c2af5e22012d8a4e821e86331c97c41, type: 2}
-  currentDialogueLine: 3
+  currentDialogueLine: 0

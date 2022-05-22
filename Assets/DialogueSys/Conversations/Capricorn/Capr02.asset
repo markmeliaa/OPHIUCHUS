@@ -17,4 +17,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8e267606f0b4eab49b16e6c5969d3ef8, type: 2}
   - {fileID: 11400000, guid: b572cb8ca9bd249428e644a05100fee6, type: 2}
   - {fileID: 11400000, guid: 8e672e282f048f24caa96f3445f65ad2, type: 2}
+  - {fileID: 11400000, guid: f940fb211611af641b669c6b9e420f7f, type: 2}
   currentDialogueLine: 0

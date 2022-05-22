@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: Capr02-04
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
-  dialogueText: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-
-'
+  dialogueText: Now LEAVE, but do not worry boy, we will meet again for sure.

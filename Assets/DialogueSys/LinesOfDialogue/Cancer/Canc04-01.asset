@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b922ca4c899f035488c273f9b3162429, type: 3}
+  m_Name: Canc04-01
+  m_EditorClassIdentifier: 
+  characterSprite: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
+  dialogueText: Oh.. so you defeated me...

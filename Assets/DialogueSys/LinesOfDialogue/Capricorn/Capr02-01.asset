@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: Capr02-01
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
-  dialogueText: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-
-'
+  dialogueText: "Ugh\u2026 How could you\u2026?"

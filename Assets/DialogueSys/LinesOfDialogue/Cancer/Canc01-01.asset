@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Canc01-01
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
-  dialogueText: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  dialogueText: "Greetings fellow traveler, it is not usual to see anyone around
+    here these days. \nI am Cancer and I introduce you to us, the Zodiacs."

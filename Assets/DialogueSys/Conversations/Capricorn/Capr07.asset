@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 908f3358eec63cf4a8c22233e6f331aa, type: 3}
-  m_Name: Cancer01
+  m_Name: Capr07
   m_EditorClassIdentifier: 
   dialogueLines:
-  - {fileID: 11400000, guid: 34d2b4f5203185b4bb734099e6cb50b6, type: 2}
-  - {fileID: 11400000, guid: 75e6a854c10655e41b65e8d0969ed920, type: 2}
-  - {fileID: 11400000, guid: d5b01233c32242d4e985c64d8e23d21c, type: 2}
-  - {fileID: 11400000, guid: 540e2478b739a5b479caecc9f152f130, type: 2}
-  currentDialogueLine: 3
+  - {fileID: 11400000, guid: 151fe59e22969ff47a083b47a4bf28be, type: 2}
+  - {fileID: 11400000, guid: 9639e2961d33feb45af31a9ea3646a12, type: 2}
+  currentDialogueLine: 0

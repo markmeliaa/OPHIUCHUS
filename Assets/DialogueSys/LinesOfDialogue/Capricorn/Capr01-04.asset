@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Capr01-04
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
-  dialogueText: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  dialogueText: But enough messing around child, time to fight!

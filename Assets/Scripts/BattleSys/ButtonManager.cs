@@ -737,12 +737,18 @@ public class ButtonManager : MonoBehaviour
 
         if (zodiac == "CANCER")
         {
+            if (GameMaster.cancerIndex == thisCharacter.characterConversations.Count - 1)
+                GameMaster.cancerIndex -= 1;
+
             thisChar.characterConversations[GameMaster.cancerIndex].currentDialogueLine = 0;
             StartCoroutine("WriteDialogue", thisChar.characterConversations[GameMaster.cancerIndex].dialogueLines[thisChar.characterConversations[GameMaster.cancerIndex].currentDialogueLine].dialogueText);
         }
 
         else if (zodiac == "CAPRICORN")
         {
+            if (GameMaster.capricornIndex == thisCharacter.characterConversations.Count - 1)
+                GameMaster.capricornIndex -= 1;
+
             thisChar.characterConversations[GameMaster.capricornIndex].currentDialogueLine = 0;
             StartCoroutine("WriteDialogue", thisChar.characterConversations[GameMaster.capricornIndex].dialogueLines[thisChar.characterConversations[GameMaster.capricornIndex].currentDialogueLine].dialogueText);
         }
@@ -768,6 +774,19 @@ public class ButtonManager : MonoBehaviour
             {
                 if (GameMaster.cancerIndex < thisCharacter.characterConversations.Count - 1)
                     GameMaster.cancerIndex++;
+
+                if (GameMaster.cancerIndex == 2 && GameMaster.capricornIndex == 0)
+                {
+                    GameMaster.capricornIndex = 2;
+                    GameMaster.cancerIndex = 4;
+                    GameMaster.whoFirst = "CANCER";
+                }
+
+                if (GameMaster.cancerIndex == 4 && GameMaster.whoFirst == "CAPRICORN")
+                {
+                    GameMaster.cancerIndex = 6;
+                }
+
                 StartCoroutine("HideDialogue");
             }
         }
@@ -785,6 +804,19 @@ public class ButtonManager : MonoBehaviour
             {
                 if (GameMaster.capricornIndex < thisCharacter.characterConversations.Count - 1)
                     GameMaster.capricornIndex++;
+
+                if (GameMaster.capricornIndex == 2 && GameMaster.cancerIndex == 0)
+                {
+                    GameMaster.cancerIndex = 2;
+                    GameMaster.capricornIndex = 4;
+                    GameMaster.whoFirst = "CAPRICORN";
+                }
+
+                if (GameMaster.capricornIndex == 4 && GameMaster.whoFirst == "CANCER")
+                {
+                    GameMaster.capricornIndex = 6;
+                }
+
                 StartCoroutine("HideDialogue");
             }
         }

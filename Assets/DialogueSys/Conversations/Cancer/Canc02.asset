@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 908f3358eec63cf4a8c22233e6f331aa, type: 3}
+  m_Name: Canc02
+  m_EditorClassIdentifier: 
+  dialogueLines:
+  - {fileID: 11400000, guid: 8efa4a908577d0c4591939a63cde2184, type: 2}
+  - {fileID: 11400000, guid: 920d91b4abae3ee4bb45b15c008910b3, type: 2}
+  - {fileID: 11400000, guid: 29f9fd3f7be274c4eb8b92ae0c3cbde9, type: 2}
+  - {fileID: 11400000, guid: 8c859f983f8db80428e4b2491374e1fa, type: 2}
+  - {fileID: 11400000, guid: 6f2466ccbfe8ca145a87c74f53190c00, type: 2}
+  currentDialogueLine: 0

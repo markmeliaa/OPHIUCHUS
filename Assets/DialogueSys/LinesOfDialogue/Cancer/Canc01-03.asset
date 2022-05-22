@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Canc01-03
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
-  dialogueText: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  dialogueText: "What do you mean by \u201Cwhy\u201D? YOU were the ones who caused
+    this, it is only YOUR fault that our fury has fallen upon you."

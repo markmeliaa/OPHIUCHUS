@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Canc02-02
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
-  dialogueText: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-
-'
+  dialogueText: W-with that little dagger you should not have been able to even scratch
+    me, who are you?

@@ -23,6 +23,8 @@ public static class GameMaster
     public static int cancerIndex = 0;
     public static int capricornIndex = 0;
 
+    public static string whoFirst;
+
     public static void Reset()
     {
         playerLife = 10;

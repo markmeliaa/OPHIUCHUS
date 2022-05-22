@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: Canc02-04
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
-  dialogueText: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-
-'
+  dialogueText: Now LEAVE, but do not worry child, we will meet again for sure.

@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: Canc02-01
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
-  dialogueText: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-
-'
+  dialogueText: "Ugh\u2026 How could you\u2026?"

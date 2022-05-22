@@ -17,3 +17,9 @@ MonoBehaviour:
   characterConversations:
   - {fileID: 11400000, guid: d189a8af03956ba418c7f0e5b17c0be8, type: 2}
   - {fileID: 11400000, guid: 6e27eb87b00c942449e30c772efdd614, type: 2}
+  - {fileID: 11400000, guid: 11b52d490fd1fa14cbb64bed2ce47e58, type: 2}
+  - {fileID: 11400000, guid: 28c063d3f5a376642a1d99e9f6ee50cb, type: 2}
+  - {fileID: 11400000, guid: 22e6a35596936b74c9965f768a62dfe4, type: 2}
+  - {fileID: 11400000, guid: af541d7a48e072d4ca3a633595aee90d, type: 2}
+  - {fileID: 11400000, guid: 956a892ec79c1754cbe0507289c2b594, type: 2}
+  - {fileID: 11400000, guid: af541d7a48e072d4ca3a633595aee90d, type: 2}

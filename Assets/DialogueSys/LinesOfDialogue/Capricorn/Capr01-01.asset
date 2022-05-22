@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Capr01-01
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
-  dialogueText: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  dialogueText: "Greetings fellow traveler, it is not usual to see anyone around
+    here these days. \nI am Capricorn and I introduce you to us, the Zodiacs."

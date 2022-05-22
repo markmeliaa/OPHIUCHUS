@@ -447,6 +447,11 @@ public class BattleManager : MonoBehaviour
 
         //Debug.Log("You Died");
 
+        if (Zodiac == "CAPRICORN")
+            GameMaster.capricornIndex--;
+        else if (Zodiac == "CANCER")
+            GameMaster.cancerIndex--;
+
         for (int i = 1; i < buttonManager.battleCanvas.transform.childCount; i++)
         {
             if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.CompareTag("Player"))
@@ -537,7 +542,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator WaitWinAnim()
     {
         buttonManager.templates.circleAnimator2.SetBool("Show", false);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.75f);
 
         dialogueCanvas.SetActive(false);
         gameWinCanvas.SetActive(true);

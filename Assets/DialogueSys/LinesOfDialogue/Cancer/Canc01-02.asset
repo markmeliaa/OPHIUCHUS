@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Canc01-02
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
-  dialogueText: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  dialogueText: And fear nothing dear child, as our objective is not to make you
+    suffer, you are going to receive a painless death.
