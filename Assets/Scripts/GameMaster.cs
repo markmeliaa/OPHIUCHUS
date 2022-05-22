@@ -17,6 +17,11 @@ public static class GameMaster
     public static List<ItemObject> inventory = new List<ItemObject>();
 
     public static int attempts = 0;
+    public static int successfulAttemps = 0;
+
+    public static int temperanceIndex = 0;
+    public static int cancerIndex = 0;
+    public static int capricornIndex = 0;
 
     public static void Reset()
     {

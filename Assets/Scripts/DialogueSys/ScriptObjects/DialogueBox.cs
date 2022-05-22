@@ -8,4 +8,6 @@ public class DialogueBox : ScriptableObject
 {
     public string nameSpeaker;
     public Sprite imageSpeaker;
+
+    public List<DialogConversation> characterConversations;
 }

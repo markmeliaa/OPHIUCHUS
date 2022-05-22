@@ -18,9 +18,6 @@ public class InitateDialogue : MonoBehaviour
 
     public PlayerMoveIso2 playerMove;
 
-    private string dialogue = "Hola muy buenas Theo Lof, añsldkfjñ lasñldkf añslkdfj ñj ñlkasjd lksadjfñ sldfj  sañlkdfjñlsakdfjñalskfdjñlsakfd " +
-        "jñlksadjf ñlksajdñ fksjfñ alkjsa fsñalkjdfñlkalksdjfñlasdjfñ kjañ lksja dñlkfjasñdlk fjasñdlkf jñsalkdj fñlksajdfñ kajsdñflk jsañlkf jsañ ñaksjd ñlfsajd ñflskadjfñ sañl";
-
     private bool ePressed = false;
     private bool pressedZ = false;
 
@@ -95,7 +92,8 @@ public class InitateDialogue : MonoBehaviour
                     dialogueText.text = "";
                     dialogueBox.SetActive(true);
                     menuButton.SetActive(false);
-                    StartCoroutine("WriteDialogue", dialogue);
+                    thisCharacter.characterConversations[GameMaster.temperanceIndex].currentDialogueLine = 0;
+                    StartCoroutine("WriteDialogue", thisCharacter.characterConversations[GameMaster.temperanceIndex].dialogueLines[thisCharacter.characterConversations[GameMaster.temperanceIndex].currentDialogueLine].dialogueText);
                 }
 
                 // Leave the access to Andromeda open
@@ -110,7 +108,19 @@ public class InitateDialogue : MonoBehaviour
         nextButton.SetActive(false);
         pressedZ = false;
 
-        StartCoroutine("HideDialogue");
+        if (thisCharacter.characterConversations[GameMaster.temperanceIndex].currentDialogueLine < thisCharacter.characterConversations[GameMaster.temperanceIndex].dialogueLines.Count - 1)
+        {
+            dialogueText.text = "";
+            thisCharacter.characterConversations[GameMaster.temperanceIndex].currentDialogueLine++;
+            StartCoroutine("WriteDialogue", thisCharacter.characterConversations[GameMaster.temperanceIndex].dialogueLines[thisCharacter.characterConversations[GameMaster.temperanceIndex].currentDialogueLine].dialogueText);
+        }
+
+        else
+        {
+            if (GameMaster.temperanceIndex < thisCharacter.characterConversations.Count - 2)
+                GameMaster.temperanceIndex++;
+            StartCoroutine("HideDialogue");
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -126,7 +136,7 @@ public class InitateDialogue : MonoBehaviour
         foreach (char c in writeDialogue)
         {
             dialogueText.text += c;
-            yield return new WaitForSeconds(0.012f);
+            yield return new WaitForSeconds(0.02f);
         }
 
         nextButton.SetActive(true);
