@@ -384,7 +384,9 @@ public class BattleManager : MonoBehaviour
     // Run functions
     public void Run()
     {
-        if (GameMaster.playerSpeed >= 5)
+        if (Zodiac != "")
+            normalText.GetComponent<Text>().text = "    YOU CAN NOT RUN FROM A ZODIAC BATTLE";
+        else if (GameMaster.playerSpeed >= 5)
             normalText.GetComponent<Text>().text = "    YOU WERE ABLE TO RUN FROM THE BATTLE";
         else
             normalText.GetComponent<Text>().text = "    YOU WERE NOT ABLE TO RUN, NOT ENOUGH SPEED";

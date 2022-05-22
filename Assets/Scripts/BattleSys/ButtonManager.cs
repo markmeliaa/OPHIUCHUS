@@ -226,7 +226,7 @@ public class ButtonManager : MonoBehaviour
 
                 else if (battleManager.lastState == gameStates.run)
                 {
-                    if (GameMaster.playerSpeed >= 5 && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
+                    if (GameMaster.playerSpeed >= 5 && Input.GetKeyDown(KeyCode.Z) && !pressedZ && battleManager.Zodiac == "")
                     {
                         battleManager.state = gameStates.stop;
                         battleManager.lastState = gameStates.waiting;
@@ -239,7 +239,7 @@ public class ButtonManager : MonoBehaviour
                         globalAudioSource.Play();
                     }
 
-                    else if (GameMaster.playerSpeed < 5 && Input.GetKeyDown(KeyCode.X))
+                    else if ((GameMaster.playerSpeed < 5 || battleManager.Zodiac != "") && Input.GetKeyDown(KeyCode.X))
                     {
                         battleManager.state = gameStates.choosing;
                         battleManager.lastState = gameStates.waiting;

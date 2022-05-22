@@ -14,6 +14,7 @@ public class InitialLoad : MonoBehaviour
     public AudioSource globalMusic;
 
     public Text attemptsText;
+    public Text successfulAttemptsText;
 
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class InitialLoad : MonoBehaviour
         }
 
         attemptsText.text = GameMaster.attempts.ToString();
+        successfulAttemptsText.text = GameMaster.successfulAttemps.ToString();
     }
 
     IEnumerator CanMove()
