@@ -46,7 +46,7 @@ public class InitateDialogue : MonoBehaviour
         {
             if (buttonManager.nextButton.activeSelf && Input.GetKey(KeyCode.Z) && !pressedZ)
             {
-                pressedZ = true;
+                buttonManager.pressedZ = true;
                 buttonManager.PressButton();
             }
         }

@@ -10,7 +10,7 @@ public class ButtonManager : MonoBehaviour
 
     private bool pressedHor = false;
     private bool pressedVer = false;
-    private bool pressedZ = false;
+    [HideInInspector] public bool pressedZ = false;
 
     [HideInInspector] public int currentButtonIndex;
     [HideInInspector] public int currentTextIndex;
@@ -46,11 +46,12 @@ public class ButtonManager : MonoBehaviour
 
     public PlayerMoveIso playerMove;
 
-    private string dialogue = "Vas a morir Theo Lof, añsldkfjñ lasñldkf añslkdfj ñj ñlkasjd lksadjfñ sldfj  sañlkdfjñlsakdfjñalskfdjñlsakfd " +
-        "jñlksadjf ñlksajdñ fksjfñ alkjsa fsñalkjdfñlkalksdjfñlasdjfñ kjañ lksja dñlkfjasñdlk fjasñdlkf jñsalkdj fñlksajdfñ kajsdñflk jsañlkf jsañ ñaksjd ñlfsajd ñflskadjfñ sañl";
-
     public Image dialogueImage;
     public Text dialogueNameText;
+
+    private DialogueBox thisCharacter;
+
+    private bool bossBeaten = false;
 
     // Start is called before the first frame update
     void Start()
@@ -81,9 +82,14 @@ public class ButtonManager : MonoBehaviour
             // The battle has ended
             if (battleManager.state == gameStates.end)
             {
-                if (!pressedZ && Input.GetKeyDown(KeyCode.Z))
+                if (!pressedZ && Input.GetKeyDown(KeyCode.Z) && battleManager.Zodiac == "")
                 {
                     StartCoroutine("WaitFinishGame");
+                }
+
+                else if (!pressedZ && Input.GetKeyDown(KeyCode.Z) && battleManager.Zodiac != "")
+                {
+                    StartCoroutine("WaitFinishBossGame");
                 }
 
                 return;
@@ -710,10 +716,13 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    // Dialogue funcitions
+    // Dialogue functions
     public void StartDialogue(string zodiac, DialogueBox thisChar)
     {
+        miniMap.SetActive(false);
         battleManager.Zodiac = zodiac;
+        thisCharacter = thisChar;
+
         templates.mapFormed = false;
         playerMove.rendIso.SetDirection(new Vector2(0, 0));
         playerMove.horInput = 0;
@@ -725,7 +734,18 @@ public class ButtonManager : MonoBehaviour
         dialogueText.text = "";
         dialogueBox.SetActive(true);
         menuButton.SetActive(false);
-        StartCoroutine("WriteDialogue", dialogue);
+
+        if (zodiac == "CANCER")
+        {
+            thisChar.characterConversations[GameMaster.cancerIndex].currentDialogueLine = 0;
+            StartCoroutine("WriteDialogue", thisChar.characterConversations[GameMaster.cancerIndex].dialogueLines[thisChar.characterConversations[GameMaster.cancerIndex].currentDialogueLine].dialogueText);
+        }
+
+        else if (zodiac == "CAPRICORN")
+        {
+            thisChar.characterConversations[GameMaster.capricornIndex].currentDialogueLine = 0;
+            StartCoroutine("WriteDialogue", thisChar.characterConversations[GameMaster.capricornIndex].dialogueLines[thisChar.characterConversations[GameMaster.capricornIndex].currentDialogueLine].dialogueText);
+        }
     }
 
     public void PressButton()
@@ -733,7 +753,41 @@ public class ButtonManager : MonoBehaviour
         nextButton.SetActive(false);
         pressedZ = false;
 
-        StartCoroutine("HideDialogue");
+        //Debug.Log(battleManager.Zodiac);
+
+        if (battleManager.Zodiac == "CANCER")
+        {
+            if (thisCharacter.characterConversations[GameMaster.cancerIndex].currentDialogueLine < thisCharacter.characterConversations[GameMaster.cancerIndex].dialogueLines.Count - 1)
+            {
+                dialogueText.text = "";
+                thisCharacter.characterConversations[GameMaster.cancerIndex].currentDialogueLine++;
+                StartCoroutine("WriteDialogue", thisCharacter.characterConversations[GameMaster.cancerIndex].dialogueLines[thisCharacter.characterConversations[GameMaster.cancerIndex].currentDialogueLine].dialogueText);
+            }
+
+            else
+            {
+                if (GameMaster.cancerIndex < thisCharacter.characterConversations.Count - 1)
+                    GameMaster.cancerIndex++;
+                StartCoroutine("HideDialogue");
+            }
+        }
+
+        else if (battleManager.Zodiac == "CAPRICORN")
+        {
+            if (thisCharacter.characterConversations[GameMaster.capricornIndex].currentDialogueLine < thisCharacter.characterConversations[GameMaster.capricornIndex].dialogueLines.Count - 1)
+            {
+                dialogueText.text = "";
+                thisCharacter.characterConversations[GameMaster.capricornIndex].currentDialogueLine++;
+                StartCoroutine("WriteDialogue", thisCharacter.characterConversations[GameMaster.capricornIndex].dialogueLines[thisCharacter.characterConversations[GameMaster.capricornIndex].currentDialogueLine].dialogueText);
+            }
+
+            else
+            {
+                if (GameMaster.capricornIndex < thisCharacter.characterConversations.Count - 1)
+                    GameMaster.capricornIndex++;
+                StartCoroutine("HideDialogue");
+            }
+        }
     }
 
     IEnumerator WriteDialogue(string writeDialogue)
@@ -741,7 +795,7 @@ public class ButtonManager : MonoBehaviour
         foreach (char c in writeDialogue)
         {
             dialogueText.text += c;
-            yield return new WaitForSeconds(0.012f);
+            yield return new WaitForSeconds(0.02f);
         }
 
         nextButton.SetActive(true);
@@ -754,7 +808,18 @@ public class ButtonManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         //templates.mapFormed = true;
         dialogueBox.SetActive(false);
-        StartBossBattle(battleManager.Zodiac);
+
+        if (bossBeaten == false)
+        {
+            StartBossBattle(battleManager.Zodiac);
+        }
+
+        else
+        {
+            battleManager.WinGame();
+            //miniMap.SetActive(true);
+        }
+
         //Debug.Log(battleManager.Zodiac);
     }
 
@@ -869,5 +934,43 @@ public class ButtonManager : MonoBehaviour
         miniMap.SetActive(true);
         player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
         templates.changingRoom = false;
+    }
+
+    IEnumerator WaitFinishBossGame()
+    {
+        blackScreen.GetComponent<Animator>().SetBool("Change", false);
+        battleManager.state = gameStates.stop;
+
+        yield return new WaitForSeconds(0.6f);
+
+        //animCanvas.GetComponent<AudioSource>().Play();
+
+        foreach (GameObject animator in starAnimators)
+        {
+            animator.GetComponent<Animator>().SetBool("ChangeBack", true);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", true);
+        }
+
+        yield return new WaitForSeconds(0.25f);
+        ClearGame();
+        battleCanvas.SetActive(false);
+
+        player.GetComponent<SpriteRenderer>().sortingOrder = -3;
+        player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        realRooms.SetActive(true);
+
+        yield return new WaitForSeconds(1.2f);
+        foreach (GameObject animator in starAnimators)
+        {
+            animator.GetComponent<Animator>().SetBool("ChangeBack", false);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", false);
+        }
+
+        miniMap.SetActive(true);
+        player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
+        templates.changingRoom = false;
+
+        bossBeaten = true;
+        StartDialogue(battleManager.Zodiac, thisCharacter);
     }
 }

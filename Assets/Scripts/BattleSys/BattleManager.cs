@@ -40,6 +40,7 @@ public class BattleManager : MonoBehaviour
     public AudioClip dieSong;
 
     public GameObject gameOverCanvas;
+    public GameObject gameWinCanvas;
     public GameObject dialogueCanvas;
 
     [HideInInspector] public string Zodiac = "";
@@ -435,7 +436,7 @@ public class BattleManager : MonoBehaviour
         normalText.GetComponent<Text>().text = baseText;
     }
 
-    // Die functions
+    // Die/Win functions
     public void Die()
     {
         state = gameStates.end;
@@ -469,6 +470,51 @@ public class BattleManager : MonoBehaviour
             direction++;
         }
         StartCoroutine("WaitAnim");
+
+        GameMaster.temperanceIndex = 1;
+        GameMaster.Reset();
+    }
+
+    public void WinGame()
+    {
+        GameMaster.attempts++;
+        GameMaster.successfulAttemps++;
+        buttonManager.miniMap.SetActive(false);
+
+        buttonManager.player.GetComponent<SpriteRenderer>().enabled = false;
+        buttonManager.player.transform.GetChild(3).gameObject.SetActive(true);
+        GameMaster.temperanceIndex = 2;
+
+        //Debug.Log("You Died");
+
+        /*
+        for (int i = 1; i < buttonManager.battleCanvas.transform.childCount; i++)
+        {
+            if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.CompareTag("Player"))
+                buttonManager.battleCanvas.transform.GetChild(i).gameObject.SetActive(false);
+            else
+            {
+                for (int j = 0; j < buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.childCount; j++)
+                {
+                    if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).CompareTag("Player"))
+                        buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject.SetActive(false);
+                }
+            }
+        }
+        buttonManager.battleCanvas.GetComponent<AudioSource>().Stop();
+
+        buttonManager.playerStar.GetComponent<SpriteRenderer>().enabled = false;
+        int direction = 0;
+        foreach (GameObject piece in starPieces)
+        {
+            piece.SetActive(true);
+            piece.GetComponent<Rigidbody2D>().AddForce(directions[direction] * 2, ForceMode2D.Impulse);
+            piece.GetComponent<Rigidbody2D>().AddTorque(360, ForceMode2D.Impulse);
+            direction++;
+        }
+        */
+
+        StartCoroutine("WaitWinAnim");
         GameMaster.Reset();
     }
 
@@ -484,6 +530,20 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
         gameOverCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
+    }
+
+    IEnumerator WaitWinAnim()
+    {
+        buttonManager.templates.circleAnimator2.SetBool("Show", false);
+        yield return new WaitForSeconds(1.5f);
+
+        dialogueCanvas.SetActive(false);
+        gameWinCanvas.SetActive(true);
+        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = dieSong;
+        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+
+        yield return new WaitForSeconds(1.0f);
+        gameWinCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
     }
 
     IEnumerator InitiateAttack()

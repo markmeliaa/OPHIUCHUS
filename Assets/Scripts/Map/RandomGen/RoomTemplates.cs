@@ -57,6 +57,8 @@ public class RoomTemplates : MonoBehaviour
 	public bool mapFormed = false;
 
 	public Animator circleAnimator;
+	public Animator circleAnimator2;
+
 	public GameObject loadScreen;
 	public AudioSource gameMusic;
 
@@ -126,6 +128,7 @@ public class RoomTemplates : MonoBehaviour
 				gameMusic.Play();
 				loadScreen.SetActive(false);
 				circleAnimator.SetBool("Show", true);
+				circleAnimator2.SetBool("Show", true);
 				AddItems();
 				StartCoroutine("StartGame");
 

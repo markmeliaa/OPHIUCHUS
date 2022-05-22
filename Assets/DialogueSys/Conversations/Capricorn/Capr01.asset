@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 908f3358eec63cf4a8c22233e6f331aa, type: 3}
+  m_Name: Capr01
+  m_EditorClassIdentifier: 
+  dialogueLines:
+  - {fileID: 11400000, guid: 16c8c29d2c39b1948994a3ff0dfed884, type: 2}
+  - {fileID: 11400000, guid: b1675880ec3f4c14b962d74f06fe5667, type: 2}
+  - {fileID: 11400000, guid: ac93e845f6b458f4fb5e88e3b00789c4, type: 2}
+  - {fileID: 11400000, guid: 0c2af5e22012d8a4e821e86331c97c41, type: 2}
+  currentDialogueLine: 3
