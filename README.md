@@ -1,3 +1,3 @@
 # OPHIUCHUS
 
-A procedural narrative mixed with some arcadeish Rogue-lite gameplay zodiac/tarot themed.
+A roguelike adventure with bullet hell battles that implements a procedural narrative that evolves during the adventure.
