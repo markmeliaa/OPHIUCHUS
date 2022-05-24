@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Capr01-02
   m_EditorClassIdentifier: 
   characterSprite: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
-  dialogueText: And fear children, our objective is not to make you suffer, you are
-    going to receive a painless death.
+  dialogueText: And fear nothing boy, our objective is not to make you suffer, you
+    are going to receive a painless death.

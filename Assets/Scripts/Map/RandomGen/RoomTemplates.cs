@@ -87,7 +87,14 @@ public class RoomTemplates : MonoBehaviour
 
 			else
             {
-				// Spawn boss room
+				// Spawn boss room but only in the R, B, T, L Rooms
+				if (rooms[rooms.Count - 1].gameObject.name != "R(Clone)" && rooms[rooms.Count - 1].gameObject.name != "L(Clone)" && 
+					rooms[rooms.Count - 1].gameObject.name != "B(Clone)" && rooms[rooms.Count - 1].gameObject.name != "T(Clone)")
+                {
+					RestartGame();
+					return;
+                }
+
 				Instantiate(boss, rooms[rooms.Count - 1].transform.position, Quaternion.identity, rooms[rooms.Count - 1].transform);
 				rooms[rooms.Count - 1].tag = "BossRoom";
 				spawnedBoss = true;
