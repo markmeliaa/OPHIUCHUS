@@ -1,3 +1,3 @@
 # OPHIUCHUS
 
-A roguelike game demo with bullet hell battles that implements a procedural narrative that evolves during the adventure.
+The game demo of my Final Degree Project, a roguelite guided by a procedural narrative themed in the Zodiac signs and the Tarot figures.
