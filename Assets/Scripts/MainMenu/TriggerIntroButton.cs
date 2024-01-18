@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChangeScreenButton : MonoBehaviour
+public class TriggerIntroButton : MonoBehaviour
 {
     [SerializeField] private Animator screenAnimator;
 
     [SerializeField] private List<Button> mainMenuButtons;
-    [SerializeField] private Text startText;
+    [SerializeField] private Text triggerIntroText;
 
     [SerializeField] private float initialAnimationDuration = 3.0f;
     [SerializeField] private float changeScreenAnimationDuration = 2.5f;
@@ -34,7 +34,7 @@ public class ChangeScreenButton : MonoBehaviour
     public void ChangeScreen()
     {
         screenAnimator.SetBool("Change", true);
-        startText.color = Color.white;
+        triggerIntroText.color = Color.white;
 
         DisableButtons();
         StartCoroutine("ActivateButtonsAfterAnimation");

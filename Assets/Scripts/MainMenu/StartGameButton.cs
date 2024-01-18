@@ -6,24 +6,18 @@ using UnityEngine.UI;
 
 public class StartGameButton : MonoBehaviour
 {
-    public Animator changeSceneAnim;
-    public Text startGameText;
-
-    private HoverButton hoverButton;
-
-    private void Start()
-    {
-        hoverButton = GetComponent<HoverButton>();
-    }
+    [SerializeField] private Animator changeSceneAnim;
+    [SerializeField] private Text startGameText;
 
     public void ChangeScene()
     {
         startGameText.color = Color.white;
+
         changeSceneAnim.SetBool("StartGame", true);
-        StartCoroutine("ShowGame");
+        StartCoroutine("ShowGameAfterAnimation");
     }
 
-    IEnumerator ShowGame()
+    IEnumerator ShowGameAfterAnimation()
     {
         yield return new WaitForSeconds(3.05f);
 

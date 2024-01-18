@@ -487,7 +487,7 @@ GameObject:
   - component: {fileID: 646297388}
   - component: {fileID: 646297387}
   m_Layer: 5
-  m_Name: StartGameButton
+  m_Name: TriggerIntroButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -510,8 +510,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -594.92, y: -390.81}
-  m_SizeDelta: {x: 485.06, y: 95.2}
+  m_AnchoredPosition: {x: -584, y: -385}
+  m_SizeDelta: {x: 385.45, y: 95.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &646297383
 MonoBehaviour:
@@ -703,7 +703,7 @@ MonoBehaviour:
   - {fileID: 1358311343}
   - {fileID: 1591805145}
   - {fileID: 933066707}
-  startText: {fileID: 2010524731}
+  triggerIntroText: {fileID: 2010524731}
   initialAnimationDuration: 3
   changeScreenAnimationDuration: 2.5
 --- !u!1 &876632651
@@ -850,8 +850,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 587, y: -384}
-  m_SizeDelta: {x: 208.83, y: 108.82}
+  m_AnchoredPosition: {x: 589, y: -385}
+  m_SizeDelta: {x: 172.24, y: 108.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &933066703
 MonoBehaviour:
@@ -920,7 +920,7 @@ Animator:
   m_GameObject: {fileID: 933066701}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 898ede1d6c5967c439573ed3368a4e2e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 88d0cacbbf40f4e47aa00fe34be9dfa5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1202,7 +1202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 613.4005, y: -390.81003}
+  m_AnchoredPosition: {x: 583, y: -385}
   m_SizeDelta: {x: 331.39, y: 95.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1358311340
@@ -1272,7 +1272,7 @@ Animator:
   m_GameObject: {fileID: 1358311338}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 898ede1d6c5967c439573ed3368a4e2e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 88d0cacbbf40f4e47aa00fe34be9dfa5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1584,7 +1584,7 @@ GameObject:
   - component: {fileID: 1591805142}
   - component: {fileID: 1591805141}
   m_Layer: 5
-  m_Name: YesButton
+  m_Name: StartGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1607,7 +1607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -578, y: -384}
+  m_AnchoredPosition: {x: -588, y: -385}
   m_SizeDelta: {x: 183.55, y: 108.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1591805141
@@ -2353,7 +2353,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: START ADVENTURE
+  m_Text: BEGIN GAME
 --- !u!222 &2010524732
 CanvasRenderer:
   m_ObjectHideFlags: 0
