@@ -5,18 +5,30 @@ using UnityEngine.UI;
 
 public class ChangeScreenButton : MonoBehaviour
 {
-    public Animator screenAnimator;
+    [SerializeField] private Animator screenAnimator;
 
-    public Button startButton;
-    public Button exitButton;
-    public Button yesButton;
-    public Button noButton;
+    [SerializeField] private List<Button> mainMenuButtons;
+    [SerializeField] private Text startText;
 
-    private Text startText;
+    [SerializeField] private float initialAnimationDuration = 3.0f;
+    [SerializeField] private float changeScreenAnimationDuration = 2.5f;
 
-    private void Start()
+    void Start()
     {
-        startText = transform.GetChild(0).gameObject.GetComponent<Text>();
+        DisableButtons();
+    }
+
+    void Update()
+    {
+        if (initialAnimationDuration >= 0.0f)
+        {
+            initialAnimationDuration -= Time.deltaTime;
+
+            if (initialAnimationDuration <= 0.0f)
+            {
+                EnableButtons();
+            }
+        }
     }
 
     public void ChangeScreen()
@@ -24,21 +36,29 @@ public class ChangeScreenButton : MonoBehaviour
         screenAnimator.SetBool("Change", true);
         startText.color = Color.white;
 
-        //startButton.interactable = false;
-        exitButton.interactable = false;
-        yesButton.interactable = false;
-        noButton.interactable = false;
-
-        StartCoroutine("ActivateButtons");
+        DisableButtons();
+        StartCoroutine("ActivateButtonsAfterAnimation");
     }
 
-    IEnumerator ActivateButtons()
+    IEnumerator ActivateButtonsAfterAnimation()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(changeScreenAnimationDuration);
+        EnableButtons();
+    }
 
-        startButton.interactable = true;
-        exitButton.interactable = true;
-        yesButton.interactable = true;
-        noButton.interactable = true;
+    void DisableButtons()
+    {
+        foreach (Button button in mainMenuButtons)
+        {
+            button.interactable = false;
+        }
+    }
+
+    void EnableButtons()
+    {
+        foreach (Button button in mainMenuButtons)
+        {
+            button.interactable = true;
+        }
     }
 }

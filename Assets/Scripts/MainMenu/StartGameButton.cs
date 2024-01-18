@@ -18,9 +18,6 @@ public class StartGameButton : MonoBehaviour
 
     public void ChangeScene()
     {
-        if (hoverButton.waitTime > 0)
-            return;
-
         startGameText.color = Color.white;
         changeSceneAnim.SetBool("StartGame", true);
         StartCoroutine("ShowGame");

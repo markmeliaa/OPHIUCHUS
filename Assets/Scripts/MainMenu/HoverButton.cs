@@ -1,38 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HoverButton : MonoBehaviour
 {
-    private Animator buttonAnim;
-    public float waitTime = 3.2f;
+    private Transform transform;
+    private Vector3 buttonInitialPos;
 
-    // Start is called before the first frame update
+    private Animator animator;
+
     void Start()
     {
-        buttonAnim = GetComponent<Animator>();
-    }
+        animator = GetComponent<Animator>();
+        transform = GetComponent<Transform>();
 
-    private void Update()
-    {
-        waitTime -= Time.deltaTime;
+        buttonInitialPos = transform.position;
     }
 
     public void OnHoverButton()
     {
-        if (waitTime > 0)
+        if (!GetComponent<Button>().interactable)
+        {
             return;
+        }
 
-        buttonAnim.enabled = true;
-        buttonAnim.Play("FloatButton");
-        buttonAnim.SetBool("Hovering", true);
+        animator.enabled = true;
+        animator.Play("FloatButton"); // Play the animation from the beginning
+        animator.SetBool("Hovering", true);
     }
 
     public void OnStopHoverButton()
     {
-        if (waitTime > 0)
+        if (!GetComponent<Button>().interactable)
+        {
             return;
-
-        buttonAnim.enabled = false;
+        }
+        
+        transform.position = buttonInitialPos; // TODO: Jittering error when placing the cursor on the edge of the button
+        animator.enabled = false;
     }
 }
