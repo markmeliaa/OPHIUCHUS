@@ -10,8 +10,8 @@ public class TriggerIntroButton : MonoBehaviour
     [SerializeField] private List<Button> mainMenuButtons;
     [SerializeField] private Text triggerIntroText;
 
-    [SerializeField] private float initialAnimationDuration = 3.0f;
-    [SerializeField] private float changeScreenAnimationDuration = 2.5f;
+    [SerializeField] private float initialAnimationDuration;
+    [SerializeField] private float changeScreenAnimationDuration;
 
     void Start()
     {

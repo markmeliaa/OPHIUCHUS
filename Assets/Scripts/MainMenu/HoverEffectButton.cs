@@ -20,7 +20,7 @@ public class HoverEffectButton : MonoBehaviour
 
     public void OnHoverButton()
     {
-        if (buttonComp.interactable)
+        if (!buttonComp.interactable)
         {
             return;
         }
@@ -32,7 +32,7 @@ public class HoverEffectButton : MonoBehaviour
 
     public void OnStopHoverButton()
     {
-        if (buttonComp.interactable)
+        if (!buttonComp.interactable)
         {
             return;
         }

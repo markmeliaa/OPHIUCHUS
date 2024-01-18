@@ -11,9 +11,6 @@ public class ManageSettings : MonoBehaviour
     public Button menuButton;
     public AudioSource stepsSound;
 
-    public Button exitMenuButton;
-    public Animator changeSceneAnim;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -52,33 +49,5 @@ public class ManageSettings : MonoBehaviour
     {
         playerMove.moving = true;
         stepsSound.Play();
-    }
-
-    public void LoadNextScene(int sceneLoad)
-    {
-        if (exitMenuButton != null)
-            exitMenuButton.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().color = Color.white;
-
-        if (changeSceneAnim != null)
-            changeSceneAnim.SetBool("StartGame", true);
-
-        StartCoroutine("ChangeScene", sceneLoad);
-    }
-
-    public void ExitGame()
-    {
-        if (exitMenuButton != null)
-        {
-            exitMenuButton.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().color = Color.white;
-        }
-
-        Application.Quit();
-    }
-
-    IEnumerator ChangeScene(int sceneLoad)
-    {
-        yield return new WaitForSeconds(3.1f);
-
-        SceneManager.LoadScene(sceneLoad);
     }
 }
