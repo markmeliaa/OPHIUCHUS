@@ -20,7 +20,7 @@ public class TriggerIntroButton : MonoBehaviour
 
     void Update()
     {
-        if (initialAnimationDuration >= 0.0f)
+        if (initialAnimationDuration > 0.0f)
         {
             initialAnimationDuration -= Time.deltaTime;
 

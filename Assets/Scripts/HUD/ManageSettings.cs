@@ -6,48 +6,39 @@ using UnityEngine.SceneManagement;
 
 public class ManageSettings : MonoBehaviour
 {
-    public RoomTemplates templates;
-    public PlayerMovement playerMovement;
-    public Button menuButton;
-    public AudioSource stepsSound;
+    [SerializeField] private GameObject player;
+    private PlayerMovement playerMovement;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject settingsMenu;
+
+    //public Button menuButton;
+    //public RoomTemplates templates;
+
+    private void Start()
     {
-        
+        playerMovement = player.GetComponent<PlayerMovement>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (templates?.mapFormed == false || templates?.changingRoom == true)
-            menuButton.gameObject.SetActive(false);
+        /*
+            if (templates?.mapFormed == false || templates?.changingRoom == true)
+                menuButton.gameObject.SetActive(false);
 
-        else if (templates != null)
-            menuButton.gameObject.SetActive(true);
+            else if (templates != null)
+                menuButton.gameObject.SetActive(true);
+        */
     }
 
     public void ActivateSettings()
     {
-        templates.changingRoom = true;
-        stepsSound.Stop();
-    }
-
-    public void ActivateSettings2()
-    {
         playerMovement.canMove = false;
-        stepsSound.Stop();
+        settingsMenu.SetActive(true);
     }
 
     public void DeactivateSettings()
     {
-        templates.changingRoom = false;
-        stepsSound.Play();
-    }
-
-    public void DeactivateSettings2()
-    {
         playerMovement.canMove = true;
-        stepsSound.Play();
+        settingsMenu.SetActive(false);
     }
 }
