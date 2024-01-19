@@ -16,7 +16,9 @@ public class InitateDialogue : MonoBehaviour
     public Text dialogueText;
     public GameObject nextButton;
 
-    public PlayerMoveIso2 playerMove;
+    [SerializeField] private GameObject player;
+    private PlayerMovement playerMovement;
+    private PlayerAnimationDirection playerAnimationDirection;
 
     private bool ePressed = false;
     private bool pressedZ = false;
@@ -29,6 +31,12 @@ public class InitateDialogue : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex != 1)
             buttonManager = GameObject.FindGameObjectWithTag("Buttons").GetComponent<ButtonManager>();
+    }
+
+    private void Start()
+    {
+        playerMovement = player.GetComponent<PlayerMovement>();
+        playerAnimationDirection = player.GetComponent<PlayerAnimationDirection>();
     }
 
     private void Update()
@@ -81,10 +89,8 @@ public class InitateDialogue : MonoBehaviour
 
                 else
                 {
-                    playerMove.moving = false;
-                    playerMove.rendIso.SetDirection(new Vector2(0, 0));
-                    playerMove.horInput = 0;
-                    playerMove.vertInput = 0;
+                    playerMovement.canMove = false;
+                    playerAnimationDirection.SetDirection(new Vector2(0, 0));
 
                     dialogueImage.sprite = thisCharacter.imageSpeaker;
                     dialogueNameText.text = thisCharacter.nameSpeaker;
@@ -147,7 +153,7 @@ public class InitateDialogue : MonoBehaviour
         dialogueBox.GetComponent<Animator>().SetBool("Hide", true);
 
         yield return new WaitForSeconds(0.2f);
-        playerMove.moving = true;
+        playerMovement.canMove = true;
         dialogueBox.SetActive(false);
     }
 }

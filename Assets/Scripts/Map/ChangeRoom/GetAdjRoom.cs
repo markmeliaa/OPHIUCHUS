@@ -18,7 +18,7 @@ public class GetAdjRoom : MonoBehaviour
     public GameObject playerSpawn = null;
     [HideInInspector] public GameObject neighbourRealSpawnpoints = null;
 
-    private PlayerRendIso playerRendIso;
+    private PlayerAnimationDirection playerAnimationDirection;
     private bool north = false;
     private bool south = false;
     private bool east = false;
@@ -35,7 +35,7 @@ public class GetAdjRoom : MonoBehaviour
         templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
         player = GameObject.FindGameObjectWithTag("Player");
         thisRealRoom = transform.parent.transform.parent.gameObject;
-        playerRendIso = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerRendIso>();
+        playerAnimationDirection = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimationDirection>();
     }
 
     // Manage change room animation movement
@@ -50,7 +50,7 @@ public class GetAdjRoom : MonoBehaviour
                     templates.changeRoomAnim.SetBool("ChangeRoom", true);
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
                     player.transform.position += new Vector3(-0.045f, 0.024f, 0);
-                    playerRendIso.SetDirection(new Vector2(-1, 1));
+                    playerAnimationDirection.SetDirection(new Vector2(-1, 1));
                     animTime -= Time.deltaTime;
                 }
 
@@ -58,7 +58,7 @@ public class GetAdjRoom : MonoBehaviour
                 {
                     templates.changeRoomAnim.SetBool("ChangeRoom", false);
                     player.transform.position += new Vector3(-0.045f, 0.024f, 0);
-                    playerRendIso.SetDirection(new Vector2(-1, 1));
+                    playerAnimationDirection.SetDirection(new Vector2(-1, 1));
                     animTime2 -= Time.deltaTime;
                 }
 
@@ -66,7 +66,7 @@ public class GetAdjRoom : MonoBehaviour
                 {
                     templates.changingRoom = false;
                     north = false;
-                    playerRendIso.SetDirection(new Vector2(0, 0));
+                    playerAnimationDirection.SetDirection(new Vector2(0, 0));
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
                     animTime = 0.75f;
                     animTime2 = 0.75f;
@@ -80,7 +80,7 @@ public class GetAdjRoom : MonoBehaviour
                     templates.changeRoomAnim.SetBool("ChangeRoom", true);
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
                     player.transform.position += new Vector3(0.045f, -0.024f, 0);
-                    playerRendIso.SetDirection(new Vector2(1, -1));
+                    playerAnimationDirection.SetDirection(new Vector2(1, -1));
                     animTime -= Time.deltaTime;
                 }
 
@@ -88,7 +88,7 @@ public class GetAdjRoom : MonoBehaviour
                 {
                     templates.changeRoomAnim.SetBool("ChangeRoom", false);
                     player.transform.position += new Vector3(0.045f, -0.024f, 0);
-                    playerRendIso.SetDirection(new Vector2(1, -1));
+                    playerAnimationDirection.SetDirection(new Vector2(1, -1));
                     animTime2 -= Time.deltaTime;
                 }
 
@@ -96,7 +96,7 @@ public class GetAdjRoom : MonoBehaviour
                 {
                     templates.changingRoom = false;
                     south = false;
-                    playerRendIso.SetDirection(new Vector2(0, 0));
+                    playerAnimationDirection.SetDirection(new Vector2(0, 0));
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
                     animTime = 0.75f;
                     animTime2 = 0.75f;
@@ -110,7 +110,7 @@ public class GetAdjRoom : MonoBehaviour
                     templates.changeRoomAnim.SetBool("ChangeRoom", true);
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
                     player.transform.position += new Vector3(0.045f, 0.024f, 0);
-                    playerRendIso.SetDirection(new Vector2(1, 1));
+                    playerAnimationDirection.SetDirection(new Vector2(1, 1));
                     animTime -= Time.deltaTime;
                 }
 
@@ -118,7 +118,7 @@ public class GetAdjRoom : MonoBehaviour
                 {
                     templates.changeRoomAnim.SetBool("ChangeRoom", false);
                     player.transform.position += new Vector3(0.045f, 0.024f, 0);
-                    playerRendIso.SetDirection(new Vector2(1, 1));
+                    playerAnimationDirection.SetDirection(new Vector2(1, 1));
                     animTime2 -= Time.deltaTime;
                 }
 
@@ -126,7 +126,7 @@ public class GetAdjRoom : MonoBehaviour
                 {
                     templates.changingRoom = false;
                     east = false;
-                    playerRendIso.SetDirection(new Vector2(0, 0));
+                    playerAnimationDirection.SetDirection(new Vector2(0, 0));
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
                     animTime = 0.75f;
                     animTime2 = 0.75f;
@@ -140,7 +140,7 @@ public class GetAdjRoom : MonoBehaviour
                     templates.changeRoomAnim.SetBool("ChangeRoom", true);
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
                     player.transform.position += new Vector3(-0.045f, -0.024f, 0);
-                    playerRendIso.SetDirection(new Vector2(-1, -1));
+                    playerAnimationDirection.SetDirection(new Vector2(-1, -1));
                     animTime -= Time.deltaTime;
                 }
 
@@ -148,7 +148,7 @@ public class GetAdjRoom : MonoBehaviour
                 {
                     templates.changeRoomAnim.SetBool("ChangeRoom", false);
                     player.transform.position += new Vector3(-0.045f, -0.024f, 0);
-                    playerRendIso.SetDirection(new Vector2(-1, -1));
+                    playerAnimationDirection.SetDirection(new Vector2(-1, -1));
                     animTime2 -= Time.deltaTime;
                 }
 
@@ -156,7 +156,7 @@ public class GetAdjRoom : MonoBehaviour
                 {
                     templates.changingRoom = false;
                     west = false;
-                    playerRendIso.SetDirection(new Vector2(0, 0));
+                    playerAnimationDirection.SetDirection(new Vector2(0, 0));
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
                     animTime = 0.75f;
                     animTime2 = 0.75f;

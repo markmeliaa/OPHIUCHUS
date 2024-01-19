@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ManageSettings : MonoBehaviour
 {
     public RoomTemplates templates;
-    public PlayerMoveIso2 playerMove;
+    public PlayerMovement playerMovement;
     public Button menuButton;
     public AudioSource stepsSound;
 
@@ -35,7 +35,7 @@ public class ManageSettings : MonoBehaviour
 
     public void ActivateSettings2()
     {
-        playerMove.moving = false;
+        playerMovement.canMove = false;
         stepsSound.Stop();
     }
 
@@ -47,7 +47,7 @@ public class ManageSettings : MonoBehaviour
 
     public void DeactivateSettings2()
     {
-        playerMove.moving = true;
+        playerMovement.canMove = true;
         stepsSound.Play();
     }
 }

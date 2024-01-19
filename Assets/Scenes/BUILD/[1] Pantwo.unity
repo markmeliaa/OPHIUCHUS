@@ -3475,7 +3475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &640574943
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3618,7 +3618,7 @@ RectTransform:
   m_Father: {fileID: 220087900}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4861,8 +4861,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1942579381}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5370,7 +5370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   templates: {fileID: 0}
-  playerMove: {fileID: 3197092685319377709}
+  playerMovement: {fileID: 0}
   menuButton: {fileID: 1297263863}
   stepsSound: {fileID: 1597769207605299898}
 --- !u!114 &1135981617
@@ -5385,7 +5385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8255fa2cb0d0ba49928f8be45b59ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMove: {fileID: 3197092685319377709}
+  playerMovement: {fileID: 8897891012726026274}
   overScreen: {fileID: 1298760736}
   screen: {fileID: 1526577850}
   globalMusic: {fileID: 1597769208175406412}
@@ -6728,7 +6728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1298760737
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8046,7 +8046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1526577849
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9498,7 +9498,7 @@ MonoBehaviour:
   menuButton: {fileID: 1297263861}
   dialogueText: {fileID: 1799468685}
   nextButton: {fileID: 561889711}
-  playerMove: {fileID: 3197092685319377709}
+  player: {fileID: 3197092685319377708}
   thisCharacter: {fileID: 11400000, guid: 5d20c1d69bc3f204ca3e8eaf12b87f12, type: 2}
   dialogueImage: {fileID: 1777811204}
   dialogueNameText: {fileID: 648000239}
@@ -17934,8 +17934,8 @@ GameObject:
   - component: {fileID: 8400374801647576377}
   - component: {fileID: 5964474880772526375}
   - component: {fileID: 6171561810766436681}
-  - component: {fileID: 3197092685319377709}
   - component: {fileID: 8897891012726026273}
+  - component: {fileID: 8897891012726026274}
   - component: {fileID: 1597769207605299898}
   m_Layer: 6
   m_Name: Main Character
@@ -17944,23 +17944,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3197092685319377709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3197092685319377708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41aee95f5a1201e4a83124267000530d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 2.5
-  rendIso: {fileID: 0}
-  horInput: 0
-  vertInput: 0
-  moving: 1
 --- !u!19719996 &3198199007534749094
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -18521,7 +18504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainChar: {fileID: 3197092685319377708}
   upAnim: {fileID: 474702528}
-  playerMove: {fileID: 3197092685319377709}
+  playerMovement: {fileID: 0}
   hideGame: {fileID: 1526577850}
 --- !u!4 &7747913131627755943
 Transform:
@@ -18654,9 +18637,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 3197092685319377708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9813d7d6341708b45b79712924ca9580, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ef55a4be8a96f34998368965548dd59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8897891012726026274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3197092685319377708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0f1091e41445e46a44eff07f876e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 1
+  playerSpeed: 2.5
 --- !u!483693784 &9024616880849956323
 TilemapRenderer:
   m_ObjectHideFlags: 0

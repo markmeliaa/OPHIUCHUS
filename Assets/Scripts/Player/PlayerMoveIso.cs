@@ -5,22 +5,22 @@ using UnityEngine;
 public class PlayerMoveIso : MonoBehaviour
 {
     public float playerSpeed = 1f;
-    [HideInInspector] public PlayerRendIso rendIso;
+    [HideInInspector] public PlayerAnimationDirection playerAnimationDirection;
 
     Rigidbody2D rb;
     private RoomTemplates templates;
 
     private AudioSource audioSource;
 
-    [HideInInspector] public float horInput = 0;
-    [HideInInspector] public float vertInput = 0;
+    [HideInInspector] public float horInput;
+    [HideInInspector] public float vertInput;
 
     [HideInInspector] public bool moving = true;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        rendIso = GetComponent<PlayerRendIso>();
+        playerAnimationDirection = GetComponent<PlayerAnimationDirection>();
         templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
         audioSource = GetComponent<AudioSource>();
         audioSource.mute = true;
@@ -59,7 +59,7 @@ public class PlayerMoveIso : MonoBehaviour
         Vector2 movement = inputVect * playerSpeed;
         Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
 
-        rendIso.SetDirection(movement);
+        playerAnimationDirection.SetDirection(movement);
         rb.MovePosition(newPos);
     }
 }

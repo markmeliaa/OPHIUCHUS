@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InitialLoad : MonoBehaviour
 {
-    public PlayerMoveIso2 playerMove;
+    public PlayerMovement playerMovement;
 
     private float waitTime = 4f;
 
@@ -18,7 +18,7 @@ public class InitialLoad : MonoBehaviour
 
     private void Awake()
     {
-        playerMove.moving = false;
+        playerMovement.canMove = false;
     }
 
     // Update is called once per frame
@@ -43,6 +43,6 @@ public class InitialLoad : MonoBehaviour
     IEnumerator CanMove()
     {
         yield return new WaitForSeconds(1.0f);
-        playerMove.moving = true;
+        playerMovement.canMove = true;
     }
 }
