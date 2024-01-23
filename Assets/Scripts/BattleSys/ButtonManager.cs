@@ -722,8 +722,8 @@ public class ButtonManager : MonoBehaviour
         templates.mapFormed = false;
         player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
 
-        dialogueImage.sprite = thisChar.imageSpeaker;
-        dialogueNameText.text = thisChar.nameSpeaker;
+        dialogueImage.sprite = thisChar.speakerImage;
+        dialogueNameText.text = thisChar.speakerName;
 
         dialogueText.text = "";
         dialogueBox.SetActive(true);

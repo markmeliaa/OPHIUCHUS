@@ -1247,6 +1247,37 @@ Transform:
   m_LocalPosition: {x: -0.1, y: 7.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1776135972}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &236363951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 236363952}
+  m_Layer: 0
+  m_Name: DialogueAreas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &236363952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236363951}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1741029852}
   m_Father: {fileID: 1776135972}
@@ -3099,19 +3130,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 561889715}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1741029857}
-        m_TargetAssemblyTypeName: InitateDialogue, Assembly-CSharp
-        m_MethodName: PressButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &561889715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7980,7 +7999,7 @@ GameObject:
   - component: {fileID: 1528408142}
   - component: {fileID: 1528408141}
   m_Layer: 3
-  m_Name: Tilemap -- Colliders -- PlayGame
+  m_Name: Tilemap -- Colliders -- ExitBarrier
   m_TagString: East
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9035,6 +9054,7 @@ GameObject:
   - component: {fileID: 1741029854}
   - component: {fileID: 1741029853}
   - component: {fileID: 1741029857}
+  - component: {fileID: 1741029858}
   m_Layer: 3
   m_Name: Temperance Dialogue Area
   m_TagString: East
@@ -9051,12 +9071,12 @@ Transform:
   m_GameObject: {fileID: 1741029851}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.689, y: -7.917, z: 0}
+  m_LocalPosition: {x: 0.589, y: -0.04699993, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1856110749}
-  m_Father: {fileID: 232610163}
+  m_Father: {fileID: 236363952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!19719996 &1741029853
 TilemapCollider2D:
@@ -9334,7 +9354,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyToInteract: {fileID: 1856110748}
   barrierToUnlock: {fileID: 1528408138}
-  buttonManager: {fileID: 0}
+--- !u!114 &1741029858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741029851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7593153bd468f154f9fa31536b44aa32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   characterProfile: {fileID: 11400000, guid: 5d20c1d69bc3f204ca3e8eaf12b87f12, type: 2}
   dialogueBoxObject: {fileID: 1197876575}
   dialogueImage: {fileID: 1777811204}
@@ -9342,7 +9373,7 @@ MonoBehaviour:
   dialogueText: {fileID: 1799468685}
   nextButton: {fileID: 561889711}
   player: {fileID: 3197092685319377708}
-  menuButton: {fileID: 1297263861}
+  gameHUD: {fileID: 1211294001}
 --- !u!1 &1742171133
 GameObject:
   m_ObjectHideFlags: 0
@@ -9558,6 +9589,7 @@ Transform:
   - {fileID: 938919976}
   - {fileID: 7747913131627755943}
   - {fileID: 232610163}
+  - {fileID: 236363952}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1777811202
@@ -18099,8 +18131,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6453924583025344070}
-  - {fileID: 1528408139}
   - {fileID: 1853561587}
+  - {fileID: 1528408139}
   m_Father: {fileID: 1776135972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7937384692869948727

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa37dedccabd664e96300afb2fdb224, type: 3}
   m_Name: CAPRICORN
   m_EditorClassIdentifier: 
-  nameSpeaker: CAPRICORN
-  imageSpeaker: {fileID: -2247624644634006498, guid: a22aaf1b7f6a5934097367fc637031cd, type: 3}
+  speakerName: CAPRICORN
+  speakerImage: {fileID: -2247624644634006498, guid: a22aaf1b7f6a5934097367fc637031cd, type: 3}
   characterConversations:
   - {fileID: 11400000, guid: e38056adc0759a34e8e94cacd4c602d9, type: 2}
   - {fileID: 11400000, guid: b4c57ae30cf9bf345ba7bccfdf4d6d9b, type: 2}

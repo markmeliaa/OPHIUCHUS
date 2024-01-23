@@ -28,6 +28,8 @@ public class ManageSettings : MonoBehaviour
             else if (templates != null)
                 menuButton.gameObject.SetActive(true);
         */
+
+        // TODO: Hide menu button while loading a room
     }
 
     public void ActivateSettings()
