@@ -44,8 +44,6 @@ public class ButtonManager : MonoBehaviour
     public Text dialogueText;
     public GameObject nextButton;
 
-    public PlayerMoveIso playerMove;
-
     public Image dialogueImage;
     public Text dialogueNameText;
 
@@ -657,9 +655,8 @@ public class ButtonManager : MonoBehaviour
         battleManager.SetUpBattle();
 
         templates.changingRoom = true;
-        player.GetComponent<PlayerMoveIso>().horInput = 0;
-        player.GetComponent<PlayerMoveIso>().vertInput = 0;
-        player.GetComponent<PlayerMoveIso>().playerAnimationDirection.SetDirection(new Vector2(0, 0));
+
+        player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         miniMap.SetActive(false);
 
         //animCanvas.GetComponent<AudioSource>().Play();
@@ -678,9 +675,8 @@ public class ButtonManager : MonoBehaviour
         battleManager.SetUpBossBattle(zodiac);
 
         templates.changingRoom = true;
-        player.GetComponent<PlayerMoveIso>().horInput = 0;
-        player.GetComponent<PlayerMoveIso>().vertInput = 0;
-        player.GetComponent<PlayerMoveIso>().playerAnimationDirection.SetDirection(new Vector2(0, 0));
+
+        player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         miniMap.SetActive(false);
 
         //animCanvas.GetComponent<AudioSource>().Play();
@@ -724,9 +720,7 @@ public class ButtonManager : MonoBehaviour
         thisCharacter = thisChar;
 
         templates.mapFormed = false;
-        playerMove.playerAnimationDirection.SetDirection(new Vector2(0, 0));
-        playerMove.horInput = 0;
-        playerMove.vertInput = 0;
+        player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
 
         dialogueImage.sprite = thisChar.imageSpeaker;
         dialogueNameText.text = thisChar.nameSpeaker;
