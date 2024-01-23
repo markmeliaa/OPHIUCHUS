@@ -32,7 +32,7 @@ public class ManageSettings : MonoBehaviour
 
     public void ActivateSettings()
     {
-        playerMovement.canMove = false;
+        playerMovement.StopPlayer();
         settingsMenu.SetActive(true);
     }
 

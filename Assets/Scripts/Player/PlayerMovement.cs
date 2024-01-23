@@ -77,4 +77,13 @@ public class PlayerMovement : MonoBehaviour
         playerAnimationDirection.SetDirection(movement);
         playerRigidBodyComp.MovePosition(newPos);
     }
+
+    public void StopPlayer()
+    {
+        horInput = 0.0f;
+        vertInput = 0.0f;
+        playerAnimationDirection.SetDirection(new Vector2(horInput, vertInput));
+
+        canMove = false;
+    }
 }

@@ -43,7 +43,7 @@ public class ShowArrows : MonoBehaviour
                     mainChar.GetComponent<AudioSource>().Stop();
 
                     upAnim.SetActive(true);
-                    playerMovement.canMove = false;
+                    playerMovement.StopPlayer();
 
                     hideGame.SetBool("Show", false);
                     StartCoroutine("ChangeScene");
@@ -72,7 +72,7 @@ public class ShowArrows : MonoBehaviour
                     mainChar.GetComponent<AudioSource>().Stop();
 
                     upAnim.SetActive(true);
-                    playerMovement.canMove = false;
+                    playerMovement.StopPlayer();
 
                     hideGame.SetBool("Show", false);
                     StartCoroutine("ChangeScene");

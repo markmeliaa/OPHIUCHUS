@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManageInitialLoad : MonoBehaviour
+public class ManagePantwoLoad : MonoBehaviour
 {
     [SerializeField] private PlayerMovement playerMovement;
 
