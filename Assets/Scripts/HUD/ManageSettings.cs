@@ -17,7 +17,7 @@ public class ManageSettings : MonoBehaviour
 
     void Update()
     {
-        /*
+        /* TODO: Check if this is still needed
             if (templates?.mapFormed == false || templates?.changingRoom == true)
                 menuButton.gameObject.SetActive(false);
 

@@ -130,9 +130,12 @@ public class RoomTemplates : MonoBehaviour
 					rooms[i].SetActive(false);
                 }
 
-				actualRoom = Instantiate(actualRoom, rooms[0].transform.position, Quaternion.identity, rooms[0].transform);
+				if (actualRoom != null)
+				{
+                    actualRoom = Instantiate(actualRoom, rooms[0].transform.position, Quaternion.identity, rooms[0].transform);
+                }
 
-				gameMusic.Play();
+                gameMusic.Play();
 				loadScreen.SetActive(false);
 				circleAnimator.SetBool("Show", true);
 				circleAnimator2.SetBool("Show", true);

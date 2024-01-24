@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ShowArrows : MonoBehaviour
+public class DisplayChangeRoomArea : MonoBehaviour
 {
     private GameObject arrow;
     private RoomTemplates templates;
@@ -50,10 +50,13 @@ public class ShowArrows : MonoBehaviour
                     ChangeToGameScene();
                 }
             }
+
+            /* TODO: Check if this is still needed
             else if (templates != null && !templates.changingRoom)
             {
                 arrow.SetActive(true);
             }
+            */
         }
     }
 
