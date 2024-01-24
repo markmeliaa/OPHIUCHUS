@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AddRoom : MonoBehaviour 
+public class MinimapRoomSpawner : MonoBehaviour 
 {
 	private RoomTemplates templates;
 

@@ -1848,11 +1848,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &474702528 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7319662485463044465, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
-  m_PrefabInstance: {fileID: 753757241253937633}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &475665404
 GameObject:
   m_ObjectHideFlags: 0
@@ -2923,7 +2918,7 @@ GameObject:
   - component: {fileID: 517004973}
   m_Layer: 6
   m_Name: MainCharacterBasePoint
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18078,6 +18073,7 @@ GameObject:
   - component: {fileID: 4698244007415475936}
   - component: {fileID: 3198199007534749094}
   - component: {fileID: 6668809960396671933}
+  - component: {fileID: 9024616880849956324}
   m_Layer: 3
   m_Name: Tilemap -- Colliders -- EArrow
   m_TagString: East
@@ -18113,10 +18109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63c2ac1bd8bd7a42a2fdc4949c3b5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainChar: {fileID: 3197092685319377708}
-  upAnim: {fileID: 474702528}
-  playerMovement: {fileID: 8897891012726026274}
-  hideGame: {fileID: 1526577850}
 --- !u!4 &7747913131627755943
 Transform:
   m_ObjectHideFlags: 0
@@ -18247,6 +18239,23 @@ TilemapRenderer:
   m_Mode: 1
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!114 &9024616880849956324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6073675877100776439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da114731df28d74f8815b68649a044c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadSceneText: {fileID: 0}
+  changeSceneAnim: {fileID: 1526577850}
+  stateToChange: Show
+  stateValue: 0
+  animationDuration: 1.75
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

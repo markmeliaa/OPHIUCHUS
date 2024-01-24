@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Destroyer : MonoBehaviour 
+public class OverlapperRoomDestroyer : MonoBehaviour 
 {
 	void OnTriggerEnter2D(Collider2D other)
 	{

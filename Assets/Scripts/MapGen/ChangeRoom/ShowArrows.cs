@@ -7,47 +7,32 @@ public class ShowArrows : MonoBehaviour
     private GameObject arrow;
     private RoomTemplates templates;
 
-    public GameObject mainChar;
-    public GameObject upAnim;
-    public PlayerMovement playerMovement;
+    private GameObject player;
+    private PlayerMovement playerMovement;
+    private GameObject tpAnim;
 
-    public Animator hideGame;
+    private bool interactKeyPressed;
 
-    private bool ePressed;
+    private ManageScenes sceneLoader;
 
-    // Start is called before the first frame update
     void Start()
     {
+        // They need to be assigned this way because they belong to prefabs
         arrow = gameObject.transform.GetChild(0).gameObject;
         templates = GameObject.FindGameObjectWithTag("Rooms")?.GetComponent<RoomTemplates>();
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerMovement = player.GetComponent<PlayerMovement>();
+        tpAnim = player.transform.GetChild(0).gameObject;
+
+        sceneLoader = GetComponent<ManageScenes>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            if (templates != null)
-            {
-                if (!templates.changingRoom)
-                    arrow.SetActive(true);
-            }
-
-            else
-            {
-                arrow.SetActive(true);
-                if (Input.GetKey(KeyCode.E) && !ePressed)
-                {
-                    ePressed = true;
-                    mainChar.GetComponent<SpriteRenderer>().enabled = false;
-                    mainChar.GetComponent<AudioSource>().Stop();
-
-                    upAnim.SetActive(true);
-                    playerMovement.StopPlayer();
-
-                    hideGame.SetBool("Show", false);
-                    StartCoroutine("ChangeScene");
-                }
-            }
+            arrow.SetActive(true);
         }
     }
 
@@ -55,27 +40,19 @@ public class ShowArrows : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (templates != null)
-            {
-                if (!templates.changingRoom)
-                    arrow.SetActive(true);
-            }
-
-            else
+            if (sceneLoader != null && sceneLoader.GetCurrentSceneIndex() == 1)
             {
                 arrow.SetActive(true);
-                if (Input.GetKey(KeyCode.E) && !ePressed)
+
+                if (Input.GetKey(KeyCode.E) && !interactKeyPressed)
                 {
-                    ePressed = true;
-                    mainChar.GetComponent<SpriteRenderer>().enabled = false;
-                    mainChar.GetComponent<AudioSource>().Stop();
-
-                    upAnim.SetActive(true);
-                    playerMovement.StopPlayer();
-
-                    hideGame.SetBool("Show", false);
-                    StartCoroutine("ChangeScene");
+                    interactKeyPressed = true;
+                    ChangeToGameScene();
                 }
+            }
+            else if (templates != null && !templates.changingRoom)
+            {
+                arrow.SetActive(true);
             }
         }
     }
@@ -83,12 +60,19 @@ public class ShowArrows : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
+        {
             arrow.SetActive(false);
+        }
     }
 
-    IEnumerator ChangeScene()
+    void ChangeToGameScene()
     {
-        yield return new WaitForSeconds(1.75f);
-        SceneManager.LoadScene(2);
+        player.GetComponent<SpriteRenderer>().enabled = false;
+        player.GetComponent<AudioSource>().Stop();
+
+        tpAnim.SetActive(true);
+        playerMovement.StopPlayer();
+
+        sceneLoader.LoadSelectedScene(2);
     }
 }

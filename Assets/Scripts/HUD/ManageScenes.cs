@@ -3,15 +3,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ManageLoadScene : MonoBehaviour
+public class ManageScenes : MonoBehaviour
 {
     [SerializeField] private Text loadSceneText;
     [SerializeField] private Animator changeSceneAnim;
 
-    [SerializeField] private string animationToTrigger;
+    [SerializeField] private string stateToChange;
+    [SerializeField] private bool stateValue = true;
     [SerializeField] private float animationDuration;
 
-    public void LoadNextScene(int sceneLoad)
+    public void LoadSelectedScene(int sceneLoad)
     {
         if (loadSceneText != null)
         {
@@ -20,7 +21,7 @@ public class ManageLoadScene : MonoBehaviour
 
         if (changeSceneAnim != null)
         {
-            changeSceneAnim.SetBool(animationToTrigger, true);
+            changeSceneAnim.SetBool(stateToChange, stateValue);
         }
 
         StartCoroutine("ChangeSceneAfterAnimation", sceneLoad);
@@ -31,5 +32,15 @@ public class ManageLoadScene : MonoBehaviour
         yield return new WaitForSeconds(animationDuration);
 
         SceneManager.LoadScene(sceneLoad);
+    }
+
+    public int GetCurrentSceneIndex()
+    {
+        return SceneManager.GetActiveScene().buildIndex;
+    }
+
+    public string GetCurrentSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 }
