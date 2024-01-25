@@ -28,7 +28,7 @@ public class RoomTemplates : MonoBehaviour
 	public GameObject initialRoom;
 	public GameObject normalRoom;
 
-	public Transform roomPlaceholder;
+	public Transform roomsParent;
 
 	public List<GameObject> rooms;
 
@@ -42,7 +42,6 @@ public class RoomTemplates : MonoBehaviour
 	public int maxRooms = 25;
 
 	public Transform roomSpawner;
-	public Camera mainCamera;
 
 	public float roomOffset;
 
@@ -162,7 +161,7 @@ public class RoomTemplates : MonoBehaviour
 		generateAgainButton.SetActive(false);
 		mapFormed = false;
 
-        currentRoom = Instantiate(initialRoom, roomSpawner.position, initialRoom.transform.rotation, roomPlaceholder);
+        currentRoom = Instantiate(initialRoom, roomSpawner.position, initialRoom.transform.rotation, roomsParent);
     }
 
 	public void AddItems()

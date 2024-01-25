@@ -8977,14 +8977,13 @@ MonoBehaviour:
   healRoom: {fileID: 1898445321837384, guid: a5eb33cdefd386f4d9f216bbe7ee5580, type: 3}
   initialRoom: {fileID: 1384366362914734, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
   normalRoom: {fileID: 5604431807221491164, guid: c472f731062cf2841abb5df3167dc96a, type: 3}
-  roomPlaceholder: {fileID: 207366078}
+  roomsParent: {fileID: 1412537187}
   rooms: []
   boss: {fileID: 1898445321837384, guid: b836ff339548c264d8d8ef71f0b49ba5, type: 3}
   generateAgainButton: {fileID: 391659996}
   minRooms: 10
   maxRooms: 15
   roomSpawner: {fileID: 1076052112}
-  mainCamera: {fileID: 1387191582}
   roomOffset: 0.022
   currentRoom: {fileID: 1558707656}
   currentRealRoom: {fileID: 1594822905}
@@ -19005,11 +19004,6 @@ Transform:
 --- !u!82 &1387191580 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 8587813070594459757, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
-  m_PrefabInstance: {fileID: 1597769209409487289}
-  m_PrefabAsset: {fileID: 0}
---- !u!20 &1387191582 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 8340842815782811154, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
   m_PrefabInstance: {fileID: 1597769209409487289}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1396682805

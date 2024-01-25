@@ -207,7 +207,7 @@ public class GetAdjRoom : MonoBehaviour
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
 
@@ -275,7 +275,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(templates.B, nextRoom.transform.position, templates.B.transform.rotation, templates.roomPlaceholder);
+                                otherRoom = Instantiate(templates.B, nextRoom.transform.position, templates.B.transform.rotation, templates.roomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -386,7 +386,7 @@ public class GetAdjRoom : MonoBehaviour
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
 
@@ -454,7 +454,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(templates.T, nextRoom.transform.position, templates.T.transform.rotation, templates.roomPlaceholder);
+                                otherRoom = Instantiate(templates.T, nextRoom.transform.position, templates.T.transform.rotation, templates.roomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -565,7 +565,7 @@ public class GetAdjRoom : MonoBehaviour
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
 
@@ -633,7 +633,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(templates.L, nextRoom.transform.position, templates.L.transform.rotation, templates.roomPlaceholder);
+                                otherRoom = Instantiate(templates.L, nextRoom.transform.position, templates.L.transform.rotation, templates.roomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -696,7 +696,7 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
                         {
-                            thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
+                            thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
                             nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                         }
                     }
@@ -745,7 +745,7 @@ public class GetAdjRoom : MonoBehaviour
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
 
@@ -813,7 +813,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(templates.R, nextRoom.transform.position, templates.R.transform.rotation, templates.roomPlaceholder);
+                                otherRoom = Instantiate(templates.R, nextRoom.transform.position, templates.R.transform.rotation, templates.roomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 50475196529406120}
   - component: {fileID: 4603401157583876382}
   m_Layer: 0
-  m_Name: Spawn Point (1)
+  m_Name: Spawn Point L
   m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,9 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openingDirection: 4
-  spawned: 0
-  actualRoom: {fileID: 0}
+  doorNeeded: 4
+  hasRoomConnected: 0
+  currentRoom: {fileID: 0}
   nextRoom: {fileID: 0}
 --- !u!1 &1028094079595516
 GameObject:
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 50627981948616380}
   - component: {fileID: 8335481602805577811}
   m_Layer: 0
-  m_Name: Spawn Point (2)
+  m_Name: Spawn Point B
   m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,9 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openingDirection: 2
-  spawned: 0
-  actualRoom: {fileID: 0}
+  doorNeeded: 2
+  hasRoomConnected: 0
+  currentRoom: {fileID: 0}
   nextRoom: {fileID: 0}
 --- !u!1 &1117737662058602
 GameObject:
@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 50110469007180854}
   - component: {fileID: 3540081461111046863}
   m_Layer: 0
-  m_Name: Spawn Point
+  m_Name: Spawn Point R
   m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -530,9 +530,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openingDirection: 3
-  spawned: 0
-  actualRoom: {fileID: 0}
+  doorNeeded: 3
+  hasRoomConnected: 0
+  currentRoom: {fileID: 0}
   nextRoom: {fileID: 0}
 --- !u!1 &1384366362914734
 GameObject:
@@ -610,10 +610,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4879808425967266}
-  - {fileID: 4036209443546236}
   - {fileID: 4239671994711556}
   - {fileID: 4013062737491120}
+  - {fileID: 4036209443546236}
+  - {fileID: 4879808425967266}
   - {fileID: 1772162126082645984}
   m_Father: {fileID: 4284646200961232}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1089,7 +1089,7 @@ GameObject:
   - component: {fileID: 50128803501875684}
   - component: {fileID: 7470007546414797451}
   m_Layer: 0
-  m_Name: Spawn Point (3)
+  m_Name: Spawn Point T
   m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1194,9 +1194,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openingDirection: 1
-  spawned: 0
-  actualRoom: {fileID: 0}
+  doorNeeded: 1
+  hasRoomConnected: 0
+  currentRoom: {fileID: 0}
   nextRoom: {fileID: 0}
 --- !u!1 &1955702126142840
 GameObject:
