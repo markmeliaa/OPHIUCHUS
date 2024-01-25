@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 
+public enum DoorOrientation
+{
+	BOTTOM,
+	TOP,
+	LEFT,
+	RIGHT
+};
+
 public class RoomSpawner : MonoBehaviour
 {
-	public int openingDirection;
-	// 1 --> need bottom door
-	// 2 --> need top door
-	// 3 --> need left door
-	// 4 --> need right door
+	public DoorOrientation doorNeeded;
 
 	private RoomTemplates templates;
 	private int rand;
@@ -14,11 +18,8 @@ public class RoomSpawner : MonoBehaviour
 	public GameObject actualRoom;
 	public GameObject nextRoom;
 
-	//private float waitTime = 3f;
-
 	void Start()
 	{
-		//Destroy(gameObject, waitTime);
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 		actualRoom = transform.parent.transform.parent.gameObject;
 
@@ -34,7 +35,7 @@ public class RoomSpawner : MonoBehaviour
 			&& templates.mainCamera.WorldToViewportPoint(transform.position).y < 1 - 0.038
 			&& templates.mainCamera.WorldToViewportPoint(transform.position).y > 0 + 0.038)
 		{
-			if (openingDirection == 1)
+			if (doorNeeded == DoorOrientation.BOTTOM)
 			{
 				// Need to spawn a room with a BOTTOM door
 				rand = Random.Range(0, templates.bottomRooms.Length);
@@ -51,7 +52,7 @@ public class RoomSpawner : MonoBehaviour
 
 				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 				{
-					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
                     {
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
@@ -59,7 +60,7 @@ public class RoomSpawner : MonoBehaviour
 						
 				}
 			}
-			else if (openingDirection == 2)
+			else if (doorNeeded == DoorOrientation.TOP)
 			{
 				// Need to spawn a room with a TOP door
 				rand = Random.Range(0, templates.topRooms.Length);
@@ -76,14 +77,14 @@ public class RoomSpawner : MonoBehaviour
 
 				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 				{
-					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 					{
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
 					}
 				}
 			}
-			else if (openingDirection == 3)
+			else if (doorNeeded == DoorOrientation.LEFT)
 			{
 				// Need to spawn a room with a LEFT door
 				rand = Random.Range(0, templates.leftRooms.Length);
@@ -100,14 +101,14 @@ public class RoomSpawner : MonoBehaviour
 
 				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 				{
-					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 					{
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
 					}
 				}
 			}
-			else if (openingDirection == 4)
+			else if (doorNeeded == DoorOrientation.RIGHT)
 			{
 				// Need to spawn a room with a RIGHT door
 				rand = Random.Range(0, templates.rightRooms.Length);
@@ -124,7 +125,7 @@ public class RoomSpawner : MonoBehaviour
 
 				for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 				{
-					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+					if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 					{
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 						roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = actualRoom;
@@ -222,9 +223,9 @@ public class RoomSpawner : MonoBehaviour
 				//Debug.Log("Collision at " + this.gameObject.transform.parent.transform.parent.transform.position + " with " + other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.transform.position);
 				//Debug.Log(openingDirection + ", " + other.GetComponent<RoomSpawner>().openingDirection);
 				
-				if (openingDirection == 1)
+				if (doorNeeded == DoorOrientation.BOTTOM)
                 {
-					if (other.GetComponent<RoomSpawner>().openingDirection == 2)
+					if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
                     {
 						//Debug.Log("Spawn TB");
 						// Need to spawn a room with a BOTTOM TOP door
@@ -241,13 +242,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -255,7 +256,7 @@ public class RoomSpawner : MonoBehaviour
 						}
 					}
 
-					else if (other.GetComponent<RoomSpawner>().openingDirection == 3)
+					else if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 					{
 						//Debug.Log("Spawn LB");
 						// Need to spawn a room with a BOTTOM LEFT door
@@ -272,13 +273,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -286,7 +287,7 @@ public class RoomSpawner : MonoBehaviour
 						}
 					}
 
-					else if (other.GetComponent<RoomSpawner>().openingDirection == 4)
+					else if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 					{
 						//Debug.Log("Spawn RB");
 						// Need to spawn a room with a BOTTOM RIGHT door
@@ -303,13 +304,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -318,9 +319,9 @@ public class RoomSpawner : MonoBehaviour
 					}
 				}
 
-				else if (openingDirection == 2)
+				else if (doorNeeded == DoorOrientation.TOP)
                 {
-					if (other.GetComponent<RoomSpawner>().openingDirection == 1)
+					if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 					{
 						//Debug.Log("Spawn TB");
 						// Need to spawn a room with a TOP BOTTOM door
@@ -337,13 +338,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -351,7 +352,7 @@ public class RoomSpawner : MonoBehaviour
 						}
 					}
 
-					else if (other.GetComponent<RoomSpawner>().openingDirection == 3)
+					else if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 					{
 						//Debug.Log("Spawn TL");
 						// Need to spawn a room with a TOP LEFT door
@@ -368,13 +369,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -382,7 +383,7 @@ public class RoomSpawner : MonoBehaviour
 						}
 					}
 
-					else if (other.GetComponent<RoomSpawner>().openingDirection == 4)
+					else if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 					{
 						//Debug.Log("Spawn TR");
 						// Need to spawn a room with a TOP RIGHT door
@@ -399,13 +400,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -414,9 +415,9 @@ public class RoomSpawner : MonoBehaviour
 					}
 				}
 
-				else if (openingDirection == 3)
+				else if (doorNeeded == DoorOrientation.LEFT)
 				{
-					if (other.GetComponent<RoomSpawner>().openingDirection == 1)
+					if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 					{
 						//Debug.Log("Spawn LB");
 						// Need to spawn a room with a LEFT BOTTOM door
@@ -433,13 +434,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -447,7 +448,7 @@ public class RoomSpawner : MonoBehaviour
 						}
 					}
 
-					else if (other.GetComponent<RoomSpawner>().openingDirection == 2)
+					else if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
 					{
 						//Debug.Log("Spawn TL");
 						// Need to spawn a room with a LEFT TOP door
@@ -464,13 +465,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -478,7 +479,7 @@ public class RoomSpawner : MonoBehaviour
 						}
 					}
 
-					else if (other.GetComponent<RoomSpawner>().openingDirection == 4)
+					else if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 					{
 						//Debug.Log("Spawn LR");
 						// Need to spawn a room with a LEFT RIGHT door
@@ -495,13 +496,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -510,9 +511,9 @@ public class RoomSpawner : MonoBehaviour
 					}
 				}
 
-				else if (openingDirection == 4)
+				else if (doorNeeded == DoorOrientation.RIGHT)
 				{
-					if (other.GetComponent<RoomSpawner>().openingDirection == 1)
+					if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 					{
 						//Debug.Log("Spawn RB");
 						// Need to spawn a room with a RIGHT BOTTOM door
@@ -529,13 +530,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 2)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -543,7 +544,7 @@ public class RoomSpawner : MonoBehaviour
 						}
 					}
 
-					else if (other.GetComponent<RoomSpawner>().openingDirection == 2)
+					else if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.TOP)
 					{
 						//Debug.Log("Spawn TR");
 						// Need to spawn a room with a RIGHT TOP door
@@ -560,13 +561,13 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 1)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.BOTTOM)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;
@@ -574,7 +575,7 @@ public class RoomSpawner : MonoBehaviour
 						}
 					}
 
-					else if (other.GetComponent<RoomSpawner>().openingDirection == 3)
+					else if (other.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
 					{
 						//Debug.Log("Spawn LR");
 						// Need to spawn a room with a RIGHT LEFT door
@@ -591,14 +592,14 @@ public class RoomSpawner : MonoBehaviour
 
 						for (int i = 0; i < roomSpawnpoints?.transform.childCount; i++)
 						{
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 3)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.LEFT)
                             {
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = gameObject.transform.parent.transform.parent.gameObject;
 							}
 								
 
-							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().openingDirection == 4)
+							if (roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().doorNeeded == DoorOrientation.RIGHT)
 							{
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().spawned = true;
 								roomSpawnpoints.transform.GetChild(i).gameObject.GetComponent<RoomSpawner>().nextRoom = other.GetComponent<RoomSpawner>().gameObject.transform.parent.transform.parent.gameObject;

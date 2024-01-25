@@ -199,7 +199,7 @@ public class GetAdjRoom : MonoBehaviour
                     GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 1)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
@@ -336,7 +336,7 @@ public class GetAdjRoom : MonoBehaviour
 
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 1)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
                         {
                             nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                         }
@@ -378,7 +378,7 @@ public class GetAdjRoom : MonoBehaviour
                     GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 2)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
@@ -515,7 +515,7 @@ public class GetAdjRoom : MonoBehaviour
 
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 2)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
                         {
                             nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                         }
@@ -557,7 +557,7 @@ public class GetAdjRoom : MonoBehaviour
                     GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 3)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
@@ -694,7 +694,7 @@ public class GetAdjRoom : MonoBehaviour
 
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 3)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
                         {
                             thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().actualRoom;
                             nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
@@ -737,7 +737,7 @@ public class GetAdjRoom : MonoBehaviour
                     GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 4)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
@@ -874,7 +874,7 @@ public class GetAdjRoom : MonoBehaviour
 
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.openingDirection == 4)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
                         {
                             nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
                         }
