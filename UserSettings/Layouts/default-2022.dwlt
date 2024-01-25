@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 45
+  controlID: 52
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 46
+  controlID: 53
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 47
+  controlID: 54
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -555,7 +555,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 27836
+  m_LastSelectedObjectID: -86474
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -601,7 +601,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes/BUILD
+    - Assets/Scripts/MapGen/RandomGen
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -609,16 +609,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 75
   m_LastFolders:
-  - Assets/Scenes/BUILD
+  - Assets/Scripts/MapGen/RandomGen
   m_LastFoldersGridSize: 75
   m_LastProjectPath: C:\Users\marca\Desktop\Markk\OPHIUCHUS
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 138.33331}
-    m_SelectedIDs: 1e660000
-    m_LastClickedID: 26142
-    m_ExpandedIDs: 00000000f6650000f8650000fa6500002a66000000ca9a3b
+    scrollPos: {x: 0, y: 170.33331}
+    m_SelectedIDs: 767e0000
+    m_LastClickedID: 32374
+    m_ExpandedIDs: 00000000327e0000347e0000367e0000667e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -646,7 +646,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000f6650000f8650000fa650000
+    m_ExpandedIDs: 00000000327e0000347e0000367e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -788,7 +788,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 5086ffffb286ffffc490ffff7a91ffff3492ffff82e7ffff04e8ffff82eeffffbcf3ffff14fbffff16fbffff96630000106a00005a6a0000dc6a0000466b0000e06c0000
+      m_ExpandedIDs: f487fdfffa87fdff6888fdff9688fdff3a89fdff6289fdff6889fdff8c8bfdff7aaefeffd6b0feff76f4feffc4f5fefff221ffff3222ffffe222ffffd8faffff16fbffff086400009a6400002c650000c0670000ac690000106a0000186a0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -876,7 +876,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 24.666666}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-scene-view-toolbar
@@ -1122,7 +1122,7 @@ MonoBehaviour:
       containerId: overlay-container--right
       floating: 0
       collapsed: 0
-      displayed: 1
+      displayed: 0
       snapOffset: {x: -134.66669, y: -43.333374}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 3
@@ -1175,7 +1175,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 48, y: 48}
+      snapOffset: {x: 48, y: 10.6666565}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: UnityEditor.SceneViewCameraOverlay
@@ -1194,9 +1194,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -4.6245756, y: -0.04439851, z: -0.28537002}
+    m_Target: {x: 0.57779384, y: 0.2716495, z: 4738.8394}
     speed: 2
-    m_Value: {x: -4.6245756, y: -0.04439851, z: -0.28537002}
+    m_Value: {x: 0.57779384, y: 0.2716495, z: 4738.8394}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1246,9 +1246,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 4.480621
+    m_Target: 0.6507778
     speed: 2
-    m_Value: 4.480621
+    m_Value: 0.6507778
   m_Ortho:
     m_Target: 1
     speed: 2

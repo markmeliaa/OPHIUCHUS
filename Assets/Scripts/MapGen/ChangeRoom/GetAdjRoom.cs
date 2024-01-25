@@ -199,16 +199,16 @@ public class GetAdjRoom : MonoBehaviour
                     GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
+                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
-                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
+                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
 
                                     break;
@@ -234,7 +234,7 @@ public class GetAdjRoom : MonoBehaviour
                         for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
                         {
                             //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom != null)
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom != null)
                                 openings++;
                         }
 
@@ -336,9 +336,9 @@ public class GetAdjRoom : MonoBehaviour
 
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
                         {
-                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
                         }
                     }
 
@@ -378,16 +378,16 @@ public class GetAdjRoom : MonoBehaviour
                     GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
+                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
-                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
+                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
 
                                     break;
@@ -413,7 +413,7 @@ public class GetAdjRoom : MonoBehaviour
                         for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
                         {
                             //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom != null)
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom != null)
                                 openings++;
                         }
 
@@ -515,9 +515,9 @@ public class GetAdjRoom : MonoBehaviour
 
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
                         {
-                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
                         }
                     }
 
@@ -557,16 +557,16 @@ public class GetAdjRoom : MonoBehaviour
                     GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
+                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
-                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
+                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
 
                                     break;
@@ -592,7 +592,7 @@ public class GetAdjRoom : MonoBehaviour
                         for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
                         {
                             //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom != null)
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom != null)
                                 openings++;
                         }
 
@@ -694,10 +694,10 @@ public class GetAdjRoom : MonoBehaviour
 
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
                         {
-                            thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
-                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                            thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
+                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
                         }
                     }
 
@@ -737,16 +737,16 @@ public class GetAdjRoom : MonoBehaviour
                     GameObject newRoom = null;
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
                         {
                             foreach (GameObject room in templates.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom.name)
+                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().currentRoom;
-                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
+                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
                                     templates.currentRoom = nextRoom;
 
                                     break;
@@ -772,7 +772,7 @@ public class GetAdjRoom : MonoBehaviour
                         for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
                         {
                             //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom != null)
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom != null)
                                 openings++;
                         }
 
@@ -874,9 +874,9 @@ public class GetAdjRoom : MonoBehaviour
 
                     for (int i = 0; i < spawnPoints.transform.childCount; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
+                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
                         {
-                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom;
+                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
                         }
                     }
 

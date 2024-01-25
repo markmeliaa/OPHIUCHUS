@@ -671,7 +671,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1841658493186643290}
   - component: {fileID: 6647464363437774738}
-  - component: {fileID: -4480061179812963477}
   m_Layer: 0
   m_Name: TLRB
   m_TagString: Room
@@ -723,18 +722,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-4480061179812963477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5604431807221491164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e018058e802ef6f44917560db11d0615, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5982564641870602750
 GameObject:
   m_ObjectHideFlags: 0
