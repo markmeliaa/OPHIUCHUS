@@ -318,25 +318,21 @@ MonoBehaviour:
   bottomMinimapRooms:
   - {fileID: 1914693036162022, guid: b4b7e8d1ce0240240b34e67aa932cca8, type: 3}
   - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
-  - {fileID: 5604431807221491164, guid: c472f731062cf2841abb5df3167dc96a, type: 3}
   - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
   - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
   topMinimapRooms:
   - {fileID: 1369664336951714, guid: 16d2ad34820b8a343a682fd2333cde30, type: 3}
   - {fileID: 1974744948600924, guid: cd7e6cc947eba0c48a5c75d3da9cdf87, type: 3}
   - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
-  - {fileID: 5604431807221491164, guid: c472f731062cf2841abb5df3167dc96a, type: 3}
   - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
   leftMinimapRooms:
   - {fileID: 1915828372064998, guid: 646418429903d6d448608f498825687f, type: 3}
   - {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
   - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
-  - {fileID: 5604431807221491164, guid: c472f731062cf2841abb5df3167dc96a, type: 3}
   - {fileID: 1857462433007770, guid: b647222c5f5995d4abe8c9a0679c51c6, type: 3}
   rightMinimapRooms:
   - {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
   - {fileID: 1709453575458850, guid: 78ff2e9086f436c4b98fb0e91af453c3, type: 3}
-  - {fileID: 5604431807221491164, guid: c472f731062cf2841abb5df3167dc96a, type: 3}
   - {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
   - {fileID: 1580888179356958, guid: adac8ac0f501c8b4ba76adc714c6ebc6, type: 3}
   topMinimapRoom: {fileID: 1369664336951714, guid: 16d2ad34820b8a343a682fd2333cde30, type: 3}
@@ -349,7 +345,7 @@ MonoBehaviour:
   leftBottomMinimapRoom: {fileID: 1144202486990382, guid: e7d19ffc70e7e284d96b95b31703039d, type: 3}
   rightBottomMinimapRoom: {fileID: 1633850058292698, guid: a1f7857566ac52d43b0fa8ea36be88cd, type: 3}
   leftRightMinimapRoom: {fileID: 1982205314345556, guid: 0fdfdfa15402daa4bba3a2dfb81d8206, type: 3}
-  allDirectionsMinimapRoom: {fileID: 5604431807221491164, guid: c472f731062cf2841abb5df3167dc96a, type: 3}
+  allDirectionsMinimapRoom: {fileID: 1384366362914734, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
   shopRoom: {fileID: 1898445321837384, guid: d2f94dad7aa9a8a4cbec762cdac747b0, type: 3}
   healRoom: {fileID: 1898445321837384, guid: a5eb33cdefd386f4d9f216bbe7ee5580, type: 3}
   bossRoom: {fileID: 1898445321837384, guid: b836ff339548c264d8d8ef71f0b49ba5, type: 3}
@@ -377,7 +373,7 @@ GameObject:
   - component: {fileID: 1494625151}
   m_Layer: 0
   m_Name: Dungeon Map Creator
-  m_TagString: Rooms
+  m_TagString: DungeonMngr
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -394,6 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8773fdda87648941bef0f86503bbdde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGame: 0
   initialMinimapRoomPosition: {fileID: 960697501}
   minimapRoomsParent: {fileID: 635502956}
   gameRoomsParent: {fileID: 635502956}
@@ -403,7 +400,8 @@ MonoBehaviour:
   spawnedGameRooms: []
   minRooms: 10
   maxRooms: 25
-  isGame: 0
+  shopRoomChance: 50
+  healRoomChance: 50
 --- !u!4 &1494625152
 Transform:
   m_ObjectHideFlags: 0
@@ -599,9 +597,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RoomTemplates, Assembly-CSharp
-        m_MethodName: RestartGame
+      - m_Target: {fileID: 1494625151}
+        m_TargetAssemblyTypeName: DungeonMapManager, Assembly-CSharp
+        m_MethodName: RegenerateDungeonMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

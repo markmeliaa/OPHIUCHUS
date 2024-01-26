@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MinimapRoomSpawner : MonoBehaviour
 {
-	private DungeonMapManager templates;
+	private DungeonMapManager dungeonMapManager;
 	private Camera mainCamera;
 
     public DoorOrientation doorNeeded;
@@ -22,7 +22,7 @@ public class MinimapRoomSpawner : MonoBehaviour
 
 	void Start()
 	{
-		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<DungeonMapManager>();
+		dungeonMapManager = GameObject.FindGameObjectWithTag("DungeonMngr").GetComponent<DungeonMapManager>();
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
 		Transform spawnpointsParentTransform = transform.parent;
@@ -93,8 +93,8 @@ public class MinimapRoomSpawner : MonoBehaviour
 
         if (roomToSpawn != null)
         {
-            GameObject newRoom = Instantiate(roomToSpawn, newRoomPosition, roomToSpawn.transform.rotation, templates.minimapRoomsParent);
-            templates.spawnedMinimapRooms.Add(newRoom);
+            GameObject newRoom = Instantiate(roomToSpawn, newRoomPosition, roomToSpawn.transform.rotation, dungeonMapManager.minimapRoomsParent);
+            dungeonMapManager.spawnedMinimapRooms.Add(newRoom);
             nextRoom = newRoom;
 
             DoorOrientation oppositeDoorOrientation = DoorOrientationToRooms.GetOppositeOrientation(newRoomOrientation);
@@ -109,8 +109,8 @@ public class MinimapRoomSpawner : MonoBehaviour
 
         if (roomToSpawn != null)
         {
-            GameObject newRoom = Instantiate(roomToSpawn, roomToSpawnPosition, roomToSpawn.transform.rotation, templates.minimapRoomsParent);
-            templates.spawnedMinimapRooms.Add(newRoom);
+            GameObject newRoom = Instantiate(roomToSpawn, roomToSpawnPosition, roomToSpawn.transform.rotation, dungeonMapManager.minimapRoomsParent);
+            dungeonMapManager.spawnedMinimapRooms.Add(newRoom);
             nextRoom = newRoom;
             otherRoomToConnect.GetComponent<MinimapRoomSpawner>().nextRoom = newRoom;
 

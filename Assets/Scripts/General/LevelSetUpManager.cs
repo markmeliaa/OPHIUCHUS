@@ -8,8 +8,8 @@ public class LevelSetUpManager : MonoBehaviour
 
     [SerializeField] private AudioSource gameMusic;
 
-    [SerializeField] private GameObject loadScreen;
-    [SerializeField] private Animator loseCircleAnimator;
+    [SerializeField] private GameObject overLoadScreen;
+    [SerializeField] private Animator loadSceneCircleAnimator;
     [SerializeField] private Animator winCircleAnimator;
 
     private void Start()
@@ -22,8 +22,8 @@ public class LevelSetUpManager : MonoBehaviour
     {
         gameMusic.Play();
 
-        loadScreen.SetActive(false);
-        loseCircleAnimator.SetBool("Show", true);
+        overLoadScreen.SetActive(false);
+        loadSceneCircleAnimator.SetBool("Show", true);
         winCircleAnimator.SetBool("Show", true);
 
         AddItems();

@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class DisplayChangeRoomArea : MonoBehaviour
 {
     private GameObject arrow;
-    private DungeonMapManager templates;
 
     private GameObject player;
     private PlayerMovement playerMovement;
@@ -19,7 +18,6 @@ public class DisplayChangeRoomArea : MonoBehaviour
     {
         // They need to be assigned this way because they belong to prefabs
         arrow = gameObject.transform.GetChild(0).gameObject;
-        templates = GameObject.FindGameObjectWithTag("Rooms")?.GetComponent<DungeonMapManager>();
 
         player = GameObject.FindGameObjectWithTag("Player");
         playerMovement = player.GetComponent<PlayerMovement>();
@@ -50,13 +48,6 @@ public class DisplayChangeRoomArea : MonoBehaviour
                     ChangeToGameScene();
                 }
             }
-
-            /* TODO: Check if this is still needed
-            else if (templates != null && !templates.changingRoom)
-            {
-                arrow.SetActive(true);
-            }
-            */
         }
     }
 

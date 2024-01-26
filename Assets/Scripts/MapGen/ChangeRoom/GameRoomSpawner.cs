@@ -34,7 +34,7 @@ public class GameRoomSpawner : MonoBehaviour
 
     private void Start()
     {
-        dungeonMapManager = GameObject.FindGameObjectWithTag("Rooms").GetComponent<DungeonMapManager>();
+        dungeonMapManager = GameObject.FindGameObjectWithTag("DungeonMngr").GetComponent<DungeonMapManager>();
         player = GameObject.FindGameObjectWithTag("Player");
         thisRealRoom = transform.parent.transform.parent.gameObject;
         playerAnimationDirection = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimationDirection>();

@@ -1,9 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
+public enum SpecialRooms
+{
+    NONE,
+    BOSS,
+    SHOP,
+    HEAL
+}
 
 public class DungeonMapManager : MonoBehaviour
 {
+    [SerializeField] private bool isGame = true;
     [SerializeField] private Transform initialMinimapRoomPosition;
 
     [Header("ROOM RELATED FIELDS")]
@@ -12,6 +20,7 @@ public class DungeonMapManager : MonoBehaviour
     public Transform gameRoomsParent;
     [Space(5)]
     public GameObject currentMinimapRoom;
+    [Tooltip("This can be null only if 'isGame' above is set to false")]
     public GameObject currentGameRoom;
 
     [HideInInspector] public List<GameObject> spawnedMinimapRooms;
@@ -19,103 +28,146 @@ public class DungeonMapManager : MonoBehaviour
 
     [Space(10)]
 
-    [Range(5, 10)]
+    [Header("MAP RELATED FIELDS")]
+    [Space(5)]
+    [Range(5, 15)]
     [SerializeField] private int minRooms = 15;
-    [Range(20, 25)]
+    [Range(20, 30)]
     [SerializeField] private int maxRooms = 25;
 
-    private bool spawnedBoss;
-    private float availableTimeToGenerateTheMap = 5.0f;
+    private bool levelSetUp;
+    private float timeToGenerateMap = 1.0f;
 
-	[SerializeField] private bool isGame = true;
+    [Range(0.0f, 100.0f)]
+    [SerializeField] private float shopRoomChance;
+    [Range(0.0f, 100.0f)]
+    [SerializeField] private float healRoomChance;
 
-    // Spawn final zone boss
+    private void Start()
+    {
+        // This triggers the domino effect that creates the map
+        spawnedMinimapRooms.Add(currentMinimapRoom);
+    }
+
     private void Update()
     {
-		if (availableTimeToGenerateTheMap <= 0 && !spawnedBoss)
-		{
-			if (spawnedMinimapRooms.Count <= minRooms || spawnedMinimapRooms.Count > maxRooms)
-				RestartGame();
+        if (levelSetUp)
+        {
+            return;
+        }
 
-			else
+        if (timeToGenerateMap <= 0.0f)
+        {
+            bool roomCountNotWithinTheConstraints = spawnedMinimapRooms.Count <= minRooms || spawnedMinimapRooms.Count > maxRooms;
+
+            GameObject lastSpawnedRoom = spawnedMinimapRooms[spawnedMinimapRooms.Count - 1];
+            bool bossCanNotBeSpawned = !CanBeBossRoom(lastSpawnedRoom);
+
+            if (roomCountNotWithinTheConstraints || bossCanNotBeSpawned)
             {
-				// Spawn boss room but only in the R, B, T, L Rooms
-				if (spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].gameObject.name != "R(Clone)" && spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].gameObject.name != "L(Clone)" && 
-					spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].gameObject.name != "B(Clone)" && spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].gameObject.name != "T(Clone)")
+                RegenerateDungeonMap();
+            }
+
+            else
+            {
+                SpawnSpecialRoom(SpecialRooms.BOSS);
+
+                if (Random.Range(0.0f, 100.0f) <= shopRoomChance)
                 {
-					RestartGame();
-					return;
+                    SpawnSpecialRoom(SpecialRooms.SHOP);
                 }
 
-				GameObject bossRoom = RoomsHolderSingleton.Instance.bossRoom;
-				Instantiate(bossRoom, spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].transform.position, Quaternion.identity, spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].transform);
-				spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].tag = "BossRoom";
-				spawnedBoss = true;
-
-				/*
-				// Spawn heal and money room
-				int rand = Random.Range(1, rooms.Count - 1);
-				int rand2 = Random.Range(1, rooms.Count - 1);
-
-				while (rand == rand2)
-					rand2 = Random.Range(1, rooms.Count - 1);
-
-				//Debug.Log(rooms.Count / 10);
-
-				for (int i = 1; i <= rooms.Count - 2; i++)
-				{
-					if (i == rand && Random.Range(0, 10) < rooms.Count / 10 * 2)
-					{
-						Instantiate(shopRoom, rooms[i].transform.position, Quaternion.identity, rooms[i].transform);
-						rooms[i].tag = "ShopRoom";
-					}
-
-					else if (i == rand2 && Random.Range(0, 10) < rooms.Count / 10)
-					{
-						Instantiate(healRoom, rooms[i].transform.position, Quaternion.identity, rooms[i].transform);
-						rooms[i].tag = "HealRoom";
-					}
-				}
-				*/
-
-				for (int i = 1; i < spawnedMinimapRooms.Count; i++)
+                if (Random.Range(0.0f, 100.0f) <= healRoomChance)
                 {
-					spawnedMinimapRooms[i].SetActive(false);
+                    SpawnSpecialRoom(SpecialRooms.HEAL);
                 }
 
-				if (currentMinimapRoom != null)
-				{
-                    currentMinimapRoom = Instantiate(currentMinimapRoom, spawnedMinimapRooms[0].transform.position, Quaternion.identity, spawnedMinimapRooms[0].transform);
+                if (isGame)
+                {
+                    HideUndiscoveredRooms();
+
+                    LevelSetUpManager runManager = GetComponent<LevelSetUpManager>();
+                    runManager.SetUpInitialAttributes();
                 }
 
-				if (isGame)
-				{
-					LevelSetUpManager runManager = GetComponent<LevelSetUpManager>();
-					runManager.SetUpInitialAttributes();
-				}
-			}
-		}
+                levelSetUp = true;
+            }
+        }
+        else
+        {
+            timeToGenerateMap -= Time.deltaTime;
+        }
+    }
 
-		else
-			availableTimeToGenerateTheMap -= Time.deltaTime;
-	}
-
-	public void RestartGame()
+	public void RegenerateDungeonMap()
     {
 		foreach (GameObject room in spawnedMinimapRooms)
-			Destroy(room);
+		{
+            Destroy(room);
+        }
 
-		spawnedMinimapRooms = new List<GameObject>();
+        spawnedMinimapRooms = new List<GameObject>();
 
-		spawnedBoss = false;
-		availableTimeToGenerateTheMap = 1f;
+		levelSetUp = false;
+		timeToGenerateMap = 1.0f;
 
 		GameObject initialRoom = RoomsHolderSingleton.Instance.allDirectionsMinimapRoom;
+        currentGameRoom = Instantiate(initialRoom, initialMinimapRoomPosition.position,
+                                      initialRoom.transform.rotation, minimapRoomsParent);
+        spawnedMinimapRooms.Add(currentGameRoom);
+    }
 
-		if (isGame)
-		{
-            currentGameRoom = Instantiate(initialRoom, initialMinimapRoomPosition.position,
-										  initialRoom.transform.rotation, minimapRoomsParent);
+    private bool CanBeBossRoom(GameObject selectedRoom)
+    {
+        // Only limit rooms can be boss rooms (for now)
+
+        return selectedRoom.gameObject.name == "B(Clone)" ||
+               selectedRoom.gameObject.name == "T(Clone)" ||
+               selectedRoom.gameObject.name == "L(Clone)" ||
+               selectedRoom.gameObject.name == "R(Clone)";
+    }
+
+    private void SpawnSpecialRoom(SpecialRooms roomType)
+    {
+        GameObject specialRoom;
+        Transform specialRoomTransform;
+        string tagForTheRoom;
+
+        switch(roomType)
+        {
+            case SpecialRooms.BOSS:
+                specialRoom = RoomsHolderSingleton.Instance.bossRoom;
+                specialRoomTransform = spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].transform;
+                tagForTheRoom = "BossRoom";
+                break;
+
+            case SpecialRooms.SHOP:
+                specialRoom = RoomsHolderSingleton.Instance.shopRoom;
+                int shopRoomPlace = Random.Range(1, spawnedMinimapRooms.Count - 1);
+                specialRoomTransform = spawnedMinimapRooms[shopRoomPlace].transform;
+                tagForTheRoom = "ShopRoom";
+                break;
+
+            case SpecialRooms.HEAL:
+                specialRoom = RoomsHolderSingleton.Instance.healRoom;
+                int healRoomPlace = Random.Range(1, spawnedMinimapRooms.Count - 1);
+                specialRoomTransform = spawnedMinimapRooms[healRoomPlace].transform;
+                tagForTheRoom = "HealRoom";
+                break;
+
+            default:
+                return;
+        }
+
+        Instantiate(specialRoom, specialRoomTransform.position, specialRoomTransform.rotation, specialRoomTransform);
+        specialRoomTransform.gameObject.tag = tagForTheRoom;
+    }
+
+    private void HideUndiscoveredRooms()
+    {
+        for (int i = 1; i < spawnedMinimapRooms.Count; i++)
+        {
+            spawnedMinimapRooms[i].SetActive(false);
         }
     }
 }
