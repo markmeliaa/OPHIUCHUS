@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateDungeonMapManager : MonoBehaviour 
+public class DungeonMapManager : MonoBehaviour
 {
     [SerializeField] private Transform initialMinimapRoomPosition;
 
+    [Header("ROOM RELATED FIELDS")]
+    [Space(5)]
     public Transform minimapRoomsParent;
     public Transform gameRoomsParent;
-    [Space(5)]
-    [HideInInspector] public List<GameObject> spawnedMinimapRooms;
-    [HideInInspector] public List<GameObject> spawnedGameRooms;
     [Space(5)]
     public GameObject currentMinimapRoom;
     public GameObject currentGameRoom;
 
-	[Space(20)]
+    [HideInInspector] public List<GameObject> spawnedMinimapRooms;
+    [HideInInspector] public List<GameObject> spawnedGameRooms;
+
+    [Space(10)]
 
     [Range(5, 10)]
     [SerializeField] private int minRooms = 15;
@@ -25,20 +27,7 @@ public class CreateDungeonMapManager : MonoBehaviour
     private bool spawnedBoss;
     private float availableTimeToGenerateTheMap = 5.0f;
 
-    [SerializeField] private Animator circleAnimator;
-	public Animator circleAnimator2;
-
-	[SerializeField] private GameObject loadScreen;
-	[SerializeField] private AudioSource gameMusic;
-
-	[SerializeField] private GameObject mainCharacter;
-
-	[SerializeField] private GameObject tpCharacter;
-
-    private void Start()
-    {
-		spawnedGameRooms.Add(currentGameRoom);
-    }
+	[SerializeField] private bool isGame = true;
 
     // Spawn final zone boss
     private void Update()
@@ -99,14 +88,11 @@ public class CreateDungeonMapManager : MonoBehaviour
                     currentMinimapRoom = Instantiate(currentMinimapRoom, spawnedMinimapRooms[0].transform.position, Quaternion.identity, spawnedMinimapRooms[0].transform);
                 }
 
-                gameMusic.Play();
-				loadScreen.SetActive(false);
-				circleAnimator.SetBool("Show", true);
-				circleAnimator2.SetBool("Show", true);
-				AddItems();
-				StartCoroutine("StartGame");
-
-				//generateAgainButton.SetActive(true);
+				if (isGame)
+				{
+					LevelSetUpManager runManager = GetComponent<LevelSetUpManager>();
+					runManager.SetUpInitialAttributes();
+				}
 			}
 		}
 
@@ -125,29 +111,11 @@ public class CreateDungeonMapManager : MonoBehaviour
 		availableTimeToGenerateTheMap = 1f;
 
 		GameObject initialRoom = RoomsHolderSingleton.Instance.allDirectionsMinimapRoom;
-        currentGameRoom = Instantiate(initialRoom, initialMinimapRoomPosition.position, 
-									  initialRoom.transform.rotation, minimapRoomsParent);
+
+		if (isGame)
+		{
+            currentGameRoom = Instantiate(initialRoom, initialMinimapRoomPosition.position,
+										  initialRoom.transform.rotation, minimapRoomsParent);
+        }
     }
-
-	public void AddItems()
-	{
-		GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
-		GameMaster.inventory.Add(new ItemObject("Speed Potion", objectTypes.speed, 2));
-	}
-
-	public void EnterAnimation()
-    {
-		mainCharacter.GetComponent<SpriteRenderer>().enabled = false;
-		tpCharacter.SetActive(true);
-    }
-
-	IEnumerator StartGame()
-    {
-		yield return new WaitForSeconds(0.5f);
-		EnterAnimation();
-		yield return new WaitForSeconds(1.0f);
-
-		mainCharacter.GetComponent<SpriteRenderer>().enabled = true; 
-		tpCharacter.SetActive(false);
-	}
 }

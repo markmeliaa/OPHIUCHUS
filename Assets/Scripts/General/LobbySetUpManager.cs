@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyLoadManager : MonoBehaviour
+public class LobbySetUpManager : MonoBehaviour
 {
     [SerializeField] private PlayerMovement playerMovement;
 

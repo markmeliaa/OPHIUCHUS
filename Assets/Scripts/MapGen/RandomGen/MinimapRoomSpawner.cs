@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MinimapRoomSpawner : MonoBehaviour
 {
-	private CreateDungeonMapManager templates;
+	private DungeonMapManager templates;
 	private Camera mainCamera;
 
     public DoorOrientation doorNeeded;
@@ -22,7 +22,7 @@ public class MinimapRoomSpawner : MonoBehaviour
 
 	void Start()
 	{
-		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<CreateDungeonMapManager>();
+		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<DungeonMapManager>();
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
 		Transform spawnpointsParentTransform = transform.parent;

@@ -47,6 +47,8 @@ public class BattleManager : MonoBehaviour
     public GameObject Cancer;
     public GameObject Capricorn;
 
+    public Animator winCircleAnimator;
+
     private void Start()
     {
         /*
@@ -294,8 +296,8 @@ public class BattleManager : MonoBehaviour
 
         normalText.SetActive(true);
 
-        int usefulness = GameMaster.inventory[itemUsed].type == objectTypes.health ? GameMaster.inventory[itemUsed].level * 5 : GameMaster.inventory[itemUsed].level;
-        if (GameMaster.inventory[itemUsed].type == objectTypes.health)
+        int usefulness = GameMaster.inventory[itemUsed].type == ObjectTypes.HEALTH ? GameMaster.inventory[itemUsed].level * 5 : GameMaster.inventory[itemUsed].level;
+        if (GameMaster.inventory[itemUsed].type == ObjectTypes.HEALTH)
         {
             normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOU HEALED " + usefulness + " HP";
             GameMaster.playerLife += usefulness;
@@ -303,12 +305,12 @@ public class BattleManager : MonoBehaviour
                 GameMaster.playerLife = GameMaster.maxPlayerLife;
         }
 
-        else if (GameMaster.inventory[itemUsed].type == objectTypes.attack)
+        else if (GameMaster.inventory[itemUsed].type == ObjectTypes.ATTACK)
         {
             normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOUR ATTACK INCREASED BY " + usefulness;
         }
 
-        else if (GameMaster.inventory[itemUsed].type == objectTypes.defense)
+        else if (GameMaster.inventory[itemUsed].type == ObjectTypes.DEFENSE)
         {
             normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOUR DEFENSE INCREASED BY " + usefulness;
         }
@@ -426,7 +428,7 @@ public class BattleManager : MonoBehaviour
 
             if (GameMaster.inventory.Count < 8)
             {
-                GameMaster.inventory.Add(new ItemObject("Health Potion", objectTypes.health, 1));
+                GameMaster.inventory.Add(new ItemObject("Health Potion", ObjectTypes.HEALTH, 1));
             }
 
             else
@@ -541,7 +543,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator WaitWinAnim()
     {
-        buttonManager.templates.circleAnimator2.SetBool("Show", false);
+        winCircleAnimator.SetBool("Show", false);
         yield return new WaitForSeconds(1.75f);
 
         dialogueCanvas.SetActive(false);

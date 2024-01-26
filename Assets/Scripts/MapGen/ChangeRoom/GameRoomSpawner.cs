@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class GetAdjRoom : MonoBehaviour
+public class GameRoomSpawner : MonoBehaviour
 {
     private GameObject player;
 
     private bool teleport = true;
-    private CreateDungeonMapManager templates;
+    private DungeonMapManager dungeonMapManager;
     private GameObject spawnPoints;
     private GameObject thisRoom;
     private GameObject nextRoom;
@@ -34,10 +34,12 @@ public class GetAdjRoom : MonoBehaviour
 
     private void Start()
     {
-        templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<CreateDungeonMapManager>();
+        dungeonMapManager = GameObject.FindGameObjectWithTag("Rooms").GetComponent<DungeonMapManager>();
         player = GameObject.FindGameObjectWithTag("Player");
         thisRealRoom = transform.parent.transform.parent.gameObject;
         playerAnimationDirection = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimationDirection>();
+
+        dungeonMapManager.spawnedGameRooms.Add(dungeonMapManager.currentGameRoom);
     }
 
     // Manage change room animation movement
@@ -170,7 +172,7 @@ public class GetAdjRoom : MonoBehaviour
     // Manage the change of rooms
     private void OnTriggerStay2D(Collider2D other)
     {
-        thisRoom = templates.currentGameRoom;
+        thisRoom = dungeonMapManager.currentGameRoom;
         //Debug.Log(templates.currentRoom);
 
         if (other.CompareTag("Player") && Input.GetKey(KeyCode.E) && !ePressed && teleport == true && !changingRoom)
@@ -179,17 +181,17 @@ public class GetAdjRoom : MonoBehaviour
             //Debug.Log(true);
             teleport = false;
 
-            for (int i = 0; i < templates.currentGameRoom.transform.childCount; i++)
+            for (int i = 0; i < dungeonMapManager.currentGameRoom.transform.childCount; i++)
             {
-                if (templates.currentGameRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                if (dungeonMapManager.currentGameRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
                 {
-                    spawnPoints = templates.currentGameRoom.transform.GetChild(i).gameObject;
+                    spawnPoints = dungeonMapManager.currentGameRoom.transform.GetChild(i).gameObject;
                 }
             }
 
             if (CompareTag("North"))
             {
-                foreach (GameObject createdRoom in templates.spawnedGameRooms)
+                foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
                 {
                     if (createdRoom.transform.position == new Vector3(transform.position.x, transform.position.y + 15, transform.position.z))
                     {
@@ -212,7 +214,7 @@ public class GetAdjRoom : MonoBehaviour
                                     newRoom = room;
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
-                                    templates.currentGameRoom = nextRoom;
+                                    dungeonMapManager.currentGameRoom = nextRoom;
 
                                     break;
                                 }
@@ -246,9 +248,9 @@ public class GetAdjRoom : MonoBehaviour
 
                         if (openings > 1)
                         {
-                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                             connectedRoom = newRoom;
-                            templates.spawnedGameRooms.Add(newRoom);
+                            dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                             if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                             {
@@ -267,9 +269,9 @@ public class GetAdjRoom : MonoBehaviour
                                         newRoom = room;
                                 }
 
-                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                                 connectedRoom = newRoom;
-                                templates.spawnedGameRooms.Add(newRoom);
+                                dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                                 if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                                 {
@@ -278,7 +280,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.bottomMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.bottomMinimapRoom.transform.rotation, templates.minimapRoomsParent);
+                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.bottomMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.bottomMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -286,9 +288,9 @@ public class GetAdjRoom : MonoBehaviour
 
                     else
                     {
-                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                         connectedRoom = newRoom;
-                        templates.spawnedGameRooms.Add(newRoom);
+                        dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                         if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                         {
@@ -314,11 +316,11 @@ public class GetAdjRoom : MonoBehaviour
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             changingRoom = true;
                             north = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedRoom = thisRealRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
 
                             // Follow player location
                             StartCoroutine("MovePlayerLocation");
@@ -353,11 +355,11 @@ public class GetAdjRoom : MonoBehaviour
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             changingRoom = true;
                             north = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
-                            templates.currentGameRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
+                            dungeonMapManager.currentGameRoom = nextRoom;
 
                             // Follow player location
                             StartCoroutine("MovePlayerLocation");
@@ -368,7 +370,7 @@ public class GetAdjRoom : MonoBehaviour
 
             else if (CompareTag("South"))
             {
-                foreach (GameObject createdRoom in templates.spawnedGameRooms)
+                foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
                 {
                     if (createdRoom.transform.position == new Vector3(transform.position.x, transform.position.y - 15, transform.position.z))
                     {
@@ -391,7 +393,7 @@ public class GetAdjRoom : MonoBehaviour
                                     newRoom = room;
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
-                                    templates.currentGameRoom = nextRoom;
+                                    dungeonMapManager.currentGameRoom = nextRoom;
 
                                     break;
                                 }
@@ -425,9 +427,9 @@ public class GetAdjRoom : MonoBehaviour
 
                         if (openings > 1)
                         {
-                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                             connectedRoom = newRoom;
-                            templates.spawnedGameRooms.Add(newRoom);
+                            dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                             if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                             {
@@ -446,9 +448,9 @@ public class GetAdjRoom : MonoBehaviour
                                         newRoom = room;
                                 }
 
-                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                                 connectedRoom = newRoom;
-                                templates.spawnedGameRooms.Add(newRoom);
+                                dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                                 if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                                 {
@@ -457,7 +459,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.topMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.topMinimapRoom.transform.rotation, templates.minimapRoomsParent);
+                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.topMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.topMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -465,9 +467,9 @@ public class GetAdjRoom : MonoBehaviour
 
                     else
                     {
-                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                         connectedRoom = newRoom;
-                        templates.spawnedGameRooms.Add(newRoom);
+                        dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                         if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                         {
@@ -493,11 +495,11 @@ public class GetAdjRoom : MonoBehaviour
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             changingRoom = true;
                             south = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedRoom = thisRealRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
 
                             // Follow player location
                             StartCoroutine("MovePlayerLocation");
@@ -532,11 +534,11 @@ public class GetAdjRoom : MonoBehaviour
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             changingRoom = true;
                             south = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
-                            templates.currentGameRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
+                            dungeonMapManager.currentGameRoom = nextRoom;
 
                             // Follow player location
                             StartCoroutine("MovePlayerLocation");
@@ -547,7 +549,7 @@ public class GetAdjRoom : MonoBehaviour
 
             else if (CompareTag("East"))
             {
-                foreach (GameObject createdRoom in templates.spawnedGameRooms)
+                foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
                 {
                     if (createdRoom.transform.position == new Vector3(transform.position.x + 25, transform.position.y, transform.position.z))
                     {
@@ -570,7 +572,7 @@ public class GetAdjRoom : MonoBehaviour
                                     newRoom = room;
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
-                                    templates.currentGameRoom = nextRoom;
+                                    dungeonMapManager.currentGameRoom = nextRoom;
 
                                     break;
                                 }
@@ -604,9 +606,9 @@ public class GetAdjRoom : MonoBehaviour
 
                         if (openings > 1)
                         {
-                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                             connectedRoom = newRoom;
-                            templates.spawnedGameRooms.Add(newRoom);
+                            dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                             if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                             {
@@ -625,9 +627,9 @@ public class GetAdjRoom : MonoBehaviour
                                         newRoom = room;
                                 }
 
-                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                                 connectedRoom = newRoom;
-                                templates.spawnedGameRooms.Add(newRoom);
+                                dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                                 if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                                 {
@@ -636,7 +638,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.leftMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.leftMinimapRoom.transform.rotation, templates.minimapRoomsParent);
+                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.leftMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.leftMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -644,9 +646,9 @@ public class GetAdjRoom : MonoBehaviour
 
                     else
                     {
-                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                         connectedRoom = newRoom;
-                        templates.spawnedGameRooms.Add(newRoom);
+                        dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                         if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                         {
@@ -672,11 +674,11 @@ public class GetAdjRoom : MonoBehaviour
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             changingRoom = true;
                             east = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedRoom = thisRealRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
 
                             // Follow player location
                             StartCoroutine("MovePlayerLocation");
@@ -712,11 +714,11 @@ public class GetAdjRoom : MonoBehaviour
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             changingRoom = true;
                             east = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
-                            templates.currentGameRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
+                            dungeonMapManager.currentGameRoom = nextRoom;
 
                             // Follow player location
                             StartCoroutine("MovePlayerLocation");
@@ -727,7 +729,7 @@ public class GetAdjRoom : MonoBehaviour
 
             else if (CompareTag("West"))
             {
-                foreach (GameObject createdRoom in templates.spawnedGameRooms)
+                foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
                 {
                     if (createdRoom.transform.position == new Vector3(transform.position.x - 25, transform.position.y, transform.position.z))
                     {
@@ -750,7 +752,7 @@ public class GetAdjRoom : MonoBehaviour
                                     newRoom = room;
                                     thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
                                     nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
-                                    templates.currentGameRoom = nextRoom;
+                                    dungeonMapManager.currentGameRoom = nextRoom;
 
                                     break;
                                 }
@@ -784,9 +786,9 @@ public class GetAdjRoom : MonoBehaviour
 
                         if (openings > 1)
                         {
-                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                             connectedRoom = newRoom;
-                            templates.spawnedGameRooms.Add(newRoom);
+                            dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                             if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                             {
@@ -805,9 +807,9 @@ public class GetAdjRoom : MonoBehaviour
                                         newRoom = room;
                                 }
 
-                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                                 connectedRoom = newRoom;
-                                templates.spawnedGameRooms.Add(newRoom);
+                                dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                                 if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                                 {
@@ -816,7 +818,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.rightMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.rightMinimapRoom.transform.rotation, templates.minimapRoomsParent);
+                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.rightMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.rightMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -824,9 +826,9 @@ public class GetAdjRoom : MonoBehaviour
 
                     else
                     {
-                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, templates.gameRoomsParent);
+                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
                         connectedRoom = newRoom;
-                        templates.spawnedGameRooms.Add(newRoom);
+                        dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
                         if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                         {
@@ -852,11 +854,11 @@ public class GetAdjRoom : MonoBehaviour
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             changingRoom = true;
                             west = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().connectedRoom = thisRealRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedRoom = thisRealRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
 
                             // Follow player location
                             StartCoroutine("MovePlayerLocation");
@@ -891,11 +893,11 @@ public class GetAdjRoom : MonoBehaviour
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
                             changingRoom = true;
                             west = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().nextRoom = thisRoom;
-                            templates.currentGameRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
+                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
+                            dungeonMapManager.currentGameRoom = nextRoom;
 
                             // Follow player location
                             StartCoroutine("MovePlayerLocation");
@@ -924,8 +926,8 @@ public class GetAdjRoom : MonoBehaviour
         if (!isCorrect)
             otherRoom.SetActive(true);
 
-        templates.currentMinimapRoom.transform.parent = nextRoom.transform;
-        templates.currentMinimapRoom.transform.position = nextRoom.transform.position;
+        dungeonMapManager.currentMinimapRoom.transform.parent = nextRoom.transform;
+        dungeonMapManager.currentMinimapRoom.transform.position = nextRoom.transform.position;
 
         yield return new WaitForSeconds(2f);
         ePressed = false;

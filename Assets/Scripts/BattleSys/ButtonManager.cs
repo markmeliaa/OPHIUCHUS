@@ -37,7 +37,7 @@ public class ButtonManager : MonoBehaviour
     public AudioClip attackEnemy;
     public AudioClip useItem;
 
-    public CreateDungeonMapManager templates;
+    public DungeonMapManager templates;
 
     public GameObject dialogueBox;
     public GameObject menuButton;
@@ -428,19 +428,19 @@ public class ButtonManager : MonoBehaviour
 
                         GameMaster.inventory[i].gameText = itemTexts[i];
 
-                        if (GameMaster.inventory[i].type == objectTypes.health)
+                        if (GameMaster.inventory[i].type == ObjectTypes.HEALTH)
                         {
                             itemTexts[i].GetComponent<Text>().color = Color.red;
                             itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = Color.red;
                         }
 
-                        else if (GameMaster.inventory[i].type == objectTypes.attack)
+                        else if (GameMaster.inventory[i].type == ObjectTypes.ATTACK)
                         {
                             itemTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.37f, 0.0f);
                             itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.37f, 0.0f);
                         }
 
-                        else if (GameMaster.inventory[i].type == objectTypes.defense)
+                        else if (GameMaster.inventory[i].type == ObjectTypes.DEFENSE)
                         {
                             itemTexts[i].GetComponent<Text>().color = new Color(0.0f, 0.36f, 1.0f);
                             itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.0f, 0.36f, 1.0f);

@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 1034959229}
   - component: {fileID: 1034959230}
   m_Layer: 0
-  m_Name: Room Templates
+  m_Name: Room Holder Singleton
   m_TagString: Rooms
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -391,24 +391,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1494625150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44d101e220951ff4aa4c77f865b9790d, type: 3}
+  m_Script: {fileID: 11500000, guid: f8773fdda87648941bef0f86503bbdde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialMinimapRoomPosition: {fileID: 960697501}
   minimapRoomsParent: {fileID: 635502956}
   gameRoomsParent: {fileID: 635502956}
-  spawnedMinimapRooms: []
-  spawnedGameRooms: []
   currentMinimapRoom: {fileID: 440928138}
   currentGameRoom: {fileID: 0}
+  spawnedMinimapRooms: []
+  spawnedGameRooms: []
   minRooms: 10
   maxRooms: 25
-  circleAnimator: {fileID: 0}
-  circleAnimator2: {fileID: 0}
-  loadScreen: {fileID: 0}
-  gameMusic: {fileID: 0}
-  mainCharacter: {fileID: 0}
-  tpCharacter: {fileID: 0}
+  isGame: 0
 --- !u!4 &1494625152
 Transform:
   m_ObjectHideFlags: 0
@@ -887,7 +882,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1678485107}
-  - {fileID: 1034959229}
   - {fileID: 1494625152}
   - {fileID: 2069745304}
   - {fileID: 1830954602}
+  - {fileID: 1034959229}
