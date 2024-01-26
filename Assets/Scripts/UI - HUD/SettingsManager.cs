@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ManageSettings : MonoBehaviour
+public class SettingsManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     private PlayerMovement playerMovement;

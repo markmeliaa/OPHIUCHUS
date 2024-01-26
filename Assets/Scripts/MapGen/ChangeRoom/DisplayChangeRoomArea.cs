@@ -13,7 +13,7 @@ public class DisplayChangeRoomArea : MonoBehaviour
 
     private bool interactKeyPressed;
 
-    private ManageScenes sceneLoader;
+    private ScenesManager sceneLoader;
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class DisplayChangeRoomArea : MonoBehaviour
         playerMovement = player.GetComponent<PlayerMovement>();
         tpAnim = player.transform.GetChild(0).gameObject;
 
-        sceneLoader = GetComponent<ManageScenes>();
+        sceneLoader = GetComponent<ScenesManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

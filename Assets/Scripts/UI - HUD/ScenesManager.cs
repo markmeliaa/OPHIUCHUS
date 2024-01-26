@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ManageScenes : MonoBehaviour
+public class ScenesManager : MonoBehaviour
 {
     [SerializeField] private Text loadSceneText;
     [SerializeField] private Animator changeSceneAnim;

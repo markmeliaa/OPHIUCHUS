@@ -61,10 +61,13 @@ public class MinimapRoomSpawner : MonoBehaviour
 			return;
 		}
 
-        SpawnRoomWithTwoOrientations(doorNeeded, other.GetComponent<MinimapRoomSpawner>().doorNeeded, other);
+        if (other != null)
+        {
+            SpawnRoomWithTwoOrientations(doorNeeded, other.GetComponent<MinimapRoomSpawner>().doorNeeded, other);
 
-        other.GetComponent<MinimapRoomSpawner>().hasRoomConnected = true;
-        hasRoomConnected = true;
+            other.GetComponent<MinimapRoomSpawner>().hasRoomConnected = true;
+            hasRoomConnected = true;
+        }
     }
 
 	void SpawnRoomWithOrientation(DoorOrientation newRoomOrientation, bool hasToBeLimitRoom = false)
@@ -88,12 +91,15 @@ public class MinimapRoomSpawner : MonoBehaviour
             roomToSpawn = roomsToSelect[randomRoomSelected];
         }
 
-        GameObject newRoom = Instantiate(roomToSpawn, newRoomPosition, roomToSpawn.transform.rotation, templates.minimapRoomsParent);
-        templates.spawnedMinimapRooms.Add(newRoom);
-        nextRoom = newRoom;
+        if (roomToSpawn != null)
+        {
+            GameObject newRoom = Instantiate(roomToSpawn, newRoomPosition, roomToSpawn.transform.rotation, templates.minimapRoomsParent);
+            templates.spawnedMinimapRooms.Add(newRoom);
+            nextRoom = newRoom;
 
-        DoorOrientation oppositeDoorOrientation = DoorOrientationToRooms.GetOppositeOrientation(newRoomOrientation);
-        SetConnectionsBetweenRooms(newRoom, oppositeDoorOrientation);
+            DoorOrientation oppositeDoorOrientation = DoorOrientationToRooms.GetOppositeOrientation(newRoomOrientation);
+            SetConnectionsBetweenRooms(newRoom, oppositeDoorOrientation);
+        }
     }
 
     void SpawnRoomWithTwoOrientations(DoorOrientation connection1, DoorOrientation connection2, Collider2D otherRoomToConnect)
@@ -101,14 +107,17 @@ public class MinimapRoomSpawner : MonoBehaviour
         GameObject roomToSpawn = DoorOrientationToRooms.GetTemplateRoomWithTwoDirections(connection1, connection2);
         Vector3 roomToSpawnPosition = new Vector3(transform.position.x, transform.position.y - roomOffset, transform.position.z);
 
-        GameObject newRoom = Instantiate(roomToSpawn, roomToSpawnPosition, roomToSpawn.transform.rotation, templates.minimapRoomsParent);
-        templates.spawnedMinimapRooms.Add(newRoom);
-        nextRoom = newRoom;
-        otherRoomToConnect.GetComponent<MinimapRoomSpawner>().nextRoom = newRoom;
+        if (roomToSpawn != null)
+        {
+            GameObject newRoom = Instantiate(roomToSpawn, roomToSpawnPosition, roomToSpawn.transform.rotation, templates.minimapRoomsParent);
+            templates.spawnedMinimapRooms.Add(newRoom);
+            nextRoom = newRoom;
+            otherRoomToConnect.GetComponent<MinimapRoomSpawner>().nextRoom = newRoom;
 
-        DoorOrientation oppositeDoorOrientation1 = DoorOrientationToRooms.GetOppositeOrientation(connection1);
-        DoorOrientation oppositeDoorOrientation2 = DoorOrientationToRooms.GetOppositeOrientation(connection2);
-        SetConnectionsBetweenRooms(newRoom, oppositeDoorOrientation1, oppositeDoorOrientation2, otherRoomToConnect);
+            DoorOrientation oppositeDoorOrientation1 = DoorOrientationToRooms.GetOppositeOrientation(connection1);
+            DoorOrientation oppositeDoorOrientation2 = DoorOrientationToRooms.GetOppositeOrientation(connection2);
+            SetConnectionsBetweenRooms(newRoom, oppositeDoorOrientation1, oppositeDoorOrientation2, otherRoomToConnect);
+        }
     }
 
     void SetConnectionsBetweenRooms(GameObject nextRoom, DoorOrientation connectionToSet1, 

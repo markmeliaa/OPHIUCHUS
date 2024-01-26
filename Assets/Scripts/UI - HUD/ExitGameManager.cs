@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManageExitGame : MonoBehaviour
+public class ExitGameManager : MonoBehaviour
 {
     [SerializeField] private Text exitGameText;
 

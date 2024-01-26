@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManagePantwoLoad : MonoBehaviour
+public class LobbyLoadManager : MonoBehaviour
 {
     [SerializeField] private PlayerMovement playerMovement;
 
