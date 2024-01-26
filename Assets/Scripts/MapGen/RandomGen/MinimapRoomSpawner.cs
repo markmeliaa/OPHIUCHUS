@@ -1,18 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public enum DoorOrientation
-{
-	INVALID,
-	BOTTOM,
-	TOP,
-	LEFT,
-	RIGHT
-};
-
 public class MinimapRoomSpawner : MonoBehaviour
 {
-	private RoomTemplates templates;
+	private CreateDungeonMapManager templates;
 	private Camera mainCamera;
 
     public DoorOrientation doorNeeded;
@@ -26,9 +17,12 @@ public class MinimapRoomSpawner : MonoBehaviour
 	private readonly float minimapLeftLimit = 0.03f;
 	private readonly float minimapRightLimit = 0.97f;
 
+    // TODO: When in Andromeda, switch this to 0.022f
+    private float roomOffset = 0.0f;
+
 	void Start()
 	{
-		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
+		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<CreateDungeonMapManager>();
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
 		Transform spawnpointsParentTransform = transform.parent;
@@ -76,15 +70,15 @@ public class MinimapRoomSpawner : MonoBehaviour
 	void SpawnRoomWithOrientation(DoorOrientation newRoomOrientation, bool hasToBeLimitRoom = false)
 	{
 		GameObject roomToSpawn;
-        Vector3 newRoomPosition = new Vector3(transform.position.x, transform.position.y - templates.roomOffset, transform.position.z);
+        Vector3 newRoomPosition = new Vector3(transform.position.x, transform.position.y - roomOffset, transform.position.z);
 
         if (hasToBeLimitRoom)
 		{
-			roomToSpawn = GetLimitRoomOfCertainDirection(newRoomOrientation);
+			roomToSpawn = DoorOrientationToRooms.GetLimitRoomOfOneDirection(newRoomOrientation);
 		}
         else
 		{
-            GameObject[] roomsToSelect = GetTemplateRoomsOfCertainDirection(newRoomOrientation);
+            GameObject[] roomsToSelect = DoorOrientationToRooms.GetTemplateRoomsOfOneDirection(newRoomOrientation);
 			if (roomsToSelect == null)
 			{
 				return;
@@ -94,160 +88,27 @@ public class MinimapRoomSpawner : MonoBehaviour
             roomToSpawn = roomsToSelect[randomRoomSelected];
         }
 
-        GameObject newRoom = Instantiate(roomToSpawn, newRoomPosition, roomToSpawn.transform.rotation, templates.roomsParent);
-        templates.rooms.Add(newRoom);
+        GameObject newRoom = Instantiate(roomToSpawn, newRoomPosition, roomToSpawn.transform.rotation, templates.minimapRoomsParent);
+        templates.spawnedMinimapRooms.Add(newRoom);
         nextRoom = newRoom;
 
-        DoorOrientation oppositeDoorOrientation = GetOppositeOrientation(newRoomOrientation);
+        DoorOrientation oppositeDoorOrientation = DoorOrientationToRooms.GetOppositeOrientation(newRoomOrientation);
         SetConnectionsBetweenRooms(newRoom, oppositeDoorOrientation);
     }
 
-	DoorOrientation GetOppositeOrientation(DoorOrientation orientation)
-	{
-		DoorOrientation oppositeOrientation = DoorOrientation.INVALID;
-		switch(orientation)
-		{
-            case DoorOrientation.BOTTOM:
-                oppositeOrientation = DoorOrientation.TOP;
-                break;
-
-            case DoorOrientation.TOP:
-                oppositeOrientation = DoorOrientation.BOTTOM;
-                break;
-
-            case DoorOrientation.LEFT:
-                oppositeOrientation = DoorOrientation.RIGHT;
-                break;
-
-            case DoorOrientation.RIGHT:
-                oppositeOrientation = DoorOrientation.LEFT;
-                break;
-
-			default:
-				break;
-        }
-
-		return oppositeOrientation;
-	}
-
-    GameObject GetLimitRoomOfCertainDirection(DoorOrientation direction)
+    void SpawnRoomWithTwoOrientations(DoorOrientation connection1, DoorOrientation connection2, Collider2D otherRoomToConnect)
     {
-        GameObject room = null;
-        switch (direction)
-        {
-            case DoorOrientation.BOTTOM:
-                room = templates.B;
-                break;
+        GameObject roomToSpawn = DoorOrientationToRooms.GetTemplateRoomWithTwoDirections(connection1, connection2);
+        Vector3 roomToSpawnPosition = new Vector3(transform.position.x, transform.position.y - roomOffset, transform.position.z);
 
-            case DoorOrientation.TOP:
-                room = templates.T;
-                break;
-
-            case DoorOrientation.LEFT:
-                room = templates.L;
-                break;
-
-            case DoorOrientation.RIGHT:
-                room = templates.R;
-                break;
-
-            default:
-                break;
-        }
-
-        return room;
-    }
-
-    GameObject[] GetTemplateRoomsOfCertainDirection(DoorOrientation direction)
-	{
-		GameObject[] rooms = null;
-        switch (direction)
-        {
-            case DoorOrientation.BOTTOM:
-                rooms = templates.bottomRooms;
-                break;
-
-            case DoorOrientation.TOP:
-                rooms = templates.topRooms;
-                break;
-
-            case DoorOrientation.LEFT:
-                rooms = templates.leftRooms;
-                break;
-
-            case DoorOrientation.RIGHT:
-                rooms = templates.rightRooms;
-                break;
-
-            default:
-                break;
-        }
-
-		return rooms;
-    }
-
-    void SpawnRoomWithTwoOrientations(DoorOrientation connection1, DoorOrientation connection2, Collider2D otherSpawner)
-    {
-        GameObject roomToSpawn = GetRoomWithTwoDirections(connection1, connection2);
-        Vector3 roomToSpawnPosition = new Vector3(transform.position.x, transform.position.y - templates.roomOffset, transform.position.z);
-
-        GameObject newRoom = Instantiate(roomToSpawn, roomToSpawnPosition, roomToSpawn.transform.rotation, templates.roomsParent);
-        templates.rooms.Add(newRoom);
+        GameObject newRoom = Instantiate(roomToSpawn, roomToSpawnPosition, roomToSpawn.transform.rotation, templates.minimapRoomsParent);
+        templates.spawnedMinimapRooms.Add(newRoom);
         nextRoom = newRoom;
-        otherSpawner.GetComponent<MinimapRoomSpawner>().nextRoom = newRoom;
+        otherRoomToConnect.GetComponent<MinimapRoomSpawner>().nextRoom = newRoom;
 
-        DoorOrientation oppositeDoorOrientation1 = GetOppositeOrientation(connection1);
-        DoorOrientation oppositeDoorOrientation2 = GetOppositeOrientation(connection2);
-        SetConnectionsBetweenRooms(newRoom, oppositeDoorOrientation1, oppositeDoorOrientation2, otherSpawner);
-    }
-
-    GameObject GetRoomWithTwoDirections(DoorOrientation orientation1,  DoorOrientation orientation2) 
-    {
-        GameObject room = null;
-        if (orientation2 < orientation1)
-        {
-            DoorOrientation aux = orientation2;
-            orientation2 = orientation1;
-            orientation1 = aux;
-        }
-
-        switch (orientation1)
-        {
-            case DoorOrientation.BOTTOM:
-                if (orientation2 == DoorOrientation.TOP)
-                {
-                    room = templates.TB;
-                }
-                else if (orientation2 == DoorOrientation.LEFT)
-                {
-                    room = templates.LB;
-                }
-                else if (orientation2 == DoorOrientation.RIGHT)
-                {
-                    room = templates.RB;
-                }
-                break;
-
-            case DoorOrientation.TOP:
-                if (orientation2 == DoorOrientation.LEFT)
-                {
-                    room = templates.TL;
-                }
-                else if (orientation2 == DoorOrientation.RIGHT)
-                {
-                    room = templates.TR;
-                }
-                break;
-
-            case DoorOrientation.LEFT:
-                room = templates.LR;
-                break;
-
-            default:
-                break;
-        }
-
-        return room;
+        DoorOrientation oppositeDoorOrientation1 = DoorOrientationToRooms.GetOppositeOrientation(connection1);
+        DoorOrientation oppositeDoorOrientation2 = DoorOrientationToRooms.GetOppositeOrientation(connection2);
+        SetConnectionsBetweenRooms(newRoom, oppositeDoorOrientation1, oppositeDoorOrientation2, otherRoomToConnect);
     }
 
     void SetConnectionsBetweenRooms(GameObject nextRoom, DoorOrientation connectionToSet1, 

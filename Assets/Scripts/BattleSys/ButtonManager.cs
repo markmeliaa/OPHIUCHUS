@@ -37,7 +37,7 @@ public class ButtonManager : MonoBehaviour
     public AudioClip attackEnemy;
     public AudioClip useItem;
 
-    public RoomTemplates templates;
+    public CreateDungeonMapManager templates;
 
     public GameObject dialogueBox;
     public GameObject menuButton;
@@ -654,8 +654,6 @@ public class ButtonManager : MonoBehaviour
     {
         battleManager.SetUpBattle();
 
-        templates.changingRoom = true;
-
         player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         miniMap.SetActive(false);
 
@@ -673,8 +671,6 @@ public class ButtonManager : MonoBehaviour
     public void StartBossBattle(string zodiac)
     {
         battleManager.SetUpBossBattle(zodiac);
-
-        templates.changingRoom = true;
 
         player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         miniMap.SetActive(false);
@@ -719,7 +715,7 @@ public class ButtonManager : MonoBehaviour
         battleManager.Zodiac = zodiac;
         thisCharacter = thisChar;
 
-        templates.mapFormed = false;
+        // TODO: What was this for ->>>> templates.mapFormed = false;
         player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
 
         dialogueImage.sprite = thisChar.speakerImage;
@@ -959,7 +955,6 @@ public class ButtonManager : MonoBehaviour
 
         miniMap.SetActive(true);
         player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
-        templates.changingRoom = false;
     }
 
     IEnumerator WaitFinishBossGame()
@@ -994,7 +989,6 @@ public class ButtonManager : MonoBehaviour
 
         miniMap.SetActive(true);
         player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
-        templates.changingRoom = false;
 
         bossBeaten = true;
         StartDialogue(battleManager.Zodiac, thisCharacter);
