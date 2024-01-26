@@ -41,25 +41,23 @@ public static class DoorOrientationToRooms
 
     public static GameObject[] GetTemplateRoomsOfOneDirection(DoorOrientation direction)
     {
-        CreateDungeonMapManager templates = GetCurrentRoomTemplatesObject();
-
         GameObject[] rooms = null;
         switch (direction)
         {
             case DoorOrientation.BOTTOM:
-                rooms = templates.bottomMinimapRooms;
+                rooms = RoomsHolderSingleton.Instance.bottomMinimapRooms;
                 break;
 
             case DoorOrientation.TOP:
-                rooms = templates.topMinimapRooms;
+                rooms = RoomsHolderSingleton.Instance.topMinimapRooms;
                 break;
 
             case DoorOrientation.LEFT:
-                rooms = templates.leftMinimapRooms;
+                rooms = RoomsHolderSingleton.Instance.leftMinimapRooms;
                 break;
 
             case DoorOrientation.RIGHT:
-                rooms = templates.rightMinimapRooms;
+                rooms = RoomsHolderSingleton.Instance.rightMinimapRooms;
                 break;
 
             default:
@@ -71,25 +69,23 @@ public static class DoorOrientationToRooms
 
     public static GameObject GetLimitRoomOfOneDirection(DoorOrientation direction)
     {
-        CreateDungeonMapManager templates = GetCurrentRoomTemplatesObject();
-
         GameObject room = null;
         switch (direction)
         {
             case DoorOrientation.BOTTOM:
-                room = templates.bottomMinimapRoom;
+                room = RoomsHolderSingleton.Instance.bottomMinimapRoom;
                 break;
 
             case DoorOrientation.TOP:
-                room = templates.topMinimapRoom;
+                room = RoomsHolderSingleton.Instance.topMinimapRoom;
                 break;
 
             case DoorOrientation.LEFT:
-                room = templates.leftMinimapRoom;
+                room = RoomsHolderSingleton.Instance.leftMinimapRoom;
                 break;
 
             case DoorOrientation.RIGHT:
-                room = templates.rightMinimapRoom;
+                room = RoomsHolderSingleton.Instance.rightMinimapRoom;
                 break;
 
             default:
@@ -101,8 +97,6 @@ public static class DoorOrientationToRooms
 
     public static GameObject GetTemplateRoomWithTwoDirections(DoorOrientation orientation1, DoorOrientation orientation2)
     {
-        CreateDungeonMapManager templates = GetCurrentRoomTemplatesObject();
-
         GameObject room = null;
         if (orientation2 < orientation1)
         {
@@ -116,31 +110,31 @@ public static class DoorOrientationToRooms
             case DoorOrientation.BOTTOM:
                 if (orientation2 == DoorOrientation.TOP)
                 {
-                    room = templates.topBottomMinimapRoom;
+                    room = RoomsHolderSingleton.Instance.topBottomMinimapRoom;
                 }
                 else if (orientation2 == DoorOrientation.LEFT)
                 {
-                    room = templates.leftBottomMinimapRoom;
+                    room = RoomsHolderSingleton.Instance.leftBottomMinimapRoom;
                 }
                 else if (orientation2 == DoorOrientation.RIGHT)
                 {
-                    room = templates.rightBottomMinimapRoom;
+                    room = RoomsHolderSingleton.Instance.rightBottomMinimapRoom;
                 }
                 break;
 
             case DoorOrientation.TOP:
                 if (orientation2 == DoorOrientation.LEFT)
                 {
-                    room = templates.topLeftMinimapRoom;
+                    room = RoomsHolderSingleton.Instance.topLeftMinimapRoom;
                 }
                 else if (orientation2 == DoorOrientation.RIGHT)
                 {
-                    room = templates.topRightMinimapRoom;
+                    room = RoomsHolderSingleton.Instance.topRightMinimapRoom;
                 }
                 break;
 
             case DoorOrientation.LEFT:
-                room = templates.leftRightMinimapRoom;
+                room = RoomsHolderSingleton.Instance.leftRightMinimapRoom;
                 break;
 
             default:
@@ -148,10 +142,5 @@ public static class DoorOrientationToRooms
         }
 
         return room;
-    }
-
-    static CreateDungeonMapManager GetCurrentRoomTemplatesObject()
-    {
-        return GameObject.FindGameObjectWithTag("Rooms").GetComponent<CreateDungeonMapManager>();
     }
 }

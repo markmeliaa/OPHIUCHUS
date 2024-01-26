@@ -204,7 +204,7 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
                         {
-                            foreach (GameObject room in templates.realRooms)
+                            foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
@@ -261,7 +261,7 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             if (newRoom.name == "Room TB" || newRoom.name == "Room LB" || newRoom.name == "Room RB")
                             {
-                                foreach (GameObject room in templates.realRooms)
+                                foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                                 {
                                     if (room.name == "Room B")
                                         newRoom = room;
@@ -278,7 +278,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(templates.bottomMinimapRoom, nextRoom.transform.position, templates.bottomMinimapRoom.transform.rotation, templates.minimapRoomsParent);
+                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.bottomMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.bottomMinimapRoom.transform.rotation, templates.minimapRoomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -383,7 +383,7 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
                         {
-                            foreach (GameObject room in templates.realRooms)
+                            foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
@@ -440,7 +440,7 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             if (newRoom.name == "Room TB" || newRoom.name == "Room TL" || newRoom.name == "Room TR")
                             {
-                                foreach (GameObject room in templates.realRooms)
+                                foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                                 {
                                     if (room.name == "Room T")
                                         newRoom = room;
@@ -457,7 +457,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(templates.topMinimapRoom, nextRoom.transform.position, templates.topMinimapRoom.transform.rotation, templates.minimapRoomsParent);
+                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.topMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.topMinimapRoom.transform.rotation, templates.minimapRoomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -562,7 +562,7 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
                         {
-                            foreach (GameObject room in templates.realRooms)
+                            foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
@@ -619,7 +619,7 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             if (newRoom.name == "Room TL" || newRoom.name == "Room LB" || newRoom.name == "Room LR")
                             {
-                                foreach (GameObject room in templates.realRooms)
+                                foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                                 {
                                     if (room.name == "Room L")
                                         newRoom = room;
@@ -636,7 +636,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(templates.leftMinimapRoom, nextRoom.transform.position, templates.leftMinimapRoom.transform.rotation, templates.minimapRoomsParent);
+                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.leftMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.leftMinimapRoom.transform.rotation, templates.minimapRoomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }
@@ -742,7 +742,7 @@ public class GetAdjRoom : MonoBehaviour
                     {
                         if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
                         {
-                            foreach (GameObject room in templates.realRooms)
+                            foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
                                 if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
@@ -799,7 +799,7 @@ public class GetAdjRoom : MonoBehaviour
                         {
                             if (newRoom.name == "Room TR" || newRoom.name == "Room LR" || newRoom.name == "Room RB")
                             {
-                                foreach (GameObject room in templates.realRooms)
+                                foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                                 {
                                     if (room.name == "Room R")
                                         newRoom = room;
@@ -816,7 +816,7 @@ public class GetAdjRoom : MonoBehaviour
                                 }
 
                                 isCorrect = false;
-                                otherRoom = Instantiate(templates.rightMinimapRoom, nextRoom.transform.position, templates.rightMinimapRoom.transform.rotation, templates.minimapRoomsParent);
+                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.rightMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.rightMinimapRoom.transform.rotation, templates.minimapRoomsParent);
                                 otherRoom.SetActive(false);
                             }
                         }

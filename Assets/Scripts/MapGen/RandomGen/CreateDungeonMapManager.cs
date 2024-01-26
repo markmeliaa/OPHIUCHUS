@@ -4,43 +4,7 @@ using UnityEngine;
 
 public class CreateDungeonMapManager : MonoBehaviour 
 {
-    [Header("MINIMAP ROOM TEMPLATES")]
-    [Space(5)]
-    public GameObject[] bottomMinimapRooms;
-	public GameObject[] topMinimapRooms;
-	public GameObject[] leftMinimapRooms;
-	public GameObject[] rightMinimapRooms;
-    [Space(5)]
-    public GameObject topMinimapRoom;
-	public GameObject bottomMinimapRoom;
-	public GameObject leftMinimapRoom;
-	public GameObject rightMinimapRoom;
-    [Space(5)]
-    public GameObject topBottomMinimapRoom;
-	public GameObject topLeftMinimapRoom;
-	public GameObject topRightMinimapRoom;
-    [Space(5)]
-    public GameObject leftBottomMinimapRoom;
-	public GameObject rightBottomMinimapRoom;
-    [Space(5)]
-    public GameObject leftRightMinimapRoom;
-    [Space(5)]
-    public GameObject allDirectionsMinimapRoom;
-
-    [Space(20)]
-
-    [SerializeField] private GameObject shopRoom;
-	[SerializeField] private GameObject healRoom;
-    [SerializeField] private GameObject bossRoom;
-    [Space(5)]
-
-    private bool spawnedBoss;
-
-    [Header("GAME ROOM TEMPLATES")]
-    [Space(5)]
-    public List<GameObject> realRooms;
-
-    [Space(20)]
+    [SerializeField] private Transform initialMinimapRoomPosition;
 
     public Transform minimapRoomsParent;
     public Transform gameRoomsParent;
@@ -51,15 +15,14 @@ public class CreateDungeonMapManager : MonoBehaviour
     public GameObject currentMinimapRoom;
     public GameObject currentGameRoom;
 
+	[Space(20)]
+
     [Range(5, 10)]
     [SerializeField] private int minRooms = 15;
     [Range(20, 25)]
     [SerializeField] private int maxRooms = 25;
 
-    [SerializeField] private Transform initialMinimapRoomPosition;
-
-    // ------------------------------------------------
-
+    private bool spawnedBoss;
     private float availableTimeToGenerateTheMap = 5.0f;
 
     [SerializeField] private Animator circleAnimator;
@@ -95,6 +58,7 @@ public class CreateDungeonMapManager : MonoBehaviour
 					return;
                 }
 
+				GameObject bossRoom = RoomsHolderSingleton.Instance.bossRoom;
 				Instantiate(bossRoom, spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].transform.position, Quaternion.identity, spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].transform);
 				spawnedMinimapRooms[spawnedMinimapRooms.Count - 1].tag = "BossRoom";
 				spawnedBoss = true;
@@ -160,7 +124,9 @@ public class CreateDungeonMapManager : MonoBehaviour
 		spawnedBoss = false;
 		availableTimeToGenerateTheMap = 1f;
 
-        currentGameRoom = Instantiate(allDirectionsMinimapRoom, initialMinimapRoomPosition.position, allDirectionsMinimapRoom.transform.rotation, minimapRoomsParent);
+		GameObject initialRoom = RoomsHolderSingleton.Instance.allDirectionsMinimapRoom;
+        currentGameRoom = Instantiate(initialRoom, initialMinimapRoomPosition.position, 
+									  initialRoom.transform.rotation, minimapRoomsParent);
     }
 
 	public void AddItems()
