@@ -23374,7 +23374,7 @@ MonoBehaviour:
   shopRoom: {fileID: 1898445321837384, guid: d2f94dad7aa9a8a4cbec762cdac747b0, type: 3}
   healRoom: {fileID: 1898445321837384, guid: a5eb33cdefd386f4d9f216bbe7ee5580, type: 3}
   bossRoom: {fileID: 1898445321837384, guid: b836ff339548c264d8d8ef71f0b49ba5, type: 3}
-  realRooms:
+  gameRooms:
   - {fileID: 8777243000210257298, guid: b6d8b63bac2cd7445860578cc45bd80d, type: 3}
   - {fileID: 1082812505288664128, guid: d6ad207f8e837104b918f0a7c8329ef4, type: 3}
   - {fileID: 2273983854462674528, guid: ac49774e36a0885468d8bd52acd6d699, type: 3}

@@ -29,16 +29,18 @@ public class GameRoomSpawner : MonoBehaviour
 
     // DUNGEON MANAGER - ROOMS RELATED STUFF
     private DungeonMapManager dungeonMapManager;
-    [SerializeField] private List<GameObject> roomSpawnPoints;
+
+    private List<GameObject> minimapRoomSpawnPoints;
+    private List<GameObject> neighbourMinimapRoomSpawnPoints;
+
     private GameObject neighbourGameRoomSpawnPoints;
 
     private GameObject thisMinimapRoom;
     private GameObject nextMinimapRoom;
 
-    private GameObject thisGameRoom;
+    private GameObject thisGameRoom; // TODO: Link between game rooms is broken now, fix it
     private GameObject nextGameRoom;
 
-    private GameObject connectedGameRoom; // ?????????????
     [SerializeField] private GameObject playerEntranceSpawn;
 
     private bool changeRoomKeyPressed = false;
@@ -51,11 +53,11 @@ public class GameRoomSpawner : MonoBehaviour
     private void Start()
     {
         dungeonMapManager = GameObject.FindGameObjectWithTag("DungeonMngr").GetComponent<DungeonMapManager>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        thisGameRoom = transform.parent.transform.parent.gameObject;
-        playerAnimationDirection = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimationDirection>();
 
-        dungeonMapManager.spawnedGameRooms.Add(thisGameRoom);
+        thisGameRoom = transform.parent.transform.parent.gameObject;
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerAnimationDirection = player.GetComponent<PlayerAnimationDirection>();
     }
 
     private void FixedUpdate()
@@ -76,722 +78,213 @@ public class GameRoomSpawner : MonoBehaviour
     // Manage the change of rooms
     private void OnTriggerStay2D(Collider2D other)
     {
-        thisMinimapRoom = dungeonMapManager.currentMinimapRoom;
-
-        if (other.CompareTag("Player") && Input.GetKey(KeyCode.E) && !changeRoomKeyPressed && canPlayerTriggerTeleport == true && !isPlayerTeleporting)
+        if (other.CompareTag("Player") && 
+            Input.GetKey(KeyCode.E) && !changeRoomKeyPressed && 
+            canPlayerTriggerTeleport && !isPlayerTeleporting)
         {
             changeRoomKeyPressed = true;
             canPlayerTriggerTeleport = false;
 
+            thisMinimapRoom = dungeonMapManager.currentMinimapRoom;
+            minimapRoomSpawnPoints = thisMinimapRoom.GetComponent<MinimapRoomSpawner>().minimapRoomSpawnPoints;
+
             if (CompareTag("North"))
             {
-                foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
+                Vector3 neighborRoomPos = new Vector3(transform.position.x, transform.position.y + 15, transform.position.z);
+
+                if (!IsThereARoomAtPosition(neighborRoomPos))
                 {
-                    if (createdRoom.transform.position == new Vector3(transform.position.x, transform.position.y + 15, transform.position.z))
+                    CreateRoomAtPositionWithOrientation(neighborRoomPos, DoorOrientation.BOTTOM);
+
+                    bool nextRoomIsBossRoom = nextMinimapRoom.CompareTag("BossRoom");
+                    bool zodiacExistsInRoom = nextGameRoom.transform.childCount > 5;
+                    if (nextRoomIsBossRoom && zodiacExistsInRoom)
                     {
-                        connectedGameRoom = createdRoom;
+                        ManageZodiacBossActivation();
                     }
                 }
-
-                if (connectedGameRoom == null)
-                {
-                    GameObject newRoom = null;
-                    for (int i = 0; i < roomSpawnPoints.Count; i++)
-                    {
-                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
-                        {
-                            foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
-                            {
-                                //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom.name)
-                                {
-                                    newRoom = room;
-                                    thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
-                                    nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
-                                    dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
-
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                    }
-
-                    if (newRoom.name != "Room T" && newRoom.name != "Room B" && newRoom.name != "Room L" && newRoom.name != "Room R")
-                    {
-                        GameObject newSpawnpoints = null;
-                        int openings = 0;
-                        // Check if the number of openings is correct
-                        for (int i = 0; i < nextMinimapRoom?.transform.childCount; i++)
-                        {
-                            if (nextMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
-                            {
-                                newSpawnpoints = nextMinimapRoom.transform.GetChild(i).gameObject;
-                            }
-                        }
-
-                        for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
-                        {
-                            //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextMinimapRoom != null)
-                                openings++;
-                        }
-
-                        //Debug.Log(openings);
-                        //Debug.Log(newRoom.name);
-
-                        if (openings > 1)
-                        {
-                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                            connectedGameRoom = newRoom;
-                            dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                            if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                            {
-                                newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                                newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                            }
-                        }
-
-                        else
-                        {
-                            if (newRoom.name == "Room TB" || newRoom.name == "Room LB" || newRoom.name == "Room RB")
-                            {
-                                foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
-                                {
-                                    if (room.name == "Room B")
-                                        newRoom = room;
-                                }
-
-                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                                connectedGameRoom = newRoom;
-                                dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                                if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                                {
-                                    newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                                    newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                                }
-
-                                nextGameRoom = Instantiate(RoomsHolderSingleton.Instance.bottomMinimapRoom, nextMinimapRoom.transform.position, RoomsHolderSingleton.Instance.bottomMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
-                                nextGameRoom.SetActive(false);
-                            }
-                        }
-                    }
-
-                    else
-                    {
-                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                        connectedGameRoom = newRoom;
-                        dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                        if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                        {
-                            newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                            newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                        }
-                    }
-
-                    // Get the player spawnpoints
-                    for (int i = 0; i < newRoom.transform.childCount; i++)
-                    {
-                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
-                        {
-                            neighbourGameRoomSpawnPoints = newRoom.transform.GetChild(i).gameObject;
-                        }
-                    }
-
-                    // Move the player to the new room
-                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
-                    {
-                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("South"))
-                        {
-                            SetUpRoomTeleport(TravelDirection.NORTH);
-                            isPlayerTeleporting = true;
-
-                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
-
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedGameRoom = thisGameRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
-
-                            // Follow player location
-                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
-                        }
-                    }
-                }
-
                 else
                 {
-                    // Get the player spawnpoints
-                    for (int i = 0; i < connectedGameRoom.transform.childCount; i++)
+                    LinkExistingRoomWithCurrentRoom(DoorOrientation.BOTTOM);
+                }
+
+                // Get the player spawnpoints
+                for (int i = 0; i < nextGameRoom.transform.childCount; i++)
+                {
+                    if (nextGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                     {
-                        if (connectedGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
-                        {
-                            neighbourGameRoomSpawnPoints = connectedGameRoom.transform.GetChild(i).gameObject;
-                        }
+                        neighbourGameRoomSpawnPoints = nextGameRoom.transform.GetChild(i).gameObject;
                     }
+                }
 
-                    for (int i = 0; i < roomSpawnPoints.Count; i++)
+                // Move the player to the new room
+                for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
+                {
+                    if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("South"))
                     {
-                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
-                        {
-                            nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
-                        }
-                    }
+                        SetUpRoomTeleport(TravelDirection.NORTH);
+                        isPlayerTeleporting = true;
 
-                    // Move the player to the new room
-                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
-                    {
-                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("South"))
-                        {
-                            SetUpRoomTeleport(TravelDirection.NORTH);
-                            isPlayerTeleporting = true;
+                        StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
+                        neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                        neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
+                        dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
-                            dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
-
-                            // Follow player location
-                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
-                        }
+                        // Follow player location
+                        StartCoroutine(nameof(MovePlayerLocationInMinimap));
                     }
                 }
             }
+
+            // --------------------------------------------------------------
 
             else if (CompareTag("South"))
             {
-                foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
+                Vector3 neighborRoomPos = new Vector3(transform.position.x, transform.position.y - 15, transform.position.z);
+
+                if (!IsThereARoomAtPosition(neighborRoomPos))
                 {
-                    if (createdRoom.transform.position == new Vector3(transform.position.x, transform.position.y - 15, transform.position.z))
+                    CreateRoomAtPositionWithOrientation(neighborRoomPos, DoorOrientation.TOP);
+
+                    bool nextRoomIsBossRoom = nextMinimapRoom.CompareTag("BossRoom");
+                    bool zodiacExistsInRoom = nextGameRoom.transform.childCount > 5;
+                    if (nextRoomIsBossRoom && zodiacExistsInRoom)
                     {
-                        connectedGameRoom = createdRoom;
+                        ManageZodiacBossActivation();
                     }
                 }
-
-                if (connectedGameRoom == null)
-                {
-                    GameObject newRoom = null;
-                    for (int i = 0; i < roomSpawnPoints.Count; i++)
-                    {
-                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
-                        {
-                            foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
-                            {
-                                //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom.name)
-                                {
-                                    newRoom = room;
-                                    thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
-                                    nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
-                                    dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
-
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                    }
-
-                    if (newRoom.name != "Room T" && newRoom.name != "Room B" && newRoom.name != "Room L" && newRoom.name != "Room R")
-                    {
-                        GameObject newSpawnpoints = null;
-                        int openings = 0;
-                        // Check if the number of openings is correct
-                        for (int i = 0; i < nextMinimapRoom?.transform.childCount; i++)
-                        {
-                            if (nextMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
-                            {
-                                newSpawnpoints = nextMinimapRoom.transform.GetChild(i).gameObject;
-                            }
-                        }
-
-                        for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
-                        {
-                            //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextMinimapRoom != null)
-                                openings++;
-                        }
-
-                        //Debug.Log(openings);
-                        //Debug.Log(newRoom.name);
-
-                        if (openings > 1)
-                        {
-                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                            connectedGameRoom = newRoom;
-                            dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                            if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                            {
-                                newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                                newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                            }
-                        }
-
-                        else
-                        {
-                            if (newRoom.name == "Room TB" || newRoom.name == "Room TL" || newRoom.name == "Room TR")
-                            {
-                                foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
-                                {
-                                    if (room.name == "Room T")
-                                        newRoom = room;
-                                }
-
-                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                                connectedGameRoom = newRoom;
-                                dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                                if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                                {
-                                    newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                                    newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                                }
-
-                                nextGameRoom = Instantiate(RoomsHolderSingleton.Instance.topMinimapRoom, nextMinimapRoom.transform.position, RoomsHolderSingleton.Instance.topMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
-                                nextGameRoom.SetActive(false);
-                            }
-                        }
-                    }
-
-                    else
-                    {
-                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                        connectedGameRoom = newRoom;
-                        dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                        if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                        {
-                            newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                            newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                        }
-                    }
-
-                    // Get the player spawnpoints
-                    for (int i = 0; i < newRoom.transform.childCount; i++)
-                    {
-                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
-                        {
-                            neighbourGameRoomSpawnPoints = newRoom.transform.GetChild(i).gameObject;
-                        }
-                    }
-
-                    // Move the player to the new room
-                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
-                    {
-                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("North"))
-                        {
-                            SetUpRoomTeleport(TravelDirection.SOUTH);
-                            isPlayerTeleporting = true;
-
-                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
-
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedGameRoom = thisGameRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
-
-                            // Follow player location
-                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
-                        }
-                    }
-                }
-
                 else
                 {
-                    // Get the player spawnpoints
-                    for (int i = 0; i < connectedGameRoom.transform.childCount; i++)
+                    LinkExistingRoomWithCurrentRoom(DoorOrientation.TOP);
+                }
+
+                // Get the player spawnpoints
+                for (int i = 0; i < nextGameRoom.transform.childCount; i++)
+                {
+                    if (nextGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                     {
-                        if (connectedGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
-                        {
-                            neighbourGameRoomSpawnPoints = connectedGameRoom.transform.GetChild(i).gameObject;
-                        }
+                        neighbourGameRoomSpawnPoints = nextGameRoom.transform.GetChild(i).gameObject;
                     }
+                }
 
-                    for (int i = 0; i < roomSpawnPoints.Count; i++)
+                // Move the player to the new room
+                for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
+                {
+                    if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("North"))
                     {
-                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
-                        {
-                            nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
-                        }
-                    }
+                        SetUpRoomTeleport(TravelDirection.SOUTH);
+                        isPlayerTeleporting = true;
 
-                    // Move the player to the new room
-                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
-                    {
-                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("North"))
-                        {
-                            SetUpRoomTeleport(TravelDirection.SOUTH);
-                            isPlayerTeleporting = true;
+                        StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
+                        neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                        neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
+                        dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
-                            dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
-
-                            // Follow player location
-                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
-                        }
+                        // Follow player location
+                        StartCoroutine(nameof(MovePlayerLocationInMinimap));
                     }
                 }
             }
+
+            // --------------------------------------------------------------
 
             else if (CompareTag("East"))
             {
-                foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
+                Vector3 neighborRoomPos = new Vector3(transform.position.x + 25, transform.position.y, transform.position.z);
+
+                if (!IsThereARoomAtPosition(neighborRoomPos))
                 {
-                    if (createdRoom.transform.position == new Vector3(transform.position.x + 25, transform.position.y, transform.position.z))
+                    CreateRoomAtPositionWithOrientation(neighborRoomPos, DoorOrientation.LEFT);
+
+                    bool nextRoomIsBossRoom = nextMinimapRoom.CompareTag("BossRoom");
+                    bool zodiacExistsInRoom = nextGameRoom.transform.childCount > 5;
+                    if (nextRoomIsBossRoom && zodiacExistsInRoom)
                     {
-                        connectedGameRoom = createdRoom;
+                        ManageZodiacBossActivation();
                     }
                 }
-
-                if (connectedGameRoom == null)
-                {
-                    GameObject newRoom = null;
-                    for (int i = 0; i < roomSpawnPoints.Count; i++)
-                    {
-                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
-                        {
-                            foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
-                            {
-                                //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom.name)
-                                {
-                                    newRoom = room;
-                                    thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
-                                    nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
-                                    dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
-
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                    }
-
-                    if (newRoom.name != "Room T" && newRoom.name != "Room B" && newRoom.name != "Room L" && newRoom.name != "Room R")
-                    {
-                        GameObject newSpawnpoints = null;
-                        int openings = 0;
-                        // Check if the number of openings is correct
-                        for (int i = 0; i < nextMinimapRoom?.transform.childCount; i++)
-                        {
-                            if (nextMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
-                            {
-                                newSpawnpoints = nextMinimapRoom.transform.GetChild(i).gameObject;
-                            }
-                        }
-
-                        for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
-                        {
-                            //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextMinimapRoom != null)
-                                openings++;
-                        }
-
-                        //Debug.Log(openings);
-                        //Debug.Log(newRoom.name);
-
-                        if (openings > 1)
-                        {
-                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                            connectedGameRoom = newRoom;
-                            dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                            if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                            {
-                                newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                                newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                            }
-                        }
-
-                        else
-                        {
-                            if (newRoom.name == "Room TL" || newRoom.name == "Room LB" || newRoom.name == "Room LR")
-                            {
-                                foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
-                                {
-                                    if (room.name == "Room L")
-                                        newRoom = room;
-                                }
-
-                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                                connectedGameRoom = newRoom;
-                                dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                                if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                                {
-                                    newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                                    newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                                }
-
-                                nextGameRoom = Instantiate(RoomsHolderSingleton.Instance.leftMinimapRoom, nextMinimapRoom.transform.position, RoomsHolderSingleton.Instance.leftMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
-                                nextGameRoom.SetActive(false);
-                            }
-                        }
-                    }
-
-                    else
-                    {
-                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                        connectedGameRoom = newRoom;
-                        dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                        if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                        {
-                            newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                            newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                        }
-                    }
-
-                    // Get the player spawnpoints
-                    for (int i = 0; i < newRoom.transform.childCount; i++)
-                    {
-                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
-                        {
-                            neighbourGameRoomSpawnPoints = newRoom.transform.GetChild(i).gameObject;
-                        }
-                    }
-
-                    // Move the player to the new room
-                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
-                    {
-                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("West"))
-                        {
-                            SetUpRoomTeleport(TravelDirection.EAST);
-                            isPlayerTeleporting = true;
-
-                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
-
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedGameRoom = thisGameRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
-
-                            // Follow player location
-                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
-                        }
-                    }
-                }
-
                 else
                 {
-                    // Get the player spawnpoints
-                    for (int i = 0; i < connectedGameRoom.transform.childCount; i++)
+                    LinkExistingRoomWithCurrentRoom(DoorOrientation.LEFT);
+                }
+
+                // Get the player spawnpoints
+                for (int i = 0; i < nextGameRoom.transform.childCount; i++)
+                {
+                    if (nextGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                     {
-                        if (connectedGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
-                        {
-                            neighbourGameRoomSpawnPoints = connectedGameRoom.transform.GetChild(i).gameObject;
-                        }
+                        neighbourGameRoomSpawnPoints = nextGameRoom.transform.GetChild(i).gameObject;
                     }
+                }
 
-                    for (int i = 0; i < roomSpawnPoints.Count; i++)
+                // Move the player to the new room
+                for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
+                {
+                    if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("West"))
                     {
-                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
-                        {
-                            thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
-                            nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
-                        }
-                    }
+                        SetUpRoomTeleport(TravelDirection.EAST);
+                        isPlayerTeleporting = true;
 
-                    // Move the player to the new room
-                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
-                    {
-                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("West"))
-                        {
-                            SetUpRoomTeleport(TravelDirection.EAST);
-                            isPlayerTeleporting = true;
+                        StartCoroutine(nameof(MovePlayerToNextRoom), neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            StartCoroutine(nameof(MovePlayerToNextRoom), neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
+                        neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                        neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
+                        dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
-                            dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
-
-                            // Follow player location
-                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
-                        }
+                        // Follow player location
+                        StartCoroutine(nameof(MovePlayerLocationInMinimap));
                     }
                 }
             }
 
+            // --------------------------------------------------------------
+
             else if (CompareTag("West"))
             {
-                foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
+                Vector3 neighborRoomPos = new Vector3(transform.position.x - 25, transform.position.y, transform.position.z);
+
+                if (!IsThereARoomAtPosition(neighborRoomPos))
                 {
-                    if (createdRoom.transform.position == new Vector3(transform.position.x - 25, transform.position.y, transform.position.z))
+                    CreateRoomAtPositionWithOrientation(neighborRoomPos, DoorOrientation.RIGHT);
+
+                    bool nextRoomIsBossRoom = nextMinimapRoom.CompareTag("BossRoom");
+                    bool zodiacExistsInRoom = nextGameRoom.transform.childCount > 5;
+                    if (nextRoomIsBossRoom && zodiacExistsInRoom)
                     {
-                        connectedGameRoom = createdRoom;
+                        ManageZodiacBossActivation();
                     }
                 }
-
-                if (connectedGameRoom == null)
-                {
-                    GameObject newRoom = null;
-                    for (int i = 0; i < roomSpawnPoints.Count; i++)
-                    {
-                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
-                        {
-                            foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
-                            {
-                                //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom.name)
-                                {
-                                    newRoom = room;
-                                    thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
-                                    nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
-                                    dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
-
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                    }
-
-                    if (newRoom.name != "Room T" && newRoom.name != "Room B" && newRoom.name != "Room L" && newRoom.name != "Room R")
-                    {
-                        GameObject newSpawnpoints = null;
-                        int openings = 0;
-                        // Check if the number of openings is correct
-                        for (int i = 0; i < nextMinimapRoom?.transform.childCount; i++)
-                        {
-                            if (nextMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
-                            {
-                                newSpawnpoints = nextMinimapRoom.transform.GetChild(i).gameObject;
-                            }
-                        }
-
-                        for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
-                        {
-                            //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextMinimapRoom != null)
-                                openings++;
-                        }
-
-                        //Debug.Log(openings);
-                        //Debug.Log(newRoom.name);
-
-                        if (openings > 1)
-                        {
-                            newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                            connectedGameRoom = newRoom;
-                            dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                            if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                            {
-                                newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                                newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                            }
-                        }
-
-                        else
-                        {
-                            if (newRoom.name == "Room TR" || newRoom.name == "Room LR" || newRoom.name == "Room RB")
-                            {
-                                foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
-                                {
-                                    if (room.name == "Room R")
-                                        newRoom = room;
-                                }
-
-                                newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                                connectedGameRoom = newRoom;
-                                dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                                if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                                {
-                                    newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                                    newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                                }
-
-                                nextGameRoom = Instantiate(RoomsHolderSingleton.Instance.rightMinimapRoom, nextMinimapRoom.transform.position, RoomsHolderSingleton.Instance.rightMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
-                                nextGameRoom.SetActive(false);
-                            }
-                        }
-                    }
-
-                    else
-                    {
-                        newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                        connectedGameRoom = newRoom;
-                        dungeonMapManager.spawnedGameRooms.Add(newRoom);
-
-                        if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
-                        {
-                            newRoom.transform.GetChild(4).gameObject.SetActive(false);
-                            newRoom.transform.GetChild(5).gameObject.SetActive(true);
-                        }
-                    }
-
-                    // Get the player spawnpoints
-                    for (int i = 0; i < newRoom.transform.childCount; i++)
-                    {
-                        if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
-                        {
-                            neighbourGameRoomSpawnPoints = newRoom.transform.GetChild(i).gameObject;
-                        }
-                    }
-
-                    // Move the player to the new room
-                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
-                    {
-                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("East"))
-                        {
-                            SetUpRoomTeleport(TravelDirection.WEST);
-                            isPlayerTeleporting = true;
-
-                            StartCoroutine(nameof(MovePlayerToNextRoom), neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
-
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedGameRoom = thisGameRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
-
-                            // Follow player location
-                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
-                        }
-                    }
-                }
-
                 else
                 {
-                    // Get the player spawnpoints
-                    for (int i = 0; i < connectedGameRoom.transform.childCount; i++)
+                    LinkExistingRoomWithCurrentRoom(DoorOrientation.RIGHT);
+                }
+
+                // Get the player spawnpoints
+                for (int i = 0; i < nextGameRoom.transform.childCount; i++)
+                {
+                    if (nextGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                     {
-                        if (connectedGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
-                        {
-                            neighbourGameRoomSpawnPoints = connectedGameRoom.transform.GetChild(i).gameObject;
-                        }
+                        neighbourGameRoomSpawnPoints = nextGameRoom.transform.GetChild(i).gameObject;
                     }
+                }
 
-                    for (int i = 0; i < roomSpawnPoints.Count; i++)
+                // Move the player to the new room
+                for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
+                {
+                    if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("East"))
                     {
-                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
-                        {
-                            nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
-                        }
-                    }
+                        SetUpRoomTeleport(TravelDirection.WEST);
+                        isPlayerTeleporting = true;
 
-                    // Move the player to the new room
-                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
-                    {
-                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("East"))
-                        {
-                            SetUpRoomTeleport(TravelDirection.WEST);
-                            isPlayerTeleporting = true;
+                        StartCoroutine(nameof(MovePlayerToNextRoom), neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            StartCoroutine(nameof(MovePlayerToNextRoom), neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
+                        neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                        neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
 
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
-                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
-                            dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
-
-                            // Follow player location
-                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
-                        }
+                        // Follow player location
+                        StartCoroutine(nameof(MovePlayerLocationInMinimap));
                     }
                 }
             }
@@ -876,12 +369,86 @@ public class GameRoomSpawner : MonoBehaviour
         enterAnimTime = 0.75f;
     }
 
+    GameObject GetNeededGameRoomToSpawn(DoorOrientation requiredOrientation)
+    {
+        GameObject newRoomToSpawn = null;
+        for (int i = 0; i < minimapRoomSpawnPoints.Count; i++)
+        {
+            MinimapRoomSpawner currentMinimapSpawner = minimapRoomSpawnPoints[i].GetComponent<MinimapRoomSpawner>();
+            if (currentMinimapSpawner != null && currentMinimapSpawner.doorNeeded == requiredOrientation)
+            {
+                foreach (GameObject gameRoom in RoomsHolderSingleton.Instance.gameRooms)
+                {
+                    // Room TB"(Clone)" == "Room "TB(Clone) for example
+                    if (gameRoom.name + "(Clone)" == "Room " + currentMinimapSpawner.nextMinimapRoom.name)
+                    {
+                        newRoomToSpawn = gameRoom;
+                        nextMinimapRoom = currentMinimapSpawner.nextMinimapRoom;
+
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        return newRoomToSpawn;
+    }
+
+    bool IsThereARoomAtPosition(Vector3 roomPos)
+    {
+        foreach (GameObject createdRoom in dungeonMapManager.spawnedGameRooms)
+        {
+            if (createdRoom.transform.position == roomPos)
+            {
+                nextGameRoom = createdRoom;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void CreateRoomAtPositionWithOrientation(Vector3 roomPos, DoorOrientation roomOrientation)
+    {
+        GameObject newGameRoomToSpawnPrefab = GetNeededGameRoomToSpawn(roomOrientation);
+        nextGameRoom = Instantiate(newGameRoomToSpawnPrefab, roomPos,
+                                   newGameRoomToSpawnPrefab.transform.rotation, dungeonMapManager.gameRoomsParent);
+
+        dungeonMapManager.spawnedGameRooms.Add(nextGameRoom);
+    }
+
+    void ManageZodiacBossActivation()
+    {
+        GameObject enemySpawners = nextGameRoom.transform.GetChild(4).gameObject;
+        GameObject zodiacFight = nextGameRoom.transform.GetChild(5).gameObject;
+
+        enemySpawners.SetActive(false);
+        zodiacFight.SetActive(true);
+    }
+
+    void LinkExistingRoomWithCurrentRoom(DoorOrientation roomOrientation)
+    {
+        for (int i = 0; i < minimapRoomSpawnPoints.Count; i++)
+        {
+            MinimapRoomSpawner currentMinimapSpawner = minimapRoomSpawnPoints[i].GetComponent<MinimapRoomSpawner>();
+            if (currentMinimapSpawner != null && currentMinimapSpawner.doorNeeded == roomOrientation)
+            {
+                nextMinimapRoom = currentMinimapSpawner.nextMinimapRoom;
+            }
+        }
+    }
+
     IEnumerator MovePlayerToNextRoom(Vector3 roomSpawnerDestiny)
     {
         yield return new WaitForSeconds(0.75f);
 
         nextMinimapRoom.SetActive(true);
         nextGameRoom.SetActive(true);
+
+        dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
+        dungeonMapManager.currentGameRoom = nextGameRoom;
 
         player.transform.position = roomSpawnerDestiny;
     }

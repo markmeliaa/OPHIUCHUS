@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MinimapRoomSpawner : MonoBehaviour
@@ -20,6 +21,8 @@ public class MinimapRoomSpawner : MonoBehaviour
     // TODO: When in Andromeda, switch this to 0.022f
     private float roomOffset = 0.0f;
 
+    [HideInInspector] public List<GameObject> minimapRoomSpawnPoints;
+
 	void Start()
 	{
 		dungeonMapManager = GameObject.FindGameObjectWithTag("DungeonMngr").GetComponent<DungeonMapManager>();
@@ -27,6 +30,11 @@ public class MinimapRoomSpawner : MonoBehaviour
 
 		Transform spawnpointsParentTransform = transform.parent;
 		thisMinimapRoom = spawnpointsParentTransform.parent.gameObject;
+
+        for (int i = 0; i < spawnpointsParentTransform.childCount; i++)
+        {
+            minimapRoomSpawnPoints.Add(spawnpointsParentTransform.GetChild(i).transform.gameObject);
+        }
 
 		// Delay ManageSpawnRoom() a certain time in case the new room needs more open directions
 		Invoke(nameof(ManageSpawnRoom), Time.fixedDeltaTime);
@@ -77,11 +85,11 @@ public class MinimapRoomSpawner : MonoBehaviour
 
         if (hasToBeLimitRoom)
 		{
-			roomToSpawn = DoorOrientationToRooms.GetLimitRoomOfOneDirection(newRoomOrientation);
+			roomToSpawn = DoorOrientationToRooms.GetMinimapRoomWithOneDirection(newRoomOrientation);
 		}
         else
 		{
-            GameObject[] roomsToSelect = DoorOrientationToRooms.GetTemplateRoomsOfOneDirection(newRoomOrientation);
+            GameObject[] roomsToSelect = DoorOrientationToRooms.GetMinimapRoomsWithOneDirection(newRoomOrientation);
 			if (roomsToSelect == null)
 			{
 				return;
@@ -104,7 +112,7 @@ public class MinimapRoomSpawner : MonoBehaviour
 
     void SpawnRoomWithTwoOrientations(DoorOrientation connection1, DoorOrientation connection2, Collider2D otherRoomToConnect)
     {
-        GameObject roomToSpawn = DoorOrientationToRooms.GetTemplateRoomWithTwoDirections(connection1, connection2);
+        GameObject roomToSpawn = DoorOrientationToRooms.GetMinimapRoomWithTwoDirections(connection1, connection2);
         Vector3 roomToSpawnPosition = new Vector3(transform.position.x, transform.position.y - roomOffset, transform.position.z);
 
         if (roomToSpawn != null)

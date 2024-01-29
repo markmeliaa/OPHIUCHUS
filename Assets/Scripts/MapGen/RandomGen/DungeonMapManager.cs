@@ -20,7 +20,9 @@ public class DungeonMapManager : MonoBehaviour
     public Transform gameRoomsParent;
     [Space(5)]
     public GameObject currentMinimapRoom;
-
+    [Tooltip("If 'isGame' above is marked as false, this field can be null")]
+    public GameObject currentGameRoom;
+    [Space(10)]
     public GameObject playerMinimapPosition;
 
     [HideInInspector] public List<GameObject> spawnedMinimapRooms;
@@ -49,6 +51,8 @@ public class DungeonMapManager : MonoBehaviour
     {
         // This triggers the domino effect that creates the map
         spawnedMinimapRooms.Add(currentMinimapRoom);
+
+        spawnedGameRooms.Add(currentGameRoom);
     }
 
     private void Update()

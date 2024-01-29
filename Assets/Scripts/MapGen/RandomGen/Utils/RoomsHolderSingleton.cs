@@ -37,7 +37,7 @@ public class RoomsHolderSingleton : MonoBehaviour
 
     [Header("GAME ROOM TEMPLATES")]
     [Space(5)]
-    public List<GameObject> realRooms;
+    public List<GameObject> gameRooms;
 
     private static RoomsHolderSingleton instance;
 

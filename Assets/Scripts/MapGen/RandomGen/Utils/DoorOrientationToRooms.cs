@@ -39,7 +39,7 @@ public static class DoorOrientationToRooms
         return oppositeOrientation;
     }
 
-    public static GameObject[] GetTemplateRoomsOfOneDirection(DoorOrientation direction)
+    public static GameObject[] GetMinimapRoomsWithOneDirection(DoorOrientation direction)
     {
         GameObject[] rooms = null;
         switch (direction)
@@ -67,7 +67,7 @@ public static class DoorOrientationToRooms
         return rooms;
     }
 
-    public static GameObject GetLimitRoomOfOneDirection(DoorOrientation direction)
+    public static GameObject GetMinimapRoomWithOneDirection(DoorOrientation direction)
     {
         GameObject room = null;
         switch (direction)
@@ -95,7 +95,7 @@ public static class DoorOrientationToRooms
         return room;
     }
 
-    public static GameObject GetTemplateRoomWithTwoDirections(DoorOrientation orientation1, DoorOrientation orientation2)
+    public static GameObject GetMinimapRoomWithTwoDirections(DoorOrientation orientation1, DoorOrientation orientation2)
     {
         GameObject room = null;
         if (orientation2 < orientation1)
