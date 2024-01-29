@@ -20,8 +20,8 @@ public class DungeonMapManager : MonoBehaviour
     public Transform gameRoomsParent;
     [Space(5)]
     public GameObject currentMinimapRoom;
-    [Tooltip("This can be null only if 'isGame' above is set to false")]
-    public GameObject currentGameRoom;
+
+    public GameObject playerMinimapPosition;
 
     [HideInInspector] public List<GameObject> spawnedMinimapRooms;
     [HideInInspector] public List<GameObject> spawnedGameRooms;
@@ -42,6 +42,8 @@ public class DungeonMapManager : MonoBehaviour
     [SerializeField] private float shopRoomChance;
     [Range(0.0f, 100.0f)]
     [SerializeField] private float healRoomChance;
+
+    public Animator changeRoomAnim;
 
     private void Start()
     {
@@ -112,9 +114,9 @@ public class DungeonMapManager : MonoBehaviour
 		timeToGenerateMap = 1.0f;
 
 		GameObject initialRoom = RoomsHolderSingleton.Instance.allDirectionsMinimapRoom;
-        currentGameRoom = Instantiate(initialRoom, initialMinimapRoomPosition.position,
-                                      initialRoom.transform.rotation, minimapRoomsParent);
-        spawnedMinimapRooms.Add(currentGameRoom);
+        currentMinimapRoom = Instantiate(initialRoom, initialMinimapRoomPosition.position,
+                                         initialRoom.transform.rotation, minimapRoomsParent);
+        spawnedMinimapRooms.Add(currentMinimapRoom);
     }
 
     private bool CanBeBossRoom(GameObject selectedRoom)

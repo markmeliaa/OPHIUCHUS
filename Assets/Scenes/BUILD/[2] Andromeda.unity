@@ -8940,13 +8940,14 @@ MonoBehaviour:
   minimapRoomsParent: {fileID: 207366078}
   gameRoomsParent: {fileID: 1412537187}
   currentMinimapRoom: {fileID: 1558707656}
-  currentGameRoom: {fileID: 1594822905}
+  playerMinimapPosition: {fileID: 0}
   spawnedMinimapRooms: []
   spawnedGameRooms: []
   minRooms: 10
   maxRooms: 25
   shopRoomChance: 0
   healRoomChance: 0
+  changeRoomAnim: {fileID: 1272354316}
 --- !u!1 &641565904
 GameObject:
   m_ObjectHideFlags: 0
@@ -20683,11 +20684,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1594822905 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2802847374156715138, guid: 5054cbb5ff6dafd42a72f6c335d57493, type: 3}
-  m_PrefabInstance: {fileID: 2802847374855306144}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1597876375
 GameObject:
   m_ObjectHideFlags: 0

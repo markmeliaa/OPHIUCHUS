@@ -9,8 +9,8 @@ public class MinimapRoomSpawner : MonoBehaviour
     public DoorOrientation doorNeeded;
 
     [HideInInspector] public bool hasRoomConnected;
-	[HideInInspector] public GameObject currentRoom;
-	[HideInInspector] public GameObject nextRoom;
+	[HideInInspector] public GameObject thisMinimapRoom;
+	[HideInInspector] public GameObject nextMinimapRoom;
 
 	private readonly float minimapBottomLimit = 0.038f;
 	private readonly float minimapTopLimit = 0.962f;
@@ -26,7 +26,7 @@ public class MinimapRoomSpawner : MonoBehaviour
 		mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
 		Transform spawnpointsParentTransform = transform.parent;
-		currentRoom = spawnpointsParentTransform.parent.gameObject;
+		thisMinimapRoom = spawnpointsParentTransform.parent.gameObject;
 
 		// Delay ManageSpawnRoom() a certain time in case the new room needs more open directions
 		Invoke(nameof(ManageSpawnRoom), Time.fixedDeltaTime);
@@ -95,7 +95,7 @@ public class MinimapRoomSpawner : MonoBehaviour
         {
             GameObject newRoom = Instantiate(roomToSpawn, newRoomPosition, roomToSpawn.transform.rotation, dungeonMapManager.minimapRoomsParent);
             dungeonMapManager.spawnedMinimapRooms.Add(newRoom);
-            nextRoom = newRoom;
+            nextMinimapRoom = newRoom;
 
             DoorOrientation oppositeDoorOrientation = DoorOrientationToRooms.GetOppositeOrientation(newRoomOrientation);
             SetConnectionsBetweenRooms(newRoom, oppositeDoorOrientation);
@@ -111,8 +111,8 @@ public class MinimapRoomSpawner : MonoBehaviour
         {
             GameObject newRoom = Instantiate(roomToSpawn, roomToSpawnPosition, roomToSpawn.transform.rotation, dungeonMapManager.minimapRoomsParent);
             dungeonMapManager.spawnedMinimapRooms.Add(newRoom);
-            nextRoom = newRoom;
-            otherRoomToConnect.GetComponent<MinimapRoomSpawner>().nextRoom = newRoom;
+            nextMinimapRoom = newRoom;
+            otherRoomToConnect.GetComponent<MinimapRoomSpawner>().nextMinimapRoom = newRoom;
 
             DoorOrientation oppositeDoorOrientation1 = DoorOrientationToRooms.GetOppositeOrientation(connection1);
             DoorOrientation oppositeDoorOrientation2 = DoorOrientationToRooms.GetOppositeOrientation(connection2);
@@ -138,12 +138,12 @@ public class MinimapRoomSpawner : MonoBehaviour
             if (nextRoomSpawner.doorNeeded == connectionToSet1)
             {
                 nextRoomSpawner.hasRoomConnected = true;
-                nextRoomSpawner.nextRoom = currentRoom;
+                nextRoomSpawner.nextMinimapRoom = thisMinimapRoom;
             }
             else if (nextRoomSpawner.doorNeeded == connectionToSet2)
             {
                 nextRoomSpawner.hasRoomConnected = true;
-                nextRoomSpawner.nextRoom = otherSpawner.GetComponent<MinimapRoomSpawner>().currentRoom;
+                nextRoomSpawner.nextMinimapRoom = otherSpawner.GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
             }
         }
     }

@@ -1,193 +1,189 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameRoomSpawner : MonoBehaviour
 {
+    // PLAYER RELATED STUFF
     private GameObject player;
-
-    private bool teleport = true;
-    private DungeonMapManager dungeonMapManager;
-    private GameObject spawnPoints;
-    private GameObject thisRoom;
-    private GameObject nextRoom;
-    private GameObject otherRoom;
-    private GameObject thisRealRoom;
-
-    [HideInInspector] public GameObject connectedRoom = null;
-    public GameObject playerSpawn = null;
-    [HideInInspector] public GameObject neighbourRealSpawnpoints = null;
+    private bool canPlayerTriggerTeleport;
+    private bool isPlayerTeleporting;
 
     private PlayerAnimationDirection playerAnimationDirection;
-    private bool north = false;
-    private bool south = false;
-    private bool east = false;
-    private bool west = false;
+    private bool north, south, east, west;
 
-    private bool isCorrect = true;
-    private float animTime = 0.75f;
-    private float animTime2 = 0.75f;
+    // DUNGEON MANAGER - ROOMS RELATED STUFF
+    private DungeonMapManager dungeonMapManager;
+    [SerializeField] private List<GameObject> roomSpawnPoints;
+    private GameObject neighbourGameRoomSpawnPoints;
 
-    private bool ePressed = false;
+    private GameObject thisMinimapRoom;
+    private GameObject nextMinimapRoom;
 
-    private bool changingRoom;
-    [SerializeField] private Animator changeRoomAnim;
+    private GameObject thisGameRoom;
+    private GameObject nextGameRoom;
+
+    private GameObject connectedGameRoom; // ?????????????
+    [SerializeField] private GameObject playerEntranceSpawn;
+
+    private bool changeRoomKeyPressed = false;
+
+    // ANIMATION STUFF
+
+    private float exitAnimTime = 0.75f;
+    private float enterAnimTime = 0.75f;
 
     private void Start()
     {
         dungeonMapManager = GameObject.FindGameObjectWithTag("DungeonMngr").GetComponent<DungeonMapManager>();
         player = GameObject.FindGameObjectWithTag("Player");
-        thisRealRoom = transform.parent.transform.parent.gameObject;
+        thisGameRoom = transform.parent.transform.parent.gameObject;
         playerAnimationDirection = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAnimationDirection>();
 
-        dungeonMapManager.spawnedGameRooms.Add(dungeonMapManager.currentGameRoom);
+        dungeonMapManager.spawnedGameRooms.Add(thisGameRoom);
     }
 
     // Manage change room animation movement
     private void FixedUpdate()
     {
-        if (changingRoom)
+        if (isPlayerTeleporting)
         {
             if (north)
             {
-                if (animTime > 0)
+                if (exitAnimTime > 0)
                 {
-                    changeRoomAnim.SetBool("ChangeRoom", true);
+                    dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", true);
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
                     player.transform.position += new Vector3(-0.045f, 0.024f, 0);
                     playerAnimationDirection.SetDirection(new Vector2(-1, 1));
-                    animTime -= Time.deltaTime;
+                    exitAnimTime -= Time.deltaTime;
                 }
 
-                else if (animTime2 > 0)
+                else if (enterAnimTime > 0)
                 {
-                    changeRoomAnim.SetBool("ChangeRoom", false);
+                    dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", false);
                     player.transform.position += new Vector3(-0.045f, 0.024f, 0);
                     playerAnimationDirection.SetDirection(new Vector2(-1, 1));
-                    animTime2 -= Time.deltaTime;
+                    enterAnimTime -= Time.deltaTime;
                 }
 
                 else
                 {
-                    changingRoom = false;
+                    isPlayerTeleporting = false;
                     north = false;
                     playerAnimationDirection.SetDirection(new Vector2(0, 0));
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
-                    animTime = 0.75f;
-                    animTime2 = 0.75f;
+                    exitAnimTime = 0.75f;
+                    enterAnimTime = 0.75f;
                 }
             }
 
             else if (south)
             {
-                if (animTime > 0)
+                if (exitAnimTime > 0)
                 {
-                    changeRoomAnim.SetBool("ChangeRoom", true);
+                    dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", true);
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
                     player.transform.position += new Vector3(0.045f, -0.024f, 0);
                     playerAnimationDirection.SetDirection(new Vector2(1, -1));
-                    animTime -= Time.deltaTime;
+                    exitAnimTime -= Time.deltaTime;
                 }
 
-                else if (animTime2 > 0)
+                else if (enterAnimTime > 0)
                 {
-                    changeRoomAnim.SetBool("ChangeRoom", false);
+                    dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", false);
                     player.transform.position += new Vector3(0.045f, -0.024f, 0);
                     playerAnimationDirection.SetDirection(new Vector2(1, -1));
-                    animTime2 -= Time.deltaTime;
+                    enterAnimTime -= Time.deltaTime;
                 }
 
                 else
                 {
-                    changingRoom = false;
+                    isPlayerTeleporting = false;
                     south = false;
                     playerAnimationDirection.SetDirection(new Vector2(0, 0));
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
-                    animTime = 0.75f;
-                    animTime2 = 0.75f;
+                    exitAnimTime = 0.75f;
+                    enterAnimTime = 0.75f;
                 }
             }
 
             else if (east)
             {
-                if (animTime > 0)
+                if (exitAnimTime > 0)
                 {
-                    changeRoomAnim.SetBool("ChangeRoom", true);
+                    dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", true);
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
                     player.transform.position += new Vector3(0.045f, 0.024f, 0);
                     playerAnimationDirection.SetDirection(new Vector2(1, 1));
-                    animTime -= Time.deltaTime;
+                    exitAnimTime -= Time.deltaTime;
                 }
 
-                else if (animTime2 > 0)
+                else if (enterAnimTime > 0)
                 {
-                    changeRoomAnim.SetBool("ChangeRoom", false);
+                    dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", false);
                     player.transform.position += new Vector3(0.045f, 0.024f, 0);
                     playerAnimationDirection.SetDirection(new Vector2(1, 1));
-                    animTime2 -= Time.deltaTime;
+                    enterAnimTime -= Time.deltaTime;
                 }
 
                 else
                 {
-                    changingRoom = false;
+                    isPlayerTeleporting = false;
                     east = false;
                     playerAnimationDirection.SetDirection(new Vector2(0, 0));
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
-                    animTime = 0.75f;
-                    animTime2 = 0.75f;
+                    exitAnimTime = 0.75f;
+                    enterAnimTime = 0.75f;
                 }
             }
 
             else if (west)
             {
-                if (animTime > 0)
+                if (exitAnimTime > 0)
                 {
-                    changeRoomAnim.SetBool("ChangeRoom", true);
+                    dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", true);
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
                     player.transform.position += new Vector3(-0.045f, -0.024f, 0);
                     playerAnimationDirection.SetDirection(new Vector2(-1, -1));
-                    animTime -= Time.deltaTime;
+                    exitAnimTime -= Time.deltaTime;
                 }
 
-                else if (animTime2 > 0)
+                else if (enterAnimTime > 0)
                 {
-                    changeRoomAnim.SetBool("ChangeRoom", false);
+                    dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", false);
                     player.transform.position += new Vector3(-0.045f, -0.024f, 0);
                     playerAnimationDirection.SetDirection(new Vector2(-1, -1));
-                    animTime2 -= Time.deltaTime;
+                    enterAnimTime -= Time.deltaTime;
                 }
 
                 else
                 {
-                    changingRoom = false;
+                    isPlayerTeleporting = false;
                     west = false;
                     playerAnimationDirection.SetDirection(new Vector2(0, 0));
                     player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
-                    animTime = 0.75f;
-                    animTime2 = 0.75f;
+                    exitAnimTime = 0.75f;
+                    enterAnimTime = 0.75f;
                 }
             }
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        canPlayerTriggerTeleport = true;
+    }
+
     // Manage the change of rooms
     private void OnTriggerStay2D(Collider2D other)
     {
-        thisRoom = dungeonMapManager.currentGameRoom;
-        //Debug.Log(templates.currentRoom);
+        thisMinimapRoom = dungeonMapManager.currentMinimapRoom;
 
-        if (other.CompareTag("Player") && Input.GetKey(KeyCode.E) && !ePressed && teleport == true && !changingRoom)
+        if (other.CompareTag("Player") && Input.GetKey(KeyCode.E) && !changeRoomKeyPressed && canPlayerTriggerTeleport == true && !isPlayerTeleporting)
         {
-            ePressed = true;
-            //Debug.Log(true);
-            teleport = false;
-
-            for (int i = 0; i < dungeonMapManager.currentGameRoom.transform.childCount; i++)
-            {
-                if (dungeonMapManager.currentGameRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
-                {
-                    spawnPoints = dungeonMapManager.currentGameRoom.transform.GetChild(i).gameObject;
-                }
-            }
+            changeRoomKeyPressed = true;
+            canPlayerTriggerTeleport = false;
 
             if (CompareTag("North"))
             {
@@ -195,26 +191,26 @@ public class GameRoomSpawner : MonoBehaviour
                 {
                     if (createdRoom.transform.position == new Vector3(transform.position.x, transform.position.y + 15, transform.position.z))
                     {
-                        connectedRoom = createdRoom;
+                        connectedGameRoom = createdRoom;
                     }
                 }
 
-                if (connectedRoom == null)
+                if (connectedGameRoom == null)
                 {
                     GameObject newRoom = null;
-                    for (int i = 0; i < spawnPoints.transform.childCount; i++)
+                    for (int i = 0; i < roomSpawnPoints.Count; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
+                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
                         {
                             foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
+                                if (room.name + "(Clone)" == "Room " + roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
-                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
-                                    dungeonMapManager.currentGameRoom = nextRoom;
+                                    thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
+                                    nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
+                                    dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
                                     break;
                                 }
@@ -228,18 +224,18 @@ public class GameRoomSpawner : MonoBehaviour
                         GameObject newSpawnpoints = null;
                         int openings = 0;
                         // Check if the number of openings is correct
-                        for (int i = 0; i < nextRoom?.transform.childCount; i++)
+                        for (int i = 0; i < nextMinimapRoom?.transform.childCount; i++)
                         {
-                            if (nextRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                            if (nextMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
                             {
-                                newSpawnpoints = nextRoom.transform.GetChild(i).gameObject;
+                                newSpawnpoints = nextMinimapRoom.transform.GetChild(i).gameObject;
                             }
                         }
 
                         for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
                         {
                             //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom != null)
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextMinimapRoom != null)
                                 openings++;
                         }
 
@@ -249,10 +245,10 @@ public class GameRoomSpawner : MonoBehaviour
                         if (openings > 1)
                         {
                             newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                            connectedRoom = newRoom;
+                            connectedGameRoom = newRoom;
                             dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                            if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                            if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                             {
                                 newRoom.transform.GetChild(4).gameObject.SetActive(false);
                                 newRoom.transform.GetChild(5).gameObject.SetActive(true);
@@ -270,18 +266,17 @@ public class GameRoomSpawner : MonoBehaviour
                                 }
 
                                 newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                                connectedRoom = newRoom;
+                                connectedGameRoom = newRoom;
                                 dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                                if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                                if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                                 {
                                     newRoom.transform.GetChild(4).gameObject.SetActive(false);
                                     newRoom.transform.GetChild(5).gameObject.SetActive(true);
                                 }
 
-                                isCorrect = false;
-                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.bottomMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.bottomMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
-                                otherRoom.SetActive(false);
+                                nextGameRoom = Instantiate(RoomsHolderSingleton.Instance.bottomMinimapRoom, nextMinimapRoom.transform.position, RoomsHolderSingleton.Instance.bottomMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
+                                nextGameRoom.SetActive(false);
                             }
                         }
                     }
@@ -289,10 +284,10 @@ public class GameRoomSpawner : MonoBehaviour
                     else
                     {
                         newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y + 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                        connectedRoom = newRoom;
+                        connectedGameRoom = newRoom;
                         dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                        if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                        if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                         {
                             newRoom.transform.GetChild(4).gameObject.SetActive(false);
                             newRoom.transform.GetChild(5).gameObject.SetActive(true);
@@ -304,26 +299,26 @@ public class GameRoomSpawner : MonoBehaviour
                     {
                         if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                            neighbourGameRoomSpawnPoints = newRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
                     // Move the player to the new room
-                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
                     {
-                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
+                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("South"))
                         {
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            changingRoom = true;
+                            isPlayerTeleporting = true;
                             north = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedRoom = thisRealRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedGameRoom = thisGameRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
 
                             // Follow player location
-                            StartCoroutine("MovePlayerLocation");
+                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
                         }
                     }
                 }
@@ -331,38 +326,38 @@ public class GameRoomSpawner : MonoBehaviour
                 else
                 {
                     // Get the player spawnpoints
-                    for (int i = 0; i < connectedRoom.transform.childCount; i++)
+                    for (int i = 0; i < connectedGameRoom.transform.childCount; i++)
                     {
-                        if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        if (connectedGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = connectedRoom.transform.GetChild(i).gameObject;
+                            neighbourGameRoomSpawnPoints = connectedGameRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
-                    for (int i = 0; i < spawnPoints.transform.childCount; i++)
+                    for (int i = 0; i < roomSpawnPoints.Count; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
+                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.BOTTOM)
                         {
-                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
+                            nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
                         }
                     }
 
                     // Move the player to the new room
-                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
                     {
-                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("South"))
+                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("South"))
                         {
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            changingRoom = true;
+                            isPlayerTeleporting = true;
                             north = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
-                            dungeonMapManager.currentGameRoom = nextRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
+                            dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
                             // Follow player location
-                            StartCoroutine("MovePlayerLocation");
+                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
                         }
                     }
                 }
@@ -374,26 +369,26 @@ public class GameRoomSpawner : MonoBehaviour
                 {
                     if (createdRoom.transform.position == new Vector3(transform.position.x, transform.position.y - 15, transform.position.z))
                     {
-                        connectedRoom = createdRoom;
+                        connectedGameRoom = createdRoom;
                     }
                 }
 
-                if (connectedRoom == null)
+                if (connectedGameRoom == null)
                 {
                     GameObject newRoom = null;
-                    for (int i = 0; i < spawnPoints.transform.childCount; i++)
+                    for (int i = 0; i < roomSpawnPoints.Count; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
+                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
                         {
                             foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
+                                if (room.name + "(Clone)" == "Room " + roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
-                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
-                                    dungeonMapManager.currentGameRoom = nextRoom;
+                                    thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
+                                    nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
+                                    dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
                                     break;
                                 }
@@ -407,18 +402,18 @@ public class GameRoomSpawner : MonoBehaviour
                         GameObject newSpawnpoints = null;
                         int openings = 0;
                         // Check if the number of openings is correct
-                        for (int i = 0; i < nextRoom?.transform.childCount; i++)
+                        for (int i = 0; i < nextMinimapRoom?.transform.childCount; i++)
                         {
-                            if (nextRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                            if (nextMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
                             {
-                                newSpawnpoints = nextRoom.transform.GetChild(i).gameObject;
+                                newSpawnpoints = nextMinimapRoom.transform.GetChild(i).gameObject;
                             }
                         }
 
                         for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
                         {
                             //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom != null)
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextMinimapRoom != null)
                                 openings++;
                         }
 
@@ -428,10 +423,10 @@ public class GameRoomSpawner : MonoBehaviour
                         if (openings > 1)
                         {
                             newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                            connectedRoom = newRoom;
+                            connectedGameRoom = newRoom;
                             dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                            if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                            if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                             {
                                 newRoom.transform.GetChild(4).gameObject.SetActive(false);
                                 newRoom.transform.GetChild(5).gameObject.SetActive(true);
@@ -449,18 +444,17 @@ public class GameRoomSpawner : MonoBehaviour
                                 }
 
                                 newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                                connectedRoom = newRoom;
+                                connectedGameRoom = newRoom;
                                 dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                                if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                                if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                                 {
                                     newRoom.transform.GetChild(4).gameObject.SetActive(false);
                                     newRoom.transform.GetChild(5).gameObject.SetActive(true);
                                 }
 
-                                isCorrect = false;
-                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.topMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.topMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
-                                otherRoom.SetActive(false);
+                                nextGameRoom = Instantiate(RoomsHolderSingleton.Instance.topMinimapRoom, nextMinimapRoom.transform.position, RoomsHolderSingleton.Instance.topMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
+                                nextGameRoom.SetActive(false);
                             }
                         }
                     }
@@ -468,10 +462,10 @@ public class GameRoomSpawner : MonoBehaviour
                     else
                     {
                         newRoom = Instantiate(newRoom, new Vector3(transform.position.x, transform.position.y - 15, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                        connectedRoom = newRoom;
+                        connectedGameRoom = newRoom;
                         dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                        if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                        if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                         {
                             newRoom.transform.GetChild(4).gameObject.SetActive(false);
                             newRoom.transform.GetChild(5).gameObject.SetActive(true);
@@ -483,26 +477,26 @@ public class GameRoomSpawner : MonoBehaviour
                     {
                         if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                            neighbourGameRoomSpawnPoints = newRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
                     // Move the player to the new room
-                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
                     {
-                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
+                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("North"))
                         {
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            changingRoom = true;
+                            isPlayerTeleporting = true;
                             south = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedRoom = thisRealRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedGameRoom = thisGameRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
 
                             // Follow player location
-                            StartCoroutine("MovePlayerLocation");
+                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
                         }
                     }
                 }
@@ -510,38 +504,38 @@ public class GameRoomSpawner : MonoBehaviour
                 else
                 {
                     // Get the player spawnpoints
-                    for (int i = 0; i < connectedRoom.transform.childCount; i++)
+                    for (int i = 0; i < connectedGameRoom.transform.childCount; i++)
                     {
-                        if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        if (connectedGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = connectedRoom.transform.GetChild(i).gameObject;
+                            neighbourGameRoomSpawnPoints = connectedGameRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
-                    for (int i = 0; i < spawnPoints.transform.childCount; i++)
+                    for (int i = 0; i < roomSpawnPoints.Count; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
+                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.TOP)
                         {
-                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
+                            nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
                         }
                     }
 
                     // Move the player to the new room
-                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
                     {
-                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("North"))
+                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("North"))
                         {
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            changingRoom = true;
+                            isPlayerTeleporting = true;
                             south = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
-                            dungeonMapManager.currentGameRoom = nextRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
+                            dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
                             // Follow player location
-                            StartCoroutine("MovePlayerLocation");
+                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
                         }
                     }
                 }
@@ -553,26 +547,26 @@ public class GameRoomSpawner : MonoBehaviour
                 {
                     if (createdRoom.transform.position == new Vector3(transform.position.x + 25, transform.position.y, transform.position.z))
                     {
-                        connectedRoom = createdRoom;
+                        connectedGameRoom = createdRoom;
                     }
                 }
 
-                if (connectedRoom == null)
+                if (connectedGameRoom == null)
                 {
                     GameObject newRoom = null;
-                    for (int i = 0; i < spawnPoints.transform.childCount; i++)
+                    for (int i = 0; i < roomSpawnPoints.Count; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
+                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
                         {
                             foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
+                                if (room.name + "(Clone)" == "Room " + roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
-                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
-                                    dungeonMapManager.currentGameRoom = nextRoom;
+                                    thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
+                                    nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
+                                    dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
                                     break;
                                 }
@@ -586,18 +580,18 @@ public class GameRoomSpawner : MonoBehaviour
                         GameObject newSpawnpoints = null;
                         int openings = 0;
                         // Check if the number of openings is correct
-                        for (int i = 0; i < nextRoom?.transform.childCount; i++)
+                        for (int i = 0; i < nextMinimapRoom?.transform.childCount; i++)
                         {
-                            if (nextRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                            if (nextMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
                             {
-                                newSpawnpoints = nextRoom.transform.GetChild(i).gameObject;
+                                newSpawnpoints = nextMinimapRoom.transform.GetChild(i).gameObject;
                             }
                         }
 
                         for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
                         {
                             //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom != null)
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextMinimapRoom != null)
                                 openings++;
                         }
 
@@ -607,10 +601,10 @@ public class GameRoomSpawner : MonoBehaviour
                         if (openings > 1)
                         {
                             newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                            connectedRoom = newRoom;
+                            connectedGameRoom = newRoom;
                             dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                            if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                            if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                             {
                                 newRoom.transform.GetChild(4).gameObject.SetActive(false);
                                 newRoom.transform.GetChild(5).gameObject.SetActive(true);
@@ -628,18 +622,17 @@ public class GameRoomSpawner : MonoBehaviour
                                 }
 
                                 newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                                connectedRoom = newRoom;
+                                connectedGameRoom = newRoom;
                                 dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                                if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                                if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                                 {
                                     newRoom.transform.GetChild(4).gameObject.SetActive(false);
                                     newRoom.transform.GetChild(5).gameObject.SetActive(true);
                                 }
 
-                                isCorrect = false;
-                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.leftMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.leftMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
-                                otherRoom.SetActive(false);
+                                nextGameRoom = Instantiate(RoomsHolderSingleton.Instance.leftMinimapRoom, nextMinimapRoom.transform.position, RoomsHolderSingleton.Instance.leftMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
+                                nextGameRoom.SetActive(false);
                             }
                         }
                     }
@@ -647,10 +640,10 @@ public class GameRoomSpawner : MonoBehaviour
                     else
                     {
                         newRoom = Instantiate(newRoom, new Vector3(transform.position.x + 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                        connectedRoom = newRoom;
+                        connectedGameRoom = newRoom;
                         dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                        if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                        if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                         {
                             newRoom.transform.GetChild(4).gameObject.SetActive(false);
                             newRoom.transform.GetChild(5).gameObject.SetActive(true);
@@ -662,26 +655,26 @@ public class GameRoomSpawner : MonoBehaviour
                     {
                         if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                            neighbourGameRoomSpawnPoints = newRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
                     // Move the player to the new room
-                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
                     {
-                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
+                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("West"))
                         {
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            changingRoom = true;
+                            isPlayerTeleporting = true;
                             east = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
+                            StartCoroutine("MovePlayerToNextRoom", neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedRoom = thisRealRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedGameRoom = thisGameRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
 
                             // Follow player location
-                            StartCoroutine("MovePlayerLocation");
+                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
                         }
                     }
                 }
@@ -689,39 +682,39 @@ public class GameRoomSpawner : MonoBehaviour
                 else
                 {
                     // Get the player spawnpoints
-                    for (int i = 0; i < connectedRoom.transform.childCount; i++)
+                    for (int i = 0; i < connectedGameRoom.transform.childCount; i++)
                     {
-                        if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        if (connectedGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = connectedRoom.transform.GetChild(i).gameObject;
+                            neighbourGameRoomSpawnPoints = connectedGameRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
-                    for (int i = 0; i < spawnPoints.transform.childCount; i++)
+                    for (int i = 0; i < roomSpawnPoints.Count; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
+                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.LEFT)
                         {
-                            thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
-                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
+                            thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
+                            nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
                         }
                     }
 
                     // Move the player to the new room
-                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
                     {
-                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("West"))
+                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("West"))
                         {
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            changingRoom = true;
+                            isPlayerTeleporting = true;
                             east = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
+                            StartCoroutine(nameof(MovePlayerToNextRoom), neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
-                            dungeonMapManager.currentGameRoom = nextRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
+                            dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
                             // Follow player location
-                            StartCoroutine("MovePlayerLocation");
+                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
                         }
                     }
                 }
@@ -733,26 +726,26 @@ public class GameRoomSpawner : MonoBehaviour
                 {
                     if (createdRoom.transform.position == new Vector3(transform.position.x - 25, transform.position.y, transform.position.z))
                     {
-                        connectedRoom = createdRoom;
+                        connectedGameRoom = createdRoom;
                     }
                 }
 
-                if (connectedRoom == null)
+                if (connectedGameRoom == null)
                 {
                     GameObject newRoom = null;
-                    for (int i = 0; i < spawnPoints.transform.childCount; i++)
+                    for (int i = 0; i < roomSpawnPoints.Count; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
+                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
                         {
                             foreach (GameObject room in RoomsHolderSingleton.Instance.realRooms)
                             {
                                 //Debug.Log(spawnPoints.transform.parent.gameObject.name + ", " + spawnPoints.gameObject.name);
-                                if (room.name + "(Clone)" == "Room " + spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom.name)
+                                if (room.name + "(Clone)" == "Room " + roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom.name)
                                 {
                                     newRoom = room;
-                                    thisRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().currentRoom;
-                                    nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
-                                    dungeonMapManager.currentGameRoom = nextRoom;
+                                    thisMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().thisMinimapRoom;
+                                    nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
+                                    dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
                                     break;
                                 }
@@ -766,18 +759,18 @@ public class GameRoomSpawner : MonoBehaviour
                         GameObject newSpawnpoints = null;
                         int openings = 0;
                         // Check if the number of openings is correct
-                        for (int i = 0; i < nextRoom?.transform.childCount; i++)
+                        for (int i = 0; i < nextMinimapRoom?.transform.childCount; i++)
                         {
-                            if (nextRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
+                            if (nextMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoint"))
                             {
-                                newSpawnpoints = nextRoom.transform.GetChild(i).gameObject;
+                                newSpawnpoints = nextMinimapRoom.transform.GetChild(i).gameObject;
                             }
                         }
 
                         for (int i = 0; i < newSpawnpoints.transform.childCount; i++)
                         {
                             //Debug.Log(spawnPoints.transform.GetChild(i).GetComponent<RoomSpawner>().nextRoom);
-                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom != null)
+                            if (newSpawnpoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextMinimapRoom != null)
                                 openings++;
                         }
 
@@ -787,10 +780,10 @@ public class GameRoomSpawner : MonoBehaviour
                         if (openings > 1)
                         {
                             newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                            connectedRoom = newRoom;
+                            connectedGameRoom = newRoom;
                             dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                            if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                            if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                             {
                                 newRoom.transform.GetChild(4).gameObject.SetActive(false);
                                 newRoom.transform.GetChild(5).gameObject.SetActive(true);
@@ -808,18 +801,17 @@ public class GameRoomSpawner : MonoBehaviour
                                 }
 
                                 newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                                connectedRoom = newRoom;
+                                connectedGameRoom = newRoom;
                                 dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                                if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                                if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                                 {
                                     newRoom.transform.GetChild(4).gameObject.SetActive(false);
                                     newRoom.transform.GetChild(5).gameObject.SetActive(true);
                                 }
 
-                                isCorrect = false;
-                                otherRoom = Instantiate(RoomsHolderSingleton.Instance.rightMinimapRoom, nextRoom.transform.position, RoomsHolderSingleton.Instance.rightMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
-                                otherRoom.SetActive(false);
+                                nextGameRoom = Instantiate(RoomsHolderSingleton.Instance.rightMinimapRoom, nextMinimapRoom.transform.position, RoomsHolderSingleton.Instance.rightMinimapRoom.transform.rotation, dungeonMapManager.minimapRoomsParent);
+                                nextGameRoom.SetActive(false);
                             }
                         }
                     }
@@ -827,10 +819,10 @@ public class GameRoomSpawner : MonoBehaviour
                     else
                     {
                         newRoom = Instantiate(newRoom, new Vector3(transform.position.x - 25, transform.position.y, transform.position.z), newRoom.transform.rotation, dungeonMapManager.gameRoomsParent);
-                        connectedRoom = newRoom;
+                        connectedGameRoom = newRoom;
                         dungeonMapManager.spawnedGameRooms.Add(newRoom);
 
-                        if (nextRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
+                        if (nextMinimapRoom.CompareTag("BossRoom") && newRoom.transform.childCount > 5)
                         {
                             newRoom.transform.GetChild(4).gameObject.SetActive(false);
                             newRoom.transform.GetChild(5).gameObject.SetActive(true);
@@ -842,26 +834,26 @@ public class GameRoomSpawner : MonoBehaviour
                     {
                         if (newRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = newRoom.transform.GetChild(i).gameObject;
+                            neighbourGameRoomSpawnPoints = newRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
                     // Move the player to the new room
-                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
                     {
-                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
+                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("East"))
                         {
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            changingRoom = true;
+                            isPlayerTeleporting = true;
                             west = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
+                            StartCoroutine(nameof(MovePlayerToNextRoom), neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedRoom = thisRealRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().connectedGameRoom = thisGameRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
 
                             // Follow player location
-                            StartCoroutine("MovePlayerLocation");
+                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
                         }
                     }
                 }
@@ -869,38 +861,38 @@ public class GameRoomSpawner : MonoBehaviour
                 else
                 {
                     // Get the player spawnpoints
-                    for (int i = 0; i < connectedRoom.transform.childCount; i++)
+                    for (int i = 0; i < connectedGameRoom.transform.childCount; i++)
                     {
-                        if (connectedRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
+                        if (connectedGameRoom.transform.GetChild(i).CompareTag("RealSpawnPoint"))
                         {
-                            neighbourRealSpawnpoints = connectedRoom.transform.GetChild(i).gameObject;
+                            neighbourGameRoomSpawnPoints = connectedGameRoom.transform.GetChild(i).gameObject;
                         }
                     }
 
-                    for (int i = 0; i < spawnPoints.transform.childCount; i++)
+                    for (int i = 0; i < roomSpawnPoints.Count; i++)
                     {
-                        if (spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
+                        if (roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>()?.doorNeeded == DoorOrientation.RIGHT)
                         {
-                            nextRoom = spawnPoints.transform.GetChild(i).GetComponent<MinimapRoomSpawner>().nextRoom;
+                            nextMinimapRoom = roomSpawnPoints[i].GetComponent<MinimapRoomSpawner>().nextMinimapRoom;
                         }
                     }
 
                     // Move the player to the new room
-                    for (int i = 0; i < neighbourRealSpawnpoints.transform.childCount; i++)
+                    for (int i = 0; i < neighbourGameRoomSpawnPoints.transform.childCount; i++)
                     {
-                        if (neighbourRealSpawnpoints.transform.GetChild(i).CompareTag("East"))
+                        if (neighbourGameRoomSpawnPoints.transform.GetChild(i).CompareTag("East"))
                         {
                             //player.transform.position = neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GetAdjRoom>().playerSpawn.transform.position;
-                            changingRoom = true;
+                            isPlayerTeleporting = true;
                             west = true;
-                            StartCoroutine("MovePlayerRoom", neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerSpawn.transform.position);
+                            StartCoroutine(nameof(MovePlayerToNextRoom), neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().playerEntranceSpawn.transform.position);
 
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisRoom = nextRoom;
-                            neighbourRealSpawnpoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextRoom = thisRoom;
-                            dungeonMapManager.currentGameRoom = nextRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().thisMinimapRoom = nextMinimapRoom;
+                            neighbourGameRoomSpawnPoints.transform.GetChild(i).GetComponent<GameRoomSpawner>().nextMinimapRoom = thisMinimapRoom;
+                            dungeonMapManager.currentMinimapRoom = nextMinimapRoom;
 
                             // Follow player location
-                            StartCoroutine("MovePlayerLocation");
+                            StartCoroutine(nameof(MovePlayerLocationInMinimap));
                         }
                     }
                 }
@@ -910,26 +902,28 @@ public class GameRoomSpawner : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        teleport = true;
+        canPlayerTriggerTeleport = false;
     }
 
-    IEnumerator MovePlayerRoom(Vector3 moveTo)
+    IEnumerator MovePlayerToNextRoom(Vector3 roomSpawnerDestiny)
     {
         yield return new WaitForSeconds(0.75f);
-        player.transform.position = moveTo;
+
+        nextMinimapRoom.SetActive(true);
+        nextGameRoom.SetActive(true);
+
+        player.transform.position = roomSpawnerDestiny;
     }
 
-    IEnumerator MovePlayerLocation()
+    IEnumerator MovePlayerLocationInMinimap()
     {
         yield return new WaitForSeconds(0.75f);
-        nextRoom.SetActive(true);
-        if (!isCorrect)
-            otherRoom.SetActive(true);
 
-        dungeonMapManager.currentMinimapRoom.transform.parent = nextRoom.transform;
-        dungeonMapManager.currentMinimapRoom.transform.position = nextRoom.transform.position;
+        dungeonMapManager.playerMinimapPosition.transform.parent = nextMinimapRoom.transform;
+        dungeonMapManager.playerMinimapPosition.transform.position = nextMinimapRoom.transform.position;
 
-        yield return new WaitForSeconds(2f);
-        ePressed = false;
+        yield return new WaitForSeconds(2.0f);
+
+        changeRoomKeyPressed = false;
     }
 }

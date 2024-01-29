@@ -395,7 +395,7 @@ MonoBehaviour:
   minimapRoomsParent: {fileID: 635502956}
   gameRoomsParent: {fileID: 635502956}
   currentMinimapRoom: {fileID: 440928138}
-  currentGameRoom: {fileID: 0}
+  playerMinimapPosition: {fileID: 1903997093}
   spawnedMinimapRooms: []
   spawnedGameRooms: []
   minRooms: 10
@@ -772,6 +772,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
+--- !u!1 &1903997093 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8109422242213777811, guid: 7f5cd269b12fe9b4e85443608689cf70, type: 3}
+  m_PrefabInstance: {fileID: 1903997092}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2069745300
 GameObject:
   m_ObjectHideFlags: 0
