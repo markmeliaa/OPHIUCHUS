@@ -45,6 +45,7 @@ public class DungeonMapManager : MonoBehaviour
     [Range(0.0f, 100.0f)]
     [SerializeField] private float healRoomChance;
 
+    [Tooltip("If 'isGame' above is marked as false, this field can be null")]
     public Animator changeRoomAnim;
 
     private void Start()

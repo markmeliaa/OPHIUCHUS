@@ -695,10 +695,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63c2ac1bd8bd7a42a2fdc4949c3b5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainChar: {fileID: 0}
-  upAnim: {fileID: 0}
-  playerMovement: {fileID: 0}
-  hideGame: {fileID: 0}
 --- !u!114 &764974290649465114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,9 +707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3848a5f5abe2c44bda807e4f631c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedRoom: {fileID: 0}
-  playerSpawn: {fileID: 4255477120209627593}
-  neighbourRealSpawnpoints: {fileID: 0}
+  playerEntranceSpawn: {fileID: 4255477120209627593}
 --- !u!1 &3133630924006511725
 GameObject:
   m_ObjectHideFlags: 0
@@ -8354,7 +8348,7 @@ GameObject:
   - component: {fileID: 5187609347272069766}
   m_Layer: 3
   m_Name: Tilemap -- Colliders
-  m_TagString: RealSpawnPoint
+  m_TagString: RealSpawnPoints
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
