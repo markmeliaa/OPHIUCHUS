@@ -254,10 +254,11 @@ public class GameRoomSpawner : MonoBehaviour
             if (currentSpawnPoint.CompareTag(requiredSpawnPointDirection))
             {
                 isPlayerTeleporting = true;
-                GameRoomSpawner selectedNeighbourSpawnPoint = currentSpawnPoint.GetComponent<GameRoomSpawner>();
+                player.GetComponent<PlayerMovement>().canMove = false;
 
                 SetUpRoomTeleport(directionToTravel);
 
+                GameRoomSpawner selectedNeighbourSpawnPoint = currentSpawnPoint.GetComponent<GameRoomSpawner>();
                 StartCoroutine(nameof(MovePlayerToNextRoom), 
                                selectedNeighbourSpawnPoint.playerEntranceSpawn.transform.position);
 
@@ -346,6 +347,7 @@ public class GameRoomSpawner : MonoBehaviour
         {
             RestoreDefaultTeleportAnimationValues();
             isPlayerTeleporting = false;
+            player.GetComponent<PlayerMovement>().canMove = true;
         }
     }
 

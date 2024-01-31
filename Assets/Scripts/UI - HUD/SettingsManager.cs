@@ -15,19 +15,6 @@ public class SettingsManager : MonoBehaviour
         playerMovement = player.GetComponent<PlayerMovement>();
     }
 
-    void Update()
-    {
-        /* TODO: Check if this is still needed
-            if (templates?.mapFormed == false || templates?.changingRoom == true)
-                menuButton.gameObject.SetActive(false);
-
-            else if (templates != null)
-                menuButton.gameObject.SetActive(true);
-        */
-
-        // TODO: Hide menu button while loading a room
-    }
-
     public void ActivateSettings()
     {
         playerMovement.StopPlayer();
