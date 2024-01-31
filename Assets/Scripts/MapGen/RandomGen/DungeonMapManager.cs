@@ -22,8 +22,8 @@ public class DungeonMapManager : MonoBehaviour
     public GameObject currentMinimapRoom;
     [Tooltip("If 'isGame' above is marked as false, this field can be null")]
     public GameObject currentGameRoom;
-    [Space(10)]
-    public GameObject playerMinimapPosition;
+
+    [HideInInspector] public GameObject playerMinimapPosition;
 
     [HideInInspector] public List<GameObject> spawnedMinimapRooms;
     [HideInInspector] public List<GameObject> spawnedGameRooms;
@@ -122,6 +122,7 @@ public class DungeonMapManager : MonoBehaviour
         currentMinimapRoom = Instantiate(initialRoom, initialMinimapRoomPosition.position,
                                          initialRoom.transform.rotation, minimapRoomsParent);
         spawnedMinimapRooms.Add(currentMinimapRoom);
+        playerMinimapPosition = currentMinimapRoom.transform.GetChild(currentMinimapRoom.transform.childCount - 1).gameObject;
     }
 
     private bool CanBeBossRoom(GameObject selectedRoom)

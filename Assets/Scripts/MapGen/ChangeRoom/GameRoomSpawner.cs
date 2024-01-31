@@ -322,7 +322,7 @@ public class GameRoomSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(0.75f);
 
-        //dungeonMapManager.playerMinimapPosition.transform.parent = nextMinimapRoom.transform;
+        dungeonMapManager.playerMinimapPosition.transform.parent = nextMinimapRoom.transform;
         dungeonMapManager.playerMinimapPosition.transform.position = nextMinimapRoom.transform.position;
 
         yield return new WaitForSeconds(2.0f);
