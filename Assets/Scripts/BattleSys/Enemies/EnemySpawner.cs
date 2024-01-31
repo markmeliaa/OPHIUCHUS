@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        buttonManager = GameObject.FindGameObjectWithTag("Buttons").GetComponent<ButtonManager>();
+        //buttonManager = GameObject.FindGameObjectWithTag("Buttons").GetComponent<ButtonManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             GetComponent<CircleCollider2D>().enabled = false;
-            buttonManager.StartBattle();
+            //buttonManager.StartBattle();
         }
     }
 }

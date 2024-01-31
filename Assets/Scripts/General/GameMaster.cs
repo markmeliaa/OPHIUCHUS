@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public static class GameMaster
 {
-    public static int playerLife;
+    public static int playerLife = 10;
     public static int maxPlayerLife;
     public static int playerSpeed;
 

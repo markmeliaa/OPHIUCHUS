@@ -18,6 +18,7 @@ TagManager:
   - Buttons
   - DungeonMngr
   - RealSpawnPoints
+  - SpawnPoints
   layers:
   - Default
   - TransparentFX

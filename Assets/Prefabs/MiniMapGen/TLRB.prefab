@@ -288,8 +288,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorNeeded: 2
   hasRoomConnected: 0
-  currentRoom: {fileID: 0}
-  nextRoom: {fileID: 0}
+  thisMinimapRoom: {fileID: 0}
+  nextMinimapRoom: {fileID: 0}
+  minimapRoomSpawnPoints: []
 --- !u!1 &3713955591733021786
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,7 +638,7 @@ GameObject:
   - component: {fileID: 931173485836600555}
   m_Layer: 0
   m_Name: Spawn Points
-  m_TagString: SpawnPoint
+  m_TagString: SpawnPoints
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -926,8 +927,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorNeeded: 4
   hasRoomConnected: 0
-  currentRoom: {fileID: 0}
-  nextRoom: {fileID: 0}
+  thisMinimapRoom: {fileID: 0}
+  nextMinimapRoom: {fileID: 0}
+  minimapRoomSpawnPoints: []
 --- !u!1 &6474746995141547413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,8 +1050,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorNeeded: 3
   hasRoomConnected: 0
-  currentRoom: {fileID: 0}
-  nextRoom: {fileID: 0}
+  thisMinimapRoom: {fileID: 0}
+  nextMinimapRoom: {fileID: 0}
+  minimapRoomSpawnPoints: []
 --- !u!1 &7154930080882998195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,8 +1257,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorNeeded: 1
   hasRoomConnected: 0
-  currentRoom: {fileID: 0}
-  nextRoom: {fileID: 0}
+  thisMinimapRoom: {fileID: 0}
+  nextMinimapRoom: {fileID: 0}
+  minimapRoomSpawnPoints: []
 --- !u!1 &8672953811076981590
 GameObject:
   m_ObjectHideFlags: 0

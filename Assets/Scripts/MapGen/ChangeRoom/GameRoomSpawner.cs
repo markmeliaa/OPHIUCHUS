@@ -15,7 +15,6 @@ public class GameRoomSpawner : MonoBehaviour
 {
     // PLAYER RELATED STUFF
     private GameObject player;
-    private bool canPlayerTriggerTeleport;
     private bool isPlayerTeleporting;
 
     // TELEPORTING RELATED STUFF
@@ -40,7 +39,7 @@ public class GameRoomSpawner : MonoBehaviour
 
     [SerializeField] private GameObject playerEntranceSpawn;
 
-    private bool changeRoomKeyPressed = false;
+    private bool changeRoomKeyPressed;
 
     // ANIMATION STUFF
 
@@ -57,6 +56,76 @@ public class GameRoomSpawner : MonoBehaviour
         playerAnimationDirection = player.GetComponent<PlayerAnimationDirection>();
     }
 
+    // Manage the change of rooms
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        bool wasTPInteracted = Input.GetKey(KeyCode.E) && !changeRoomKeyPressed;
+
+        if (!other.CompareTag("Player") || !wasTPInteracted || isPlayerTeleporting)
+        {
+            return;
+        }
+
+        changeRoomKeyPressed = true;
+
+        thisMinimapRoom = dungeonMapManager.currentMinimapRoom;
+
+        // TODO: Spawnpoints should be per room, not per spawnpoint
+        for (int i = 0; i < thisMinimapRoom.transform.childCount; i++)
+        {
+            if (thisMinimapRoom.transform.GetChild(i).CompareTag("SpawnPoints"))
+            {
+                GameObject firstSpawnpoint = thisMinimapRoom.transform.GetChild(i).GetChild(0).gameObject;
+                minimapRoomSpawnPoints = firstSpawnpoint.GetComponent<MinimapRoomSpawner>().minimapRoomSpawnPoints;
+            }
+        }
+
+        Vector3 neighborRoomPos;
+        DoorOrientation orientationForOppositeDoor;
+        TravelDirection directionToTravel;
+        string oppositeTag;
+
+        switch(tag)
+        {
+            case "North":
+                neighborRoomPos = new Vector3(transform.position.x, transform.position.y + 15, transform.position.z);
+                orientationForOppositeDoor = DoorOrientation.BOTTOM;
+                directionToTravel = TravelDirection.NORTH;
+                oppositeTag = "South";
+                break;
+
+            case "South":
+                neighborRoomPos = new Vector3(transform.position.x, transform.position.y - 15, transform.position.z);
+                orientationForOppositeDoor = DoorOrientation.TOP;
+                directionToTravel = TravelDirection.SOUTH;
+                oppositeTag = "North";
+                break;
+
+            case "East":
+                neighborRoomPos = new Vector3(transform.position.x + 25, transform.position.y, transform.position.z);
+                orientationForOppositeDoor = DoorOrientation.LEFT;
+                directionToTravel = TravelDirection.EAST;
+                oppositeTag = "West";
+                break;
+
+            case "West":
+                neighborRoomPos = new Vector3(transform.position.x - 25, transform.position.y, transform.position.z);
+                orientationForOppositeDoor = DoorOrientation.RIGHT;
+                directionToTravel = TravelDirection.WEST;
+                oppositeTag = "East";
+                break;
+
+            default:
+                neighborRoomPos = Vector3.zero;
+                orientationForOppositeDoor = DoorOrientation.INVALID;
+                directionToTravel = TravelDirection.NONE;
+                oppositeTag = "";
+                break;
+        }
+
+        ManageTeleportingLogic(neighborRoomPos, orientationForOppositeDoor, oppositeTag, directionToTravel);
+    }
+
     private void FixedUpdate()
     {
         if (!isPlayerTeleporting)
@@ -67,115 +136,8 @@ public class GameRoomSpawner : MonoBehaviour
         PerformTeleportMovement();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        canPlayerTriggerTeleport = true;
-    }
-
-    // Manage the change of rooms
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        bool wasTPInteracted = Input.GetKey(KeyCode.E) && !changeRoomKeyPressed;
-        if (!other.CompareTag("Player") || !wasTPInteracted ||
-            !canPlayerTriggerTeleport || isPlayerTeleporting)
-        {
-            return;
-        }
-
-        changeRoomKeyPressed = true;
-        canPlayerTriggerTeleport = false;
-
-        thisMinimapRoom = dungeonMapManager.currentMinimapRoom;
-        minimapRoomSpawnPoints = thisMinimapRoom.GetComponent<MinimapRoomSpawner>().minimapRoomSpawnPoints;
-
-        Vector3 neighborRoomPos;
-        DoorOrientation orientationForOppositeDoor;
-        string oppositeTag;
-
-        switch(tag)
-        {
-            case "North":
-                neighborRoomPos = new Vector3(transform.position.x, transform.position.y + 15, transform.position.z);
-                orientationForOppositeDoor = DoorOrientation.BOTTOM;
-                oppositeTag = "South";
-                break;
-
-            case "South":
-                neighborRoomPos = new Vector3(transform.position.x, transform.position.y - 15, transform.position.z);
-                orientationForOppositeDoor = DoorOrientation.TOP;
-                oppositeTag = "North";
-                break;
-
-            case "East":
-                neighborRoomPos = new Vector3(transform.position.x + 25, transform.position.y, transform.position.z);
-                orientationForOppositeDoor = DoorOrientation.LEFT;
-                oppositeTag = "West";
-                break;
-
-            case "West":
-                neighborRoomPos = new Vector3(transform.position.x - 25, transform.position.y, transform.position.z);
-                orientationForOppositeDoor = DoorOrientation.RIGHT;
-                oppositeTag = "East";
-                break;
-
-            default:
-                neighborRoomPos = Vector3.zero;
-                orientationForOppositeDoor = DoorOrientation.INVALID;
-                oppositeTag = "";
-                break;
-        }
-
-        ManageTeleportingLogic(neighborRoomPos, orientationForOppositeDoor, oppositeTag);
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        canPlayerTriggerTeleport = false;
-    }
-
-    void PerformTeleportMovement()
-    {
-        if (exitAnimTime >= 0.0f)
-        {
-            ManageExitRoomTeleportAnimation();
-            exitAnimTime -= Time.deltaTime;
-        }
-        else if (enterAnimTime >= 0.0f)
-        {
-            ManageEnterRoomTeleportAnimation();
-            enterAnimTime -= Time.deltaTime;
-        }
-        else
-        {
-            RestoreDefaultTeleportAnimationValues();
-            isPlayerTeleporting = false;
-        }
-    }
-
-    void ManageExitRoomTeleportAnimation()
-    {
-        dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", true);
-        player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = true;
-        player.transform.position += directionToGoWhileTeleporting;
-        playerAnimationDirection.SetDirection(directionToLookWhileTeleporting);
-    }
-
-    void ManageEnterRoomTeleportAnimation()
-    {
-        dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", false);
-        player.transform.position += directionToGoWhileTeleporting;
-        playerAnimationDirection.SetDirection(directionToLookWhileTeleporting);
-    }
-
-    void RestoreDefaultTeleportAnimationValues()
-    {
-        playerAnimationDirection.SetDirection(new Vector2(0, 0));
-        player.transform.GetChild(0).GetComponent<Collider2D>().isTrigger = false;
-        exitAnimTime = 0.75f;
-        enterAnimTime = 0.75f;
-    }
-
-    void ManageTeleportingLogic(Vector3 neighborRoomPos, DoorOrientation oppositeOrientation, string oppositeTag)
+    void ManageTeleportingLogic(Vector3 neighborRoomPos, DoorOrientation oppositeOrientation, string oppositeTag,
+                                TravelDirection directionToTravel)
     {
         nextGameRoom = GetRoomAtPosition(neighborRoomPos);
 
@@ -196,7 +158,7 @@ public class GameRoomSpawner : MonoBehaviour
         }
 
         GameObject neighbourRoomSpawnPointsParent = GetNeighbourRoomSpawnPointsParent();
-        MovePlayerToNextRoomSpawnPoint(oppositeTag, neighbourRoomSpawnPointsParent);
+        MovePlayerToNextRoomSpawnPoint(oppositeTag, neighbourRoomSpawnPointsParent, directionToTravel);
     }
 
     GameObject GetRoomAtPosition(Vector3 roomPos)
@@ -283,7 +245,8 @@ public class GameRoomSpawner : MonoBehaviour
         return neighbourGameRoomSpawnPoints;
     }
 
-    void MovePlayerToNextRoomSpawnPoint(string requiredSpawnPointDirection, GameObject neighbourRoomSpawnPointsParent)
+    void MovePlayerToNextRoomSpawnPoint(string requiredSpawnPointDirection, GameObject neighbourRoomSpawnPointsParent,
+                                        TravelDirection directionToTravel)
     {
         for (int i = 0; i < neighbourRoomSpawnPointsParent.transform.childCount; i++)
         {
@@ -293,7 +256,7 @@ public class GameRoomSpawner : MonoBehaviour
                 isPlayerTeleporting = true;
                 GameRoomSpawner selectedNeighbourSpawnPoint = currentSpawnPoint.GetComponent<GameRoomSpawner>();
 
-                SetUpRoomTeleport(TravelDirection.NORTH);
+                SetUpRoomTeleport(directionToTravel);
 
                 StartCoroutine(nameof(MovePlayerToNextRoom), 
                                selectedNeighbourSpawnPoint.playerEntranceSpawn.transform.position);
@@ -359,11 +322,53 @@ public class GameRoomSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(0.75f);
 
-        dungeonMapManager.playerMinimapPosition.transform.parent = nextMinimapRoom.transform;
+        //dungeonMapManager.playerMinimapPosition.transform.parent = nextMinimapRoom.transform;
         dungeonMapManager.playerMinimapPosition.transform.position = nextMinimapRoom.transform.position;
 
         yield return new WaitForSeconds(2.0f);
 
         changeRoomKeyPressed = false;
+    }
+
+    void PerformTeleportMovement()
+    {
+        if (exitAnimTime >= 0.0f)
+        {
+            ManageExitRoomTeleportAnimation();
+            exitAnimTime -= Time.deltaTime;
+        }
+        else if (enterAnimTime >= 0.0f)
+        {
+            ManageEnterRoomTeleportAnimation();
+            enterAnimTime -= Time.deltaTime;
+        }
+        else
+        {
+            RestoreDefaultTeleportAnimationValues();
+            isPlayerTeleporting = false;
+        }
+    }
+
+    void ManageExitRoomTeleportAnimation()
+    {
+        dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", true);
+        player.GetComponent<Collider2D>().isTrigger = true;
+        player.transform.position += directionToGoWhileTeleporting;
+        playerAnimationDirection.SetDirection(directionToLookWhileTeleporting);
+    }
+
+    void ManageEnterRoomTeleportAnimation()
+    {
+        dungeonMapManager.changeRoomAnim.SetBool("ChangeRoom", false);
+        player.transform.position += directionToGoWhileTeleporting;
+        playerAnimationDirection.SetDirection(directionToLookWhileTeleporting);
+    }
+
+    void RestoreDefaultTeleportAnimationValues()
+    {
+        playerAnimationDirection.SetDirection(new Vector2(0, 0));
+        player.GetComponent<Collider2D>().isTrigger = false;
+        exitAnimTime = 0.75f;
+        enterAnimTime = 0.75f;
     }
 }
