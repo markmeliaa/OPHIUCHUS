@@ -286,11 +286,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisMinimapRoom: {fileID: 0}
   doorNeeded: 2
   hasRoomConnected: 0
-  thisMinimapRoom: {fileID: 0}
-  nextMinimapRoom: {fileID: 0}
-  minimapRoomSpawnPoints: []
 --- !u!1 &3713955591733021786
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1841658493186643290}
-  - component: {fileID: 6647464363437774738}
+  - component: {fileID: 2955689144740761971}
   m_Layer: 0
   m_Name: TLRB
   m_TagString: Room
@@ -696,33 +694,25 @@ Transform:
   - {fileID: 931173485836600555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &6647464363437774738
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &2955689144740761971
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5604431807221491164}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06a2e61e2d2587418d5afabe7b5dfe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapRoomSpawnPoints:
+  - {fileID: 6477138792310942252}
+  - {fileID: 8624831623017129279}
+  - {fileID: 47621671872297310}
+  - {fileID: 5125114390329621125}
+  thisMinimapRoomObject: {fileID: 0}
+  nextMinimapRoomObject: {fileID: 0}
 --- !u!1 &5982564641870602750
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,11 +915,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisMinimapRoom: {fileID: 0}
   doorNeeded: 4
   hasRoomConnected: 0
-  thisMinimapRoom: {fileID: 0}
-  nextMinimapRoom: {fileID: 0}
-  minimapRoomSpawnPoints: []
 --- !u!1 &6474746995141547413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,11 +1036,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisMinimapRoom: {fileID: 0}
   doorNeeded: 3
   hasRoomConnected: 0
-  thisMinimapRoom: {fileID: 0}
-  nextMinimapRoom: {fileID: 0}
-  minimapRoomSpawnPoints: []
 --- !u!1 &7154930080882998195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1255,11 +1241,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisMinimapRoom: {fileID: 0}
   doorNeeded: 1
   hasRoomConnected: 0
-  thisMinimapRoom: {fileID: 0}
-  nextMinimapRoom: {fileID: 0}
-  minimapRoomSpawnPoints: []
 --- !u!1 &8672953811076981590
 GameObject:
   m_ObjectHideFlags: 0

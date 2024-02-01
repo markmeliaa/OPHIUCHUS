@@ -370,11 +370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisMinimapRoom: {fileID: 0}
   doorNeeded: 3
   hasRoomConnected: 0
-  thisMinimapRoom: {fileID: 0}
-  nextMinimapRoom: {fileID: 0}
-  minimapRoomSpawnPoints: []
 --- !u!1 &1332240857502328
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,11 +659,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d496ed7797969459e28f99000de3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisMinimapRoom: {fileID: 0}
   doorNeeded: 4
   hasRoomConnected: 0
-  thisMinimapRoom: {fileID: 0}
-  nextMinimapRoom: {fileID: 0}
-  minimapRoomSpawnPoints: []
 --- !u!1 &1552933145951124
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,6 +825,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4308900632172778}
+  - component: {fileID: 4811551335179412783}
   m_Layer: 0
   m_Name: LR
   m_TagString: Room
@@ -853,3 +850,20 @@ Transform:
   - {fileID: 4278812518008938}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4811551335179412783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982205314345556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06a2e61e2d2587418d5afabe7b5dfe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapRoomSpawnPoints:
+  - {fileID: 223220699634332564}
+  - {fileID: 872304492227734969}
+  thisMinimapRoomObject: {fileID: 0}
+  nextMinimapRoomObject: {fileID: 0}

@@ -4295,6 +4295,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2802847374156715140}
   - component: {fileID: 2802847374156715139}
+  - component: {fileID: 3654744210081413851}
+  - component: {fileID: 2388367767641532321}
   m_Layer: 0
   m_Name: Room TLRB
   m_TagString: Untagged
@@ -4334,6 +4336,42 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 3
   m_CellSwizzle: 0
+--- !u!114 &3654744210081413851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802847374156715138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67dde5d0cb558f04a909bf612571c799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisMinimapRoom: {fileID: 0}
+  nextMinimapRoom: {fileID: 0}
+  thisGameRoomObject: {fileID: 0}
+  nextGameRoomObject: {fileID: 0}
+  thisRoomSpawnPoints:
+  - {fileID: 292639131}
+  - {fileID: 1065989861}
+  - {fileID: 151019763}
+  - {fileID: 25914838}
+  thisMinimapRoomSpawnPoints: []
+  changeRoomAnim: {fileID: 0}
+--- !u!114 &2388367767641532321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802847374156715138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5edbb693284e7474ba0a66b05a099580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerTeleporting: 0
 --- !u!1 &2802847374280089938
 GameObject:
   m_ObjectHideFlags: 0
