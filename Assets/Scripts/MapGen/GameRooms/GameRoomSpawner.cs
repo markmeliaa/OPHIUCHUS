@@ -58,7 +58,7 @@ public class GameRoomSpawner : MonoBehaviour
         TravelDirection directionToTravel;
         string oppositeTag;
 
-        switch(tag)
+        switch (tag)
         {
             case "North":
                 neighborRoomPos = new Vector3(transform.position.x, transform.position.y + 15, transform.position.z);

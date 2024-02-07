@@ -19,9 +19,6 @@ public class MinimapRoomSpawner : MonoBehaviour
 	private readonly float minimapLeftLimit = 0.03f;
 	private readonly float minimapRightLimit = 0.97f;
 
-    // TODO: When in Andromeda, switch this to 0.022f
-    private float roomOffset = 0.0f;
-
     void Start()
 	{
 		dungeonMapManager = GameObject.FindGameObjectWithTag("DungeonMngr").GetComponent<DungeonMapManager>();
@@ -56,15 +53,18 @@ public class MinimapRoomSpawner : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (!other.CompareTag("SpawnPoint") || 
-             other.GetComponent<MinimapRoomSpawner>().hasRoomConnected || 
-             hasRoomConnected)
+		if (!other.CompareTag("SpawnPoint") || hasRoomConnected)
 		{
-            hasRoomConnected = true; // Another room was hit but without connection, so mark it as already connected
 			return;
 		}
 
-        if (other != null)
+        // Another room was hit but without connection, so that direction is a dead end
+        if (other.GetComponent<MinimapRoomSpawner>().hasRoomConnected)
+        {
+            RemoveOrientationFromDoor();
+        }
+
+        else if (other != null)
         {
             SpawnRoomWithTwoOrientations(doorNeeded, other.GetComponent<MinimapRoomSpawner>().doorNeeded, other);
 
@@ -73,10 +73,15 @@ public class MinimapRoomSpawner : MonoBehaviour
         }
     }
 
+    void RemoveOrientationFromDoor()
+    {
+        Destroy(this.gameObject);
+    }
+
 	void SpawnRoomWithOrientation(DoorOrientation newRoomOrientation, bool hasToBeLimitRoom = false)
 	{
 		GameObject roomToSpawn;
-        Vector3 newRoomPosition = new Vector3(transform.position.x, transform.position.y - roomOffset, transform.position.z);
+        Vector3 newRoomPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
         if (hasToBeLimitRoom)
 		{
@@ -109,7 +114,7 @@ public class MinimapRoomSpawner : MonoBehaviour
     void SpawnRoomWithTwoOrientations(DoorOrientation connection1, DoorOrientation connection2, Collider2D otherRoomToConnect)
     {
         GameObject roomToSpawn = DoorOrientationToRooms.GetMinimapRoomWithTwoDirections(connection1, connection2);
-        Vector3 roomToSpawnPosition = new Vector3(transform.position.x, transform.position.y - roomOffset, transform.position.z);
+        Vector3 roomToSpawnPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
         if (roomToSpawn != null)
         {
