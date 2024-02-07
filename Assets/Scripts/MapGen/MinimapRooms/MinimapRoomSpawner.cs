@@ -26,8 +26,6 @@ public class MinimapRoomSpawner : MonoBehaviour
 
 		thisMinimapRoom = transform.parent.transform.parent.GetComponent<MinimapRoom>();
 
-        // TODO: Check that the room created matches both sides
-
 		// Delay ManageSpawnRoom() a certain time in case the new room needs more open directions
 		Invoke(nameof(ManageSpawnRoom), Time.fixedDeltaTime);
 	}
@@ -82,6 +80,8 @@ public class MinimapRoomSpawner : MonoBehaviour
         string spawnPointName = gameObject.name;
         char letterToRemove = spawnPointName[^1];
 
+        thisMinimapRoom = transform.parent.transform.parent.GetComponent<MinimapRoom>(); // Idk why this is necessary but it is
+
         string newRoomName = "";
         for (int i = 0; i < thisMinimapRoom.name.Length; i++)
         {
@@ -94,7 +94,6 @@ public class MinimapRoomSpawner : MonoBehaviour
         }
         thisMinimapRoom.name = newRoomName;
 
-        this.enabled = false;
         hasRoomConnected = true;
     }
 
