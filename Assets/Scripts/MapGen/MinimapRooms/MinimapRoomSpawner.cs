@@ -59,7 +59,8 @@ public class MinimapRoomSpawner : MonoBehaviour
 		}
 
         // Another room was hit but without connection, so that direction is a dead end
-        if (other.GetComponent<MinimapRoomSpawner>().hasRoomConnected)
+        if (other.GetComponent<MinimapRoomSpawner>().hasRoomConnected &&
+            other.GetComponent<MinimapRoomSpawner>().nextMinimapRoomObject != thisMinimapRoom)
         {
             RemoveOrientationFromDoor();
         }
@@ -75,10 +76,29 @@ public class MinimapRoomSpawner : MonoBehaviour
 
     void RemoveOrientationFromDoor()
     {
-        Destroy(this.gameObject);
+        GameObject limitWall = gameObject.transform.GetChild(0).gameObject;
+        limitWall.SetActive(true);
+
+        string spawnPointName = gameObject.name;
+        char letterToRemove = spawnPointName[^1];
+
+        string newRoomName = "";
+        for (int i = 0; i < thisMinimapRoom.name.Length; i++)
+        {
+            if (thisMinimapRoom.name[i] == letterToRemove)
+            {
+                continue;
+            }
+
+            newRoomName += thisMinimapRoom.name[i];
+        }
+        thisMinimapRoom.name = newRoomName;
+
+        this.enabled = false;
+        hasRoomConnected = true;
     }
 
-	void SpawnRoomWithOrientation(DoorOrientation newRoomOrientation, bool hasToBeLimitRoom = false)
+    void SpawnRoomWithOrientation(DoorOrientation newRoomOrientation, bool hasToBeLimitRoom = false)
 	{
 		GameObject roomToSpawn;
         Vector3 newRoomPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
