@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class ActivateChilds : MonoBehaviour
+public class ActivateChildren : MonoBehaviour
 {
     public void ActivateMeteos()
     {
         int randomStart = Random.Range(0, 2);
-        StartCoroutine("WaitMeteo", randomStart);
+        StartCoroutine(nameof(WaitMeteo), randomStart);
     }
 
     public void DeactivateMeteos()

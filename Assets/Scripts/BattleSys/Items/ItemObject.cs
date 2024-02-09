@@ -11,18 +11,21 @@ public enum ObjectTypes
 
 public class ItemObject
 {
-    public string objectName { get; set; }
-    public ObjectTypes type { get; set; }
-    public int level { get; set; }
-    public GameObject gameText { get; set; }
-    public bool used { get; set; }
+    public string ObjectName { get; private set; }
+    public ObjectTypes Type { get; private set; }
+    public bool Consumed { get; set; }
 
-    public ItemObject (string _objectName, ObjectTypes _type, int _level)
+    // TODO: What are these two for??
+    public int Level { get; set; }
+    public GameObject GameText { get; set; }
+
+    public ItemObject (string objectName, ObjectTypes type, int level)
     {
-        objectName = _objectName;
-        type = _type;
-        level = _level;
-        gameText = null;
-        used = false;
+        ObjectName = objectName;
+        Type = type;
+        Consumed = false;
+
+        Level = level;
+        GameText = null;
     }
 }

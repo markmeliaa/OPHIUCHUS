@@ -261,16 +261,16 @@ public class ButtonManager : MonoBehaviour
                 pressedHor = true;
                 if (currentButtonIndex == 0)
                 {
-                    battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
+                    battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
                     currentButtonIndex = battleButtons.Count - 1;
-                    battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnSelection();
+                    battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
                 }
 
                 else
                 {
-                    battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
+                    battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
                     currentButtonIndex--;
-                    battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnSelection();
+                    battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
                 }
             }
 
@@ -279,16 +279,16 @@ public class ButtonManager : MonoBehaviour
                 pressedHor = true;
                 if (currentButtonIndex == battleButtons.Count - 1)
                 {
-                    battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
+                    battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
                     currentButtonIndex = 0;
-                    battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnSelection();
+                    battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
                 }
 
                 else
                 {
-                    battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
+                    battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
                     currentButtonIndex++;
-                    battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnSelection();
+                    battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
                 }
             }
 
@@ -309,9 +309,11 @@ public class ButtonManager : MonoBehaviour
                 for (int i = 0; i < battleManager.enemiesSpawned.Count; i++)
                 {
                     enemyTexts[i].SetActive(true);
-                    enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
-                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
-                    battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
+                    enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
+
+                    // TODO: This variable is never used, check if it is really necessary
+                    //battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
                     if (battleManager.Zodiac != "")
                     {
@@ -361,9 +363,11 @@ public class ButtonManager : MonoBehaviour
                 for (int i = 0; i < battleManager.enemiesSpawned.Count; i++)
                 {
                     enemyTexts[i].SetActive(true);
-                    enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
-                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().cardName;
-                    battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
+                    enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
+
+                    // TODO: This variable is never used, check if it is really necessary
+                    //battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
                     if (battleManager.Zodiac != "")
                     {
@@ -423,24 +427,24 @@ public class ButtonManager : MonoBehaviour
                     for (int i = 0; i < GameMaster.inventory.Count; i++)
                     {
                         itemTexts[i].SetActive(true);
-                        itemTexts[i].GetComponent<Text>().text = GameMaster.inventory[i].objectName + " LVL." + GameMaster.inventory[i].level;
-                        itemTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + GameMaster.inventory[i].objectName + " LVL." + GameMaster.inventory[i].level;
+                        itemTexts[i].GetComponent<Text>().text = GameMaster.inventory[i].ObjectName + " LVL." + GameMaster.inventory[i].Level;
+                        itemTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + GameMaster.inventory[i].ObjectName + " LVL." + GameMaster.inventory[i].Level;
 
-                        GameMaster.inventory[i].gameText = itemTexts[i];
+                        GameMaster.inventory[i].GameText = itemTexts[i];
 
-                        if (GameMaster.inventory[i].type == ObjectTypes.HEALTH)
+                        if (GameMaster.inventory[i].Type == ObjectTypes.HEALTH)
                         {
                             itemTexts[i].GetComponent<Text>().color = Color.red;
                             itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = Color.red;
                         }
 
-                        else if (GameMaster.inventory[i].type == ObjectTypes.ATTACK)
+                        else if (GameMaster.inventory[i].Type == ObjectTypes.ATTACK)
                         {
                             itemTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.37f, 0.0f);
                             itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.37f, 0.0f);
                         }
 
-                        else if (GameMaster.inventory[i].type == ObjectTypes.DEFENSE)
+                        else if (GameMaster.inventory[i].Type == ObjectTypes.DEFENSE)
                         {
                             itemTexts[i].GetComponent<Text>().color = new Color(0.0f, 0.36f, 1.0f);
                             itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.0f, 0.36f, 1.0f);
@@ -688,7 +692,7 @@ public class ButtonManager : MonoBehaviour
 
     public void ClearGame()
     {
-        battleButtons[currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
+        battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
 
         for (int i = 2; i < battleManager.parentEnemies.transform.childCount; i++)
         {
@@ -881,9 +885,9 @@ public class ButtonManager : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
             foreach (GameObject button in battleButtons)
             {
-                button.GetComponent<SelectButton>().OnExitSelection();
+                button.GetComponent<ManageButtonSelection>().OnExitSelection();
             }
-            battleButtons[0].GetComponent<SelectButton>().OnSelection();
+            battleButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
             currentButtonIndex = 0;
             battleManager.state = gameStates.choosing;
         }
@@ -915,9 +919,9 @@ public class ButtonManager : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
             foreach (GameObject button in battleButtons)
             {
-                button.GetComponent<SelectButton>().OnExitSelection();
+                button.GetComponent<ManageButtonSelection>().OnExitSelection();
             }
-            battleButtons[0].GetComponent<SelectButton>().OnSelection();
+            battleButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
             currentButtonIndex = 0;
             battleManager.state = gameStates.choosing;
         }

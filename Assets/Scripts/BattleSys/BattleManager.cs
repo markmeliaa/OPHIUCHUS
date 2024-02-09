@@ -159,12 +159,12 @@ public class BattleManager : MonoBehaviour
         normalText.SetActive(true);
 
         int random = Random.Range(10, 21);
-        if (enemiesSpawned[attackedEnemy].GetComponent<EnemyCard>().life - random <= 0)
+        if (enemiesSpawned[attackedEnemy].GetComponent<EnemyCard>().Life - random <= 0)
             normalText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text + ", YOU KILLED " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
         else
             normalText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
 
-        enemiesSpawned[attackedEnemy].GetComponent<EnemyCard>().life -= random;
+        enemiesSpawned[attackedEnemy].GetComponent<EnemyCard>().Life -= random;
 
         state = gameStates.defend;
         lastState = gameStates.attacking;
@@ -181,7 +181,7 @@ public class BattleManager : MonoBehaviour
         int deleteTarget = 0;
         for (int i = 0; i <= amountSpawn; i++)
         {
-            if (enemiesSpawned[i].GetComponent<EnemyCard>().life <= 0)
+            if (enemiesSpawned[i].GetComponent<EnemyCard>().Life <= 0)
             {
                 deleteTarget = i;
                 break;
@@ -296,32 +296,32 @@ public class BattleManager : MonoBehaviour
 
         normalText.SetActive(true);
 
-        int usefulness = GameMaster.inventory[itemUsed].type == ObjectTypes.HEALTH ? GameMaster.inventory[itemUsed].level * 5 : GameMaster.inventory[itemUsed].level;
-        if (GameMaster.inventory[itemUsed].type == ObjectTypes.HEALTH)
+        int usefulness = GameMaster.inventory[itemUsed].Type == ObjectTypes.HEALTH ? GameMaster.inventory[itemUsed].Level * 5 : GameMaster.inventory[itemUsed].Level;
+        if (GameMaster.inventory[itemUsed].Type == ObjectTypes.HEALTH)
         {
-            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOU HEALED " + usefulness + " HP";
+            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].ObjectName + " LVL." + GameMaster.inventory[itemUsed].Level + " YOU HEALED " + usefulness + " HP";
             GameMaster.playerLife += usefulness;
             if (GameMaster.playerLife > GameMaster.maxPlayerLife)
                 GameMaster.playerLife = GameMaster.maxPlayerLife;
         }
 
-        else if (GameMaster.inventory[itemUsed].type == ObjectTypes.ATTACK)
+        else if (GameMaster.inventory[itemUsed].Type == ObjectTypes.ATTACK)
         {
-            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOUR ATTACK INCREASED BY " + usefulness;
+            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].ObjectName + " LVL." + GameMaster.inventory[itemUsed].Level + " YOUR ATTACK INCREASED BY " + usefulness;
         }
 
-        else if (GameMaster.inventory[itemUsed].type == ObjectTypes.DEFENSE)
+        else if (GameMaster.inventory[itemUsed].Type == ObjectTypes.DEFENSE)
         {
-            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOUR DEFENSE INCREASED BY " + usefulness;
+            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].ObjectName + " LVL." + GameMaster.inventory[itemUsed].Level + " YOUR DEFENSE INCREASED BY " + usefulness;
         }
 
         else
         {
-            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].objectName + " LVL." + GameMaster.inventory[itemUsed].level + " YOUR SPEED INCREASED BY " + usefulness;
+            normalText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].ObjectName + " LVL." + GameMaster.inventory[itemUsed].Level + " YOUR SPEED INCREASED BY " + usefulness;
             GameMaster.playerSpeed += usefulness;
         }
 
-        GameMaster.inventory[itemUsed].used = true;
+        GameMaster.inventory[itemUsed].Consumed = true;
         RedistributeItemTexts();
 
         state = gameStates.defend;
@@ -333,7 +333,7 @@ public class BattleManager : MonoBehaviour
         int deleteTarget = 0;
         for (int i = 0; i < GameMaster.inventory.Count; i++)
         {
-            if (GameMaster.inventory[i].used)
+            if (GameMaster.inventory[i].Consumed)
             {
                 deleteTarget = i;
                 break;
@@ -565,17 +565,18 @@ public class BattleManager : MonoBehaviour
 
             attacks[numAttack].SetActive(true);
 
-            if (attacks[numAttack].GetComponent<ActivateChilds>() != null)
+            if (attacks[numAttack].GetComponent<ActivateChildren>() != null)
             {
-                attacks[numAttack].GetComponent<ActivateChilds>().ActivateMeteos();
+                attacks[numAttack].GetComponent<ActivateChildren>().ActivateMeteos();
                 yield return new WaitForSeconds(11f);
                 StartCoroutine("EndBattle");
-                attacks[numAttack].GetComponent<ActivateChilds>().DeactivateMeteos();
+                attacks[numAttack].GetComponent<ActivateChildren>().DeactivateMeteos();
             }
 
             else
             {
-                yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamage>().waitTime);
+                // TODO: Check what this waitTime did
+                //yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamageToPlayer>().waitTime);
                 StartCoroutine("EndBattle");
                 attacks[numAttack].SetActive(false);
             }
@@ -655,9 +656,9 @@ public class BattleManager : MonoBehaviour
             battleArea.SetActive(false);
         }
         ResetBattleArea();
-        buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<SelectButton>().OnExitSelection();
+        buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
         buttonManager.currentButtonIndex = 0;
-        buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<SelectButton>().OnSelection();
+        buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
 
         yield return new WaitForSeconds(0.25f);
         if (state != gameStates.end)

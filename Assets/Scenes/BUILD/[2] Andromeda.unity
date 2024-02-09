@@ -171,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &2238020
 Animator:
   serializedVersion: 5
@@ -2887,8 +2886,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febb8f9e9ccc3e94c8e8f8b6644570cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  borderSelected: {fileID: 21300000, guid: f0adf961ee8f1d44f96258af49ddb6a1, type: 3}
-  borderUnselected: {fileID: 21300000, guid: 9088473d99629074a9126fbb0fc92150, type: 3}
+  borderWhenSelected: {fileID: 21300000, guid: f0adf961ee8f1d44f96258af49ddb6a1, type: 3}
+  borderWhenNotSelected: {fileID: 21300000, guid: 9088473d99629074a9126fbb0fc92150, type: 3}
   buttonText: {fileID: 1919760545}
   star: {fileID: 7236216}
 --- !u!114 &153556550
@@ -4502,7 +4501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &319237274
 Animator:
   serializedVersion: 5
@@ -5291,8 +5289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febb8f9e9ccc3e94c8e8f8b6644570cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  borderSelected: {fileID: 21300000, guid: f0adf961ee8f1d44f96258af49ddb6a1, type: 3}
-  borderUnselected: {fileID: 21300000, guid: 9088473d99629074a9126fbb0fc92150, type: 3}
+  borderWhenSelected: {fileID: 21300000, guid: f0adf961ee8f1d44f96258af49ddb6a1, type: 3}
+  borderWhenNotSelected: {fileID: 21300000, guid: 9088473d99629074a9126fbb0fc92150, type: 3}
   buttonText: {fileID: 113551986}
   star: {fileID: 323578087}
 --- !u!114 &349676289
@@ -7977,8 +7975,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febb8f9e9ccc3e94c8e8f8b6644570cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  borderSelected: {fileID: 21300000, guid: f0adf961ee8f1d44f96258af49ddb6a1, type: 3}
-  borderUnselected: {fileID: 21300000, guid: 9088473d99629074a9126fbb0fc92150, type: 3}
+  borderWhenSelected: {fileID: 21300000, guid: f0adf961ee8f1d44f96258af49ddb6a1, type: 3}
+  borderWhenNotSelected: {fileID: 21300000, guid: 9088473d99629074a9126fbb0fc92150, type: 3}
   buttonText: {fileID: 693629717}
   star: {fileID: 786046761}
 --- !u!114 &563236705
@@ -8111,7 +8109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &567534758
 Animator:
   serializedVersion: 5
@@ -8516,7 +8513,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &617207066
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -9551,7 +9547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &669224732
 Animator:
   serializedVersion: 5
@@ -11325,7 +11320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 4.75
 --- !u!50 &785273913
 Rigidbody2D:
   serializedVersion: 4
@@ -11615,7 +11609,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &789875101
 Animator:
   serializedVersion: 5
@@ -12154,7 +12147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 4.75
 --- !u!50 &815441864
 Rigidbody2D:
   serializedVersion: 4
@@ -12630,7 +12622,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &858462402
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13800,7 +13791,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &1008220225
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -15695,7 +15685,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &1192100594
 Animator:
   serializedVersion: 5
@@ -16202,7 +16191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &1207297550
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -16728,7 +16716,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &1262438608
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -17049,7 +17036,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &1266510997
 Animator:
   serializedVersion: 5
@@ -17694,7 +17680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &1313415959
 Animator:
   serializedVersion: 5
@@ -18127,7 +18112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &1348145532
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -18395,7 +18379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &1369798557
 Animator:
   serializedVersion: 5
@@ -18898,17 +18881,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1386816544}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdbc9535d3f1f834b853a7ca29b7f40f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeText: {fileID: 1117241864}
+  isGame: 1
+  battleLifeText: {fileID: 1117241864}
+  battleSpeedText: {fileID: 1412509999}
   globalLifeText: {fileID: 2020612416}
-  speedText: {fileID: 1412509999}
   globalSpeedText: {fileID: 703694273}
-  realmText: {fileID: 959272964}
-  moneyText: {fileID: 2050284808}
+  globalMoneyText: {fileID: 2050284808}
+  globalRealmText: {fileID: 959272964}
 --- !u!4 &1386816547
 Transform:
   m_ObjectHideFlags: 0
@@ -18977,7 +18961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &1396682808
 Animator:
   serializedVersion: 5
@@ -20487,7 +20470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 3.5
 --- !u!95 &1540806691
 Animator:
   serializedVersion: 5
@@ -20960,7 +20942,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &1627305470
 Animator:
   serializedVersion: 5
@@ -22091,7 +22072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &1740566356
 Animator:
   serializedVersion: 5
@@ -22764,7 +22744,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &1771862324
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -24949,7 +24928,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 3.5
 --- !u!95 &2012501050
 Animator:
   serializedVersion: 5
@@ -25463,7 +25441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &2039925639
 Animator:
   serializedVersion: 5
@@ -25980,7 +25957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!95 &2055297401
 Animator:
   serializedVersion: 5
@@ -26266,8 +26242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febb8f9e9ccc3e94c8e8f8b6644570cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  borderSelected: {fileID: 21300000, guid: f0adf961ee8f1d44f96258af49ddb6a1, type: 3}
-  borderUnselected: {fileID: 21300000, guid: 9088473d99629074a9126fbb0fc92150, type: 3}
+  borderWhenSelected: {fileID: 21300000, guid: f0adf961ee8f1d44f96258af49ddb6a1, type: 3}
+  borderWhenNotSelected: {fileID: 21300000, guid: 9088473d99629074a9126fbb0fc92150, type: 3}
   buttonText: {fileID: 555047865}
   star: {fileID: 882981162}
 --- !u!114 &2056652742
@@ -26812,7 +26788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &2073339088
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -26996,7 +26971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &2084517069
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -27256,7 +27230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &2099533250
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -27711,7 +27684,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 0
 --- !u!58 &2127976173
 CircleCollider2D:
   m_ObjectHideFlags: 0

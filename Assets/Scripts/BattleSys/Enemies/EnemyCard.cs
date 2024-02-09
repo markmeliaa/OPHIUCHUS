@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class EnemyCard : MonoBehaviour
 {
-    public string cardName;
-    public int life = 20;
-    public int speed = 5;
-    [HideInInspector] public GameObject nameText;
+    public string CardName { get; private set; }
+    public int Life { get; set; } = 20;
+
+    //[HideInInspector] public GameObject nameText { private get; set; }
 
     private Animator cardAnimator;
     private BattleManager battleManager;
@@ -18,14 +18,16 @@ public class EnemyCard : MonoBehaviour
 
     private void Update()
     {
-        if (life <= 0 && !cardAnimator.GetBool("Death"))
-            OnDie();
+        // TODO: Ideally, this would not need an Update and it should be checked in the damage script
+        if (Life <= 0 && !cardAnimator.GetBool("Death"))
+        {
+            ManageCardDeath();
+        }
     }
 
-    private void OnDie()
+    private void ManageCardDeath()
     {
         cardAnimator.SetBool("Death", true);
-
         battleManager.RedistributeEnemyTexts();
     }
 }
