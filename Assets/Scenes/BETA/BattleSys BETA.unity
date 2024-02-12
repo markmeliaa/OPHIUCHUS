@@ -6759,7 +6759,7 @@ GameObject:
   - component: {fileID: 1090945976}
   - component: {fileID: 1090945975}
   m_Layer: 5
-  m_Name: NormalText
+  m_Name: BattleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8373,9 +8373,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -16200}
   m_LocalScale: {x: 180, y: 180, z: 180}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8673868809094727590}
-  - {fileID: 1690601825}
+  m_Children: []
   m_Father: {fileID: 1708892355}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1335171143
@@ -9910,6 +9908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1512012527}
   - component: {fileID: 1512012528}
+  - component: {fileID: 1512012529}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Battle
@@ -9999,25 +9998,22 @@ MonoBehaviour:
   - {fileID: 4878206406270111312, guid: 4624895b8c297274f977486dffecd02b, type: 3}
   - {fileID: 3033107046015843646, guid: a36fe06977356f94089128cb8fc41672, type: 3}
   - {fileID: 8017611700965754537, guid: ac2c5374adec55741bfc5c9bea7513be, type: 3}
-  leftLimitSpawn: {fileID: 8673868809094727590}
-  rightLimitSpawn: {fileID: 1690601825}
-  parentEnemies: {fileID: 1335171141}
+  enemiesParent: {fileID: 1335171141}
   enemiesSpawned: []
-  state: 0
-  lastState: 0
-  normalText: {fileID: 1090945973}
-  baseText: 
-  buttonManager: {fileID: 1881453258}
-  textArea: {fileID: 2043700593}
+  currentBattleState: 0
+  lastBattleState: 0
+  textToDisplay: 
+  battleDialogueText: {fileID: 1090945973}
+  dialogueArea: {fileID: 2043700593}
   battleArea: {fileID: 1978929221}
-  attacks:
+  availableNormalAttacks:
   - {fileID: 1078889906}
   - {fileID: 300989531}
   - {fileID: 205205271}
   - {fileID: 1963906817}
   - {fileID: 1550849757}
   - {fileID: 1568637863}
-  bossAttacks: []
+  availableBossAttacks: []
   oneSpawner: {fileID: 0}
   twoSpawners: []
   threeSpawners: []
@@ -10031,6 +10027,68 @@ MonoBehaviour:
   Cancer: {fileID: 0}
   Capricorn: {fileID: 0}
   winCircleAnimator: {fileID: 0}
+--- !u!114 &1512012529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512012526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd0600ef82c79a459bb86f1a59a8ec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleButtons:
+  - {fileID: 539272121}
+  - {fileID: 1238971150}
+  - {fileID: 920038255}
+  - {fileID: 963734513}
+  battleManager: {fileID: 1512012528}
+  pressedZ: 0
+  currentButtonIndex: 0
+  currentTextIndex: 0
+  enemyTexts:
+  - {fileID: 1770794742}
+  - {fileID: 429797472}
+  - {fileID: 722510202}
+  - {fileID: 1113403176}
+  - {fileID: 1122845884}
+  itemTexts:
+  - {fileID: 978698771}
+  - {fileID: 937087578}
+  - {fileID: 251111033}
+  - {fileID: 1125092630}
+  - {fileID: 61711083}
+  - {fileID: 513129844}
+  - {fileID: 379605252}
+  - {fileID: 1735059166}
+  playerCanMove: 0
+  playerStar: {fileID: 1063106060}
+  playerStarSpawn: {fileID: 0}
+  starAnimators:
+  - {fileID: 1467794831}
+  - {fileID: 1893826195}
+  - {fileID: 1019505179}
+  - {fileID: 548418110}
+  - {fileID: 899297838}
+  blackScreen: {fileID: 1543835976}
+  animCanvas: {fileID: 1438067101}
+  player: {fileID: 0}
+  realRooms: {fileID: 0}
+  miniMap: {fileID: 0}
+  battleCanvas: {fileID: 1708892351}
+  globalAudioSource: {fileID: 1923994397}
+  selectEnemy: {fileID: 8300000, guid: be506e233197a1d48bdad3387ec55119, type: 3}
+  attackEnemy: {fileID: 8300000, guid: 8c278d194498c0447b08da2d07321ae0, type: 3}
+  useItem: {fileID: 8300000, guid: daa6df5281a14394b9744d21f0134733, type: 3}
+  templates: {fileID: 0}
+  dialogueBox: {fileID: 0}
+  menuButton: {fileID: 0}
+  dialogueText: {fileID: 0}
+  nextButton: {fileID: 0}
+  dialogueImage: {fileID: 0}
+  dialogueNameText: {fileID: 0}
 --- !u!1 &1535766755
 GameObject:
   m_ObjectHideFlags: 0
@@ -10808,37 +10866,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1199b721339b240bc5c90888045dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1690601824
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1690601825}
-  m_Layer: 0
-  m_Name: RightLimitSpawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1690601825
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690601824}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.2, y: 1.5, z: 0}
-  m_LocalScale: {x: 0.7637, y: 0.7637, z: 0.7637}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1335171142}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1700590899
 GameObject:
   m_ObjectHideFlags: 0
@@ -11915,10 +11942,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1881453257}
-  - component: {fileID: 1881453258}
   - component: {fileID: 1881453259}
   m_Layer: 0
-  m_Name: LayoutManager
+  m_Name: PlayerStatusManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11939,68 +11965,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1881453258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881453256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acd0600ef82c79a459bb86f1a59a8ec3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  battleButtons:
-  - {fileID: 539272121}
-  - {fileID: 1238971150}
-  - {fileID: 920038255}
-  - {fileID: 963734513}
-  battleManager: {fileID: 1512012528}
-  pressedZ: 0
-  currentButtonIndex: 0
-  currentTextIndex: 0
-  enemyTexts:
-  - {fileID: 1770794742}
-  - {fileID: 429797472}
-  - {fileID: 722510202}
-  - {fileID: 1113403176}
-  - {fileID: 1122845884}
-  itemTexts:
-  - {fileID: 978698771}
-  - {fileID: 937087578}
-  - {fileID: 251111033}
-  - {fileID: 1125092630}
-  - {fileID: 61711083}
-  - {fileID: 513129844}
-  - {fileID: 379605252}
-  - {fileID: 1735059166}
-  playerCanMove: 0
-  playerStar: {fileID: 1063106060}
-  playerStarSpawn: {fileID: 0}
-  starAnimators:
-  - {fileID: 1467794831}
-  - {fileID: 1893826195}
-  - {fileID: 1019505179}
-  - {fileID: 548418110}
-  - {fileID: 899297838}
-  blackScreen: {fileID: 1543835976}
-  animCanvas: {fileID: 1438067101}
-  player: {fileID: 0}
-  realRooms: {fileID: 0}
-  miniMap: {fileID: 0}
-  battleCanvas: {fileID: 1708892351}
-  globalAudioSource: {fileID: 1923994397}
-  selectEnemy: {fileID: 8300000, guid: be506e233197a1d48bdad3387ec55119, type: 3}
-  attackEnemy: {fileID: 8300000, guid: 8c278d194498c0447b08da2d07321ae0, type: 3}
-  useItem: {fileID: 8300000, guid: daa6df5281a14394b9744d21f0134733, type: 3}
-  templates: {fileID: 0}
-  dialogueBox: {fileID: 0}
-  menuButton: {fileID: 0}
-  dialogueText: {fileID: 0}
-  nextButton: {fileID: 0}
-  dialogueImage: {fileID: 0}
-  dialogueNameText: {fileID: 0}
 --- !u!114 &1881453259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12695,7 +12659,7 @@ GameObject:
   - component: {fileID: 2043700595}
   - component: {fileID: 2043700596}
   m_Layer: 0
-  m_Name: TextZone
+  m_Name: DialogueZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13133,37 +13097,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &3487895083090765596
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8673868809094727590}
-  m_Layer: 0
-  m_Name: LeftLimitSpawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8673868809094727590
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3487895083090765596}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.2, y: 1.5, z: 0}
-  m_LocalScale: {x: 0.7637, y: 0.7637, z: 0.7637}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1335171142}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
