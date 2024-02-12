@@ -28,6 +28,6 @@ public class EnemyCard : MonoBehaviour
     private void ManageCardDeath()
     {
         cardAnimator.SetBool("Death", true);
-        battleManager.RedistributeEnemyTexts();
+        battleManager.UpdateEnemiesInBattle();
     }
 }

@@ -27,7 +27,7 @@ public class ButtonManager : MonoBehaviour
 
     [HideInInspector] public bool playerCanMove = false;
     public GameObject playerStar;
-    public GameObject playerStarSpawn;
+    public GameObject playerStarBasePosition;
 
     public List<GameObject> starAnimators;
     public GameObject blackScreen;
@@ -897,7 +897,7 @@ public class ButtonManager : MonoBehaviour
 
             realRooms.SetActive(false);
 
-            battleManager.SpawnCards();
+            battleManager.ManageSpawnBasicEnemies();
 
             blackScreen.GetComponent<Animator>().SetBool("Change", true);
 
@@ -929,7 +929,7 @@ public class ButtonManager : MonoBehaviour
 
             realRooms.SetActive(false);
 
-            battleManager.SpawnBoss();
+            battleManager.ManageSpawnBoss();
 
             blackScreen.GetComponent<Animator>().SetBool("Change", true);
 

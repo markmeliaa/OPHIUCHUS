@@ -4901,57 +4901,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd0600ef82c79a459bb86f1a59a8ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleButtons:
-  - {fileID: 349676285}
-  - {fileID: 2056652738}
-  - {fileID: 563236701}
-  - {fileID: 153556546}
-  battleManager: {fileID: 325639355}
+  battleButtons: []
+  battleManager: {fileID: 0}
   pressedZ: 0
   currentButtonIndex: 0
   currentTextIndex: 0
-  enemyTexts:
-  - {fileID: 194521867}
-  - {fileID: 1397170071}
-  - {fileID: 1342387772}
-  - {fileID: 1638234089}
-  - {fileID: 1615629868}
-  itemTexts:
-  - {fileID: 1033863511}
-  - {fileID: 1131667816}
-  - {fileID: 1180941027}
-  - {fileID: 2066843909}
-  - {fileID: 2120315145}
-  - {fileID: 782111212}
-  - {fileID: 1215544267}
-  - {fileID: 1492196702}
-  - {fileID: 2004466568}
+  enemyTexts: []
+  itemTexts: []
   playerCanMove: 0
-  playerStar: {fileID: 1903541935}
-  playerStarSpawn: {fileID: 1924314085}
-  starAnimators:
-  - {fileID: 343561207}
-  - {fileID: 646047824}
-  - {fileID: 2000661029}
-  - {fileID: 485879877}
-  - {fileID: 516940182}
-  blackScreen: {fileID: 85828441}
-  animCanvas: {fileID: 127414845}
-  player: {fileID: 504274587}
-  realRooms: {fileID: 1412537186}
-  miniMap: {fileID: 89113431}
-  battleCanvas: {fileID: 1042480903}
-  globalAudioSource: {fileID: 1272497031}
-  selectEnemy: {fileID: 8300000, guid: be506e233197a1d48bdad3387ec55119, type: 3}
-  attackEnemy: {fileID: 8300000, guid: 8c278d194498c0447b08da2d07321ae0, type: 3}
-  useItem: {fileID: 8300000, guid: daa6df5281a14394b9744d21f0134733, type: 3}
-  templates: {fileID: 636516572}
-  dialogueBox: {fileID: 818453872}
-  menuButton: {fileID: 1751806220}
-  dialogueText: {fileID: 61240474}
-  nextButton: {fileID: 773193930}
-  dialogueImage: {fileID: 363308984}
-  dialogueNameText: {fileID: 1136876401}
+  playerStar: {fileID: 0}
+  playerStarBasePosition: {fileID: 0}
+  starAnimators: []
+  blackScreen: {fileID: 0}
+  animCanvas: {fileID: 0}
+  player: {fileID: 0}
+  realRooms: {fileID: 0}
+  miniMap: {fileID: 0}
+  battleCanvas: {fileID: 0}
+  globalAudioSource: {fileID: 0}
+  selectEnemy: {fileID: 0}
+  attackEnemy: {fileID: 0}
+  useItem: {fileID: 0}
+  templates: {fileID: 0}
+  dialogueBox: {fileID: 0}
+  menuButton: {fileID: 0}
+  dialogueText: {fileID: 0}
+  nextButton: {fileID: 0}
+  dialogueImage: {fileID: 0}
+  dialogueNameText: {fileID: 0}
 --- !u!1 &343561207
 GameObject:
   m_ObjectHideFlags: 0

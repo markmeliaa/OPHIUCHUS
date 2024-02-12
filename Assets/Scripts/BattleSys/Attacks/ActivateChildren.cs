@@ -15,6 +15,8 @@ public class ActivateChildren : MonoBehaviour
         {
             transform.GetChild(i).GetComponent<Animator>().SetBool("FallMeteo", false);
         }
+
+        gameObject.SetActive(false);
     }
 
     IEnumerator WaitMeteo(int start)

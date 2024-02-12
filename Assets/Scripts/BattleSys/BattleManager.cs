@@ -81,7 +81,6 @@ public class BattleManager : MonoBehaviour
 
     public void SetUpBattle()
     {
-        //amountSpawn = 2;
         totalAmoutOfEnemiesInTheBattle = Random.Range(1, 5);
         amountOfEnemiesAlive = totalAmoutOfEnemiesInTheBattle;
 
@@ -110,62 +109,50 @@ public class BattleManager : MonoBehaviour
         enemiesSpawned = new List<GameObject>();
     }
 
-    public void SpawnCards()
+    public void ManageSpawnBasicEnemies()
     {
-        // Only one card spawns
-        if (amountOfEnemiesAlive == 1)
+        switch(totalAmoutOfEnemiesInTheBattle)
         {
-            int numberCard = Random.Range(0, enemyCards.Count);
-            GameObject oneSpawnerObject = oneEnemySpawnPosition[0];
-            enemiesSpawned.Add(Instantiate(enemyCards[numberCard], oneSpawnerObject.transform.position, enemyCards[numberCard].transform.rotation, enemiesParent.transform));
-        }
+            case 1:
+                PlaceEnemiesInScreen(oneEnemySpawnPosition);
+                break;
 
-        // Two cards spawn
-        else if (amountOfEnemiesAlive == 2)
-        {
-            foreach (GameObject spawn in twoEnemiesSpawnPositions)
-            {
-                int numberCard = Random.Range(0, enemyCards.Count);
-                enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawn.transform.position, enemyCards[numberCard].transform.rotation, enemiesParent.transform));
-            }
-        }
+            case 2:
+                PlaceEnemiesInScreen(twoEnemiesSpawnPositions);
+                break;
 
-        // Three cards spawn
-        else if (amountOfEnemiesAlive == 3)
-        {
-            foreach (GameObject spawn in threeEnemiesSpawnPositions)
-            {
-                int numberCard = Random.Range(0, enemyCards.Count);
-                enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawn.transform.position, enemyCards[numberCard].transform.rotation, enemiesParent.transform));
-            }
-        }
+            case 3:
+                PlaceEnemiesInScreen(threeEnemiesSpawnPositions);
+                break;
 
-        // Four cards spawn
-        else
-        {
-            foreach (GameObject spawn in fourEnemiesSpawnPositions)
-            {
-                int numberCard = Random.Range(0, enemyCards.Count);
-                enemiesSpawned.Add(Instantiate(enemyCards[numberCard], spawn.transform.position, enemyCards[numberCard].transform.rotation, enemiesParent.transform));
-            }
+            case 4:
+                PlaceEnemiesInScreen(fourEnemiesSpawnPositions);
+                break;
+
+            default:
+                break;
         }
     }
 
-    public void SpawnBoss()
+    public void ManageSpawnBoss()
     {
         GameObject oneSpawnerObject = oneEnemySpawnPosition[0];
         if (zodiacToFight == "CANCER")
         {
-            enemiesSpawned.Add(Instantiate(cancerFigure, oneSpawnerObject.transform.position, cancerFigure.transform.rotation, enemiesParent.transform));
+            GameObject bossInstance = Instantiate(cancerFigure, oneSpawnerObject.transform.position,
+                                                  cancerFigure.transform.rotation, enemiesParent.transform);
+            enemiesSpawned.Add(bossInstance);
         }
         else if (zodiacToFight == "CAPRICORN")
         {
-            enemiesSpawned.Add(Instantiate(capricornFigure, oneSpawnerObject.transform.position, capricornFigure.transform.rotation, enemiesParent.transform));
+            GameObject bossInstance = Instantiate(capricornFigure, oneSpawnerObject.transform.position,
+                                                  capricornFigure.transform.rotation, enemiesParent.transform);
+            enemiesSpawned.Add(bossInstance);
         }
     }
 
     // Attack functions
-    public void Attack(List<GameObject> enemyTexts, int attackedEnemy)
+    public void Attack(List<GameObject> enemyTexts, int attackedEnemyIndex)
     {
         foreach (GameObject text in enemyTexts)
         {
@@ -174,96 +161,37 @@ public class BattleManager : MonoBehaviour
 
         battleDialogueText.SetActive(true);
 
-        int random = Random.Range(10, 21);
-        if (enemiesSpawned[attackedEnemy].GetComponent<EnemyCard>().Life - random <= 0)
-        {
-            battleDialogueText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text + ", YOU KILLED " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
-        }
-        else
-        {
-            battleDialogueText.GetComponent<Text>().text = "    YOU DEALED " + random + " DAMAGE TO " + enemyTexts[attackedEnemy].GetComponent<Text>().text;
-        }
-
-        enemiesSpawned[attackedEnemy].GetComponent<EnemyCard>().Life -= random;
+        string attackedEnemyName = enemyTexts[attackedEnemyIndex].GetComponent<Text>().text;
+        CalculateAndDisplayDamageInformation(attackedEnemyIndex, attackedEnemyName);
 
         currentBattleState = GameStates.DEFENDING;
         lastBattleState = GameStates.ATTACKING;
     }
 
-    public void RedistributeEnemyTexts()
+    public void UpdateEnemiesInBattle()
     {
-        amountOfEnemiesAlive--;
-        if (amountOfEnemiesAlive == 1)
-        {
-            textToDisplay = "    YOU ARE UP AGAINST " + amountOfEnemiesAlive + " ENEMY";
-        }
-        else
-        {
-            textToDisplay = "    YOU ARE UP AGAINST " + amountOfEnemiesAlive + " ENEMIES";
-        }
+        int enemyToRemoveIndex = RemoveDeadEnemyFromBattle();
 
-        int deleteTarget = 0;
-        for (int i = 0; i <= amountOfEnemiesAlive; i++)
+        bool playerWon = amountOfEnemiesAlive == 0;
+
+        if (playerWon)
         {
-            if (enemiesSpawned[i].GetComponent<EnemyCard>().Life <= 0)
-            {
-                deleteTarget = i;
-                break;
-            }
-        }
-
-        // If 0 enemies, the player wins
-        if (amountOfEnemiesAlive == 0)
-        {
-            buttonManager.enemyTexts[deleteTarget].GetComponent<Text>().text = "";
-            buttonManager.enemyTexts[deleteTarget].transform.GetChild(1).GetComponent<Text>().text = "";
-
-            enemiesSpawned.RemoveAt(deleteTarget);
-            //buttonManager.enemyTexts.RemoveAt(amountSpawn);
-
             currentBattleState = GameStates.VICTORY;
         }
-
-        else if (deleteTarget != amountOfEnemiesAlive)
-        {
-            for (int i = deleteTarget; i < amountOfEnemiesAlive; i++)
-            {
-                buttonManager.enemyTexts[i].GetComponent<Text>().text = buttonManager.enemyTexts[i + 1].GetComponent<Text>().text;
-                buttonManager.enemyTexts[i].GetComponent<Text>().color = buttonManager.enemyTexts[i + 1].GetComponent<Text>().color;
-                buttonManager.enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + buttonManager.enemyTexts[i + 1].GetComponent<Text>().text;
-                buttonManager.enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = buttonManager.enemyTexts[i + 1].GetComponent<Text>().color;
-            }
-
-            enemiesSpawned.RemoveAt(deleteTarget);
-            //buttonManager.enemyTexts.RemoveAt(amountSpawn);
-
-            buttonManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().text = "";
-            buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).GetComponent<Text>().text = "";
-
-            buttonManager.enemyTexts[deleteTarget].GetComponent<Text>().enabled = true;
-            buttonManager.enemyTexts[deleteTarget].transform.GetChild(0).gameObject.SetActive(false);
-            buttonManager.enemyTexts[deleteTarget].transform.GetChild(1).gameObject.SetActive(false);
-            buttonManager.currentTextIndex = 0;
-            buttonManager.enemyTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = false;
-            buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-            buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
-        }
-
         else
         {
-            buttonManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().text = "";
-            buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).GetComponent<Text>().text = "";
+            bool enemyIsNotTheLast = enemyToRemoveIndex != amountOfEnemiesAlive;
+            if (enemyIsNotTheLast)
+            {
+                MoveEnemyTextsToAppearContiguous(enemyToRemoveIndex);
+            }
 
-            enemiesSpawned.RemoveAt(amountOfEnemiesAlive);
-            //buttonManager.enemyTexts.RemoveAt(amountSpawn);
-
-            buttonManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().enabled = true;
-            buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(0).gameObject.SetActive(false);
-            buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).gameObject.SetActive(false);
+            buttonManager.enemyTexts[enemyToRemoveIndex].GetComponent<Text>().enabled = true;
+            buttonManager.enemyTexts[enemyToRemoveIndex].transform.GetChild(0).gameObject.SetActive(false);
+            buttonManager.enemyTexts[enemyToRemoveIndex].transform.GetChild(1).gameObject.SetActive(false);
             buttonManager.currentTextIndex = 0;
-            buttonManager.enemyTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = false;
-            buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-            buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+
+            ResetBattleArea();
         }
     }
 
@@ -272,13 +200,15 @@ public class BattleManager : MonoBehaviour
         dialogueArea.SetActive(false);
         battleArea.SetActive(true);
 
-        battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", true);
-        buttonManager.playerStar.transform.position = buttonManager.playerStarSpawn.transform.position;
+        Animator battleAreaAnimator = battleArea.transform.GetChild(0).GetComponent<Animator>();
+        battleAreaAnimator.SetBool("Expand", true);
+
+        buttonManager.playerStar.transform.position = buttonManager.playerStarBasePosition.transform.position;
 
         StartCoroutine(nameof(InitiateAttack));
     }
 
-    public void ResetBattleArea()
+    void ResetBattleArea()
     {
         battleDialogueText.GetComponent<Text>().text = textToDisplay;
 
@@ -299,7 +229,9 @@ public class BattleManager : MonoBehaviour
     public void Talk(List<GameObject> enemyTexts)
     {
         foreach (GameObject text in enemyTexts)
+        {
             text.SetActive(false);
+        }
 
         battleDialogueText.SetActive(true);
         if (zodiacToFight != "")
@@ -319,7 +251,9 @@ public class BattleManager : MonoBehaviour
     public void Items(List<GameObject> itemTexts, int itemUsed)
     {
         foreach (GameObject text in itemTexts)
+        {
             text.SetActive(false);
+        }
 
         battleDialogueText.SetActive(true);
 
@@ -357,7 +291,7 @@ public class BattleManager : MonoBehaviour
         lastBattleState = GameStates.USING_ITEM;
     }
 
-    public void RedistributeItemTexts()
+    void RedistributeItemTexts()
     {
         int deleteTarget = 0;
         for (int i = 0; i < GameMaster.inventory.Count; i++)
@@ -432,7 +366,7 @@ public class BattleManager : MonoBehaviour
         lastBattleState = GameStates.RUNNING;
     }
 
-    // Win functions
+    // Battle outcome functions
     public void Win()
     {
         if (zodiacToFight == "")
@@ -479,7 +413,7 @@ public class BattleManager : MonoBehaviour
         battleDialogueText.GetComponent<Text>().text = textToDisplay;
     }
 
-    public void LoseGame()
+    void LoseGame()
     {
         currentBattleState = GameStates.DEFEAT;
         GameMaster.attempts++;
@@ -550,6 +484,77 @@ public class BattleManager : MonoBehaviour
         GameMaster.Reset();
     }
 
+    void PlaceEnemiesInScreen(List<GameObject> cardsPositions)
+    {
+        foreach(GameObject card in cardsPositions)
+        {
+            int numberCard = Random.Range(0, enemyCards.Count);
+            GameObject newEnemyCard = Instantiate(enemyCards[numberCard], card.transform.position,
+                                                  enemyCards[numberCard].transform.rotation, enemiesParent.transform);
+            enemiesSpawned.Add(newEnemyCard);
+        }
+    }
+
+    void CalculateAndDisplayDamageInformation(int attackedEnemyIndex, string attackedEnemyName)
+    {
+        int randomDamage = Random.Range(10, 21);
+
+        battleDialogueText.GetComponent<Text>().text = "    YOU DEALT " + randomDamage + " DAMAGE POINTS TO " + attackedEnemyName;
+
+        if (enemiesSpawned[attackedEnemyIndex].GetComponent<EnemyCard>().Life - randomDamage <= 0)
+        {
+            battleDialogueText.GetComponent<Text>().text += ", YOU KILLED " + attackedEnemyName;
+        }
+
+        enemiesSpawned[attackedEnemyIndex].GetComponent<EnemyCard>().Life -= randomDamage;
+    }
+    
+    int RemoveDeadEnemyFromBattle()
+    {
+        int enemyToRemoveIndex = 0;
+        for (int i = 0; i < amountOfEnemiesAlive; i++)
+        {
+            if (enemiesSpawned[i].GetComponent<EnemyCard>().Life <= 0)
+            {
+                enemyToRemoveIndex = i;
+                break;
+            }
+        }
+
+        amountOfEnemiesAlive--;
+
+        enemiesSpawned.RemoveAt(enemyToRemoveIndex);
+        buttonManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().text = "";
+        buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).GetComponent<Text>().text = "";
+
+        if (amountOfEnemiesAlive == 1)
+        {
+            textToDisplay = "    YOU ARE UP AGAINST " + amountOfEnemiesAlive + " ENEMY";
+        }
+        else
+        {
+            textToDisplay = "    YOU ARE UP AGAINST " + amountOfEnemiesAlive + " ENEMIES";
+        }
+
+        return enemyToRemoveIndex;
+    }
+
+    void MoveEnemyTextsToAppearContiguous(int enemyToRemoveIndex)
+    {
+        for (int i = enemyToRemoveIndex; i < amountOfEnemiesAlive; i++)
+        {
+            Text currentEnemyText = buttonManager.enemyTexts[i].GetComponent<Text>();
+            Text currentEnemyTextChild = buttonManager.enemyTexts[i].transform.GetChild(1).GetComponent<Text>();
+
+            Text nextEnemyText = buttonManager.enemyTexts[i + 1].GetComponent<Text>();
+
+            currentEnemyText.text = nextEnemyText.text;
+            currentEnemyText.color = nextEnemyText.color;
+            currentEnemyTextChild.text = "    " + nextEnemyText.text;
+            currentEnemyTextChild.color = nextEnemyText.color;
+        }
+    }
+
     IEnumerator WaitAnim()
     {
         yield return new WaitForSeconds(0.55f);
@@ -582,84 +587,63 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        if (zodiacToFight == "")
+        bool isNotZodiacFight = zodiacToFight == "";
+
+        if (isNotZodiacFight)
         {
             int numAttack = Random.Range(0, availableNormalAttacks.Count);
-
             availableNormalAttacks[numAttack].SetActive(true);
+            bool isMeteoritesAttack = availableNormalAttacks[numAttack].GetComponent<ActivateChildren>() != null;
 
-            if (availableNormalAttacks[numAttack].GetComponent<ActivateChildren>() != null)
+            if (isMeteoritesAttack)
             {
                 availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().ActivateMeteos();
                 yield return new WaitForSeconds(11f);
-                StartCoroutine(nameof(EndBattle));
+
                 availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().DeactivateMeteos();
             }
-
             else
             {
-                // TODO: Check what this waitTime did
+                // TODO: Check what this waitTime did (it waited specific time for each attack), important to check and keep
                 // yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamageToPlayer>().waitTime);
-                StartCoroutine(nameof(EndBattle));
+                
                 availableNormalAttacks[numAttack].SetActive(false);
             }
         }
-        
         else
         {
             int numAttack = Random.Range(0, availableBossAttacks.Count);
             availableBossAttacks[numAttack].SetActive(true);
 
-            if (numAttack != 2)
-            {
-                //yield return new WaitForSeconds(5.25f);
-                int activatedOnes = 0;
-
-                while (activatedOnes < 3)
-                {
-                    int activate = Random.Range(0, availableBossAttacks[numAttack].transform.childCount);
-
-                    if (!availableBossAttacks[numAttack].transform.GetChild(activate).gameObject.activeSelf)
-                    {
-                        activatedOnes++;
-                        availableBossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(true);
-                        yield return new WaitForSeconds(1.55f);
-                        //bossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(false);
-                    }
-                }
-
-                for (int i = 0; i < availableBossAttacks[numAttack].transform.childCount; i++)
-                {
-                    availableBossAttacks[numAttack].transform.GetChild(i).gameObject.SetActive(false);
-                }
-            }
-
-            else
-            {
-                //yield return new WaitForSeconds(8.55f);
-                int activatedOnes = 0;
-
-                while (activatedOnes < 5)
-                {
-                    int activate = Random.Range(0, availableBossAttacks[numAttack].transform.childCount);
-
-                    if (!availableBossAttacks[numAttack].transform.GetChild(activate).gameObject.activeSelf)
-                    {
-                        activatedOnes++;
-                        availableBossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(true);
-                        yield return new WaitForSeconds(1.55f);
-                        //bossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(false);
-                    }
-                }
-
-                for (int i = 0; i < availableBossAttacks[numAttack].transform.childCount; i++)
-                {
-                    availableBossAttacks[numAttack].transform.GetChild(i).gameObject.SetActive(false);
-                }
-            }
+            StartCoroutine(nameof(ManageBossStarAttacks), numAttack);
 
             availableBossAttacks[numAttack].SetActive(false);
-            StartCoroutine(nameof(EndBattle));
+        }
+
+        StartCoroutine(nameof(EndBattle));
+    }
+
+    IEnumerator ManageBossStarAttacks(int numAttack)
+    {
+        bool isLongerAttack = numAttack == 2;
+        int starsToSpawn = isLongerAttack ? 5 : 3;
+
+        int activatedOnes = 0;
+        while (activatedOnes < starsToSpawn)
+        {
+            int activate = Random.Range(0, availableBossAttacks[numAttack].transform.childCount);
+
+            if (!availableBossAttacks[numAttack].transform.GetChild(activate).gameObject.activeSelf)
+            {
+                activatedOnes++;
+                availableBossAttacks[numAttack].transform.GetChild(activate).gameObject.SetActive(true);
+                yield return new WaitForSeconds(1.55f);
+            }
+        }
+
+        for (int i = 0; i < availableBossAttacks[numAttack].transform.childCount; i++)
+        {
+            availableBossAttacks[numAttack].transform.GetChild(i).gameObject.SetActive(false);
         }
     }
 
