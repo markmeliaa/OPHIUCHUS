@@ -152,14 +152,9 @@ public class BattleManager : MonoBehaviour
     }
 
     // Attack functions
-    public void Attack(List<GameObject> enemyTexts, int attackedEnemyIndex)
+    public void AttackAction(List<GameObject> enemyTexts, int attackedEnemyIndex)
     {
-        foreach (GameObject text in enemyTexts)
-        {
-            text.SetActive(false);
-        }
-
-        battleDialogueText.SetActive(true);
+        SwapToBigDialogue(enemyTexts);
 
         string attackedEnemyName = enemyTexts[attackedEnemyIndex].GetComponent<Text>().text;
         CalculateAndDisplayDamageInformation(attackedEnemyIndex, attackedEnemyName);
@@ -170,7 +165,7 @@ public class BattleManager : MonoBehaviour
 
     public void UpdateEnemiesInBattle()
     {
-        int enemyToRemoveIndex = RemoveDeadEnemyFromBattle();
+        int enemyToRemoveIndex = RemoveAndGetDeadEnemyFromBattle();
 
         bool playerWon = amountOfEnemiesAlive == 0;
 
@@ -217,26 +212,18 @@ public class BattleManager : MonoBehaviour
         buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
         buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
 
-        foreach (GameObject text in buttonManager.enemyTexts)
-        {
-            text.SetActive(false);
-        }
-
-        battleDialogueText.SetActive(true);
+        SwapToBigDialogue(buttonManager.enemyTexts);
     }
 
     // Listen functions
-    public void Talk(List<GameObject> enemyTexts)
+    public void TalkAction(List<GameObject> enemyTexts)
     {
-        foreach (GameObject text in enemyTexts)
-        {
-            text.SetActive(false);
-        }
+        SwapToBigDialogue(enemyTexts);
 
-        battleDialogueText.SetActive(true);
-        if (zodiacToFight != "")
+        bool isZodiacFight = zodiacToFight != "";
+        if (isZodiacFight)
         {
-            battleDialogueText.GetComponent<Text>().text = "    SHE IS BUSY FIGHTING, CAN'T TALK NOW";
+            battleDialogueText.GetComponent<Text>().text = "    THEY ARE BUSY FIGHTING, CAN'T TALK NOW";
         }
         else
         {
@@ -248,43 +235,35 @@ public class BattleManager : MonoBehaviour
     }
 
     // Items functions
-    public void Items(List<GameObject> itemTexts, int itemUsed)
+    public void UseItemAction(List<GameObject> itemTexts, int itemUsedIndex)
     {
-        foreach (GameObject text in itemTexts)
+        SwapToBigDialogue(itemTexts);
+
+        ItemObject itemUsed = GameMaster.inventory[itemUsedIndex];
+        int itemEffectStrength = (itemUsed.Type == ObjectTypes.HEALTH) ? itemUsed.Level * 5 : itemUsed.Level;
+        switch (itemUsed.Type)
         {
-            text.SetActive(false);
+            case ObjectTypes.HEALTH:
+                UseHealingItem(itemUsed, itemEffectStrength);
+                break;
+
+            case ObjectTypes.ATTACK:
+                UseBuffingItem(itemUsed, itemEffectStrength, "ATTACK");
+                break;
+
+            case ObjectTypes.DEFENSE:
+                UseBuffingItem(itemUsed, itemEffectStrength, "DEFENSE");
+                break;
+
+            case ObjectTypes.SPEED:
+                UseBuffingItem(itemUsed, itemEffectStrength, "SPEED");
+                break;
+
+            default:
+                break;
         }
+        itemUsed.Consumed = true;
 
-        battleDialogueText.SetActive(true);
-
-        int usefulness = GameMaster.inventory[itemUsed].Type == ObjectTypes.HEALTH ? GameMaster.inventory[itemUsed].Level * 5 : GameMaster.inventory[itemUsed].Level;
-        if (GameMaster.inventory[itemUsed].Type == ObjectTypes.HEALTH)
-        {
-            battleDialogueText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].ObjectName + " LVL." + GameMaster.inventory[itemUsed].Level + " YOU HEALED " + usefulness + " HP";
-            GameMaster.playerLife += usefulness;
-            if (GameMaster.playerLife > GameMaster.maxPlayerLife)
-            {
-                GameMaster.playerLife = GameMaster.maxPlayerLife;
-            }
-        }
-
-        else if (GameMaster.inventory[itemUsed].Type == ObjectTypes.ATTACK)
-        {
-            battleDialogueText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].ObjectName + " LVL." + GameMaster.inventory[itemUsed].Level + " YOUR ATTACK INCREASED BY " + usefulness;
-        }
-
-        else if (GameMaster.inventory[itemUsed].Type == ObjectTypes.DEFENSE)
-        {
-            battleDialogueText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].ObjectName + " LVL." + GameMaster.inventory[itemUsed].Level + " YOUR DEFENSE INCREASED BY " + usefulness;
-        }
-
-        else
-        {
-            battleDialogueText.GetComponent<Text>().text = "    YOU USED " + GameMaster.inventory[itemUsed].ObjectName + " LVL." + GameMaster.inventory[itemUsed].Level + " YOUR SPEED INCREASED BY " + usefulness;
-            GameMaster.playerSpeed += usefulness;
-        }
-
-        GameMaster.inventory[itemUsed].Consumed = true;
         RedistributeItemTexts();
 
         currentBattleState = GameStates.DEFENDING;
@@ -347,7 +326,7 @@ public class BattleManager : MonoBehaviour
     }
 
     // Run functions
-    public void Run()
+    public void RunAction()
     {
         if (zodiacToFight != "")
         {
@@ -484,6 +463,16 @@ public class BattleManager : MonoBehaviour
         GameMaster.Reset();
     }
 
+    void SwapToBigDialogue(List<GameObject> textsToDeactivate)
+    {
+        foreach (GameObject text in textsToDeactivate)
+        {
+            text.SetActive(false);
+        }
+
+        battleDialogueText.SetActive(true);
+    }
+
     void PlaceEnemiesInScreen(List<GameObject> cardsPositions)
     {
         foreach(GameObject card in cardsPositions)
@@ -509,7 +498,7 @@ public class BattleManager : MonoBehaviour
         enemiesSpawned[attackedEnemyIndex].GetComponent<EnemyCard>().Life -= randomDamage;
     }
     
-    int RemoveDeadEnemyFromBattle()
+    int RemoveAndGetDeadEnemyFromBattle()
     {
         int enemyToRemoveIndex = 0;
         for (int i = 0; i < amountOfEnemiesAlive; i++)
@@ -552,6 +541,38 @@ public class BattleManager : MonoBehaviour
             currentEnemyText.color = nextEnemyText.color;
             currentEnemyTextChild.text = "    " + nextEnemyText.text;
             currentEnemyTextChild.color = nextEnemyText.color;
+        }
+    }
+
+    void UseHealingItem(ItemObject itemUsed, int itemEffectStrength)
+    {
+        battleDialogueText.GetComponent<Text>().text = "    YOU USED " + itemUsed.ObjectName + " LVL." + itemUsed.Level +
+                                                       " YOU HEALED " + itemEffectStrength + " HP";
+
+        GameMaster.playerLife = Mathf.Min(GameMaster.maxPlayerLife, GameMaster.playerLife + itemEffectStrength);
+    }
+
+    void UseBuffingItem(ItemObject itemUsed, int itemEffectStrength, string buffedStat)
+    {
+        battleDialogueText.GetComponent<Text>().text = "    YOU USED " + itemUsed.ObjectName + " LVL." + itemUsed.Level +
+                                                       " YOUR " + buffedStat + " INCREASED BY " + itemEffectStrength;
+
+        switch (buffedStat)
+        {
+            case "ATTACK":
+                // TODO: Increase attack value
+                break;
+
+            case "DEFENSE":
+                // TODO: Increase defense value
+                break;
+
+            case "SPEED":
+                GameMaster.playerSpeed += itemEffectStrength;
+                break;
+
+            default:
+                break;
         }
     }
 

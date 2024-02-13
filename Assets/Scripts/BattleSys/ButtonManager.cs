@@ -364,7 +364,7 @@ public class ButtonManager : MonoBehaviour
             if (battleManager.currentBattleState == GameStates.ATTACKING && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
             {
                 pressedZ = true;
-                battleManager.Attack(enemyTexts, currentTextIndex);
+                battleManager.AttackAction(enemyTexts, currentTextIndex);
 
                 globalAudioSource.clip = attackEnemy;
                 globalAudioSource.Play();
@@ -418,7 +418,7 @@ public class ButtonManager : MonoBehaviour
             if (battleManager.currentBattleState == GameStates.TALKING && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
             {
                 pressedZ = true;
-                battleManager.Talk(enemyTexts);
+                battleManager.TalkAction(enemyTexts);
 
                 globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
@@ -488,7 +488,7 @@ public class ButtonManager : MonoBehaviour
             if (battleManager.currentBattleState == GameStates.USING_ITEM && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
             {
                 pressedZ = true;
-                battleManager.Items(itemTexts, currentTextIndex);
+                battleManager.UseItemAction(itemTexts, currentTextIndex);
 
                 globalAudioSource.clip = useItem;
                 globalAudioSource.Play();
@@ -497,7 +497,7 @@ public class ButtonManager : MonoBehaviour
             // Run from battle
             else if (currentButtonIndex == 3 && Input.GetKeyDown(KeyCode.Z) && (battleManager.currentBattleState != GameStates.ATTACKING && battleManager.currentBattleState != GameStates.TALKING && battleManager.currentBattleState != GameStates.USING_ITEM && battleManager.currentBattleState != GameStates.RUNNING && battleManager.currentBattleState != GameStates.WAITING))
             {
-                battleManager.Run();
+                battleManager.RunAction();
                 pressedZ = true;
 
                 globalAudioSource.clip = selectEnemy;
