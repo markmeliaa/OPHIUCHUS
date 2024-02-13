@@ -181,11 +181,11 @@ public class BattleManager : MonoBehaviour
                 MoveEnemyTextsToAppearContiguous(enemyToRemoveIndex);
             }
 
-            buttonManager.enemyTexts[enemyToRemoveIndex].GetComponent<Text>().enabled = true;
-            buttonManager.enemyTexts[enemyToRemoveIndex].transform.GetChild(0).gameObject.SetActive(false);
-            buttonManager.enemyTexts[enemyToRemoveIndex].transform.GetChild(1).gameObject.SetActive(false);
-            buttonManager.currentTextIndex = 0;
+            buttonManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().enabled = true;
+            buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(0).gameObject.SetActive(false);
+            buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).gameObject.SetActive(false);
 
+            buttonManager.currentTextIndex = 0;
             ResetBattleArea();
         }
     }
@@ -264,65 +264,28 @@ public class BattleManager : MonoBehaviour
         }
         itemUsed.Consumed = true;
 
-        RedistributeItemTexts();
+        UpdateItemsAvailable();
 
         currentBattleState = GameStates.DEFENDING;
         lastBattleState = GameStates.USING_ITEM;
     }
 
-    void RedistributeItemTexts()
+    void UpdateItemsAvailable()
     {
-        int deleteTarget = 0;
-        for (int i = 0; i < GameMaster.inventory.Count; i++)
+        int itemToRemoveIndex = RemoveAndGetConsumedItem();
+
+        bool itemIsNotTheLast = itemToRemoveIndex != GameMaster.inventory.Count;
+        if (itemIsNotTheLast)
         {
-            if (GameMaster.inventory[i].Consumed)
-            {
-                deleteTarget = i;
-                break;
-            }
+            MoveItemTextsToAppearContiguous(itemToRemoveIndex);
         }
 
-        if (deleteTarget != GameMaster.inventory.Count - 1)
-        {
-            for (int i = deleteTarget; i < GameMaster.inventory.Count; i++)
-            {
-                buttonManager.itemTexts[i].GetComponent<Text>().text = buttonManager.itemTexts[i + 1].GetComponent<Text>().text;
-                buttonManager.itemTexts[i].GetComponent<Text>().color = buttonManager.itemTexts[i + 1].GetComponent<Text>().color;
-                buttonManager.itemTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + buttonManager.itemTexts[i + 1].GetComponent<Text>().text;
-                buttonManager.itemTexts[i].transform.GetChild(1).GetComponent<Text>().color = buttonManager.itemTexts[i + 1].GetComponent<Text>().color;
-            }
+        buttonManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().enabled = true;
+        buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(0).gameObject.SetActive(false);
+        buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).gameObject.SetActive(false);
 
-            GameMaster.inventory.RemoveAt(deleteTarget);
-            //buttonManager.itemTexts.RemoveAt(GameMaster.inventory.Count);
-
-            buttonManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
-            buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
-
-            buttonManager.itemTexts[deleteTarget].GetComponent<Text>().enabled = true;
-            buttonManager.itemTexts[deleteTarget].transform.GetChild(0).gameObject.SetActive(false);
-            buttonManager.itemTexts[deleteTarget].transform.GetChild(1).gameObject.SetActive(false);
-            buttonManager.currentTextIndex = 0;
-            buttonManager.itemTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = false;
-            buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-            buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
-        }
-
-        else
-        {
-            buttonManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
-            buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
-
-            GameMaster.inventory.RemoveAt(GameMaster.inventory.Count - 1);
-            //buttonManager.itemTexts.RemoveAt(GameMaster.inventory.Count);
-
-            buttonManager.itemTexts[GameMaster.inventory.Count].GetComponent<Text>().enabled = true;
-            buttonManager.itemTexts[GameMaster.inventory.Count].transform.GetChild(0).gameObject.SetActive(false);
-            buttonManager.itemTexts[GameMaster.inventory.Count].transform.GetChild(1).gameObject.SetActive(false);
-            buttonManager.currentTextIndex = 0;
-            buttonManager.itemTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = false;
-            buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-            buttonManager.itemTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(true);
-        }
+        buttonManager.currentTextIndex = 0;
+        ResetBattleArea();
     }
 
     // Run functions
@@ -530,7 +493,7 @@ public class BattleManager : MonoBehaviour
 
     void MoveEnemyTextsToAppearContiguous(int enemyToRemoveIndex)
     {
-        for (int i = enemyToRemoveIndex; i < amountOfEnemiesAlive; i++)
+        for (int i = enemyToRemoveIndex; i < amountOfEnemiesAlive - 1; i++)
         {
             Text currentEnemyText = buttonManager.enemyTexts[i].GetComponent<Text>();
             Text currentEnemyTextChild = buttonManager.enemyTexts[i].transform.GetChild(1).GetComponent<Text>();
@@ -573,6 +536,41 @@ public class BattleManager : MonoBehaviour
 
             default:
                 break;
+        }
+    }
+
+    int RemoveAndGetConsumedItem()
+    {
+        int itemToRemoveIndex = 0;
+        for (int i = 0; i < GameMaster.inventory.Count; i++)
+        {
+            if (GameMaster.inventory[i].Consumed)
+            {
+                itemToRemoveIndex = i;
+                break;
+            }
+        }
+
+        GameMaster.inventory.RemoveAt(itemToRemoveIndex);
+        buttonManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
+        buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
+
+        return itemToRemoveIndex;
+    }
+
+    void MoveItemTextsToAppearContiguous(int itemToRemoveIndex)
+    {
+        for (int i = itemToRemoveIndex; i < GameMaster.inventory.Count - 1; i++)
+        {
+            Text currentItemText = buttonManager.itemTexts[i].GetComponent<Text>();
+            Text currentItemTextChild = buttonManager.itemTexts[i].transform.GetChild(1).GetComponent<Text>();
+
+            Text nextItemText = buttonManager.itemTexts[i + 1].GetComponent<Text>();
+
+            currentItemText.text = nextItemText.text;
+            currentItemText.color = nextItemText.color;
+            currentItemTextChild.text = "    " + nextItemText.text;
+            currentItemTextChild.color = nextItemText.color;
         }
     }
 
