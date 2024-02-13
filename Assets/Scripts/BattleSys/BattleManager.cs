@@ -151,7 +151,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // Attack functions
+    // Attack functions -------------------------------------------------------
     public void AttackAction(List<GameObject> enemyTexts, int attackedEnemyIndex)
     {
         SwapToBigDialogue(enemyTexts);
@@ -159,8 +159,8 @@ public class BattleManager : MonoBehaviour
         string attackedEnemyName = enemyTexts[attackedEnemyIndex].GetComponent<Text>().text;
         CalculateAndDisplayDamageInformation(attackedEnemyIndex, attackedEnemyName);
 
+        lastBattleState = currentBattleState;
         currentBattleState = GameStates.DEFENDING;
-        lastBattleState = GameStates.ATTACKING;
     }
 
     public void UpdateEnemiesInBattle()
@@ -178,12 +178,12 @@ public class BattleManager : MonoBehaviour
             bool enemyIsNotTheLast = enemyToRemoveIndex != amountOfEnemiesAlive;
             if (enemyIsNotTheLast)
             {
-                MoveEnemyTextsToAppearContiguous(enemyToRemoveIndex);
+                MoveTextsToAppearContiguous(enemyToRemoveIndex, buttonManager.enemyTexts);
             }
 
-            buttonManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().enabled = true;
-            buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(0).gameObject.SetActive(false);
-            buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).gameObject.SetActive(false);
+            buttonManager.enemyTexts[buttonManager.enemyTexts.Count - 1].GetComponent<Text>().enabled = true;
+            buttonManager.enemyTexts[buttonManager.enemyTexts.Count - 1].transform.GetChild(0).gameObject.SetActive(false);
+            buttonManager.enemyTexts[buttonManager.enemyTexts.Count - 1].transform.GetChild(1).gameObject.SetActive(false);
 
             buttonManager.currentTextIndex = 0;
             ResetBattleArea();
@@ -215,7 +215,7 @@ public class BattleManager : MonoBehaviour
         SwapToBigDialogue(buttonManager.enemyTexts);
     }
 
-    // Listen functions
+    // Listen functions -------------------------------------------------------
     public void TalkAction(List<GameObject> enemyTexts)
     {
         SwapToBigDialogue(enemyTexts);
@@ -230,11 +230,11 @@ public class BattleManager : MonoBehaviour
             battleDialogueText.GetComponent<Text>().text = "    YOU CAN'T TALK TO AN NPC";
         }
 
-        currentBattleState = GameStates.WAITING;
-        lastBattleState = GameStates.TALKING;
+        lastBattleState = currentBattleState;
+        currentBattleState = GameStates.WAITING; // TODO: Why after talking is not DEFENDING but WAITING instead?
     }
 
-    // Items functions
+    // Items functions --------------------------------------------------------
     public void UseItemAction(List<GameObject> itemTexts, int itemUsedIndex)
     {
         SwapToBigDialogue(itemTexts);
@@ -266,8 +266,8 @@ public class BattleManager : MonoBehaviour
 
         UpdateItemsAvailable();
 
+        lastBattleState = currentBattleState;
         currentBattleState = GameStates.DEFENDING;
-        lastBattleState = GameStates.USING_ITEM;
     }
 
     void UpdateItemsAvailable()
@@ -277,21 +277,22 @@ public class BattleManager : MonoBehaviour
         bool itemIsNotTheLast = itemToRemoveIndex != GameMaster.inventory.Count;
         if (itemIsNotTheLast)
         {
-            MoveItemTextsToAppearContiguous(itemToRemoveIndex);
+            MoveTextsToAppearContiguous(itemToRemoveIndex, buttonManager.itemTexts);
         }
 
-        buttonManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().enabled = true;
-        buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(0).gameObject.SetActive(false);
-        buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).gameObject.SetActive(false);
+        buttonManager.itemTexts[buttonManager.itemTexts.Count - 1].GetComponent<Text>().enabled = true;
+        buttonManager.itemTexts[buttonManager.itemTexts.Count - 1].transform.GetChild(0).gameObject.SetActive(false);
+        buttonManager.itemTexts[buttonManager.itemTexts.Count - 1].transform.GetChild(1).gameObject.SetActive(false);
 
         buttonManager.currentTextIndex = 0;
         ResetBattleArea();
     }
 
-    // Run functions
+    // Run functions ----------------------------------------------------------
     public void RunAction()
     {
-        if (zodiacToFight != "")
+        bool isZodiacFight = zodiacToFight != "";
+        if (isZodiacFight)
         {
             battleDialogueText.GetComponent<Text>().text = "    YOU CAN NOT RUN FROM A ZODIAC BATTLE";
         }
@@ -304,11 +305,11 @@ public class BattleManager : MonoBehaviour
             battleDialogueText.GetComponent<Text>().text = "    YOU WERE NOT ABLE TO RUN, NOT ENOUGH SPEED";
         }
 
+        lastBattleState = currentBattleState;
         currentBattleState = GameStates.WAITING;
-        lastBattleState = GameStates.RUNNING;
     }
 
-    // Battle outcome functions
+    // Battle outcome functions -----------------------------------------------
     public void Win()
     {
         if (zodiacToFight == "")
@@ -360,8 +361,6 @@ public class BattleManager : MonoBehaviour
         currentBattleState = GameStates.DEFEAT;
         GameMaster.attempts++;
         dialogueCanvas.SetActive(false);
-
-        //Debug.Log("You Died");
 
         if (zodiacToFight == "CAPRICORN")
         {
@@ -491,19 +490,19 @@ public class BattleManager : MonoBehaviour
         return enemyToRemoveIndex;
     }
 
-    void MoveEnemyTextsToAppearContiguous(int enemyToRemoveIndex)
+    void MoveTextsToAppearContiguous(int indexToRemove, List<GameObject> listToRemove)
     {
-        for (int i = enemyToRemoveIndex; i < amountOfEnemiesAlive - 1; i++)
+        for (int i = indexToRemove; i < listToRemove.Count - 1; i++)
         {
-            Text currentEnemyText = buttonManager.enemyTexts[i].GetComponent<Text>();
-            Text currentEnemyTextChild = buttonManager.enemyTexts[i].transform.GetChild(1).GetComponent<Text>();
+            Text currentText = listToRemove[i].GetComponent<Text>();
+            Text currentTextChild = listToRemove[i].transform.GetChild(1).GetComponent<Text>();
 
-            Text nextEnemyText = buttonManager.enemyTexts[i + 1].GetComponent<Text>();
+            Text nextText = listToRemove[i + 1].GetComponent<Text>();
 
-            currentEnemyText.text = nextEnemyText.text;
-            currentEnemyText.color = nextEnemyText.color;
-            currentEnemyTextChild.text = "    " + nextEnemyText.text;
-            currentEnemyTextChild.color = nextEnemyText.color;
+            currentText.text = nextText.text;
+            currentText.color = nextText.color;
+            currentTextChild.text = "    " + nextText.text;
+            currentTextChild.color = nextText.color;
         }
     }
 
@@ -556,22 +555,6 @@ public class BattleManager : MonoBehaviour
         buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
 
         return itemToRemoveIndex;
-    }
-
-    void MoveItemTextsToAppearContiguous(int itemToRemoveIndex)
-    {
-        for (int i = itemToRemoveIndex; i < GameMaster.inventory.Count - 1; i++)
-        {
-            Text currentItemText = buttonManager.itemTexts[i].GetComponent<Text>();
-            Text currentItemTextChild = buttonManager.itemTexts[i].transform.GetChild(1).GetComponent<Text>();
-
-            Text nextItemText = buttonManager.itemTexts[i + 1].GetComponent<Text>();
-
-            currentItemText.text = nextItemText.text;
-            currentItemText.color = nextItemText.color;
-            currentItemTextChild.text = "    " + nextItemText.text;
-            currentItemTextChild.color = nextItemText.color;
-        }
     }
 
     IEnumerator WaitAnim()
