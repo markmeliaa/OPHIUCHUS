@@ -9,10 +9,11 @@ public static class GameMaster
     public static int runMoney;
     public static int totalMoney;
 
-    public static int runRealmNumber;
-    public static string[] realmLocations = { "Andromeda", "Triangulum", "Hoags", "Melotte", "Circinus", "The Deep Void" };
+    public static int currentLevel;
+    public static string[] levelsLocations = { "Andromeda", "Triangulum", "Hoags", "Melotte", "Circinus", "The Deep Void" };
 
     public static List<ItemObject> inventory = new();
+    public static int inventoryMaxSpace = 8;
 
     public static int attempts;
     public static int successfulAttemps;
@@ -29,6 +30,6 @@ public static class GameMaster
         playerSpeed = 3;
         inventory = new List<ItemObject>();
         runMoney = 0;
-        runRealmNumber = 0;
+        currentLevel = 0;
     }
 }

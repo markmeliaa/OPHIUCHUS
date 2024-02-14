@@ -181,11 +181,11 @@ public class BattleManager : MonoBehaviour
                 MoveTextsToAppearContiguous(enemyToRemoveIndex, buttonManager.enemyTexts);
             }
 
-            buttonManager.enemyTexts[buttonManager.enemyTexts.Count - 1].GetComponent<Text>().enabled = true;
-            buttonManager.enemyTexts[buttonManager.enemyTexts.Count - 1].transform.GetChild(0).gameObject.SetActive(false);
-            buttonManager.enemyTexts[buttonManager.enemyTexts.Count - 1].transform.GetChild(1).gameObject.SetActive(false);
+            int lastEnemyText = buttonManager.enemyTexts.Count - 1;
+            buttonManager.enemyTexts[lastEnemyText].GetComponent<Text>().enabled = true;
+            buttonManager.enemyTexts[lastEnemyText].transform.GetChild(0).gameObject.SetActive(false);
+            buttonManager.enemyTexts[lastEnemyText].transform.GetChild(1).gameObject.SetActive(false);
 
-            buttonManager.currentTextIndex = 0;
             ResetBattleArea();
         }
     }
@@ -208,6 +208,7 @@ public class BattleManager : MonoBehaviour
         battleDialogueText.GetComponent<Text>().text = textToDisplay;
 
         // Disable enemy texts
+        buttonManager.currentTextIndex = 0;
         buttonManager.enemyTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = true;
         buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
         buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
@@ -280,11 +281,11 @@ public class BattleManager : MonoBehaviour
             MoveTextsToAppearContiguous(itemToRemoveIndex, buttonManager.itemTexts);
         }
 
-        buttonManager.itemTexts[buttonManager.itemTexts.Count - 1].GetComponent<Text>().enabled = true;
-        buttonManager.itemTexts[buttonManager.itemTexts.Count - 1].transform.GetChild(0).gameObject.SetActive(false);
-        buttonManager.itemTexts[buttonManager.itemTexts.Count - 1].transform.GetChild(1).gameObject.SetActive(false);
+        int lastItemText = buttonManager.itemTexts.Count - 1;
+        buttonManager.itemTexts[lastItemText].GetComponent<Text>().enabled = true;
+        buttonManager.itemTexts[lastItemText].transform.GetChild(0).gameObject.SetActive(false);
+        buttonManager.itemTexts[lastItemText].transform.GetChild(1).gameObject.SetActive(false);
 
-        buttonManager.currentTextIndex = 0;
         ResetBattleArea();
     }
 
@@ -309,51 +310,41 @@ public class BattleManager : MonoBehaviour
         currentBattleState = GameStates.WAITING;
     }
 
-    // Battle outcome functions -----------------------------------------------
-    public void Win()
+    // Battle/Game outcome functions -----------------------------------------------
+    public void WinBattle()
     {
-        if (zodiacToFight == "")
+        bool isZodiacFight = zodiacToFight != "";
+        if (!isZodiacFight)
         {
-            int moneyWon = Random.Range(1, 6) * totalAmoutOfEnemiesInTheBattle;
-            GameMaster.runMoney += moneyWon;
+            GetMoneyAfterBattle();
 
-            currentBattleState = GameStates.DEFEAT;
-            if (moneyWon == 1)
+            int chanceToGetHealingPotion = Random.Range(0, 10);
+            if (chanceToGetHealingPotion <= 1) // 20% chance for now
             {
-                textToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
-            }
-            else
-            {
-                textToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+                GetHealingPotion();
             }
         }
-        
         else
         {
-            int moneyWon = 50;
-            GameMaster.runMoney += moneyWon;
-            GameMaster.totalMoney += GameMaster.runMoney;
-
-            currentBattleState = GameStates.DEFEAT;
-            textToDisplay = "    BOSS DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
-        }
-
-        if (Random.Range(0,3) == 2)
-        {
-            textToDisplay += "YOU ALSO RECIEVED A LVL.1 HEALTH POTION!";
-
-            if (GameMaster.inventory.Count < 8)
-            {
-                GameMaster.inventory.Add(new ItemObject("Health Potion", ObjectTypes.HEALTH, 1));
-            }
-
-            else
-            {
-                textToDisplay += " (but you have no space in your inventory).";
-            }
+            GetMoneyAfterGame();
         }
 
         battleDialogueText.GetComponent<Text>().text = textToDisplay;
+    }
+
+    public void WinGame()
+    {
+        currentBattleState = GameStates.VICTORY;
+        GameMaster.attempts++;
+        GameMaster.successfulAttemps++;
+        buttonManager.miniMap.SetActive(false);
+
+        buttonManager.player.GetComponent<SpriteRenderer>().enabled = false;
+        buttonManager.player.transform.GetChild(3).gameObject.SetActive(true);
+        GameMaster.temperanceIndex++;
+
+        StartCoroutine(nameof(WaitWinAnim));
+        GameMaster.Reset();
     }
 
     void LoseGame()
@@ -371,57 +362,10 @@ public class BattleManager : MonoBehaviour
             GameMaster.cancerIndex--;
         }
 
-        for (int i = 1; i < buttonManager.battleCanvas.transform.childCount; i++)
-        {
-            if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.CompareTag("Player"))
-                buttonManager.battleCanvas.transform.GetChild(i).gameObject.SetActive(false);
-            else
-            {
-                for (int j = 0; j < buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.childCount; j++)
-                {
-                    if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).CompareTag("Player"))
-                        buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject.SetActive(false);
-                }
-            }
-        }
-        buttonManager.battleCanvas.GetComponent<AudioSource>().Stop();
+        StopBattleAndHideUI();
+        DisplayDeathStarAnimation();
 
-        buttonManager.playerStar.GetComponent<SpriteRenderer>().enabled = false;
-
-        int direction = 0;
-        Vector2[] pushStarDirections = new Vector2[] 
-        { 
-            new Vector2(0, 1.25f), 
-            new Vector2(1.25f, 1.5f), 
-            new Vector2(0.5f, 0.5f), 
-            new Vector2(-0.5f, 0.5f), 
-            new Vector2(-1.25f, 1.5f)
-        };
-        
-        foreach(GameObject piece in playerBrokenStarPieces)
-        {
-            piece.SetActive(true);
-            piece.GetComponent<Rigidbody2D>().AddForce(pushStarDirections[direction] * 2, ForceMode2D.Impulse);
-            piece.GetComponent<Rigidbody2D>().AddTorque(360, ForceMode2D.Impulse);
-            direction++;
-        }
-        StartCoroutine(nameof(WaitAnim));
-
-        GameMaster.temperanceIndex = 1;
-        GameMaster.Reset();
-    }
-
-    public void WinGame()
-    {
-        GameMaster.attempts++;
-        GameMaster.successfulAttemps++;
-        buttonManager.miniMap.SetActive(false);
-
-        buttonManager.player.GetComponent<SpriteRenderer>().enabled = false;
-        buttonManager.player.transform.GetChild(3).gameObject.SetActive(true);
-        GameMaster.temperanceIndex = 2;
-
-        StartCoroutine(nameof(WaitWinAnim));
+        StartCoroutine(nameof(WaitLoseAnim));
         GameMaster.Reset();
     }
 
@@ -557,18 +501,89 @@ public class BattleManager : MonoBehaviour
         return itemToRemoveIndex;
     }
 
-    IEnumerator WaitAnim()
+    void GetMoneyAfterBattle()
     {
-        yield return new WaitForSeconds(0.55f);
+        int moneyWon = Random.Range(1, 6) * totalAmoutOfEnemiesInTheBattle;
+        GameMaster.runMoney += moneyWon;
 
-        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
-        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        currentBattleState = GameStates.VICTORY;
+        if (moneyWon == 1)
+        {
+            textToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
+        }
+        else
+        {
+            textToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+        }
+    }
 
-        yield return new WaitForSeconds(0.65f);
-        loseGameCanvas.SetActive(true);
+    void GetMoneyAfterGame()
+    {
+        int moneyWon = 50;
+        GameMaster.runMoney += moneyWon;
+        GameMaster.totalMoney += GameMaster.runMoney;
 
-        yield return new WaitForSeconds(1.0f);
-        loseGameCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
+        currentBattleState = GameStates.VICTORY;
+        textToDisplay = "    BOSS DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+    }
+
+    void GetHealingPotion()
+    {
+        textToDisplay += "YOU ALSO RECIEVED A LVL." + GameMaster.currentLevel + " HEALTH POTION!";
+
+        if (GameMaster.inventory.Count < GameMaster.inventoryMaxSpace)
+        {
+            GameMaster.inventory.Add(new ItemObject("Health Potion", ObjectTypes.HEALTH, GameMaster.currentLevel));
+        }
+        else
+        {
+            textToDisplay += " (but you have no space in your inventory).";
+        }
+    }
+
+    void StopBattleAndHideUI()
+    {
+        for (int i = 1; i < buttonManager.battleCanvas.transform.childCount; i++)
+        {
+            if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.CompareTag("Player"))
+            {
+                buttonManager.battleCanvas.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            else
+            {
+                for (int j = 0; j < buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.childCount; j++)
+                {
+                    if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).CompareTag("Player"))
+                    {
+                        buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+        buttonManager.battleCanvas.GetComponent<AudioSource>().Stop();
+    }
+
+    void DisplayDeathStarAnimation()
+    {
+        buttonManager.playerStar.GetComponent<SpriteRenderer>().enabled = false;
+
+        int direction = 0;
+        Vector2[] pushStarDirections = new Vector2[]
+        {
+            new Vector2(0, 1.25f),
+            new Vector2(1.25f, 1.5f),
+            new Vector2(0.5f, 0.5f),
+            new Vector2(-0.5f, 0.5f),
+            new Vector2(-1.25f, 1.5f)
+        };
+
+        foreach (GameObject piece in playerBrokenStarPieces)
+        {
+            piece.SetActive(true);
+            piece.GetComponent<Rigidbody2D>().AddForce(pushStarDirections[direction] * 2, ForceMode2D.Impulse);
+            piece.GetComponent<Rigidbody2D>().AddTorque(360, ForceMode2D.Impulse);
+            direction++;
+        }
     }
 
     IEnumerator WaitWinAnim()
@@ -583,6 +598,20 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
         winGameCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
+    }
+
+    IEnumerator WaitLoseAnim()
+    {
+        yield return new WaitForSeconds(0.55f);
+
+        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
+        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+
+        yield return new WaitForSeconds(0.65f);
+        loseGameCanvas.SetActive(true);
+
+        yield return new WaitForSeconds(1.0f);
+        loseGameCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
     }
 
     IEnumerator InitiateAttack()
@@ -600,15 +629,15 @@ public class BattleManager : MonoBehaviour
             if (isMeteoritesAttack)
             {
                 availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().ActivateMeteos();
-                yield return new WaitForSeconds(11f);
+                yield return new WaitForSeconds(11.0f);
 
                 availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().DeactivateMeteos();
             }
             else
             {
-                // TODO: Check what this waitTime did (it waited specific time for each attack), important to check and keep
-                // yield return new WaitForSeconds(attacks[numAttack].transform.GetChild(0).GetComponent<DealDamageToPlayer>().waitTime);
-                
+                // TODO: Check if this time is correct for all the attacks, and, if not, adjust it
+                yield return new WaitForSeconds(5.0f);
+
                 availableNormalAttacks[numAttack].SetActive(false);
             }
         }

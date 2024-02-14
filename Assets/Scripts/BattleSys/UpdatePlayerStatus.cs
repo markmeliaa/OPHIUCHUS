@@ -32,36 +32,36 @@ public class UpdatePlayerStatus : MonoBehaviour
         globalSpeedText.text = speedToDisplay;
         globalMoneyText.text = GameMaster.runMoney.ToString();
 
-        switch (GameMaster.runRealmNumber)
+        switch (GameMaster.currentLevel)
         {
             case 0:
                 globalRealmText.text = "First Realm: ";
-                globalRealmText.text += GameMaster.realmLocations[GameMaster.runRealmNumber];
+                globalRealmText.text += GameMaster.levelsLocations[GameMaster.currentLevel];
                 break;
 
             case 1:
                 globalRealmText.text = "Second Realm: ";
-                globalRealmText.text += GameMaster.realmLocations[GameMaster.runRealmNumber];
+                globalRealmText.text += GameMaster.levelsLocations[GameMaster.currentLevel];
                 break;
 
             case 2:
                 globalRealmText.text = "Third Realm: ";
-                globalRealmText.text += GameMaster.realmLocations[GameMaster.runRealmNumber];
+                globalRealmText.text += GameMaster.levelsLocations[GameMaster.currentLevel];
                 break;
 
             case 3:
                 globalRealmText.text = "Fourth Realm: ";
-                globalRealmText.text += GameMaster.realmLocations[GameMaster.runRealmNumber];
+                globalRealmText.text += GameMaster.levelsLocations[GameMaster.currentLevel];
                 break;
 
             case 4:
                 globalRealmText.text = "Fifth Realm: ";
-                globalRealmText.text += GameMaster.realmLocations[GameMaster.runRealmNumber];
+                globalRealmText.text += GameMaster.levelsLocations[GameMaster.currentLevel];
                 break;
 
             case 5:
                 globalRealmText.text = "Final Realm: ";
-                globalRealmText.text += GameMaster.realmLocations[GameMaster.runRealmNumber];
+                globalRealmText.text += GameMaster.levelsLocations[GameMaster.currentLevel];
                 break;
 
             default:

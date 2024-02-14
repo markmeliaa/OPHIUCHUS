@@ -140,7 +140,7 @@ public class ButtonManager : MonoBehaviour
             {
                 if (!pressedZ && Input.GetKeyDown(KeyCode.Z))
                 {
-                    battleManager.Win();
+                    battleManager.WinBattle();
                     pressedZ = true;
                 }
 
