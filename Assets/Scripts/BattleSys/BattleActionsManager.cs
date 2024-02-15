@@ -17,9 +17,9 @@ public enum GameStates
     DEFEAT
 }
 
-public class BattleManager : MonoBehaviour
+public class BattleActionsManager : MonoBehaviour
 {
-    private ButtonManager buttonManager;
+    private BattleInputManager battleInputManager;
 
     [Header("ENEMY RELATED VARIABLES")]
     [SerializeField] private List<GameObject> enemyCards;
@@ -65,7 +65,7 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        buttonManager = GetComponent<ButtonManager>();
+        battleInputManager = GetComponent<BattleInputManager>();
 
         // Uncomment for the trial scene only
         // SetUpBattle();
@@ -178,13 +178,13 @@ public class BattleManager : MonoBehaviour
             bool enemyIsNotTheLast = enemyToRemoveIndex != amountOfEnemiesAlive;
             if (enemyIsNotTheLast)
             {
-                MoveTextsToAppearContiguous(enemyToRemoveIndex, buttonManager.enemyTexts);
+                MoveTextsToAppearContiguous(enemyToRemoveIndex, battleInputManager.enemyTexts);
             }
 
-            int lastEnemyText = buttonManager.enemyTexts.Count - 1;
-            buttonManager.enemyTexts[lastEnemyText].GetComponent<Text>().enabled = true;
-            buttonManager.enemyTexts[lastEnemyText].transform.GetChild(0).gameObject.SetActive(false);
-            buttonManager.enemyTexts[lastEnemyText].transform.GetChild(1).gameObject.SetActive(false);
+            int lastEnemyText = battleInputManager.enemyTexts.Count - 1;
+            battleInputManager.enemyTexts[lastEnemyText].GetComponent<Text>().enabled = true;
+            battleInputManager.enemyTexts[lastEnemyText].transform.GetChild(0).gameObject.SetActive(false);
+            battleInputManager.enemyTexts[lastEnemyText].transform.GetChild(1).gameObject.SetActive(false);
 
             ResetBattleArea();
         }
@@ -198,7 +198,7 @@ public class BattleManager : MonoBehaviour
         Animator battleAreaAnimator = battleArea.transform.GetChild(0).GetComponent<Animator>();
         battleAreaAnimator.SetBool("Expand", true);
 
-        buttonManager.playerStar.transform.position = buttonManager.playerStarBasePosition.transform.position;
+        battleInputManager.playerStar.transform.position = battleInputManager.playerStarBasePosition.transform.position;
 
         StartCoroutine(nameof(InitiateAttack));
     }
@@ -208,12 +208,12 @@ public class BattleManager : MonoBehaviour
         battleDialogueText.GetComponent<Text>().text = textToDisplay;
 
         // Disable enemy texts
-        buttonManager.currentTextIndex = 0;
-        buttonManager.enemyTexts[buttonManager.currentTextIndex].GetComponent<Text>().enabled = true;
-        buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-        buttonManager.enemyTexts[buttonManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+        battleInputManager.currentTextIndex = 0;
+        battleInputManager.enemyTexts[battleInputManager.currentTextIndex].GetComponent<Text>().enabled = true;
+        battleInputManager.enemyTexts[battleInputManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+        battleInputManager.enemyTexts[battleInputManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
 
-        SwapToBigDialogue(buttonManager.enemyTexts);
+        SwapToBigDialogue(battleInputManager.enemyTexts);
     }
 
     // Listen functions -------------------------------------------------------
@@ -278,13 +278,13 @@ public class BattleManager : MonoBehaviour
         bool itemIsNotTheLast = itemToRemoveIndex != GameMaster.inventory.Count;
         if (itemIsNotTheLast)
         {
-            MoveTextsToAppearContiguous(itemToRemoveIndex, buttonManager.itemTexts);
+            MoveTextsToAppearContiguous(itemToRemoveIndex, battleInputManager.itemTexts);
         }
 
-        int lastItemText = buttonManager.itemTexts.Count - 1;
-        buttonManager.itemTexts[lastItemText].GetComponent<Text>().enabled = true;
-        buttonManager.itemTexts[lastItemText].transform.GetChild(0).gameObject.SetActive(false);
-        buttonManager.itemTexts[lastItemText].transform.GetChild(1).gameObject.SetActive(false);
+        int lastItemText = battleInputManager.itemTexts.Count - 1;
+        battleInputManager.itemTexts[lastItemText].GetComponent<Text>().enabled = true;
+        battleInputManager.itemTexts[lastItemText].transform.GetChild(0).gameObject.SetActive(false);
+        battleInputManager.itemTexts[lastItemText].transform.GetChild(1).gameObject.SetActive(false);
 
         ResetBattleArea();
     }
@@ -337,10 +337,10 @@ public class BattleManager : MonoBehaviour
         currentBattleState = GameStates.VICTORY;
         GameMaster.attempts++;
         GameMaster.successfulAttemps++;
-        buttonManager.miniMap.SetActive(false);
+        battleInputManager.miniMap.SetActive(false);
 
-        buttonManager.player.GetComponent<SpriteRenderer>().enabled = false;
-        buttonManager.player.transform.GetChild(3).gameObject.SetActive(true);
+        battleInputManager.player.GetComponent<SpriteRenderer>().enabled = false;
+        battleInputManager.player.transform.GetChild(3).gameObject.SetActive(true);
         GameMaster.temperanceIndex++;
 
         StartCoroutine(nameof(WaitWinAnim));
@@ -419,8 +419,8 @@ public class BattleManager : MonoBehaviour
         amountOfEnemiesAlive--;
 
         enemiesSpawned.RemoveAt(enemyToRemoveIndex);
-        buttonManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().text = "";
-        buttonManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).GetComponent<Text>().text = "";
+        battleInputManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().text = "";
+        battleInputManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).GetComponent<Text>().text = "";
 
         if (amountOfEnemiesAlive == 1)
         {
@@ -495,8 +495,8 @@ public class BattleManager : MonoBehaviour
         }
 
         GameMaster.inventory.RemoveAt(itemToRemoveIndex);
-        buttonManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
-        buttonManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
+        battleInputManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
+        battleInputManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
 
         return itemToRemoveIndex;
     }
@@ -543,29 +543,29 @@ public class BattleManager : MonoBehaviour
 
     void StopBattleAndHideUI()
     {
-        for (int i = 1; i < buttonManager.battleCanvas.transform.childCount; i++)
+        for (int i = 1; i < battleInputManager.battleCanvas.transform.childCount; i++)
         {
-            if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.CompareTag("Player"))
+            if (!battleInputManager.battleCanvas.transform.GetChild(i).gameObject.CompareTag("Player"))
             {
-                buttonManager.battleCanvas.transform.GetChild(i).gameObject.SetActive(false);
+                battleInputManager.battleCanvas.transform.GetChild(i).gameObject.SetActive(false);
             }
             else
             {
-                for (int j = 0; j < buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.childCount; j++)
+                for (int j = 0; j < battleInputManager.battleCanvas.transform.GetChild(i).gameObject.transform.childCount; j++)
                 {
-                    if (!buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).CompareTag("Player"))
+                    if (!battleInputManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).CompareTag("Player"))
                     {
-                        buttonManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject.SetActive(false);
+                        battleInputManager.battleCanvas.transform.GetChild(i).gameObject.transform.GetChild(j).gameObject.SetActive(false);
                     }
                 }
             }
         }
-        buttonManager.battleCanvas.GetComponent<AudioSource>().Stop();
+        battleInputManager.battleCanvas.GetComponent<AudioSource>().Stop();
     }
 
     void DisplayDeathStarAnimation()
     {
-        buttonManager.playerStar.GetComponent<SpriteRenderer>().enabled = false;
+        battleInputManager.playerStar.GetComponent<SpriteRenderer>().enabled = false;
 
         int direction = 0;
         Vector2[] pushStarDirections = new Vector2[]
@@ -593,8 +593,8 @@ public class BattleManager : MonoBehaviour
 
         dialogueCanvas.SetActive(false);
         winGameCanvas.SetActive(true);
-        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
-        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        battleInputManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
+        battleInputManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
 
         yield return new WaitForSeconds(1.0f);
         winGameCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
@@ -604,8 +604,8 @@ public class BattleManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.55f);
 
-        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
-        buttonManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        battleInputManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
+        battleInputManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
 
         yield return new WaitForSeconds(0.65f);
         loseGameCanvas.SetActive(true);
@@ -684,7 +684,7 @@ public class BattleManager : MonoBehaviour
         {
             currentBattleState = GameStates.NONE;
         }
-        buttonManager.playerCanMove = false;
+        battleInputManager.playerCanMove = false;
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", false);
 
         yield return new WaitForSeconds(1f);
@@ -694,9 +694,9 @@ public class BattleManager : MonoBehaviour
             battleArea.SetActive(false);
         }
         ResetBattleArea();
-        buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
-        buttonManager.currentButtonIndex = 0;
-        buttonManager.battleButtons[buttonManager.currentButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
+        battleInputManager.battleButtons[battleInputManager.currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
+        battleInputManager.currentButtonIndex = 0;
+        battleInputManager.battleButtons[battleInputManager.currentButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
 
         yield return new WaitForSeconds(0.25f);
         if (currentBattleState != GameStates.DEFEAT)

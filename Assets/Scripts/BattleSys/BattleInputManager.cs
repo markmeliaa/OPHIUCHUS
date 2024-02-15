@@ -10,14 +10,14 @@ public enum BattleType
     BOSS
 }
 
-public class ButtonManager : MonoBehaviour
+public class BattleInputManager : MonoBehaviour
 {
     public List<GameObject> battleButtons;
-    public BattleManager battleManager;
+    public BattleActionsManager battleActionsManager;
 
-    private bool pressedHor = false;
-    private bool pressedVer = false;
-    [HideInInspector] public bool pressedZ = false;
+    private bool pressedHor;
+    private bool pressedVer;
+    [HideInInspector] public bool pressedZ;
 
     [HideInInspector] public int currentButtonIndex;
     [HideInInspector] public int currentTextIndex;
@@ -25,7 +25,7 @@ public class ButtonManager : MonoBehaviour
     public List<GameObject> enemyTexts;
     public List<GameObject> itemTexts;
 
-    [HideInInspector] public bool playerCanMove = false;
+    [HideInInspector] public bool playerCanMove;
     public GameObject playerStar;
     public GameObject playerStarBasePosition;
 
@@ -56,7 +56,7 @@ public class ButtonManager : MonoBehaviour
 
     private DialogueBox thisCharacter;
 
-    private bool bossBeaten = false;
+    private bool bossBeaten;
 
     void Start()
     {
@@ -81,20 +81,20 @@ public class ButtonManager : MonoBehaviour
         if (battleCanvas.activeSelf)
         {
             // The battle is paused
-            if (battleManager.currentBattleState == GameStates.NONE)
+            if (battleActionsManager.currentBattleState == GameStates.NONE)
             {
                 return;
             }
 
             // The battle has ended
-            if (battleManager.currentBattleState == GameStates.DEFEAT)
+            if (battleActionsManager.currentBattleState == GameStates.DEFEAT)
             {
-                if (!pressedZ && Input.GetKeyDown(KeyCode.Z) && battleManager.zodiacToFight == "")
+                if (!pressedZ && Input.GetKeyDown(KeyCode.Z) && battleActionsManager.zodiacToFight == "")
                 {
                     StartCoroutine(nameof(WaitFinishGame));
                 }
 
-                else if (!pressedZ && Input.GetKeyDown(KeyCode.Z) && battleManager.zodiacToFight != "")
+                else if (!pressedZ && Input.GetKeyDown(KeyCode.Z) && battleActionsManager.zodiacToFight != "")
                 {
                     StartCoroutine(nameof(WaitFinishBossGame));
                 }
@@ -103,11 +103,11 @@ public class ButtonManager : MonoBehaviour
             }
 
             // The enemy is attacking and the player avoids the attacks
-            if (battleManager.currentBattleState == GameStates.DEFENDING)
+            if (battleActionsManager.currentBattleState == GameStates.DEFENDING)
             {
                 if (!pressedZ && Input.GetKeyDown(KeyCode.Z) && !playerCanMove)
                 {
-                    battleManager.StartEnemyAttack();
+                    battleActionsManager.StartEnemyAttack();
                     StartCoroutine(nameof(WaitMove));
 
                     pressedZ = true;
@@ -136,11 +136,11 @@ public class ButtonManager : MonoBehaviour
                 return;
             }
 
-            if (battleManager.currentBattleState == GameStates.VICTORY)
+            if (battleActionsManager.currentBattleState == GameStates.VICTORY)
             {
                 if (!pressedZ && Input.GetKeyDown(KeyCode.Z))
                 {
-                    battleManager.WinBattle();
+                    battleActionsManager.WinBattle();
                     pressedZ = true;
                 }
 
@@ -150,10 +150,10 @@ public class ButtonManager : MonoBehaviour
             // Go back in the menu
             if (Input.GetKeyDown(KeyCode.X))
             {
-                if (battleManager.currentBattleState == GameStates.ATTACKING || battleManager.currentBattleState == GameStates.TALKING)
+                if (battleActionsManager.currentBattleState == GameStates.ATTACKING || battleActionsManager.currentBattleState == GameStates.TALKING)
                 {
-                    battleManager.currentBattleState = GameStates.CHOOSING;
-                    battleManager.battleDialogueText.GetComponent<Text>().text = battleManager.textToDisplay;
+                    battleActionsManager.currentBattleState = GameStates.CHOOSING;
+                    battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
 
                     // Disable enemy texts
                     enemyTexts[currentTextIndex].GetComponent<Text>().enabled = true;
@@ -165,16 +165,16 @@ public class ButtonManager : MonoBehaviour
                         text.SetActive(false);
                     }
 
-                    battleManager.battleDialogueText.SetActive(true);
+                    battleActionsManager.battleDialogueText.SetActive(true);
 
                     globalAudioSource.clip = selectEnemy;
                     globalAudioSource.Play();
                 }
 
-                else if (battleManager.currentBattleState == GameStates.USING_ITEM)
+                else if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
                 {
-                    battleManager.currentBattleState = GameStates.CHOOSING;
-                    battleManager.battleDialogueText.GetComponent<Text>().text = battleManager.textToDisplay;
+                    battleActionsManager.currentBattleState = GameStates.CHOOSING;
+                    battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
 
                     // Disable item texts
                     itemTexts[currentTextIndex].GetComponent<Text>().enabled = true;
@@ -186,7 +186,7 @@ public class ButtonManager : MonoBehaviour
                         text.SetActive(false);
                     }
 
-                    battleManager.battleDialogueText.SetActive(true);
+                    battleActionsManager.battleDialogueText.SetActive(true);
 
                     globalAudioSource.clip = selectEnemy;
                     globalAudioSource.Play();
@@ -194,33 +194,33 @@ public class ButtonManager : MonoBehaviour
             }
 
             // Do nothing
-            if (battleManager.currentBattleState == GameStates.WAITING)
+            if (battleActionsManager.currentBattleState == GameStates.WAITING)
             {
-                if (Input.GetKeyDown(KeyCode.X) && battleManager.lastBattleState == GameStates.TALKING)
+                if (Input.GetKeyDown(KeyCode.X) && battleActionsManager.lastBattleState == GameStates.TALKING)
                 {
                     foreach (GameObject text in enemyTexts)
                     {
                         text.SetActive(true);
                     }
 
-                    battleManager.battleDialogueText.SetActive(false);
-                    battleManager.currentBattleState = GameStates.TALKING;
-                    battleManager.lastBattleState = GameStates.WAITING;
+                    battleActionsManager.battleDialogueText.SetActive(false);
+                    battleActionsManager.currentBattleState = GameStates.TALKING;
+                    battleActionsManager.lastBattleState = GameStates.WAITING;
 
                     globalAudioSource.clip = selectEnemy;
                     globalAudioSource.Play();
                 }
 
-                else if (Input.GetKeyDown(KeyCode.Z) && battleManager.lastBattleState == GameStates.ATTACKING)
+                else if (Input.GetKeyDown(KeyCode.Z) && battleActionsManager.lastBattleState == GameStates.ATTACKING)
                 {
                     foreach (GameObject text in enemyTexts)
                     {
                         text.SetActive(true);
                     }
 
-                    battleManager.battleDialogueText.SetActive(false);
-                    battleManager.currentBattleState = GameStates.ATTACKING;
-                    battleManager.lastBattleState = GameStates.WAITING;
+                    battleActionsManager.battleDialogueText.SetActive(false);
+                    battleActionsManager.currentBattleState = GameStates.ATTACKING;
+                    battleActionsManager.lastBattleState = GameStates.WAITING;
 
                     pressedZ = true;
 
@@ -228,23 +228,23 @@ public class ButtonManager : MonoBehaviour
                     globalAudioSource.Play();
                 }
 
-                else if (Input.GetKeyDown(KeyCode.X) && battleManager.lastBattleState == GameStates.USING_ITEM)
+                else if (Input.GetKeyDown(KeyCode.X) && battleActionsManager.lastBattleState == GameStates.USING_ITEM)
                 {
-                    battleManager.battleDialogueText.GetComponent<Text>().text = battleManager.textToDisplay;
+                    battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
 
-                    battleManager.currentBattleState = GameStates.CHOOSING;
-                    battleManager.lastBattleState = GameStates.WAITING;
+                    battleActionsManager.currentBattleState = GameStates.CHOOSING;
+                    battleActionsManager.lastBattleState = GameStates.WAITING;
 
                     globalAudioSource.clip = selectEnemy;
                     globalAudioSource.Play();
                 }
 
-                else if (battleManager.lastBattleState == GameStates.RUNNING)
+                else if (battleActionsManager.lastBattleState == GameStates.RUNNING)
                 {
-                    if (GameMaster.playerSpeed >= 5 && Input.GetKeyDown(KeyCode.Z) && !pressedZ && battleManager.zodiacToFight == "")
+                    if (GameMaster.playerSpeed >= 5 && Input.GetKeyDown(KeyCode.Z) && !pressedZ && battleActionsManager.zodiacToFight == "")
                     {
-                        battleManager.currentBattleState = GameStates.NONE;
-                        battleManager.lastBattleState = GameStates.WAITING;
+                        battleActionsManager.currentBattleState = GameStates.NONE;
+                        battleActionsManager.lastBattleState = GameStates.WAITING;
 
                         StartCoroutine(nameof(WaitFinishGame));
 
@@ -254,12 +254,12 @@ public class ButtonManager : MonoBehaviour
                         globalAudioSource.Play();
                     }
 
-                    else if ((GameMaster.playerSpeed < 5 || battleManager.zodiacToFight != "") && Input.GetKeyDown(KeyCode.X))
+                    else if ((GameMaster.playerSpeed < 5 || battleActionsManager.zodiacToFight != "") && Input.GetKeyDown(KeyCode.X))
                     {
-                        battleManager.currentBattleState = GameStates.CHOOSING;
-                        battleManager.lastBattleState = GameStates.WAITING;
+                        battleActionsManager.currentBattleState = GameStates.CHOOSING;
+                        battleActionsManager.lastBattleState = GameStates.WAITING;
 
-                        battleManager.battleDialogueText.GetComponent<Text>().text = battleManager.textToDisplay;
+                        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
 
                         globalAudioSource.clip = selectEnemy;
                         globalAudioSource.Play();
@@ -275,7 +275,7 @@ public class ButtonManager : MonoBehaviour
             // Change choosing button
             float leftRight = Input.GetAxis("Horizontal");
 
-            if (leftRight < 0 && !pressedHor && battleManager.currentBattleState == GameStates.CHOOSING)
+            if (leftRight < 0 && !pressedHor && battleActionsManager.currentBattleState == GameStates.CHOOSING)
             {
                 pressedHor = true;
                 if (currentButtonIndex == 0)
@@ -293,7 +293,7 @@ public class ButtonManager : MonoBehaviour
                 }
             }
 
-            else if (leftRight > 0 && !pressedHor && battleManager.currentBattleState == GameStates.CHOOSING)
+            else if (leftRight > 0 && !pressedHor && battleActionsManager.currentBattleState == GameStates.CHOOSING)
             {
                 pressedHor = true;
                 if (currentButtonIndex == battleButtons.Count - 1)
@@ -311,42 +311,42 @@ public class ButtonManager : MonoBehaviour
                 }
             }
 
-            else if (leftRight == 0 && pressedHor && battleManager.currentBattleState == GameStates.CHOOSING)
+            else if (leftRight == 0 && pressedHor && battleActionsManager.currentBattleState == GameStates.CHOOSING)
             {
                 pressedHor = false;
             }
 
             // Attack
-            if (currentButtonIndex == 0 && Input.GetKeyDown(KeyCode.Z) && (battleManager.currentBattleState != GameStates.ATTACKING && battleManager.currentBattleState != GameStates.TALKING && battleManager.currentBattleState != GameStates.USING_ITEM && battleManager.currentBattleState != GameStates.RUNNING))
+            if (currentButtonIndex == 0 && Input.GetKeyDown(KeyCode.Z) && (battleActionsManager.currentBattleState != GameStates.ATTACKING && battleActionsManager.currentBattleState != GameStates.TALKING && battleActionsManager.currentBattleState != GameStates.USING_ITEM && battleActionsManager.currentBattleState != GameStates.RUNNING))
             {
-                battleManager.currentBattleState = GameStates.ATTACKING;
-                battleManager.battleDialogueText.SetActive(false);
+                battleActionsManager.currentBattleState = GameStates.ATTACKING;
+                battleActionsManager.battleDialogueText.SetActive(false);
 
                 globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
 
-                for (int i = 0; i < battleManager.enemiesSpawned.Count; i++)
+                for (int i = 0; i < battleActionsManager.enemiesSpawned.Count; i++)
                 {
                     enemyTexts[i].SetActive(true);
-                    enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
-                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
+                    enemyTexts[i].GetComponent<Text>().text = battleActionsManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleActionsManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
 
                     // TODO: This variable is never used, check if it is really necessary
                     // battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
-                    if (battleManager.zodiacToFight != "")
+                    if (battleActionsManager.zodiacToFight != "")
                     {
                         enemyTexts[i].GetComponent<Text>().color = new Color(0.925f, 0.835f, 0.0f);
                         enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.925f, 0.835f, 0.0f);
                     }
 
-                    else if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
+                    else if (battleActionsManager.enemiesSpawned[i].name[0].ToString() == "D" || battleActionsManager.enemiesSpawned[i].name[0].ToString() == "H" || battleActionsManager.enemiesSpawned[i].name[0].ToString() == "P")
                     {
                         enemyTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
                         enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
                     }
 
-                    else if (battleManager.enemiesSpawned[i].name[0].ToString() == "S" || battleManager.enemiesSpawned[i].name[0].ToString() == "C" || battleManager.enemiesSpawned[i].name[0].ToString() == "B")
+                    else if (battleActionsManager.enemiesSpawned[i].name[0].ToString() == "S" || battleActionsManager.enemiesSpawned[i].name[0].ToString() == "C" || battleActionsManager.enemiesSpawned[i].name[0].ToString() == "B")
                     {
                         enemyTexts[i].GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
                         enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
@@ -361,46 +361,46 @@ public class ButtonManager : MonoBehaviour
                 pressedZ = true;
             }
 
-            if (battleManager.currentBattleState == GameStates.ATTACKING && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
+            if (battleActionsManager.currentBattleState == GameStates.ATTACKING && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
             {
                 pressedZ = true;
-                battleManager.AttackAction(enemyTexts, currentTextIndex);
+                battleActionsManager.AttackAction(enemyTexts, currentTextIndex);
 
                 globalAudioSource.clip = attackEnemy;
                 globalAudioSource.Play();
             }
 
             // Listen and talk
-            else if (currentButtonIndex == 1 && Input.GetKeyDown(KeyCode.Z) && (battleManager.currentBattleState != GameStates.ATTACKING && battleManager.currentBattleState != GameStates.TALKING && battleManager.currentBattleState != GameStates.USING_ITEM && battleManager.currentBattleState != GameStates.RUNNING))
+            else if (currentButtonIndex == 1 && Input.GetKeyDown(KeyCode.Z) && (battleActionsManager.currentBattleState != GameStates.ATTACKING && battleActionsManager.currentBattleState != GameStates.TALKING && battleActionsManager.currentBattleState != GameStates.USING_ITEM && battleActionsManager.currentBattleState != GameStates.RUNNING))
             {
-                battleManager.currentBattleState = GameStates.TALKING;
-                battleManager.battleDialogueText.SetActive(false);
+                battleActionsManager.currentBattleState = GameStates.TALKING;
+                battleActionsManager.battleDialogueText.SetActive(false);
 
                 globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
 
-                for (int i = 0; i < battleManager.enemiesSpawned.Count; i++)
+                for (int i = 0; i < battleActionsManager.enemiesSpawned.Count; i++)
                 {
                     enemyTexts[i].SetActive(true);
-                    enemyTexts[i].GetComponent<Text>().text = battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
-                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
+                    enemyTexts[i].GetComponent<Text>().text = battleActionsManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
+                    enemyTexts[i].transform.GetChild(1).GetComponent<Text>().text = "    " + battleActionsManager.enemiesSpawned[i].GetComponent<EnemyCard>().CardName;
 
                     // TODO: This variable is never used, check if it is really necessary
                     // battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
-                    if (battleManager.zodiacToFight != "")
+                    if (battleActionsManager.zodiacToFight != "")
                     {
                         enemyTexts[i].GetComponent<Text>().color = new Color(0.925f, 0.835f, 0.0f);
                         enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.925f, 0.835f, 0.0f);
                     }
 
-                    else if (battleManager.enemiesSpawned[i].name[0].ToString() == "D" || battleManager.enemiesSpawned[i].name[0].ToString() == "H" || battleManager.enemiesSpawned[i].name[0].ToString() == "P")
+                    else if (battleActionsManager.enemiesSpawned[i].name[0].ToString() == "D" || battleActionsManager.enemiesSpawned[i].name[0].ToString() == "H" || battleActionsManager.enemiesSpawned[i].name[0].ToString() == "P")
                     {
                         enemyTexts[i].GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
                         enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(1.0f, 0.0f, 0.31f);
                     }
 
-                    else if (battleManager.enemiesSpawned[i].name[0].ToString() == "S" || battleManager.enemiesSpawned[i].name[0].ToString() == "C" || battleManager.enemiesSpawned[i].name[0].ToString() == "B")
+                    else if (battleActionsManager.enemiesSpawned[i].name[0].ToString() == "S" || battleActionsManager.enemiesSpawned[i].name[0].ToString() == "C" || battleActionsManager.enemiesSpawned[i].name[0].ToString() == "B")
                     {
                         enemyTexts[i].GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
                         enemyTexts[i].transform.GetChild(1).GetComponent<Text>().color = new Color(0.19f, 0.68f, 1.0f);
@@ -415,33 +415,33 @@ public class ButtonManager : MonoBehaviour
                 pressedZ = true;
             }
 
-            if (battleManager.currentBattleState == GameStates.TALKING && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
+            if (battleActionsManager.currentBattleState == GameStates.TALKING && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
             {
                 pressedZ = true;
-                battleManager.TalkAction(enemyTexts);
+                battleActionsManager.TalkAction(enemyTexts);
 
                 globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
             }
 
             // Open inventory
-            else if (currentButtonIndex == 2 && Input.GetKeyDown(KeyCode.Z) && (battleManager.currentBattleState != GameStates.ATTACKING && battleManager.currentBattleState != GameStates.TALKING && battleManager.currentBattleState != GameStates.USING_ITEM && battleManager.currentBattleState != GameStates.RUNNING))
+            else if (currentButtonIndex == 2 && Input.GetKeyDown(KeyCode.Z) && (battleActionsManager.currentBattleState != GameStates.ATTACKING && battleActionsManager.currentBattleState != GameStates.TALKING && battleActionsManager.currentBattleState != GameStates.USING_ITEM && battleActionsManager.currentBattleState != GameStates.RUNNING))
             {
                 globalAudioSource.clip = selectEnemy;
                 globalAudioSource.Play();
 
                 if (GameMaster.inventory.Count == 0)
                 {
-                    battleManager.currentBattleState = GameStates.WAITING;
-                    battleManager.lastBattleState = GameStates.USING_ITEM;
+                    battleActionsManager.currentBattleState = GameStates.WAITING;
+                    battleActionsManager.lastBattleState = GameStates.USING_ITEM;
 
-                    battleManager.battleDialogueText.GetComponent<Text>().text = "    YOU HAVE NO ITEMS RIGHT NOW";
+                    battleActionsManager.battleDialogueText.GetComponent<Text>().text = "    YOU HAVE NO ITEMS RIGHT NOW";
                 }
 
                 else
                 {
-                    battleManager.currentBattleState = GameStates.USING_ITEM;
-                    battleManager.battleDialogueText.SetActive(false);
+                    battleActionsManager.currentBattleState = GameStates.USING_ITEM;
+                    battleActionsManager.battleDialogueText.SetActive(false);
 
                     for (int i = 0; i < GameMaster.inventory.Count; i++)
                     {
@@ -485,19 +485,19 @@ public class ButtonManager : MonoBehaviour
                 pressedZ = true;
             }
 
-            if (battleManager.currentBattleState == GameStates.USING_ITEM && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
+            if (battleActionsManager.currentBattleState == GameStates.USING_ITEM && Input.GetKeyDown(KeyCode.Z) && !pressedZ)
             {
                 pressedZ = true;
-                battleManager.UseItemAction(itemTexts, currentTextIndex);
+                battleActionsManager.UseItemAction(itemTexts, currentTextIndex);
 
                 globalAudioSource.clip = useItem;
                 globalAudioSource.Play();
             }
 
             // Run from battle
-            else if (currentButtonIndex == 3 && Input.GetKeyDown(KeyCode.Z) && (battleManager.currentBattleState != GameStates.ATTACKING && battleManager.currentBattleState != GameStates.TALKING && battleManager.currentBattleState != GameStates.USING_ITEM && battleManager.currentBattleState != GameStates.RUNNING && battleManager.currentBattleState != GameStates.WAITING))
+            else if (currentButtonIndex == 3 && Input.GetKeyDown(KeyCode.Z) && (battleActionsManager.currentBattleState != GameStates.ATTACKING && battleActionsManager.currentBattleState != GameStates.TALKING && battleActionsManager.currentBattleState != GameStates.USING_ITEM && battleActionsManager.currentBattleState != GameStates.RUNNING && battleActionsManager.currentBattleState != GameStates.WAITING))
             {
-                battleManager.RunAction();
+                battleActionsManager.RunAction();
                 pressedZ = true;
 
                 globalAudioSource.clip = selectEnemy;
@@ -506,7 +506,7 @@ public class ButtonManager : MonoBehaviour
 
             // Change selected enemy
             float topBottom = Input.GetAxis("Vertical");
-            if (topBottom > 0 && !pressedVer && (battleManager.currentBattleState == GameStates.ATTACKING || battleManager.currentBattleState == GameStates.TALKING))
+            if (topBottom > 0 && !pressedVer && (battleActionsManager.currentBattleState == GameStates.ATTACKING || battleActionsManager.currentBattleState == GameStates.TALKING))
             {
                 pressedVer = true;
                 if (currentTextIndex == 0)
@@ -515,7 +515,7 @@ public class ButtonManager : MonoBehaviour
                     enemyTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
                     enemyTexts[currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
 
-                    currentTextIndex = battleManager.enemiesSpawned.Count - 1;
+                    currentTextIndex = battleActionsManager.enemiesSpawned.Count - 1;
 
                     enemyTexts[currentTextIndex].GetComponent<Text>().enabled = false;
                     enemyTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(true);
@@ -536,10 +536,10 @@ public class ButtonManager : MonoBehaviour
                 }
             }
 
-            else if (topBottom < 0 && !pressedVer && (battleManager.currentBattleState == GameStates.ATTACKING || battleManager.currentBattleState == GameStates.TALKING))
+            else if (topBottom < 0 && !pressedVer && (battleActionsManager.currentBattleState == GameStates.ATTACKING || battleActionsManager.currentBattleState == GameStates.TALKING))
             {
                 pressedVer = true;
-                if (currentTextIndex == battleManager.enemiesSpawned.Count - 1)
+                if (currentTextIndex == battleActionsManager.enemiesSpawned.Count - 1)
                 {
                     enemyTexts[currentTextIndex].GetComponent<Text>().enabled = true;
                     enemyTexts[currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
@@ -572,7 +572,7 @@ public class ButtonManager : MonoBehaviour
             }
 
             // Change selected item
-            if (topBottom > 0 && !pressedVer && battleManager.currentBattleState == GameStates.USING_ITEM)
+            if (topBottom > 0 && !pressedVer && battleActionsManager.currentBattleState == GameStates.USING_ITEM)
             {
                 pressedVer = true;
                 if (currentTextIndex == 0)
@@ -594,7 +594,7 @@ public class ButtonManager : MonoBehaviour
                 }
             }
 
-            else if (topBottom < 0 && !pressedVer && battleManager.currentBattleState == GameStates.USING_ITEM)
+            else if (topBottom < 0 && !pressedVer && battleActionsManager.currentBattleState == GameStates.USING_ITEM)
             {
                 pressedVer = true;
                 if (currentTextIndex == GameMaster.inventory.Count - 1)
@@ -616,7 +616,7 @@ public class ButtonManager : MonoBehaviour
                 }
             }
 
-            else if (leftRight > 0 && !pressedHor && battleManager.currentBattleState == GameStates.USING_ITEM)
+            else if (leftRight > 0 && !pressedHor && battleActionsManager.currentBattleState == GameStates.USING_ITEM)
             {
                 pressedHor = true;
                 if (currentTextIndex + 4 > GameMaster.inventory.Count - 1)
@@ -638,7 +638,7 @@ public class ButtonManager : MonoBehaviour
                 }
             }
 
-            else if (leftRight < 0 && !pressedHor && battleManager.currentBattleState == GameStates.USING_ITEM)
+            else if (leftRight < 0 && !pressedHor && battleActionsManager.currentBattleState == GameStates.USING_ITEM)
             {
                 pressedHor = true;
                 if (currentTextIndex - 4 < 0)
@@ -675,7 +675,7 @@ public class ButtonManager : MonoBehaviour
     // Start and end battle functions
     public void StartBattle()
     {
-        battleManager.SetUpBattle();
+        battleActionsManager.SetUpBattle();
 
         player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         miniMap.SetActive(false);
@@ -693,7 +693,7 @@ public class ButtonManager : MonoBehaviour
 
     public void StartBossBattle(string zodiac)
     {
-        battleManager.SetUpBossBattle(zodiac);
+        battleActionsManager.SetUpBossBattle(zodiac);
 
         player.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         miniMap.SetActive(false);
@@ -713,9 +713,9 @@ public class ButtonManager : MonoBehaviour
     {
         battleButtons[currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
 
-        for (int i = 2; i < battleManager.enemiesParent.transform.childCount; i++)
+        for (int i = 2; i < battleActionsManager.enemiesParent.transform.childCount; i++)
         {
-            Destroy(battleManager.enemiesParent.transform.GetChild(i).gameObject);
+            Destroy(battleActionsManager.enemiesParent.transform.GetChild(i).gameObject);
         }
 
         foreach (GameObject text in enemyTexts)
@@ -735,7 +735,7 @@ public class ButtonManager : MonoBehaviour
     public void StartDialogue(string zodiac, DialogueBox thisChar)
     {
         miniMap.SetActive(false);
-        battleManager.zodiacToFight = zodiac;
+        battleActionsManager.zodiacToFight = zodiac;
         thisCharacter = thisChar;
 
         // TODO: What was this for ->>>> templates.mapFormed = false;
@@ -776,7 +776,7 @@ public class ButtonManager : MonoBehaviour
         nextButton.SetActive(false);
         pressedZ = false;
 
-        if (battleManager.zodiacToFight == "CANCER")
+        if (battleActionsManager.zodiacToFight == "CANCER")
         {
             if (thisCharacter.characterConversations[GameMaster.cancerIndex].currentDialogueLine < thisCharacter.characterConversations[GameMaster.cancerIndex].dialogueLines.Count - 1)
             {
@@ -808,7 +808,7 @@ public class ButtonManager : MonoBehaviour
             }
         }
 
-        else if (battleManager.zodiacToFight == "CAPRICORN")
+        else if (battleActionsManager.zodiacToFight == "CAPRICORN")
         {
             if (thisCharacter.characterConversations[GameMaster.capricornIndex].currentDialogueLine < thisCharacter.characterConversations[GameMaster.capricornIndex].dialogueLines.Count - 1)
             {
@@ -861,12 +861,12 @@ public class ButtonManager : MonoBehaviour
 
         if (bossBeaten == false)
         {
-            StartBossBattle(battleManager.zodiacToFight);
+            StartBossBattle(battleActionsManager.zodiacToFight);
         }
 
         else
         {
-            battleManager.WinGame();
+            battleActionsManager.WinGame();
         }
     }
 
@@ -897,7 +897,7 @@ public class ButtonManager : MonoBehaviour
 
             realRooms.SetActive(false);
 
-            battleManager.ManageSpawnBasicEnemies();
+            battleActionsManager.ManageSpawnBasicEnemies();
 
             blackScreen.GetComponent<Animator>().SetBool("Change", true);
 
@@ -908,7 +908,7 @@ public class ButtonManager : MonoBehaviour
             }
             battleButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
             currentButtonIndex = 0;
-            battleManager.currentBattleState = GameStates.CHOOSING;
+            battleActionsManager.currentBattleState = GameStates.CHOOSING;
         }
         
         else if (battleType == BattleType.BOSS)
@@ -929,7 +929,7 @@ public class ButtonManager : MonoBehaviour
 
             realRooms.SetActive(false);
 
-            battleManager.ManageSpawnBoss();
+            battleActionsManager.ManageSpawnBoss();
 
             blackScreen.GetComponent<Animator>().SetBool("Change", true);
 
@@ -940,14 +940,14 @@ public class ButtonManager : MonoBehaviour
             }
             battleButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
             currentButtonIndex = 0;
-            battleManager.currentBattleState = GameStates.CHOOSING;
+            battleActionsManager.currentBattleState = GameStates.CHOOSING;
         }
     }
 
     IEnumerator WaitFinishGame()
     {
         blackScreen.GetComponent<Animator>().SetBool("Change", false);
-        battleManager.currentBattleState = GameStates.NONE;
+        battleActionsManager.currentBattleState = GameStates.NONE;
 
         yield return new WaitForSeconds(0.6f);
 
@@ -979,7 +979,7 @@ public class ButtonManager : MonoBehaviour
     IEnumerator WaitFinishBossGame()
     {
         blackScreen.GetComponent<Animator>().SetBool("Change", false);
-        battleManager.currentBattleState = GameStates.NONE;
+        battleActionsManager.currentBattleState = GameStates.NONE;
 
         yield return new WaitForSeconds(0.6f);
 
@@ -1008,6 +1008,6 @@ public class ButtonManager : MonoBehaviour
         player.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
 
         bossBeaten = true;
-        StartDialogue(battleManager.zodiacToFight, thisCharacter);
+        StartDialogue(battleActionsManager.zodiacToFight, thisCharacter);
     }
 }

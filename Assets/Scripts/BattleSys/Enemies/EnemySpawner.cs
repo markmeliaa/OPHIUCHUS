@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    private ButtonManager buttonManager;
+    private BattleInputManager battleInputManager;
 
     private void Awake()
     {
-        buttonManager = GameObject.FindGameObjectWithTag("Buttons").GetComponent<ButtonManager>();
+        battleInputManager = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleInputManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
 
     void TriggerEnemyBattle()
     {
-        buttonManager.StartBattle();
+        battleInputManager.StartBattle();
         GetComponent<CircleCollider2D>().enabled = false;
     }
 }

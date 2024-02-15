@@ -8,12 +8,12 @@ public class EnemyCard : MonoBehaviour
     //[HideInInspector] public GameObject nameText { private get; set; }
 
     private Animator cardAnimator;
-    private BattleManager battleManager;
+    private BattleActionsManager battleActionsManager;
 
     private void Awake()
     {
         cardAnimator = GetComponent<Animator>();
-        battleManager = GameObject.FindGameObjectWithTag("Battle").GetComponent<BattleManager>();
+        battleActionsManager = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleActionsManager>();
     }
 
     private void Update()
@@ -28,6 +28,6 @@ public class EnemyCard : MonoBehaviour
     private void ManageCardDeath()
     {
         cardAnimator.SetBool("Death", true);
-        battleManager.UpdateEnemiesInBattle();
+        battleActionsManager.UpdateEnemiesInBattle();
     }
 }

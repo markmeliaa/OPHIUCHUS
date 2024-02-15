@@ -4754,8 +4754,8 @@ GameObject:
   - component: {fileID: 325639355}
   - component: {fileID: 325639356}
   m_Layer: 0
-  m_Name: Battle Manager [TO BE REFACTORED]
-  m_TagString: Battle
+  m_Name: Battle Managers [TO BE REFACTORED]
+  m_TagString: BattleMngr
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4784,7 +4784,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 325639353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a64b10d84da544185d94b7b52656aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 56fa38df289fab54dbd81b10a6506f7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCards:
@@ -4902,7 +4902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleButtons: []
-  battleManager: {fileID: 0}
+  battleActionsManager: {fileID: 0}
   pressedZ: 0
   currentButtonIndex: 0
   currentTextIndex: 0
@@ -18780,7 +18780,7 @@ GameObject:
   - component: {fileID: 1386816546}
   m_Layer: 0
   m_Name: Player Status Manager
-  m_TagString: Buttons
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

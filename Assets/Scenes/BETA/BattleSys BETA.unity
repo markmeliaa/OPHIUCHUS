@@ -9911,7 +9911,7 @@ GameObject:
   - component: {fileID: 1512012529}
   m_Layer: 0
   m_Name: BattleManager
-  m_TagString: Battle
+  m_TagString: BattleMngr
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9940,93 +9940,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1512012526}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a64b10d84da544185d94b7b52656aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 56fa38df289fab54dbd81b10a6506f7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCards:
-  - {fileID: 7425794949545923117, guid: a4678599d5bb63444b8564d8d3a87d03, type: 3}
-  - {fileID: 3882759419480868398, guid: 1788157e04785c046b6d2e1bd9e8c5a8, type: 3}
-  - {fileID: 3608854520674148003, guid: a62ac8df88047064a9a0fd215abe106a, type: 3}
-  - {fileID: 627467396895059752, guid: 5e2a44b0b5a0b7745b3c9c9ef44d0cf4, type: 3}
-  - {fileID: 1527216530630842227, guid: b54d1999d9392c14499a18172eb6446b, type: 3}
-  - {fileID: 8394160527952618192, guid: fead68d80e9aaad45ba730545e5ada84, type: 3}
-  - {fileID: 7865147086102721309, guid: 585b5d19ceb9b5a4690b76af9da5eca7, type: 3}
-  - {fileID: 5574600223219436393, guid: a5bd9ac50c7fc5742922aff9f698049b, type: 3}
-  - {fileID: 7125580920001996165, guid: 48d1c79f23568d14a95c4a87aa40f21e, type: 3}
-  - {fileID: 7894926738168504477, guid: 2743ef0f514afd54dba52df8b52cee60, type: 3}
-  - {fileID: 3211227842387586829, guid: 8b300dc2ad7c46e44b374d81b5310cd1, type: 3}
-  - {fileID: 7081275931768728272, guid: b03cac5c1e767614c8860641c3ca6b77, type: 3}
-  - {fileID: 352794035426549373, guid: 071756496fcad9046a51f7cda136b5ef, type: 3}
-  - {fileID: 4967651314527705445, guid: 7b72c2764354f9a43a00102aa226660a, type: 3}
-  - {fileID: 2443646152031333900, guid: 5a1a8225d6d737d49bf18173fff4939b, type: 3}
-  - {fileID: 5240766111952468159, guid: 4257dbc188c8b2549b584d790b6b49d5, type: 3}
-  - {fileID: 7798146100838497368, guid: 91bc857d8ee9b4944a4a3c1f5eaffe63, type: 3}
-  - {fileID: 6642864229914392932, guid: d02d5d35b25bb7744bc5d2a8f610f97c, type: 3}
-  - {fileID: 4315211554485917237, guid: ed215259e780be8498dabd1b59e25355, type: 3}
-  - {fileID: 2533801054198681571, guid: 94dd3917aa0171a4b8bfb3bd9d54cb23, type: 3}
-  - {fileID: 1618161121876936929, guid: c9c7bd08e3d6f5849a8f675d6cb70172, type: 3}
-  - {fileID: 6007596522926542987, guid: 3b9a49271e1904b4db2610e4da5ba1f0, type: 3}
-  - {fileID: 4259775457765246299, guid: a39b3f12e8bbb0145a395e57a51e5827, type: 3}
-  - {fileID: 609498739579462940, guid: eb2a56d301e4cef4f9a5f7323b7e0afd, type: 3}
-  - {fileID: 6296251007283251943, guid: a8bbfa78df5c55d4bb5f02c83a0d37af, type: 3}
-  - {fileID: 871849041081753464, guid: 1b1b723f9b382654cba74da7a984e66f, type: 3}
-  - {fileID: 7066427676436088967, guid: e787c1a34b2589a4690756c041523a15, type: 3}
-  - {fileID: 2394060331294660806, guid: 41397b80eec17e64bbac730c00a6108b, type: 3}
-  - {fileID: 6945191483099428064, guid: 219ec423c5eb56541b3f7911879c1729, type: 3}
-  - {fileID: 6110707656795010748, guid: 0d885a90cd9ce51478156ca4eaf34ad3, type: 3}
-  - {fileID: 9007062277540759164, guid: e1cc9a2429162364e8614173287e5c0e, type: 3}
-  - {fileID: 191382833758638643, guid: d706313ba63ecb44f9c70638098f5f66, type: 3}
-  - {fileID: 884400787163611128, guid: ef6781e95e3186b41a8b29f372993d25, type: 3}
-  - {fileID: 1002077801791139026, guid: 9f64643111e426d49b4b187078627dad, type: 3}
-  - {fileID: 8685433014186316739, guid: a22d6339cbe056e4da95907c7731a7ba, type: 3}
-  - {fileID: 253253510540557105, guid: 43b610cd403bb564d9abd102aa2e9945, type: 3}
-  - {fileID: 8487894137990946439, guid: 2ef3e6b6360582f4ab40f28c8c59c177, type: 3}
-  - {fileID: 3287815506790418274, guid: 1d12dcef3d4203442aad929f857d3ad7, type: 3}
-  - {fileID: 2808805614408548258, guid: 8e9e627ca152ba4459d18cfdf77c1947, type: 3}
-  - {fileID: 5893364768678554428, guid: 2212551a93788be40856420e14b7cd1c, type: 3}
-  - {fileID: 6553891928995206529, guid: 88e6108b51358194795554ef83619f3f, type: 3}
-  - {fileID: 242928262661985818, guid: 0bf283e4696674e489f76cca72c63aee, type: 3}
-  - {fileID: 618115187221704903, guid: d3f94a8954a714940a469c2c524c3a44, type: 3}
-  - {fileID: 8401891706600243546, guid: 2314dc08ebe0ea84998a41213aa9958e, type: 3}
-  - {fileID: 1512428526798491905, guid: abf77fcadbedf3c4ea3627a2b2e19cca, type: 3}
-  - {fileID: 5696944055183571298, guid: a9635d909aaef604da1c2a1f09b6d7d9, type: 3}
-  - {fileID: 5319224063489560555, guid: 534dbb2fd63745b47ac2f2809cbce0bb, type: 3}
-  - {fileID: 2183536436235893790, guid: 2c4a4669a5a8e324d96d606fd13cbc96, type: 3}
-  - {fileID: 1706836252526122749, guid: ecc9fe02a817ab249be5cec58d813e9e, type: 3}
-  - {fileID: 5730368101211824074, guid: 35d7877d652f2bf4c84b8407885c9f96, type: 3}
-  - {fileID: 890163423648881047, guid: 8adba0f6f0cfc8a4ea0f9f2269f0344e, type: 3}
-  - {fileID: 4878206406270111312, guid: 4624895b8c297274f977486dffecd02b, type: 3}
-  - {fileID: 3033107046015843646, guid: a36fe06977356f94089128cb8fc41672, type: 3}
-  - {fileID: 8017611700965754537, guid: ac2c5374adec55741bfc5c9bea7513be, type: 3}
-  enemiesParent: {fileID: 1335171141}
+  enemyCards: []
+  enemiesParent: {fileID: 0}
   enemiesSpawned: []
+  oneEnemySpawnPosition: []
+  twoEnemiesSpawnPositions: []
+  threeEnemiesSpawnPositions: []
+  fourEnemiesSpawnPositions: []
+  cancerFigure: {fileID: 0}
+  capricornFigure: {fileID: 0}
+  zodiacToFight: 
+  availableNormalAttacks: []
+  availableBossAttacks: []
+  battleArea: {fileID: 0}
   currentBattleState: 0
   lastBattleState: 0
-  textToDisplay: 
-  battleDialogueText: {fileID: 1090945973}
-  dialogueArea: {fileID: 2043700593}
-  battleArea: {fileID: 1978929221}
-  availableNormalAttacks:
-  - {fileID: 1078889906}
-  - {fileID: 300989531}
-  - {fileID: 205205271}
-  - {fileID: 1963906817}
-  - {fileID: 1550849757}
-  - {fileID: 1568637863}
-  availableBossAttacks: []
-  oneSpawner: {fileID: 0}
-  twoSpawners: []
-  threeSpawners: []
-  fourSpawners: []
-  starPieces: []
-  dieSong: {fileID: 0}
-  gameOverCanvas: {fileID: 0}
-  gameWinCanvas: {fileID: 0}
-  dialogueCanvas: {fileID: 0}
-  Zodiac: 
-  Cancer: {fileID: 0}
-  Capricorn: {fileID: 0}
+  winGameCanvas: {fileID: 0}
   winCircleAnimator: {fileID: 0}
+  loseGameCanvas: {fileID: 0}
+  playerBrokenStarPieces: []
+  deathSong: {fileID: 0}
+  dialogueArea: {fileID: 0}
+  dialogueCanvas: {fileID: 0}
+  textToDisplay: 
+  battleDialogueText: {fileID: 0}
 --- !u!114 &1512012529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10044,7 +9984,7 @@ MonoBehaviour:
   - {fileID: 1238971150}
   - {fileID: 920038255}
   - {fileID: 963734513}
-  battleManager: {fileID: 1512012528}
+  battleActionsManager: {fileID: 0}
   pressedZ: 0
   currentButtonIndex: 0
   currentTextIndex: 0
@@ -10065,7 +10005,7 @@ MonoBehaviour:
   - {fileID: 1735059166}
   playerCanMove: 0
   playerStar: {fileID: 1063106060}
-  playerStarSpawn: {fileID: 0}
+  playerStarBasePosition: {fileID: 0}
   starAnimators:
   - {fileID: 1467794831}
   - {fileID: 1893826195}

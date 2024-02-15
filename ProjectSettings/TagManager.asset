@@ -14,11 +14,10 @@ TagManager:
   - South
   - East
   - West
-  - Battle
-  - Buttons
-  - DungeonMngr
   - RealSpawnPoints
   - SpawnPoints
+  - BattleMngr
+  - DungeonMngr
   layers:
   - Default
   - TransparentFX
