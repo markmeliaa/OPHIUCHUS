@@ -21,7 +21,7 @@ public class BattleActionsManager : MonoBehaviour
 {
     private BattleInputManager battleInputManager;
 
-    [Header("ENEMY RELATED VARIABLES")]
+    [Header("ENEMY VARIABLES")]
     [SerializeField] private List<GameObject> enemyCards;
     private int amountOfEnemiesAlive;
     private int totalAmoutOfEnemiesInTheBattle;
@@ -42,7 +42,7 @@ public class BattleActionsManager : MonoBehaviour
     [SerializeField] private List<GameObject> availableBossAttacks;
     [Space(5)]
 
-    [Header("BATTLE STATE RELATED VARIABLES")]
+    [Header("BATTLE STATE VARIABLES")]
     [SerializeField] private GameObject battleArea;
 
     [HideInInspector] public GameStates currentBattleState;
@@ -56,7 +56,7 @@ public class BattleActionsManager : MonoBehaviour
     [SerializeField] private AudioClip deathSong;
     [Space(5)]
 
-    [Header("DIALOGUE RELATED VARIABLES")]
+    [Header("DIALOGUE VARIABLES")]
     [SerializeField] private GameObject dialogueArea;
     [SerializeField] private GameObject dialogueCanvas;
 
@@ -68,7 +68,7 @@ public class BattleActionsManager : MonoBehaviour
         battleInputManager = GetComponent<BattleInputManager>();
 
         // Uncomment for the trial scene only
-        // SetUpBattle();
+        //SetUpBattle();
     }
 
     private void Update()
@@ -178,13 +178,13 @@ public class BattleActionsManager : MonoBehaviour
             bool enemyIsNotTheLast = enemyToRemoveIndex != amountOfEnemiesAlive;
             if (enemyIsNotTheLast)
             {
-                MoveTextsToAppearContiguous(enemyToRemoveIndex, battleInputManager.enemyTexts);
+                MoveTextsToAppearContiguous(enemyToRemoveIndex, battleInputManager.textsForEnemiesInBattle);
             }
 
-            int lastEnemyText = battleInputManager.enemyTexts.Count - 1;
-            battleInputManager.enemyTexts[lastEnemyText].GetComponent<Text>().enabled = true;
-            battleInputManager.enemyTexts[lastEnemyText].transform.GetChild(0).gameObject.SetActive(false);
-            battleInputManager.enemyTexts[lastEnemyText].transform.GetChild(1).gameObject.SetActive(false);
+            int lastEnemyText = battleInputManager.textsForEnemiesInBattle.Count - 1;
+            battleInputManager.textsForEnemiesInBattle[lastEnemyText].GetComponent<Text>().enabled = true;
+            battleInputManager.textsForEnemiesInBattle[lastEnemyText].transform.GetChild(0).gameObject.SetActive(false);
+            battleInputManager.textsForEnemiesInBattle[lastEnemyText].transform.GetChild(1).gameObject.SetActive(false);
 
             ResetBattleArea();
         }
@@ -198,7 +198,7 @@ public class BattleActionsManager : MonoBehaviour
         Animator battleAreaAnimator = battleArea.transform.GetChild(0).GetComponent<Animator>();
         battleAreaAnimator.SetBool("Expand", true);
 
-        battleInputManager.playerStar.transform.position = battleInputManager.playerStarBasePosition.transform.position;
+        battleInputManager.playerStarObject.transform.position = battleInputManager.playerStarInitialPosition.transform.position;
 
         StartCoroutine(nameof(InitiateAttack));
     }
@@ -208,12 +208,12 @@ public class BattleActionsManager : MonoBehaviour
         battleDialogueText.GetComponent<Text>().text = textToDisplay;
 
         // Disable enemy texts
-        battleInputManager.currentTextIndex = 0;
-        battleInputManager.enemyTexts[battleInputManager.currentTextIndex].GetComponent<Text>().enabled = true;
-        battleInputManager.enemyTexts[battleInputManager.currentTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-        battleInputManager.enemyTexts[battleInputManager.currentTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+        battleInputManager.currentHoveredTextIndex = 0;
+        battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex].GetComponent<Text>().enabled = true;
+        battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+        battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
 
-        SwapToBigDialogue(battleInputManager.enemyTexts);
+        SwapToBigDialogue(battleInputManager.textsForEnemiesInBattle);
     }
 
     // Listen functions -------------------------------------------------------
@@ -278,13 +278,13 @@ public class BattleActionsManager : MonoBehaviour
         bool itemIsNotTheLast = itemToRemoveIndex != GameMaster.inventory.Count;
         if (itemIsNotTheLast)
         {
-            MoveTextsToAppearContiguous(itemToRemoveIndex, battleInputManager.itemTexts);
+            MoveTextsToAppearContiguous(itemToRemoveIndex, battleInputManager.textForItemsToBeUsed);
         }
 
-        int lastItemText = battleInputManager.itemTexts.Count - 1;
-        battleInputManager.itemTexts[lastItemText].GetComponent<Text>().enabled = true;
-        battleInputManager.itemTexts[lastItemText].transform.GetChild(0).gameObject.SetActive(false);
-        battleInputManager.itemTexts[lastItemText].transform.GetChild(1).gameObject.SetActive(false);
+        int lastItemText = battleInputManager.textForItemsToBeUsed.Count - 1;
+        battleInputManager.textForItemsToBeUsed[lastItemText].GetComponent<Text>().enabled = true;
+        battleInputManager.textForItemsToBeUsed[lastItemText].transform.GetChild(0).gameObject.SetActive(false);
+        battleInputManager.textForItemsToBeUsed[lastItemText].transform.GetChild(1).gameObject.SetActive(false);
 
         ResetBattleArea();
     }
@@ -337,10 +337,10 @@ public class BattleActionsManager : MonoBehaviour
         currentBattleState = GameStates.VICTORY;
         GameMaster.attempts++;
         GameMaster.successfulAttemps++;
-        battleInputManager.miniMap.SetActive(false);
+        battleInputManager.dungeonMinimapRoomsParent.SetActive(false);
 
-        battleInputManager.player.GetComponent<SpriteRenderer>().enabled = false;
-        battleInputManager.player.transform.GetChild(3).gameObject.SetActive(true);
+        battleInputManager.overworldPlayer.GetComponent<SpriteRenderer>().enabled = false;
+        battleInputManager.overworldPlayer.transform.GetChild(3).gameObject.SetActive(true);
         GameMaster.temperanceIndex++;
 
         StartCoroutine(nameof(WaitWinAnim));
@@ -419,8 +419,8 @@ public class BattleActionsManager : MonoBehaviour
         amountOfEnemiesAlive--;
 
         enemiesSpawned.RemoveAt(enemyToRemoveIndex);
-        battleInputManager.enemyTexts[amountOfEnemiesAlive].GetComponent<Text>().text = "";
-        battleInputManager.enemyTexts[amountOfEnemiesAlive].transform.GetChild(1).GetComponent<Text>().text = "";
+        battleInputManager.textsForEnemiesInBattle[amountOfEnemiesAlive].GetComponent<Text>().text = "";
+        battleInputManager.textsForEnemiesInBattle[amountOfEnemiesAlive].transform.GetChild(1).GetComponent<Text>().text = "";
 
         if (amountOfEnemiesAlive == 1)
         {
@@ -495,8 +495,8 @@ public class BattleActionsManager : MonoBehaviour
         }
 
         GameMaster.inventory.RemoveAt(itemToRemoveIndex);
-        battleInputManager.itemTexts[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
-        battleInputManager.itemTexts[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
+        battleInputManager.textForItemsToBeUsed[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
+        battleInputManager.textForItemsToBeUsed[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
 
         return itemToRemoveIndex;
     }
@@ -565,7 +565,7 @@ public class BattleActionsManager : MonoBehaviour
 
     void DisplayDeathStarAnimation()
     {
-        battleInputManager.playerStar.GetComponent<SpriteRenderer>().enabled = false;
+        battleInputManager.playerStarObject.GetComponent<SpriteRenderer>().enabled = false;
 
         int direction = 0;
         Vector2[] pushStarDirections = new Vector2[]
@@ -593,8 +593,8 @@ public class BattleActionsManager : MonoBehaviour
 
         dialogueCanvas.SetActive(false);
         winGameCanvas.SetActive(true);
-        battleInputManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
-        battleInputManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
+        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Play();
 
         yield return new WaitForSeconds(1.0f);
         winGameCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
@@ -604,8 +604,8 @@ public class BattleActionsManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.55f);
 
-        battleInputManager.player.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
-        battleInputManager.player.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
+        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Play();
 
         yield return new WaitForSeconds(0.65f);
         loseGameCanvas.SetActive(true);
@@ -684,7 +684,7 @@ public class BattleActionsManager : MonoBehaviour
         {
             currentBattleState = GameStates.NONE;
         }
-        battleInputManager.playerCanMove = false;
+        battleInputManager.playerStarCanMove = false;
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", false);
 
         yield return new WaitForSeconds(1f);
@@ -694,9 +694,9 @@ public class BattleActionsManager : MonoBehaviour
             battleArea.SetActive(false);
         }
         ResetBattleArea();
-        battleInputManager.battleButtons[battleInputManager.currentButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
-        battleInputManager.currentButtonIndex = 0;
-        battleInputManager.battleButtons[battleInputManager.currentButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
+        battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
+        battleInputManager.currentActionButtonIndex = 0;
+        battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
 
         yield return new WaitForSeconds(0.25f);
         if (currentBattleState != GameStates.DEFEAT)

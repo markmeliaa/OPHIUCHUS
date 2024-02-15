@@ -4901,23 +4901,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd0600ef82c79a459bb86f1a59a8ec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleButtons: []
-  battleActionsManager: {fileID: 0}
-  pressedZ: 0
-  currentButtonIndex: 0
-  currentTextIndex: 0
-  enemyTexts: []
-  itemTexts: []
-  playerCanMove: 0
-  playerStar: {fileID: 0}
-  playerStarBasePosition: {fileID: 0}
+  battleCanvas: {fileID: 0}
+  battleActionButtons: []
+  currentActionButtonIndex: 0
+  currentHoveredTextIndex: 0
+  textsForEnemiesInBattle: []
+  textForItemsToBeUsed: []
+  playerStarCanMove: 0
+  playerStarObject: {fileID: 0}
+  playerStarInitialPosition: {fileID: 0}
   starAnimators: []
   blackScreen: {fileID: 0}
   animCanvas: {fileID: 0}
   player: {fileID: 0}
   realRooms: {fileID: 0}
   miniMap: {fileID: 0}
-  battleCanvas: {fileID: 0}
   globalAudioSource: {fileID: 0}
   selectEnemy: {fileID: 0}
   attackEnemy: {fileID: 0}
@@ -14150,7 +14148,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1597769209409487290}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
