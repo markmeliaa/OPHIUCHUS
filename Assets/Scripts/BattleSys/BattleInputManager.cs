@@ -97,7 +97,7 @@ public class BattleInputManager : MonoBehaviour
 
         if (battleActionsManager.currentBattleState == GameStates.CHOOSING)
         {
-            BattleActionButtonSelection(leftRightInput);
+            ManageBattleActionSelection(leftRightInput);
 
             if (currentActionButtonIndex + 1 == (int)BattleActions.ATTACK && Input.GetKeyDown(KeyCode.Z))
             {
@@ -156,191 +156,46 @@ public class BattleInputManager : MonoBehaviour
             }
         }
 
-        // Change selected enemy
-        if (upDownInput > 0 && !upDownKeyPressed && (battleActionsManager.currentBattleState == GameStates.ATTACKING || battleActionsManager.currentBattleState == GameStates.TALKING))
+        if (battleActionsManager.currentBattleState == GameStates.ATTACKING ||
+            battleActionsManager.currentBattleState == GameStates.TALKING)
         {
-            upDownKeyPressed = true;
-            if (currentHoveredTextIndex == 0)
+            ManageEnemySelection(upDownInput);
+
+            if (battleActionsManager.currentBattleState == GameStates.ATTACKING && 
+                Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+                globalAudioSource.clip = attackEnemyAudio;
+                globalAudioSource.Play();
 
-                currentHoveredTextIndex = battleActionsManager.enemiesSpawned.Count - 1;
+                battleActionsManager.AttackAction(textsForEnemiesInBattle, currentHoveredTextIndex);
 
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+                selectionKeyPressed = true;
             }
-            else
+            else if (battleActionsManager.currentBattleState == GameStates.TALKING && 
+                     Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+                globalAudioSource.clip = selectOptionSound;
+                globalAudioSource.Play();
 
-                currentHoveredTextIndex--;
+                battleActionsManager.TalkAction(textsForEnemiesInBattle);
 
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+                selectionKeyPressed = true;
             }
         }
-        else if (upDownInput < 0 && !upDownKeyPressed && (battleActionsManager.currentBattleState == GameStates.ATTACKING || battleActionsManager.currentBattleState == GameStates.TALKING))
+
+        if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
         {
-            upDownKeyPressed = true;
-            if (currentHoveredTextIndex == battleActionsManager.enemiesSpawned.Count - 1)
+            ManageItemSelection(upDownInput, leftRightInput);
+
+            if (Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+                globalAudioSource.clip = useItemAudio;
+                globalAudioSource.Play();
 
-                currentHoveredTextIndex = 0;
+                battleActionsManager.UseItemAction(textForItemsToBeUsed, currentHoveredTextIndex);
 
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+                selectionKeyPressed = true;
             }
-
-            else
-            {
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                currentHoveredTextIndex++;
-
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
-            }
-        }
-        else if (upDownInput == 0 && upDownKeyPressed)
-        {
-            upDownKeyPressed = false;
-        }
-
-        // Attack selected enemy
-        if (battleActionsManager.currentBattleState == GameStates.ATTACKING && Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
-        {
-            selectionKeyPressed = true;
-            battleActionsManager.AttackAction(textsForEnemiesInBattle, currentHoveredTextIndex);
-
-            globalAudioSource.clip = attackEnemyAudio;
-            globalAudioSource.Play();
-        }
-
-        // Talk with selected enemy
-        if (battleActionsManager.currentBattleState == GameStates.TALKING && Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
-        {
-            selectionKeyPressed = true;
-            battleActionsManager.TalkAction(textsForEnemiesInBattle);
-
-            globalAudioSource.clip = selectOptionSound;
-            globalAudioSource.Play();
-        }
-
-        // Change selected item
-        if (upDownInput > 0 && !upDownKeyPressed && battleActionsManager.currentBattleState == GameStates.USING_ITEM)
-        {
-            upDownKeyPressed = true;
-            if (currentHoveredTextIndex == 0)
-            {
-                // Nothing
-            }
-
-            else
-            {
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                currentHoveredTextIndex--;
-
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
-            }
-        }
-        else if (upDownInput < 0 && !upDownKeyPressed && battleActionsManager.currentBattleState == GameStates.USING_ITEM)
-        {
-            upDownKeyPressed = true;
-            if (currentHoveredTextIndex == GameMaster.inventory.Count - 1)
-            {
-                // Nothing
-            }
-
-            else
-            {
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                currentHoveredTextIndex++;
-
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
-            }
-        }
-        else if (leftRightInput > 0 && !leftRightKeyPressed && battleActionsManager.currentBattleState == GameStates.USING_ITEM)
-        {
-            leftRightKeyPressed = true;
-            if (currentHoveredTextIndex + 4 > GameMaster.inventory.Count - 1)
-            {
-                // Nothing
-            }
-
-            else
-            {
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                currentHoveredTextIndex += 4;
-
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
-            }
-        }
-        else if (leftRightInput < 0 && !leftRightKeyPressed && battleActionsManager.currentBattleState == GameStates.USING_ITEM)
-        {
-            leftRightKeyPressed = true;
-            if (currentHoveredTextIndex - 4 < 0)
-            {
-                // Nothing
-            }
-
-            else
-            {
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                currentHoveredTextIndex -= 4;
-
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
-            }
-        }
-        else if (upDownInput == 0 && upDownKeyPressed)
-        {
-            upDownKeyPressed = false;
-        }
-        else if (leftRightInput == 0 && leftRightKeyPressed)
-        {
-            leftRightKeyPressed = false;
-        }
-
-        // Use inventory item
-        if (battleActionsManager.currentBattleState == GameStates.USING_ITEM && Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
-        {
-            selectionKeyPressed = true;
-            battleActionsManager.UseItemAction(textForItemsToBeUsed, currentHoveredTextIndex);
-
-            globalAudioSource.clip = useItemAudio;
-            globalAudioSource.Play();
         }
 
         // Move the player star while the enemies are attacking
@@ -375,51 +230,6 @@ public class BattleInputManager : MonoBehaviour
             }
 
             return;
-        }
-
-        // Go back to the previous battle screen
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            if (battleActionsManager.currentBattleState == GameStates.ATTACKING || battleActionsManager.currentBattleState == GameStates.TALKING)
-            {
-                battleActionsManager.currentBattleState = GameStates.CHOOSING;
-                battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
-
-                // Disable enemy texts
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                foreach (GameObject text in textsForEnemiesInBattle)
-                {
-                    text.SetActive(false);
-                }
-
-                battleActionsManager.battleDialogueText.SetActive(true);
-
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
-            }
-            else if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
-            {
-                battleActionsManager.currentBattleState = GameStates.CHOOSING;
-                battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
-
-                // Disable item texts
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                foreach (GameObject text in textForItemsToBeUsed)
-                {
-                    text.SetActive(false);
-                }
-
-                battleActionsManager.battleDialogueText.SetActive(true);
-
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
-            }
         }
 
         // The battle has ended
@@ -515,6 +325,51 @@ public class BattleInputManager : MonoBehaviour
                     globalAudioSource.clip = selectOptionSound;
                     globalAudioSource.Play();
                 }
+            }
+        }
+
+        // Go back to the previous battle screen
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (battleActionsManager.currentBattleState == GameStates.ATTACKING || battleActionsManager.currentBattleState == GameStates.TALKING)
+            {
+                battleActionsManager.currentBattleState = GameStates.CHOOSING;
+                battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
+
+                // Disable enemy texts
+                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
+                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+                foreach (GameObject text in textsForEnemiesInBattle)
+                {
+                    text.SetActive(false);
+                }
+
+                battleActionsManager.battleDialogueText.SetActive(true);
+
+                globalAudioSource.clip = selectOptionSound;
+                globalAudioSource.Play();
+            }
+            else if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
+            {
+                battleActionsManager.currentBattleState = GameStates.CHOOSING;
+                battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
+
+                // Disable item texts
+                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
+                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+                foreach (GameObject text in textForItemsToBeUsed)
+                {
+                    text.SetActive(false);
+                }
+
+                battleActionsManager.battleDialogueText.SetActive(true);
+
+                globalAudioSource.clip = selectOptionSound;
+                globalAudioSource.Play();
             }
         }
     }
@@ -687,9 +542,9 @@ public class BattleInputManager : MonoBehaviour
         }
     }
 
-    void BattleActionButtonSelection(float leftRightInput)
+    void ManageBattleActionSelection(float leftRightInput)
     {
-        if (leftRightInput != 0.0f)
+        if (leftRightInput != 0.0f && !leftRightKeyPressed)
         {
             leftRightKeyPressed = true;
             ManageButtonSelection currentButtonSelection =
@@ -718,7 +573,7 @@ public class BattleInputManager : MonoBehaviour
             currentButtonSelection.OnExitSelection();
             nextButtonSelection.OnSelection();
         }
-        else if (leftRightKeyPressed)
+        else if (leftRightInput == 0.0f && leftRightKeyPressed)
         {
             leftRightKeyPressed = false;
         }
@@ -822,6 +677,100 @@ public class BattleInputManager : MonoBehaviour
         listOfTexts[currentHoveredTextIndex].GetComponent<Text>().enabled = false;
         listOfTexts[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(true);
         listOfTexts[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
+    }
+
+    void ManageEnemySelection(float upDownInput)
+    {
+        if (upDownInput != 0.0f && !upDownKeyPressed)
+        {
+            GameObject currentSelectedEnemyText = textsForEnemiesInBattle[currentHoveredTextIndex];
+            upDownKeyPressed = true;
+
+            if (upDownInput < 0.0f && currentHoveredTextIndex == 0)
+            {
+                currentHoveredTextIndex = battleActionsManager.enemiesSpawned.Count - 1;
+            }
+            else if (upDownInput < 0.0f)
+            {
+                currentHoveredTextIndex--;
+            }
+            else if (upDownInput > 0.0f && currentHoveredTextIndex == battleActionsManager.enemiesSpawned.Count - 1)
+            {
+                currentHoveredTextIndex = 0;
+            }
+            else if (upDownInput > 0.0f)
+            {
+                currentHoveredTextIndex++;
+            }
+
+            GameObject nextSelectedEnemyText = textsForEnemiesInBattle[currentHoveredTextIndex];
+
+            currentSelectedEnemyText.GetComponent<Text>().enabled = true;
+            currentSelectedEnemyText.transform.GetChild(0).gameObject.SetActive(false);
+            currentSelectedEnemyText.transform.GetChild(1).gameObject.SetActive(false);
+
+            nextSelectedEnemyText.GetComponent<Text>().enabled = false;
+            nextSelectedEnemyText.transform.GetChild(0).gameObject.SetActive(true);
+            nextSelectedEnemyText.transform.GetChild(1).gameObject.SetActive(true);
+
+        }
+        else if (upDownInput == 0.0f && upDownKeyPressed)
+        {
+            upDownKeyPressed = false;
+        }
+    }
+
+    void ManageItemSelection(float upDownInput, float leftRightInput)
+    {
+        GameObject currentSelectedItemText = textForItemsToBeUsed[currentHoveredTextIndex];
+
+        if (upDownInput != 0.0f && !upDownKeyPressed)
+        {
+            upDownKeyPressed = true;
+
+            if (upDownInput > 0.0f && currentHoveredTextIndex != 0)
+            {
+                currentHoveredTextIndex--;
+
+            }
+            else if (upDownInput < 0.0f && currentHoveredTextIndex != GameMaster.inventory.Count - 1)
+            {
+                currentHoveredTextIndex++;
+            }
+        }
+        else if (upDownInput == 0.0f && upDownKeyPressed)
+        {
+            upDownKeyPressed = false;
+        }
+
+        if (leftRightInput != 0.0f && !leftRightKeyPressed)
+        {
+            leftRightKeyPressed = true;
+
+            if (leftRightInput > 0.0f && currentHoveredTextIndex + 4 <= GameMaster.inventory.Count - 1)
+            {
+                currentHoveredTextIndex += 4;
+            }
+            else if (leftRightInput < 0.0f && currentHoveredTextIndex - 4 >= 0)
+            {
+                currentHoveredTextIndex -= 4;
+            }
+
+        }
+        else if (leftRightInput == 0.0f && leftRightKeyPressed)
+        {
+            leftRightKeyPressed = false;
+        }
+
+        GameObject nextSelectedItemText = textForItemsToBeUsed[currentHoveredTextIndex];
+
+        currentSelectedItemText.GetComponent<Text>().enabled = true;
+        currentSelectedItemText.transform.GetChild(0).gameObject.SetActive(false);
+        currentSelectedItemText.transform.GetChild(1).gameObject.SetActive(false);
+
+        nextSelectedItemText.GetComponent<Text>().enabled = false;
+        nextSelectedItemText.transform.GetChild(0).gameObject.SetActive(true);
+        nextSelectedItemText.transform.GetChild(1).gameObject.SetActive(true);
     }
 
     IEnumerator WriteDialogue(string writeDialogue)
