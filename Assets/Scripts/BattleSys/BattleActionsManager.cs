@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public enum GameStates 
 {
     NONE,
-    TALKING,
     WAITING,
     CHOOSING,
     ATTACKING,
     DEFENDING,
+    TALKING,
     USING_ITEM,
     RUNNING,
     VICTORY,
