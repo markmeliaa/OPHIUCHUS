@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum GameStates 
+public enum BattleStates 
 {
     NONE,
     WAITING,
@@ -45,8 +45,8 @@ public class BattleActionsManager : MonoBehaviour
     [Header("BATTLE STATE VARIABLES")]
     [SerializeField] private GameObject battleArea;
 
-    [HideInInspector] public GameStates currentBattleState;
-    [HideInInspector] public GameStates lastBattleState;
+    [HideInInspector] public BattleStates currentBattleState;
+    [HideInInspector] public BattleStates lastBattleState;
 
     [SerializeField] private GameObject winGameCanvas;
     [SerializeField] private Animator winCircleAnimator;
@@ -73,7 +73,7 @@ public class BattleActionsManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameMaster.playerLife <= 0 && currentBattleState != GameStates.DEFEAT)
+        if (GameMaster.playerLife <= 0 && currentBattleState != BattleStates.DEFEAT)
         {
             LoseGame();
         }
@@ -160,7 +160,7 @@ public class BattleActionsManager : MonoBehaviour
         CalculateAndDisplayDamageInformation(attackedEnemyIndex, attackedEnemyName);
 
         lastBattleState = currentBattleState;
-        currentBattleState = GameStates.DEFENDING;
+        currentBattleState = BattleStates.DEFENDING;
     }
 
     public void UpdateEnemiesInBattle()
@@ -171,7 +171,7 @@ public class BattleActionsManager : MonoBehaviour
 
         if (playerWon)
         {
-            currentBattleState = GameStates.VICTORY;
+            currentBattleState = BattleStates.VICTORY;
         }
         else
         {
@@ -232,7 +232,7 @@ public class BattleActionsManager : MonoBehaviour
         }
 
         lastBattleState = currentBattleState;
-        currentBattleState = GameStates.WAITING; // TODO: Why after talking is not DEFENDING but WAITING instead?
+        currentBattleState = BattleStates.WAITING; // TODO: Why after talking is not DEFENDING but WAITING instead?
     }
 
     // Items functions --------------------------------------------------------
@@ -268,7 +268,7 @@ public class BattleActionsManager : MonoBehaviour
         UpdateItemsAvailable();
 
         lastBattleState = currentBattleState;
-        currentBattleState = GameStates.DEFENDING;
+        currentBattleState = BattleStates.DEFENDING;
     }
 
     void UpdateItemsAvailable()
@@ -278,13 +278,13 @@ public class BattleActionsManager : MonoBehaviour
         bool itemIsNotTheLast = itemToRemoveIndex != GameMaster.inventory.Count;
         if (itemIsNotTheLast)
         {
-            MoveTextsToAppearContiguous(itemToRemoveIndex, battleInputManager.textForItemsToBeUsed);
+            MoveTextsToAppearContiguous(itemToRemoveIndex, battleInputManager.textsForItemsToBeUsed);
         }
 
-        int lastItemText = battleInputManager.textForItemsToBeUsed.Count - 1;
-        battleInputManager.textForItemsToBeUsed[lastItemText].GetComponent<Text>().enabled = true;
-        battleInputManager.textForItemsToBeUsed[lastItemText].transform.GetChild(0).gameObject.SetActive(false);
-        battleInputManager.textForItemsToBeUsed[lastItemText].transform.GetChild(1).gameObject.SetActive(false);
+        int lastItemText = battleInputManager.textsForItemsToBeUsed.Count - 1;
+        battleInputManager.textsForItemsToBeUsed[lastItemText].GetComponent<Text>().enabled = true;
+        battleInputManager.textsForItemsToBeUsed[lastItemText].transform.GetChild(0).gameObject.SetActive(false);
+        battleInputManager.textsForItemsToBeUsed[lastItemText].transform.GetChild(1).gameObject.SetActive(false);
 
         ResetBattleArea();
     }
@@ -307,7 +307,7 @@ public class BattleActionsManager : MonoBehaviour
         }
 
         lastBattleState = currentBattleState;
-        currentBattleState = GameStates.WAITING;
+        currentBattleState = BattleStates.WAITING;
     }
 
     // Battle/Game outcome functions -----------------------------------------------
@@ -334,7 +334,7 @@ public class BattleActionsManager : MonoBehaviour
 
     public void WinGame()
     {
-        currentBattleState = GameStates.VICTORY;
+        currentBattleState = BattleStates.VICTORY;
         GameMaster.attempts++;
         GameMaster.successfulAttemps++;
         battleInputManager.dungeonMinimapRoomsParent.SetActive(false);
@@ -349,7 +349,7 @@ public class BattleActionsManager : MonoBehaviour
 
     void LoseGame()
     {
-        currentBattleState = GameStates.DEFEAT;
+        currentBattleState = BattleStates.DEFEAT;
         GameMaster.attempts++;
         dialogueCanvas.SetActive(false);
 
@@ -495,8 +495,8 @@ public class BattleActionsManager : MonoBehaviour
         }
 
         GameMaster.inventory.RemoveAt(itemToRemoveIndex);
-        battleInputManager.textForItemsToBeUsed[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
-        battleInputManager.textForItemsToBeUsed[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
+        battleInputManager.textsForItemsToBeUsed[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
+        battleInputManager.textsForItemsToBeUsed[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
 
         return itemToRemoveIndex;
     }
@@ -506,7 +506,7 @@ public class BattleActionsManager : MonoBehaviour
         int moneyWon = Random.Range(1, 6) * totalAmoutOfEnemiesInTheBattle;
         GameMaster.runMoney += moneyWon;
 
-        currentBattleState = GameStates.VICTORY;
+        currentBattleState = BattleStates.VICTORY;
         if (moneyWon == 1)
         {
             textToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
@@ -523,7 +523,7 @@ public class BattleActionsManager : MonoBehaviour
         GameMaster.runMoney += moneyWon;
         GameMaster.totalMoney += GameMaster.runMoney;
 
-        currentBattleState = GameStates.VICTORY;
+        currentBattleState = BattleStates.VICTORY;
         textToDisplay = "    BOSS DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
     }
 
@@ -680,15 +680,15 @@ public class BattleActionsManager : MonoBehaviour
 
     IEnumerator EndBattle()
     {
-        if (currentBattleState != GameStates.DEFEAT)
+        if (currentBattleState != BattleStates.DEFEAT)
         {
-            currentBattleState = GameStates.NONE;
+            currentBattleState = BattleStates.NONE;
         }
         battleInputManager.playerStarCanMove = false;
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", false);
 
         yield return new WaitForSeconds(1f);
-        if (currentBattleState != GameStates.DEFEAT)
+        if (currentBattleState != BattleStates.DEFEAT)
         {
             dialogueArea.SetActive(true);
             battleArea.SetActive(false);
@@ -699,9 +699,9 @@ public class BattleActionsManager : MonoBehaviour
         battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
 
         yield return new WaitForSeconds(0.25f);
-        if (currentBattleState != GameStates.DEFEAT)
+        if (currentBattleState != BattleStates.DEFEAT)
         {
-            currentBattleState = GameStates.CHOOSING;
+            currentBattleState = BattleStates.CHOOSING;
         }
     }
 }

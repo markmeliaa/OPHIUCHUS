@@ -42,7 +42,7 @@ public class BattleInputManager : MonoBehaviour
     [HideInInspector] public int currentHoveredTextIndex;
 
     public List<GameObject> textsForEnemiesInBattle;
-    public List<GameObject> textForItemsToBeUsed;
+    public List<GameObject> textsForItemsToBeUsed;
 
     [SerializeField] private List<GameObject> battleStartStarAnimations;
     [SerializeField] private GameObject blackScreen;
@@ -82,7 +82,7 @@ public class BattleInputManager : MonoBehaviour
 
     void Update()
     {
-        if (!battleCanvas.activeSelf || battleActionsManager.currentBattleState == GameStates.NONE)
+        if (!battleCanvas.activeSelf || battleActionsManager.currentBattleState == BattleStates.NONE)
         {
             return;
         }
@@ -92,7 +92,7 @@ public class BattleInputManager : MonoBehaviour
             selectionKeyPressed = false;
         }
 
-        if (battleActionsManager.currentBattleState == GameStates.CHOOSING)
+        if (battleActionsManager.currentBattleState == BattleStates.CHOOSING)
         {
             ManageBattleActionSelection();
 
@@ -101,7 +101,7 @@ public class BattleInputManager : MonoBehaviour
                 ShowBattleEnemiesTexts();
 
                 battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
-                battleActionsManager.currentBattleState = GameStates.ATTACKING;
+                battleActionsManager.currentBattleState = BattleStates.ATTACKING;
 
                 selectionKeyPressed = true;
             }
@@ -110,7 +110,7 @@ public class BattleInputManager : MonoBehaviour
                 ShowBattleEnemiesTexts();
 
                 battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
-                battleActionsManager.currentBattleState = GameStates.TALKING;
+                battleActionsManager.currentBattleState = BattleStates.TALKING;
 
                 selectionKeyPressed = true;
             }
@@ -126,14 +126,14 @@ public class BattleInputManager : MonoBehaviour
                     battleActionsManager.battleDialogueText.SetActive(false);
 
                     battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
-                    battleActionsManager.currentBattleState = GameStates.USING_ITEM;
+                    battleActionsManager.currentBattleState = BattleStates.USING_ITEM;
                 }
                 else
                 {
                     battleActionsManager.battleDialogueText.GetComponent<Text>().text = "    YOU HAVE NO ITEMS RIGHT NOW";
 
                     battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
-                    battleActionsManager.currentBattleState = GameStates.WAITING;
+                    battleActionsManager.currentBattleState = BattleStates.WAITING;
                 }
 
                 selectionKeyPressed = true;
@@ -145,19 +145,19 @@ public class BattleInputManager : MonoBehaviour
                 globalAudioSource.Play();
 
                 battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
-                battleActionsManager.currentBattleState = GameStates.RUNNING;
+                battleActionsManager.currentBattleState = BattleStates.RUNNING;
 
                 battleActionsManager.RunAction();
 
                 selectionKeyPressed = true;
             }
         }
-        else if (battleActionsManager.currentBattleState == GameStates.ATTACKING ||
-                 battleActionsManager.currentBattleState == GameStates.TALKING)
+        else if (battleActionsManager.currentBattleState == BattleStates.ATTACKING ||
+                 battleActionsManager.currentBattleState == BattleStates.TALKING)
         {
             ManageEnemySelection();
 
-            if (battleActionsManager.currentBattleState == GameStates.ATTACKING && 
+            if (battleActionsManager.currentBattleState == BattleStates.ATTACKING &&
                 Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
                 globalAudioSource.clip = attackEnemyAudio;
@@ -167,7 +167,7 @@ public class BattleInputManager : MonoBehaviour
 
                 selectionKeyPressed = true;
             }
-            else if (battleActionsManager.currentBattleState == GameStates.TALKING && 
+            else if (battleActionsManager.currentBattleState == BattleStates.TALKING &&
                      Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
                 globalAudioSource.clip = selectOptionSound;
@@ -177,8 +177,13 @@ public class BattleInputManager : MonoBehaviour
 
                 selectionKeyPressed = true;
             }
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                CancelActionSelection(battleActionsManager.currentBattleState);
+            }
         }
-        else if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
+        else if (battleActionsManager.currentBattleState == BattleStates.USING_ITEM)
         {
             ManageItemSelection();
 
@@ -187,12 +192,17 @@ public class BattleInputManager : MonoBehaviour
                 globalAudioSource.clip = useItemAudio;
                 globalAudioSource.Play();
 
-                battleActionsManager.UseItemAction(textForItemsToBeUsed, currentHoveredTextIndex);
+                battleActionsManager.UseItemAction(textsForItemsToBeUsed, currentHoveredTextIndex);
 
                 selectionKeyPressed = true;
             }
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                CancelActionSelection(battleActionsManager.currentBattleState);
+            }
         }
-        else if (battleActionsManager.currentBattleState == GameStates.DEFENDING)
+        else if (battleActionsManager.currentBattleState == BattleStates.DEFENDING)
         {
             if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z) && !playerStarCanMove)
             {
@@ -206,7 +216,7 @@ public class BattleInputManager : MonoBehaviour
                 ManagePlayerStarMovement();
             }
         }
-        else if (battleActionsManager.currentBattleState == GameStates.VICTORY)
+        else if (battleActionsManager.currentBattleState == BattleStates.VICTORY)
         {
             if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z))
             {
@@ -214,7 +224,7 @@ public class BattleInputManager : MonoBehaviour
                 selectionKeyPressed = true;
             }
         }
-        else if (battleActionsManager.currentBattleState == GameStates.DEFEAT)
+        else if (battleActionsManager.currentBattleState == BattleStates.DEFEAT)
         {
             bool isZodiacFight = battleActionsManager.zodiacToFight != "";
 
@@ -229,11 +239,26 @@ public class BattleInputManager : MonoBehaviour
                 selectionKeyPressed = true;
             }
         }
-
-        // Do nothing
-        if (battleActionsManager.currentBattleState == GameStates.WAITING)
+        else if (battleActionsManager.currentBattleState == BattleStates.WAITING)
         {
-            if (Input.GetKeyDown(KeyCode.X) && battleActionsManager.lastBattleState == GameStates.TALKING)
+            if (battleActionsManager.lastBattleState == BattleStates.RUNNING)
+            {
+                bool isZodiacFight = battleActionsManager.zodiacToFight != "";
+                bool canPlayerEscape = GameMaster.playerSpeed >= 5 && !isZodiacFight;
+
+                if (canPlayerEscape && Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
+                {
+                    EscapeFromTheFight();
+                    selectionKeyPressed = true;
+                }
+                else if (!canPlayerEscape && Input.GetKeyDown(KeyCode.X))
+                {
+                    GoBackToBattleAfterTryingToEscape();
+                }
+            }
+
+            /* TODO: These 'ifs' do not make any sense in the flow of the battle
+            else if (Input.GetKeyDown(KeyCode.X) && battleActionsManager.lastBattleState == GameStates.TALKING)
             {
                 foreach (GameObject text in textsForEnemiesInBattle)
                 {
@@ -241,6 +266,7 @@ public class BattleInputManager : MonoBehaviour
                 }
 
                 battleActionsManager.battleDialogueText.SetActive(false);
+
                 battleActionsManager.currentBattleState = GameStates.TALKING;
                 battleActionsManager.lastBattleState = GameStates.WAITING;
 
@@ -255,6 +281,7 @@ public class BattleInputManager : MonoBehaviour
                 }
 
                 battleActionsManager.battleDialogueText.SetActive(false);
+
                 battleActionsManager.currentBattleState = GameStates.ATTACKING;
                 battleActionsManager.lastBattleState = GameStates.WAITING;
 
@@ -273,76 +300,7 @@ public class BattleInputManager : MonoBehaviour
                 globalAudioSource.clip = selectOptionSound;
                 globalAudioSource.Play();
             }
-            else if (battleActionsManager.lastBattleState == GameStates.RUNNING)
-            {
-                if (GameMaster.playerSpeed >= 5 && Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed && battleActionsManager.zodiacToFight == "")
-                {
-                    battleActionsManager.currentBattleState = GameStates.NONE;
-                    battleActionsManager.lastBattleState = GameStates.WAITING;
-
-                    StartCoroutine(nameof(WaitFinishGame));
-
-                    selectionKeyPressed = true;
-
-                    globalAudioSource.clip = selectOptionSound;
-                    globalAudioSource.Play();
-                }
-                else if ((GameMaster.playerSpeed < 5 || battleActionsManager.zodiacToFight != "") && Input.GetKeyDown(KeyCode.X))
-                {
-                    battleActionsManager.currentBattleState = GameStates.CHOOSING;
-                    battleActionsManager.lastBattleState = GameStates.WAITING;
-
-                    battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
-
-                    globalAudioSource.clip = selectOptionSound;
-                    globalAudioSource.Play();
-                }
-            }
-        }
-
-        // Go back to the previous battle screen
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            if (battleActionsManager.currentBattleState == GameStates.ATTACKING || battleActionsManager.currentBattleState == GameStates.TALKING)
-            {
-                battleActionsManager.currentBattleState = GameStates.CHOOSING;
-                battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
-
-                // Disable enemy texts
-                textsForEnemiesInBattle[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textsForEnemiesInBattle[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                foreach (GameObject text in textsForEnemiesInBattle)
-                {
-                    text.SetActive(false);
-                }
-
-                battleActionsManager.battleDialogueText.SetActive(true);
-
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
-            }
-            else if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
-            {
-                battleActionsManager.currentBattleState = GameStates.CHOOSING;
-                battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
-
-                // Disable item texts
-                textForItemsToBeUsed[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-                textForItemsToBeUsed[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
-
-                foreach (GameObject text in textForItemsToBeUsed)
-                {
-                    text.SetActive(false);
-                }
-
-                battleActionsManager.battleDialogueText.SetActive(true);
-
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
-            }
+            */
         }
     }
     
@@ -398,7 +356,7 @@ public class BattleInputManager : MonoBehaviour
             text.transform.GetChild(1).GetComponent<Text>().text = "";
         }
 
-        foreach (GameObject text in textForItemsToBeUsed)
+        foreach (GameObject text in textsForItemsToBeUsed)
         {
             text.GetComponent<Text>().text = "";
             text.transform.GetChild(1).GetComponent<Text>().text = "";
@@ -604,7 +562,7 @@ public class BattleInputManager : MonoBehaviour
     {
         for (int i = 0; i < GameMaster.inventory.Count; i++)
         {
-            GameObject currentItemText = textForItemsToBeUsed[i];
+            GameObject currentItemText = textsForItemsToBeUsed[i];
             string itemName = GameMaster.inventory[i].ObjectName;
             int itemLevel = GameMaster.inventory[i].Level;
 
@@ -642,7 +600,7 @@ public class BattleInputManager : MonoBehaviour
             currentItemText.transform.GetChild(1).GetComponent<Text>().color = colorForItem;
         }
 
-        SetFirstElementSelectedByDefault(textForItemsToBeUsed);
+        SetFirstElementSelectedByDefault(textsForItemsToBeUsed);
     }
 
     void SetFirstElementSelectedByDefault(List<GameObject> listOfTexts)
@@ -703,7 +661,7 @@ public class BattleInputManager : MonoBehaviour
         float leftRightInput = Input.GetAxis("Horizontal");
         float upDownInput = Input.GetAxis("Vertical");
 
-        GameObject currentSelectedItemText = textForItemsToBeUsed[currentHoveredTextIndex];
+        GameObject currentSelectedItemText = textsForItemsToBeUsed[currentHoveredTextIndex];
 
         if (upDownInput != 0.0f && !upDownKeyPressed)
         {
@@ -743,7 +701,7 @@ public class BattleInputManager : MonoBehaviour
             leftRightKeyPressed = false;
         }
 
-        GameObject nextSelectedItemText = textForItemsToBeUsed[currentHoveredTextIndex];
+        GameObject nextSelectedItemText = textsForItemsToBeUsed[currentHoveredTextIndex];
 
         currentSelectedItemText.GetComponent<Text>().enabled = true;
         currentSelectedItemText.transform.GetChild(0).gameObject.SetActive(false);
@@ -769,6 +727,60 @@ public class BattleInputManager : MonoBehaviour
         Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
 
         rb.MovePosition(newPos);
+    }
+
+    void EscapeFromTheFight()
+    {
+        battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
+        battleActionsManager.currentBattleState = BattleStates.NONE;
+
+        StartCoroutine(nameof(WaitFinishGame));
+
+        globalAudioSource.clip = selectOptionSound;
+        globalAudioSource.Play();
+    }
+
+    void GoBackToBattleAfterTryingToEscape()
+    {
+        battleActionsManager.currentBattleState = BattleStates.CHOOSING;
+        battleActionsManager.lastBattleState = BattleStates.WAITING;
+
+        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
+
+        globalAudioSource.clip = selectOptionSound;
+        globalAudioSource.Play();
+    }
+
+    void CancelActionSelection(BattleStates actionToCancel)
+    {
+        List<GameObject> textsToShow = new List<GameObject>();
+        if (actionToCancel == BattleStates.ATTACKING || actionToCancel == BattleStates.TALKING)
+        {
+            textsToShow = textsForEnemiesInBattle;
+        }
+        else if (actionToCancel == BattleStates.USING_ITEM)
+        {
+            textsToShow = textsForItemsToBeUsed;
+        }
+
+        battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
+        battleActionsManager.currentBattleState = BattleStates.CHOOSING;
+
+        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
+
+        textsToShow[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
+        textsToShow[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
+        textsToShow[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+        foreach (GameObject text in textsToShow)
+        {
+            text.SetActive(false);
+        }
+
+        battleActionsManager.battleDialogueText.SetActive(true);
+
+        globalAudioSource.clip = selectOptionSound;
+        globalAudioSource.Play();
     }
 
     IEnumerator WriteDialogue(string writeDialogue)
@@ -838,7 +850,7 @@ public class BattleInputManager : MonoBehaviour
             }
             battleActionButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
             currentActionButtonIndex = 0;
-            battleActionsManager.currentBattleState = GameStates.CHOOSING;
+            battleActionsManager.currentBattleState = BattleStates.CHOOSING;
         }
         
         else if (battleType == BattleType.BOSS)
@@ -870,14 +882,14 @@ public class BattleInputManager : MonoBehaviour
             }
             battleActionButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
             currentActionButtonIndex = 0;
-            battleActionsManager.currentBattleState = GameStates.CHOOSING;
+            battleActionsManager.currentBattleState = BattleStates.CHOOSING;
         }
     }
 
     IEnumerator WaitFinishGame()
     {
         blackScreen.GetComponent<Animator>().SetBool("Change", false);
-        battleActionsManager.currentBattleState = GameStates.NONE;
+        battleActionsManager.currentBattleState = BattleStates.NONE;
 
         yield return new WaitForSeconds(0.6f);
 
@@ -909,7 +921,7 @@ public class BattleInputManager : MonoBehaviour
     IEnumerator WaitFinishBossGame()
     {
         blackScreen.GetComponent<Animator>().SetBool("Change", false);
-        battleActionsManager.currentBattleState = GameStates.NONE;
+        battleActionsManager.currentBattleState = BattleStates.NONE;
 
         yield return new WaitForSeconds(0.6f);
 
