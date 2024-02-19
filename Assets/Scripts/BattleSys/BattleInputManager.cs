@@ -92,12 +92,9 @@ public class BattleInputManager : MonoBehaviour
             selectionKeyPressed = false;
         }
 
-        float leftRightInput = Input.GetAxis("Horizontal");
-        float upDownInput = Input.GetAxis("Vertical");
-
         if (battleActionsManager.currentBattleState == GameStates.CHOOSING)
         {
-            ManageBattleActionSelection(leftRightInput);
+            ManageBattleActionSelection();
 
             if (currentActionButtonIndex + 1 == (int)BattleActions.ATTACK && Input.GetKeyDown(KeyCode.Z))
             {
@@ -159,7 +156,7 @@ public class BattleInputManager : MonoBehaviour
         if (battleActionsManager.currentBattleState == GameStates.ATTACKING ||
             battleActionsManager.currentBattleState == GameStates.TALKING)
         {
-            ManageEnemySelection(upDownInput);
+            ManageEnemySelection();
 
             if (battleActionsManager.currentBattleState == GameStates.ATTACKING && 
                 Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
@@ -185,7 +182,7 @@ public class BattleInputManager : MonoBehaviour
 
         if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
         {
-            ManageItemSelection(upDownInput, leftRightInput);
+            ManageItemSelection();
 
             if (Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
@@ -542,8 +539,10 @@ public class BattleInputManager : MonoBehaviour
         }
     }
 
-    void ManageBattleActionSelection(float leftRightInput)
+    void ManageBattleActionSelection()
     {
+        float leftRightInput = Input.GetAxis("Horizontal");
+
         if (leftRightInput != 0.0f && !leftRightKeyPressed)
         {
             leftRightKeyPressed = true;
@@ -679,8 +678,10 @@ public class BattleInputManager : MonoBehaviour
         listOfTexts[currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(true);
     }
 
-    void ManageEnemySelection(float upDownInput)
+    void ManageEnemySelection()
     {
+        float upDownInput = Input.GetAxis("Vertical");
+
         if (upDownInput != 0.0f && !upDownKeyPressed)
         {
             GameObject currentSelectedEnemyText = textsForEnemiesInBattle[currentHoveredTextIndex];
@@ -705,10 +706,12 @@ public class BattleInputManager : MonoBehaviour
 
             GameObject nextSelectedEnemyText = textsForEnemiesInBattle[currentHoveredTextIndex];
 
+            // TODO: This should be a function, like DeselectText();
             currentSelectedEnemyText.GetComponent<Text>().enabled = true;
             currentSelectedEnemyText.transform.GetChild(0).gameObject.SetActive(false);
             currentSelectedEnemyText.transform.GetChild(1).gameObject.SetActive(false);
 
+            // TODO: And this too, like SelectText();
             nextSelectedEnemyText.GetComponent<Text>().enabled = false;
             nextSelectedEnemyText.transform.GetChild(0).gameObject.SetActive(true);
             nextSelectedEnemyText.transform.GetChild(1).gameObject.SetActive(true);
@@ -720,8 +723,11 @@ public class BattleInputManager : MonoBehaviour
         }
     }
 
-    void ManageItemSelection(float upDownInput, float leftRightInput)
+    void ManageItemSelection()
     {
+        float leftRightInput = Input.GetAxis("Horizontal");
+        float upDownInput = Input.GetAxis("Vertical");
+
         GameObject currentSelectedItemText = textForItemsToBeUsed[currentHoveredTextIndex];
 
         if (upDownInput != 0.0f && !upDownKeyPressed)
