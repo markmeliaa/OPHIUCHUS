@@ -230,12 +230,12 @@ public class BattleInputManager : MonoBehaviour
 
             if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z) && !isZodiacFight)
             {
-                StartCoroutine(nameof(WaitFinishGame));
+                StartCoroutine(nameof(ManageFinishBattle), BattleType.NORMAL);
                 selectionKeyPressed = true;
             }
             else if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z) && isZodiacFight)
             {
-                StartCoroutine(nameof(WaitFinishBossGame));
+                StartCoroutine(nameof(ManageFinishBattle), BattleType.BOSS);
                 selectionKeyPressed = true;
             }
         }
@@ -312,15 +312,13 @@ public class BattleInputManager : MonoBehaviour
         overworldPlayer.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         dungeonMinimapRoomsParent.SetActive(false);
 
-        //animCanvas.GetComponent<AudioSource>().Play();
-
         foreach (GameObject animator in battleStartStarAnimations)
         {
             animator.GetComponent<Animator>().SetBool("Change", true);
             animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", true);
         }
 
-        StartCoroutine(nameof(WaitStartGame), BattleType.NORMAL);
+        StartCoroutine(nameof(ManageStartBattle), BattleType.NORMAL);
     }
 
     public void StartBossBattle(string zodiac)
@@ -330,15 +328,13 @@ public class BattleInputManager : MonoBehaviour
         overworldPlayer.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         dungeonMinimapRoomsParent.SetActive(false);
 
-        //animCanvas.GetComponent<AudioSource>().Play();
-
         foreach (GameObject animator in battleStartStarAnimations)
         {
             animator.GetComponent<Animator>().SetBool("Change", true);
             animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", true);
         }
 
-        StartCoroutine(nameof(WaitStartGame), BattleType.BOSS);
+        StartCoroutine(nameof(ManageStartBattle), BattleType.BOSS);
     }
 
     public void ClearGame()
@@ -389,7 +385,6 @@ public class BattleInputManager : MonoBehaviour
             thisChar.characterConversations[GameMaster.cancerIndex].currentDialogueLine = 0;
             StartCoroutine(nameof(WriteDialogue), thisChar.characterConversations[GameMaster.cancerIndex].dialogueLines[thisChar.characterConversations[GameMaster.cancerIndex].currentDialogueLine].dialogueText);
         }
-
         else if (zodiac == "CAPRICORN")
         {
             if (GameMaster.capricornIndex == characterSpeaker.characterConversations.Count - 1)
@@ -415,7 +410,6 @@ public class BattleInputManager : MonoBehaviour
                 characterSpeaker.characterConversations[GameMaster.cancerIndex].currentDialogueLine++;
                 StartCoroutine(nameof(WriteDialogue), characterSpeaker.characterConversations[GameMaster.cancerIndex].dialogueLines[characterSpeaker.characterConversations[GameMaster.cancerIndex].currentDialogueLine].dialogueText);
             }
-
             else
             {
                 if (GameMaster.cancerIndex < characterSpeaker.characterConversations.Count - 1)
@@ -438,7 +432,6 @@ public class BattleInputManager : MonoBehaviour
                 StartCoroutine(nameof(HideDialogue));
             }
         }
-
         else if (battleActionsManager.zodiacToFight == "CAPRICORN")
         {
             if (characterSpeaker.characterConversations[GameMaster.capricornIndex].currentDialogueLine < characterSpeaker.characterConversations[GameMaster.capricornIndex].dialogueLines.Count - 1)
@@ -447,7 +440,6 @@ public class BattleInputManager : MonoBehaviour
                 characterSpeaker.characterConversations[GameMaster.capricornIndex].currentDialogueLine++;
                 StartCoroutine(nameof(WriteDialogue), characterSpeaker.characterConversations[GameMaster.capricornIndex].dialogueLines[characterSpeaker.characterConversations[GameMaster.capricornIndex].currentDialogueLine].dialogueText);
             }
-
             else
             {
                 if (GameMaster.capricornIndex < characterSpeaker.characterConversations.Count - 1)
@@ -734,7 +726,7 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
         battleActionsManager.currentBattleState = BattleStates.NONE;
 
-        StartCoroutine(nameof(WaitFinishGame));
+        StartCoroutine(nameof(ManageFinishBattle));
 
         globalAudioSource.clip = selectOptionSound;
         globalAudioSource.Play();
@@ -805,7 +797,6 @@ public class BattleInputManager : MonoBehaviour
         {
             StartBossBattle(battleActionsManager.zodiacToFight);
         }
-
         else
         {
             battleActionsManager.WinGame();
@@ -819,106 +810,46 @@ public class BattleInputManager : MonoBehaviour
         playerStarCanMove = true;
     }
 
-    IEnumerator WaitStartGame(BattleType battleType)
+    IEnumerator ManageStartBattle(BattleType battleType)
     {
+        yield return new WaitForSeconds(1.2f);
+
+        foreach (GameObject animator in battleStartStarAnimations)
+        {
+            animator.GetComponent<Animator>().SetBool("Change", false);
+            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", false);
+        }
+
+        battleCanvas.SetActive(true);
+
+        overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -10;
+        overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Stop();
+        overworldPlayer.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
+
+        dungeonGameRoomsParent.SetActive(false);
+
         if (battleType == BattleType.NORMAL)
         {
-            yield return new WaitForSeconds(1.2f);
-
-            foreach (GameObject animator in battleStartStarAnimations)
-            {
-                animator.GetComponent<Animator>().SetBool("Change", false);
-                animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", false);
-            }
-
-            battleCanvas.SetActive(true);
-
-            overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -10;
-            overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Stop();
-            overworldPlayer.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
-
-            dungeonGameRoomsParent.SetActive(false);
-
             battleActionsManager.ManageSpawnBasicEnemies();
-
-            blackScreen.GetComponent<Animator>().SetBool("Change", true);
-
-            yield return new WaitForSeconds(0.25f);
-            foreach (GameObject button in battleActionButtons)
-            {
-                button.GetComponent<ManageButtonSelection>().OnExitSelection();
-            }
-            battleActionButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
-            currentActionButtonIndex = 0;
-            battleActionsManager.currentBattleState = BattleStates.CHOOSING;
         }
-        
         else if (battleType == BattleType.BOSS)
         {
-            yield return new WaitForSeconds(1.2f);
-
-            foreach (GameObject animator in battleStartStarAnimations)
-            {
-                animator.GetComponent<Animator>().SetBool("Change", false);
-                animator.transform.GetChild(1).GetComponent<Animator>().SetBool("Change", false);
-            }
-
-            battleCanvas.SetActive(true);
-
-            overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -10;
-            overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Stop();
-            overworldPlayer.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
-
-            dungeonGameRoomsParent.SetActive(false);
-
             battleActionsManager.ManageSpawnBoss();
-
-            blackScreen.GetComponent<Animator>().SetBool("Change", true);
-
-            yield return new WaitForSeconds(0.25f);
-            foreach (GameObject button in battleActionButtons)
-            {
-                button.GetComponent<ManageButtonSelection>().OnExitSelection();
-            }
-            battleActionButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
-            currentActionButtonIndex = 0;
-            battleActionsManager.currentBattleState = BattleStates.CHOOSING;
         }
-    }
 
-    IEnumerator WaitFinishGame()
-    {
-        blackScreen.GetComponent<Animator>().SetBool("Change", false);
-        battleActionsManager.currentBattleState = BattleStates.NONE;
-
-        yield return new WaitForSeconds(0.6f);
-
-        foreach (GameObject animator in battleStartStarAnimations)
-        {
-            animator.GetComponent<Animator>().SetBool("ChangeBack", true);
-            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", true);
-        }
+        blackScreen.GetComponent<Animator>().SetBool("Change", true);
 
         yield return new WaitForSeconds(0.25f);
-        ClearGame();
-        battleCanvas.SetActive(false);
-
-        overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -3;
-        overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Play();
-        dungeonGameRoomsParent.SetActive(true);
-
-        yield return new WaitForSeconds(1.2f);
-        foreach (GameObject animator in battleStartStarAnimations)
+        foreach (GameObject button in battleActionButtons)
         {
-            animator.GetComponent<Animator>().SetBool("ChangeBack", false);
-            animator.transform.GetChild(1).GetComponent<Animator>().SetBool("ChangeBack", false);
+            button.GetComponent<ManageButtonSelection>().OnExitSelection();
         }
-
-        dungeonMinimapRoomsParent.SetActive(true);
-        overworldPlayer.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
+        battleActionButtons[0].GetComponent<ManageButtonSelection>().OnSelection();
+        currentActionButtonIndex = 0;
+        battleActionsManager.currentBattleState = BattleStates.CHOOSING;
     }
 
-    IEnumerator WaitFinishBossGame()
+    IEnumerator ManageFinishBattle(BattleType battleType)
     {
         blackScreen.GetComponent<Animator>().SetBool("Change", false);
         battleActionsManager.currentBattleState = BattleStates.NONE;
@@ -949,7 +880,10 @@ public class BattleInputManager : MonoBehaviour
         dungeonMinimapRoomsParent.SetActive(true);
         overworldPlayer.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
 
-        bossBeaten = true;
-        StartDialogue(battleActionsManager.zodiacToFight, characterSpeaker);
+        if (battleType == BattleType.BOSS)
+        {
+            bossBeaten = true;
+            StartDialogue(battleActionsManager.zodiacToFight, characterSpeaker);
+        }
     }
 }
