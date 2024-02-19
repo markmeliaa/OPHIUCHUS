@@ -68,7 +68,7 @@ public class BattleActionsManager : MonoBehaviour
         battleInputManager = GetComponent<BattleInputManager>();
 
         // Uncomment for the trial scene only
-        //SetUpBattle();
+        SetUpBattle();
     }
 
     private void Update()

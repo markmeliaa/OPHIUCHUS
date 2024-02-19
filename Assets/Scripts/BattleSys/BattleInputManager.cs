@@ -77,7 +77,7 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager = GetComponent<BattleActionsManager>();
 
         // Uncomment for the trial scene only
-        //StartBattle();
+        StartBattle();
     }
 
     void Update()
@@ -311,6 +311,7 @@ public class BattleInputManager : MonoBehaviour
 
         overworldPlayer.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         dungeonMinimapRoomsParent.SetActive(false);
+        menuButton.SetActive(false);
 
         foreach (GameObject animator in battleStartStarAnimations)
         {
@@ -879,6 +880,7 @@ public class BattleInputManager : MonoBehaviour
         }
 
         dungeonMinimapRoomsParent.SetActive(true);
+        menuButton.SetActive(true);
         overworldPlayer.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
 
         if (battleType == BattleType.BOSS)
