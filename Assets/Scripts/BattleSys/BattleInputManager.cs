@@ -152,9 +152,8 @@ public class BattleInputManager : MonoBehaviour
                 selectionKeyPressed = true;
             }
         }
-
-        if (battleActionsManager.currentBattleState == GameStates.ATTACKING ||
-            battleActionsManager.currentBattleState == GameStates.TALKING)
+        else if (battleActionsManager.currentBattleState == GameStates.ATTACKING ||
+                 battleActionsManager.currentBattleState == GameStates.TALKING)
         {
             ManageEnemySelection();
 
@@ -179,8 +178,7 @@ public class BattleInputManager : MonoBehaviour
                 selectionKeyPressed = true;
             }
         }
-
-        if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
+        else if (battleActionsManager.currentBattleState == GameStates.USING_ITEM)
         {
             ManageItemSelection();
 
@@ -194,65 +192,42 @@ public class BattleInputManager : MonoBehaviour
                 selectionKeyPressed = true;
             }
         }
-
-        // Move the player star while the enemies are attacking
-        if (battleActionsManager.currentBattleState == GameStates.DEFENDING)
+        else if (battleActionsManager.currentBattleState == GameStates.DEFENDING)
         {
             if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z) && !playerStarCanMove)
             {
-                battleActionsManager.StartEnemyAttack();
-                StartCoroutine(nameof(WaitMove));
+                battleActionsManager.TriggerEnemyAttack();
+                StartCoroutine(nameof(SetStarReadyToMove));
 
                 selectionKeyPressed = true;
             }
-
-            if (playerStarCanMove)
+            else if (playerStarCanMove)
             {
-                Rigidbody2D rb = playerStarObject.GetComponent<Rigidbody2D>();
-
-                Vector2 currentPos = rb.position;
-
-                float horInput = Input.GetAxis("Horizontal");
-                float vertInput = Input.GetAxis("Vertical");
-
-                Vector2 inputVect = new Vector2(horInput, vertInput);
-
-                // Prevent diagonal movement to be faster than cardinal direction movement
-                inputVect = Vector2.ClampMagnitude(inputVect, 1);
-
-                Vector2 movement = inputVect * GameMaster.playerSpeed;
-                Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
-
-                rb.MovePosition(newPos);
+                ManagePlayerStarMovement();
             }
-
-            return;
         }
-
-        // The battle has ended
-        if (battleActionsManager.currentBattleState == GameStates.VICTORY)
+        else if (battleActionsManager.currentBattleState == GameStates.VICTORY)
         {
             if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z))
             {
                 battleActionsManager.WinBattle();
                 selectionKeyPressed = true;
             }
-
-            return;
         }
-
-        if (battleActionsManager.currentBattleState == GameStates.DEFEAT)
+        else if (battleActionsManager.currentBattleState == GameStates.DEFEAT)
         {
-            if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z) && battleActionsManager.zodiacToFight == "")
+            bool isZodiacFight = battleActionsManager.zodiacToFight != "";
+
+            if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z) && !isZodiacFight)
             {
                 StartCoroutine(nameof(WaitFinishGame));
+                selectionKeyPressed = true;
             }
-            else if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z) && battleActionsManager.zodiacToFight != "")
+            else if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z) && isZodiacFight)
             {
                 StartCoroutine(nameof(WaitFinishBossGame));
+                selectionKeyPressed = true;
             }
-
-            return;
         }
 
         // Do nothing
@@ -779,6 +754,23 @@ public class BattleInputManager : MonoBehaviour
         nextSelectedItemText.transform.GetChild(1).gameObject.SetActive(true);
     }
 
+    void ManagePlayerStarMovement()
+    {
+        Rigidbody2D rb = playerStarObject.GetComponent<Rigidbody2D>();
+        Vector2 currentPos = rb.position;
+
+        float horInput = Input.GetAxis("Horizontal");
+        float vertInput = Input.GetAxis("Vertical");
+
+        Vector2 inputVect = new Vector2(horInput, vertInput);
+        inputVect = Vector2.ClampMagnitude(inputVect, 1);
+
+        Vector2 movement = inputVect * GameMaster.playerSpeed;
+        Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
+
+        rb.MovePosition(newPos);
+    }
+
     IEnumerator WriteDialogue(string writeDialogue)
     {
         foreach (char c in writeDialogue)
@@ -808,7 +800,7 @@ public class BattleInputManager : MonoBehaviour
         }
     }
 
-    IEnumerator WaitMove()
+    IEnumerator SetStarReadyToMove()
     {
         yield return new WaitForSeconds(1f);
 

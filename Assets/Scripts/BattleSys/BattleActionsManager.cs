@@ -190,7 +190,7 @@ public class BattleActionsManager : MonoBehaviour
         }
     }
 
-    public void StartEnemyAttack()
+    public void TriggerEnemyAttack()
     {
         dialogueArea.SetActive(false);
         battleArea.SetActive(true);
