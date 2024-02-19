@@ -359,7 +359,7 @@ public class BattleInputManager : MonoBehaviour
         }
     }
 
-    // Dialogue functions
+    // Dialogue functions ----------------------------------------------- TO BE REFACTORED
     public void StartDialogue(string zodiac, DialogueBox thisChar)
     {
         dungeonMinimapRoomsParent.SetActive(false);
@@ -463,6 +463,35 @@ public class BattleInputManager : MonoBehaviour
             }
         }
     }
+
+    IEnumerator WriteDialogue(string writeDialogue)
+    {
+        foreach (char c in writeDialogue)
+        {
+            dialogueText.text += c;
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        nextButton.SetActive(true);
+    }
+
+    IEnumerator HideDialogue()
+    {
+        dialogueBox.GetComponent<Animator>().SetBool("Hide", true);
+
+        yield return new WaitForSeconds(0.2f);
+        dialogueBox.SetActive(false);
+
+        if (bossBeaten == false)
+        {
+            StartBossBattle(battleActionsManager.zodiacToFight);
+        }
+        else
+        {
+            battleActionsManager.WinGame();
+        }
+    }
+    // Dialogue functions ----------------------------------------------- TO BE REFACTORED
 
     void ManageBattleActionSelection()
     {
@@ -773,34 +802,6 @@ public class BattleInputManager : MonoBehaviour
 
         globalAudioSource.clip = selectOptionSound;
         globalAudioSource.Play();
-    }
-
-    IEnumerator WriteDialogue(string writeDialogue)
-    {
-        foreach (char c in writeDialogue)
-        {
-            dialogueText.text += c;
-            yield return new WaitForSeconds(0.02f);
-        }
-
-        nextButton.SetActive(true);
-    }
-
-    IEnumerator HideDialogue()
-    {
-        dialogueBox.GetComponent<Animator>().SetBool("Hide", true);
-
-        yield return new WaitForSeconds(0.2f);
-        dialogueBox.SetActive(false);
-
-        if (bossBeaten == false)
-        {
-            StartBossBattle(battleActionsManager.zodiacToFight);
-        }
-        else
-        {
-            battleActionsManager.WinGame();
-        }
     }
 
     IEnumerator SetStarReadyToMove()
