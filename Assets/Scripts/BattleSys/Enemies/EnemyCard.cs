@@ -7,11 +7,15 @@ public class EnemyCard : MonoBehaviour
 
     //[HideInInspector] public GameObject nameText { private get; set; }
 
+    [SerializeField] private string thisCardName;
+
     private Animator cardAnimator;
     private BattleActionsManager battleActionsManager;
 
     private void Awake()
     {
+        CardName = thisCardName;
+
         cardAnimator = GetComponent<Animator>();
         battleActionsManager = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleActionsManager>();
     }

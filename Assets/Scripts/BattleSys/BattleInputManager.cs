@@ -99,7 +99,7 @@ public class BattleInputManager : MonoBehaviour
 
             if (currentActionButtonIndex + 1 == (int)BattleActions.ATTACK && Input.GetKeyDown(KeyCode.Z))
             {
-                ShowBattleEnemiesTexts();
+                ShowBattleEnemyNames();
 
                 battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
                 battleActionsManager.currentBattleState = BattleStates.ATTACKING;
@@ -108,7 +108,7 @@ public class BattleInputManager : MonoBehaviour
             }
             else if (currentActionButtonIndex + 1 == (int)BattleActions.TALK && Input.GetKeyDown(KeyCode.Z))
             {
-                ShowBattleEnemiesTexts();
+                ShowBattleEnemyNames();
 
                 battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
                 battleActionsManager.currentBattleState = BattleStates.TALKING;
@@ -122,7 +122,7 @@ public class BattleInputManager : MonoBehaviour
 
                 if (GameMaster.inventory.Count != 0)
                 {
-                    ShowInventoryItemsTexts();
+                    ShowInventoryItemNames();
 
                     battleActionsManager.battleDialogueText.SetActive(false);
 
@@ -533,7 +533,7 @@ public class BattleInputManager : MonoBehaviour
         }
     }
 
-    void ShowBattleEnemiesTexts()
+    void ShowBattleEnemyNames()
     {
         battleActionsManager.battleDialogueText.SetActive(false);
         globalAudioSource.clip = selectOptionSound;
@@ -547,9 +547,6 @@ public class BattleInputManager : MonoBehaviour
             currentEnemyText.SetActive(true);
             currentEnemyText.GetComponent<Text>().text = enemyName;
             currentEnemyText.transform.GetChild(1).GetComponent<Text>().text = "    " + enemyName;
-
-            // TODO: This variable is never used, check if it is really necessary
-            // battleManager.enemiesSpawned[i].GetComponent<EnemyCard>().nameText = enemyTexts[i];
 
             Color bossColor = new Color(0.925f, 0.835f, 0.0f);
             Color redCardsColor = new Color(1.0f, 0.0f, 0.31f);
@@ -580,7 +577,7 @@ public class BattleInputManager : MonoBehaviour
         SetFirstElementSelectedByDefault(textsForEnemiesInBattle);
     }
 
-    void ShowInventoryItemsTexts()
+    void ShowInventoryItemNames()
     {
         for (int i = 0; i < GameMaster.inventory.Count; i++)
         {
@@ -591,9 +588,6 @@ public class BattleInputManager : MonoBehaviour
             currentItemText.SetActive(true);
             currentItemText.GetComponent<Text>().text = itemName + " LVL." + itemLevel;
             currentItemText.transform.GetChild(1).GetComponent<Text>().text = "    " + itemName + " LVL." + itemLevel;
-
-            // TODO: This variable is never used, check if it is really necessary
-            //GameMaster.inventory[i].GameText = textForItemsToBeUsed[i];
 
             Color colorForItem = Color.white;
             switch (GameMaster.inventory[i].Type)

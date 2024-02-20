@@ -393,8 +393,18 @@ public class BattleActionsManager : MonoBehaviour
     void CalculateAndDisplayDamageInformation(int attackedEnemyIndex, string attackedEnemyName)
     {
         int randomDamage = Random.Range(10, 21);
+        bool isZodiacBattle = zodiacToFight != "";
 
-        battleDialogueText.GetComponent<Text>().text = "    YOU DEALT " + randomDamage + " DAMAGE POINTS TO " + attackedEnemyName;
+        if (isZodiacBattle)
+        {
+            battleDialogueText.GetComponent<Text>().text = "    YOU DEALT " + randomDamage + 
+                                                           " DAMAGE POINTS TO " + attackedEnemyName;
+        }
+        else
+        {
+            battleDialogueText.GetComponent<Text>().text = "    YOU DEALT " + randomDamage + 
+                                                           " DAMAGE POINTS TO THE " + attackedEnemyName;
+        }
 
         if (enemiesSpawned[attackedEnemyIndex].GetComponent<EnemyCard>().Life - randomDamage <= 0)
         {
