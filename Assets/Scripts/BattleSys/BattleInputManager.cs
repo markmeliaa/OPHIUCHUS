@@ -27,6 +27,7 @@ public class BattleInputManager : MonoBehaviour
     private bool upDownKeyPressed;
     private bool selectionKeyPressed;
 
+    private bool didUseItemFail = false;
     private bool bossBeaten;
 
     [Header("PLAYER (STAR) VARIABLES")]
@@ -127,13 +128,17 @@ public class BattleInputManager : MonoBehaviour
 
                     battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
                     battleActionsManager.currentBattleState = BattleStates.USING_ITEM;
+
+                    didUseItemFail = false;
                 }
                 else
                 {
                     battleActionsManager.battleDialogueText.GetComponent<Text>().text = "    YOU HAVE NO ITEMS RIGHT NOW";
 
-                    battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
+                    battleActionsManager.lastBattleState = BattleStates.USING_ITEM;
                     battleActionsManager.currentBattleState = BattleStates.WAITING;
+
+                    didUseItemFail = true;
                 }
 
                 selectionKeyPressed = true;
@@ -256,9 +261,14 @@ public class BattleInputManager : MonoBehaviour
                     GoBackToBattleAfterTryingToEscape();
                 }
             }
+            else if (battleActionsManager.lastBattleState == BattleStates.USING_ITEM && didUseItemFail &&
+                     Input.GetKeyDown(KeyCode.X))
+            {
+                GoBackToBattleAfterTryingToUseItem();
+            }
 
             /* TODO: These 'ifs' do not make any sense in the flow of the battle
-            else if (Input.GetKeyDown(KeyCode.X) && battleActionsManager.lastBattleState == GameStates.TALKING)
+            else if (Input.GetKeyDown(KeyCode.X) && battleActionsManager.lastBattleState == BattleStates.TALKING)
             {
                 foreach (GameObject text in textsForEnemiesInBattle)
                 {
@@ -267,13 +277,13 @@ public class BattleInputManager : MonoBehaviour
 
                 battleActionsManager.battleDialogueText.SetActive(false);
 
-                battleActionsManager.currentBattleState = GameStates.TALKING;
-                battleActionsManager.lastBattleState = GameStates.WAITING;
+                battleActionsManager.currentBattleState = BattleStates.TALKING;
+                battleActionsManager.lastBattleState = BattleStates.WAITING;
 
                 globalAudioSource.clip = selectOptionSound;
                 globalAudioSource.Play();
             }
-            else if (Input.GetKeyDown(KeyCode.Z) && battleActionsManager.lastBattleState == GameStates.ATTACKING)
+            else if (Input.GetKeyDown(KeyCode.Z) && battleActionsManager.lastBattleState == BattleStates.ATTACKING)
             {
                 foreach (GameObject text in textsForEnemiesInBattle)
                 {
@@ -282,20 +292,10 @@ public class BattleInputManager : MonoBehaviour
 
                 battleActionsManager.battleDialogueText.SetActive(false);
 
-                battleActionsManager.currentBattleState = GameStates.ATTACKING;
-                battleActionsManager.lastBattleState = GameStates.WAITING;
+                battleActionsManager.currentBattleState = BattleStates.ATTACKING;
+                battleActionsManager.lastBattleState = BattleStates.WAITING;
 
                 selectionKeyPressed = true;
-
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
-            }
-            else if (Input.GetKeyDown(KeyCode.X) && battleActionsManager.lastBattleState == GameStates.USING_ITEM)
-            {
-                battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
-
-                battleActionsManager.currentBattleState = GameStates.CHOOSING;
-                battleActionsManager.lastBattleState = GameStates.WAITING;
 
                 globalAudioSource.clip = selectOptionSound;
                 globalAudioSource.Play();
@@ -771,6 +771,19 @@ public class BattleInputManager : MonoBehaviour
 
         globalAudioSource.clip = selectOptionSound;
         globalAudioSource.Play();
+    }
+
+    void GoBackToBattleAfterTryingToUseItem()
+    {
+        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
+
+        battleActionsManager.currentBattleState = BattleStates.CHOOSING;
+        battleActionsManager.lastBattleState = BattleStates.WAITING;
+
+        globalAudioSource.clip = selectOptionSound;
+        globalAudioSource.Play();
+
+        didUseItemFail = false;
     }
 
     void CancelActionSelection(BattleStates actionToCancel)
