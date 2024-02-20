@@ -642,19 +642,19 @@ public class BattleInputManager : MonoBehaviour
             GameObject currentSelectedEnemyText = textsForEnemiesInBattle[currentHoveredTextIndex];
             upDownKeyPressed = true;
 
-            if (upDownInput < 0.0f && currentHoveredTextIndex == 0)
+            if (upDownInput > 0.0f && currentHoveredTextIndex == 0)
             {
                 currentHoveredTextIndex = battleActionsManager.enemiesSpawned.Count - 1;
             }
-            else if (upDownInput < 0.0f)
+            else if (upDownInput > 0.0f)
             {
                 currentHoveredTextIndex--;
             }
-            else if (upDownInput > 0.0f && currentHoveredTextIndex == battleActionsManager.enemiesSpawned.Count - 1)
+            else if (upDownInput < 0.0f && currentHoveredTextIndex == battleActionsManager.enemiesSpawned.Count - 1)
             {
                 currentHoveredTextIndex = 0;
             }
-            else if (upDownInput > 0.0f)
+            else if (upDownInput < 0.0f)
             {
                 currentHoveredTextIndex++;
             }
@@ -689,12 +689,12 @@ public class BattleInputManager : MonoBehaviour
         {
             upDownKeyPressed = true;
 
-            if (upDownInput > 0.0f && currentHoveredTextIndex != 0)
+            if (upDownInput < 0.0f && currentHoveredTextIndex != 0)
             {
                 currentHoveredTextIndex--;
 
             }
-            else if (upDownInput < 0.0f && currentHoveredTextIndex != GameMaster.inventory.Count - 1)
+            else if (upDownInput > 0.0f && currentHoveredTextIndex != GameMaster.inventory.Count - 1)
             {
                 currentHoveredTextIndex++;
             }
