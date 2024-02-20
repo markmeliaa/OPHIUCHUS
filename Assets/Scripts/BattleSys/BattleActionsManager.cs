@@ -340,7 +340,7 @@ public class BattleActionsManager : MonoBehaviour
         battleInputManager.dungeonMinimapRoomsParent.SetActive(false);
 
         battleInputManager.overworldPlayer.GetComponent<SpriteRenderer>().enabled = false;
-        battleInputManager.overworldPlayer.transform.GetChild(3).gameObject.SetActive(true);
+        battleInputManager.overworldPlayer.transform.GetChild(0).gameObject.SetActive(true);
         GameMaster.temperanceIndex++;
 
         StartCoroutine(nameof(WaitWinAnim));
@@ -593,8 +593,8 @@ public class BattleActionsManager : MonoBehaviour
 
         dialogueCanvas.SetActive(false);
         winGameCanvas.SetActive(true);
-        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
-        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        battleInputManager.overworldPlayer.GetComponent<AudioSource>().clip = deathSong;
+        battleInputManager.overworldPlayer.GetComponent<AudioSource>().Play();
 
         yield return new WaitForSeconds(1.0f);
         winGameCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
@@ -604,8 +604,8 @@ public class BattleActionsManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.55f);
 
-        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().clip = deathSong;
-        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        battleInputManager.overworldPlayer.GetComponent<AudioSource>().clip = deathSong;
+        battleInputManager.overworldPlayer.GetComponent<AudioSource>().Play();
 
         yield return new WaitForSeconds(0.65f);
         loseGameCanvas.SetActive(true);

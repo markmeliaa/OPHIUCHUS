@@ -825,8 +825,8 @@ public class BattleInputManager : MonoBehaviour
         battleCanvas.SetActive(true);
 
         overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -10;
-        overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Stop();
-        overworldPlayer.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
+        overworldPlayer.GetComponent<AudioSource>().Stop();
+        overworldPlayer.GetComponent<CircleCollider2D>().enabled = false;
 
         dungeonGameRoomsParent.SetActive(false);
 
@@ -869,7 +869,7 @@ public class BattleInputManager : MonoBehaviour
         battleCanvas.SetActive(false);
 
         overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -3;
-        overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Play();
+        overworldPlayer.GetComponent<AudioSource>().Play();
         dungeonGameRoomsParent.SetActive(true);
 
         yield return new WaitForSeconds(1.2f);
@@ -881,7 +881,7 @@ public class BattleInputManager : MonoBehaviour
 
         dungeonMinimapRoomsParent.SetActive(true);
         menuButton.SetActive(true);
-        overworldPlayer.transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
+        overworldPlayer.GetComponent<CircleCollider2D>().enabled = true;
 
         if (battleType == BattleType.BOSS)
         {
