@@ -225,7 +225,7 @@ public class BattleInputManager : MonoBehaviour
         {
             if (!selectionKeyPressed && Input.GetKeyDown(KeyCode.Z))
             {
-                battleActionsManager.WinBattle();
+                battleActionsManager.ManageBattleVictory();
                 selectionKeyPressed = true;
             }
         }
@@ -277,6 +277,28 @@ public class BattleInputManager : MonoBehaviour
             {
                 battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
                 battleActionsManager.currentBattleState = BattleStates.DEFENDING;
+            }
+            else if (battleActionsManager.lastBattleState == BattleStates.VICTORY &&
+                     Input.GetKeyDown(KeyCode.Z))
+            {
+                bool isZodiacFight = battleActionsManager.zodiacToFight != "";
+
+                if (!isZodiacFight && !selectionKeyPressed)
+                {
+                    StartCoroutine(nameof(ManageFinishBattle), BattleType.NORMAL);
+                    selectionKeyPressed = true;
+
+                    battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
+                    battleActionsManager.currentBattleState = BattleStates.NONE;
+                }
+                else if (isZodiacFight && !selectionKeyPressed)
+                {
+                    StartCoroutine(nameof(ManageFinishBattle), BattleType.BOSS);
+                    selectionKeyPressed = true;
+
+                    battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
+                    battleActionsManager.currentBattleState = BattleStates.NONE;
+                }
             }
         }
     }
@@ -466,7 +488,7 @@ public class BattleInputManager : MonoBehaviour
         }
         else
         {
-            battleActionsManager.WinGame();
+            battleActionsManager.WinZodiacAndFinishLevel();
         }
     }
     // Dialogue functions ----------------------------------------------- [TO BE REFACTORED]
@@ -727,7 +749,7 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
         battleActionsManager.currentBattleState = BattleStates.NONE;
 
-        StartCoroutine(nameof(ManageFinishBattle));
+        StartCoroutine(nameof(ManageFinishBattle), BattleType.NORMAL);
 
         globalAudioSource.clip = selectOptionSound;
         globalAudioSource.Play();

@@ -317,7 +317,7 @@ public class BattleActionsManager : MonoBehaviour
     }
 
     // Battle/Game outcome functions -----------------------------------------------
-    public void WinBattle()
+    public void ManageBattleVictory()
     {
         bool isZodiacFight = zodiacToFight != "";
         if (!isZodiacFight)
@@ -338,9 +338,11 @@ public class BattleActionsManager : MonoBehaviour
         battleDialogueText.GetComponent<Text>().text = baseTextToDisplay;
     }
 
-    public void WinGame()
+    public void WinZodiacAndFinishLevel()
     {
-        currentBattleState = BattleStates.VICTORY;
+        lastBattleState = currentBattleState;
+        currentBattleState = BattleStates.NONE;
+
         GameMaster.attempts++;
         GameMaster.successfulAttemps++;
         battleInputManager.dungeonMinimapRoomsParent.SetActive(false);
@@ -398,7 +400,7 @@ public class BattleActionsManager : MonoBehaviour
 
     void CalculateAndDisplayDamageInformation(int attackedEnemyIndex, string attackedEnemyName)
     {
-        int randomDamage = Random.Range(10, 21);
+        int randomDamage = Random.Range(5, 21);
         bool isZodiacBattle = zodiacToFight != "";
 
         if (isZodiacBattle)
@@ -522,7 +524,9 @@ public class BattleActionsManager : MonoBehaviour
         int moneyWon = Random.Range(1, 6) * totalAmoutOfEnemiesInTheBattle;
         GameMaster.runMoney += moneyWon;
 
-        currentBattleState = BattleStates.VICTORY;
+        lastBattleState = currentBattleState;
+        currentBattleState = BattleStates.WAITING;
+
         if (moneyWon == 1)
         {
             baseTextToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
@@ -539,7 +543,9 @@ public class BattleActionsManager : MonoBehaviour
         GameMaster.runMoney += moneyWon;
         GameMaster.totalMoney += GameMaster.runMoney;
 
-        currentBattleState = BattleStates.VICTORY;
+        lastBattleState = currentBattleState;
+        currentBattleState = BattleStates.WAITING;
+
         baseTextToDisplay = "    BOSS DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
     }
 
