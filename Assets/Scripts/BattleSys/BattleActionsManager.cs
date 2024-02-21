@@ -60,7 +60,7 @@ public class BattleActionsManager : MonoBehaviour
     [SerializeField] private GameObject dialogueArea;
     [SerializeField] private GameObject dialogueCanvas;
 
-    [HideInInspector] public string textToDisplay;
+    [HideInInspector] public string baseTextToDisplay;
     public GameObject battleDialogueText;
 
     private void Start()
@@ -93,7 +93,7 @@ public class BattleActionsManager : MonoBehaviour
             battleDialogueText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + totalAmoutOfEnemiesInTheBattle + " ENEMIES";
         }
 
-        textToDisplay = battleDialogueText.GetComponent<Text>().text;
+        baseTextToDisplay = battleDialogueText.GetComponent<Text>().text;
         enemiesSpawned = new List<GameObject>();
     }
 
@@ -105,7 +105,7 @@ public class BattleActionsManager : MonoBehaviour
 
         battleDialogueText.GetComponent<Text>().text = "    YOU ARE UP AGAINST " + zodiac;
 
-        textToDisplay = battleDialogueText.GetComponent<Text>().text;
+        baseTextToDisplay = battleDialogueText.GetComponent<Text>().text;
         enemiesSpawned = new List<GameObject>();
     }
 
@@ -205,8 +205,6 @@ public class BattleActionsManager : MonoBehaviour
 
     void ResetBattleArea()
     {
-        battleDialogueText.GetComponent<Text>().text = textToDisplay;
-
         // Deselect current selected enemy text
         GameObject currentSelectedText = battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex];
         currentSelectedText.GetComponent<Text>().enabled = true;
@@ -337,7 +335,7 @@ public class BattleActionsManager : MonoBehaviour
             GetMoneyAfterGame();
         }
 
-        battleDialogueText.GetComponent<Text>().text = textToDisplay;
+        battleDialogueText.GetComponent<Text>().text = baseTextToDisplay;
     }
 
     public void WinGame()
@@ -442,11 +440,11 @@ public class BattleActionsManager : MonoBehaviour
 
         if (amountOfEnemiesAlive == 1)
         {
-            textToDisplay = "    YOU ARE UP AGAINST " + amountOfEnemiesAlive + " ENEMY";
+            baseTextToDisplay = "    YOU ARE UP AGAINST " + amountOfEnemiesAlive + " ENEMY";
         }
         else
         {
-            textToDisplay = "    YOU ARE UP AGAINST " + amountOfEnemiesAlive + " ENEMIES";
+            baseTextToDisplay = "    YOU ARE UP AGAINST " + amountOfEnemiesAlive + " ENEMIES";
         }
 
         return enemyToRemoveIndex;
@@ -527,11 +525,11 @@ public class BattleActionsManager : MonoBehaviour
         currentBattleState = BattleStates.VICTORY;
         if (moneyWon == 1)
         {
-            textToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
+            baseTextToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COIN FOR THE VICTORY!\n";
         }
         else
         {
-            textToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+            baseTextToDisplay = "    ALL ENEMIES DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
         }
     }
 
@@ -542,12 +540,12 @@ public class BattleActionsManager : MonoBehaviour
         GameMaster.totalMoney += GameMaster.runMoney;
 
         currentBattleState = BattleStates.VICTORY;
-        textToDisplay = "    BOSS DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
+        baseTextToDisplay = "    BOSS DEFEATED, YOU RECIEVED " + moneyWon + " COINS FOR THE VICTORY!\n";
     }
 
     void GetHealingPotion()
     {
-        textToDisplay += "YOU ALSO RECIEVED A LVL." + GameMaster.currentLevel + " HEALTH POTION!";
+        baseTextToDisplay += "YOU ALSO RECIEVED A LVL." + GameMaster.currentLevel + " HEALTH POTION!";
 
         if (GameMaster.inventory.Count < GameMaster.inventoryMaxSpace)
         {
@@ -555,7 +553,7 @@ public class BattleActionsManager : MonoBehaviour
         }
         else
         {
-            textToDisplay += " (but you have no space in your inventory).";
+            baseTextToDisplay += " (but you have no space in your inventory).";
         }
     }
 
@@ -669,7 +667,7 @@ public class BattleActionsManager : MonoBehaviour
             availableBossAttacks[numAttack].SetActive(false);
         }
 
-        StartCoroutine(nameof(EndBattle));
+        StartCoroutine(nameof(EndAttack));
     }
 
     IEnumerator ManageBossStarAttacks(int numAttack)
@@ -696,7 +694,7 @@ public class BattleActionsManager : MonoBehaviour
         }
     }
 
-    IEnumerator EndBattle()
+    IEnumerator EndAttack()
     {
         if (currentBattleState != BattleStates.DEFEAT)
         {
@@ -713,7 +711,8 @@ public class BattleActionsManager : MonoBehaviour
             battleArea.SetActive(false);
         }
 
-        //ResetBattleArea();
+        ResetBattleArea();
+        battleDialogueText.GetComponent<Text>().text = baseTextToDisplay;
 
         battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
         battleInputManager.currentActionButtonIndex = 0;

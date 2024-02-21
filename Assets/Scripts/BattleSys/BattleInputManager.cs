@@ -738,7 +738,7 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager.currentBattleState = BattleStates.CHOOSING;
         battleActionsManager.lastBattleState = BattleStates.WAITING;
 
-        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
+        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.baseTextToDisplay;
 
         globalAudioSource.clip = selectOptionSound;
         globalAudioSource.Play();
@@ -746,7 +746,7 @@ public class BattleInputManager : MonoBehaviour
 
     void GoBackToBattleAfterTryingToUseItem()
     {
-        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
+        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.baseTextToDisplay;
 
         battleActionsManager.currentBattleState = BattleStates.CHOOSING;
         battleActionsManager.lastBattleState = BattleStates.WAITING;
@@ -788,7 +788,7 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
         battleActionsManager.currentBattleState = BattleStates.CHOOSING;
 
-        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.textToDisplay;
+        battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.baseTextToDisplay;
 
         textsToShow[currentHoveredTextIndex].GetComponent<Text>().enabled = true;
         textsToShow[currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
