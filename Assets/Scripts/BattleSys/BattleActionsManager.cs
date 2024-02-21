@@ -161,6 +161,8 @@ public class BattleActionsManager : MonoBehaviour
 
         lastBattleState = currentBattleState;
         currentBattleState = BattleStates.DEFENDING;
+
+        ResetBattleArea();
     }
 
     public void UpdateEnemiesInBattle()
@@ -185,8 +187,6 @@ public class BattleActionsManager : MonoBehaviour
             battleInputManager.textsForEnemiesInBattle[lastEnemyText].GetComponent<Text>().enabled = true;
             battleInputManager.textsForEnemiesInBattle[lastEnemyText].transform.GetChild(0).gameObject.SetActive(false);
             battleInputManager.textsForEnemiesInBattle[lastEnemyText].transform.GetChild(1).gameObject.SetActive(false);
-
-            ResetBattleArea();
         }
     }
 
@@ -207,11 +207,19 @@ public class BattleActionsManager : MonoBehaviour
     {
         battleDialogueText.GetComponent<Text>().text = textToDisplay;
 
-        // Disable enemy texts
+        // Deselect current selected enemy text
+        GameObject currentSelectedText = battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex];
+        currentSelectedText.GetComponent<Text>().enabled = true;
+        currentSelectedText.transform.GetChild(0).gameObject.SetActive(false);
+        currentSelectedText.transform.GetChild(1).gameObject.SetActive(false);
+
         battleInputManager.currentHoveredTextIndex = 0;
-        battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex].GetComponent<Text>().enabled = true;
-        battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex].transform.GetChild(0).gameObject.SetActive(false);
-        battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex].transform.GetChild(1).gameObject.SetActive(false);
+
+        // Set first text as selected by default
+        GameObject firstSelectedText = battleInputManager.textsForEnemiesInBattle[battleInputManager.currentHoveredTextIndex];
+        firstSelectedText.GetComponent<Text>().enabled = false;
+        firstSelectedText.transform.GetChild(0).gameObject.SetActive(true);
+        firstSelectedText.transform.GetChild(1).gameObject.SetActive(true);
 
         SwapToBigDialogue(battleInputManager.textsForEnemiesInBattle);
     }
@@ -233,6 +241,8 @@ public class BattleActionsManager : MonoBehaviour
 
         lastBattleState = currentBattleState;
         currentBattleState = BattleStates.WAITING; // TODO: Why after talking is not DEFENDING but WAITING instead?
+
+        ResetBattleArea();
     }
 
     // Items functions --------------------------------------------------------
@@ -285,8 +295,6 @@ public class BattleActionsManager : MonoBehaviour
         battleInputManager.textsForItemsToBeUsed[lastItemText].GetComponent<Text>().enabled = true;
         battleInputManager.textsForItemsToBeUsed[lastItemText].transform.GetChild(0).gameObject.SetActive(false);
         battleInputManager.textsForItemsToBeUsed[lastItemText].transform.GetChild(1).gameObject.SetActive(false);
-
-        ResetBattleArea();
     }
 
     // Run functions ----------------------------------------------------------
@@ -698,17 +706,21 @@ public class BattleActionsManager : MonoBehaviour
         battleArea.transform.GetChild(0).GetComponent<Animator>().SetBool("Expand", false);
 
         yield return new WaitForSeconds(1f);
+
         if (currentBattleState != BattleStates.DEFEAT)
         {
             dialogueArea.SetActive(true);
             battleArea.SetActive(false);
         }
-        ResetBattleArea();
+
+        //ResetBattleArea();
+
         battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
         battleInputManager.currentActionButtonIndex = 0;
         battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
 
         yield return new WaitForSeconds(0.25f);
+
         if (currentBattleState != BattleStates.DEFEAT)
         {
             currentBattleState = BattleStates.CHOOSING;

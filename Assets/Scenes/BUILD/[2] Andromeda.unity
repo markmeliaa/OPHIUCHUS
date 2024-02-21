@@ -23430,7 +23430,6 @@ GameObject:
   - component: {fileID: 1886764417}
   - component: {fileID: 1886764420}
   - component: {fileID: 1886764416}
-  - component: {fileID: 1886764419}
   - component: {fileID: 1886764418}
   m_Layer: 5
   m_Name: BackToButton
@@ -23631,20 +23630,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1886764419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1886764411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4aa3168722f7ae4c88ba6c4f2f53c96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 504274587}
-  settingsMenu: {fileID: 1698999678}
 --- !u!114 &1886764420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26415,7 +26400,6 @@ GameObject:
   - component: {fileID: 2070595650}
   - component: {fileID: 2070595646}
   - component: {fileID: 2070595645}
-  - component: {fileID: 2070595644}
   - component: {fileID: 2070595643}
   m_Layer: 5
   m_Name: BackToButton
@@ -26465,20 +26449,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2070595644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2070595641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4aa3168722f7ae4c88ba6c4f2f53c96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 504274587}
-  settingsMenu: {fileID: 1698999678}
 --- !u!114 &2070595645
 MonoBehaviour:
   m_ObjectHideFlags: 0

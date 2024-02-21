@@ -244,7 +244,8 @@ public class BattleInputManager : MonoBehaviour
                 selectionKeyPressed = true;
             }
         }
-        else if (battleActionsManager.currentBattleState == BattleStates.WAITING)
+        
+        if (battleActionsManager.currentBattleState == BattleStates.WAITING)
         {
             if (battleActionsManager.lastBattleState == BattleStates.RUNNING)
             {
@@ -266,41 +267,17 @@ public class BattleInputManager : MonoBehaviour
             {
                 GoBackToBattleAfterTryingToUseItem();
             }
-
-            /* TODO: These 'ifs' do not make any sense in the flow of the battle
-            else if (Input.GetKeyDown(KeyCode.X) && battleActionsManager.lastBattleState == BattleStates.TALKING)
+            else if (battleActionsManager.lastBattleState == BattleStates.TALKING &&
+                     Input.GetKeyDown(KeyCode.X))
             {
-                foreach (GameObject text in textsForEnemiesInBattle)
-                {
-                    text.SetActive(true);
-                }
-
-                battleActionsManager.battleDialogueText.SetActive(false);
-
-                battleActionsManager.currentBattleState = BattleStates.TALKING;
-                battleActionsManager.lastBattleState = BattleStates.WAITING;
-
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
+                GoBackToEnemySelection();
             }
-            else if (Input.GetKeyDown(KeyCode.Z) && battleActionsManager.lastBattleState == BattleStates.ATTACKING)
+            else if (battleActionsManager.lastBattleState == BattleStates.ATTACKING &&
+                     Input.GetKeyDown(KeyCode.Z))
             {
-                foreach (GameObject text in textsForEnemiesInBattle)
-                {
-                    text.SetActive(true);
-                }
-
-                battleActionsManager.battleDialogueText.SetActive(false);
-
-                battleActionsManager.currentBattleState = BattleStates.ATTACKING;
-                battleActionsManager.lastBattleState = BattleStates.WAITING;
-
-                selectionKeyPressed = true;
-
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
+                battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
+                battleActionsManager.currentBattleState = BattleStates.DEFENDING;
             }
-            */
         }
     }
     
@@ -360,7 +337,7 @@ public class BattleInputManager : MonoBehaviour
         }
     }
 
-    // Dialogue functions ----------------------------------------------- TO BE REFACTORED
+    // Dialogue functions ----------------------------------------------- [TO BE REFACTORED]
     public void StartDialogue(string zodiac, DialogueBox thisChar)
     {
         dungeonMinimapRoomsParent.SetActive(false);
@@ -492,7 +469,7 @@ public class BattleInputManager : MonoBehaviour
             battleActionsManager.WinGame();
         }
     }
-    // Dialogue functions ----------------------------------------------- TO BE REFACTORED
+    // Dialogue functions ----------------------------------------------- [TO BE REFACTORED]
 
     void ManageBattleActionSelection()
     {
@@ -778,6 +755,22 @@ public class BattleInputManager : MonoBehaviour
         globalAudioSource.Play();
 
         didUseItemFail = false;
+    }
+
+    void GoBackToEnemySelection()
+    {
+        foreach (GameObject text in textsForEnemiesInBattle)
+        {
+            text.SetActive(true);
+        }
+
+        battleActionsManager.battleDialogueText.SetActive(false);
+
+        battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
+        battleActionsManager.currentBattleState = BattleStates.TALKING;
+
+        globalAudioSource.clip = selectOptionSound;
+        globalAudioSource.Play();
     }
 
     void CancelActionSelection(BattleStates actionToCancel)
