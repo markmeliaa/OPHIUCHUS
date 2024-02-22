@@ -250,7 +250,7 @@ public class BattleInputManager : MonoBehaviour
             if (battleActionsManager.lastBattleState == BattleStates.RUNNING)
             {
                 bool isZodiacFight = battleActionsManager.zodiacToFight != "";
-                bool canPlayerEscape = GameMaster.playerSpeed >= 5 && !isZodiacFight;
+                bool canPlayerEscape = GameMaster.playerSpeed >= 10 && !isZodiacFight;
 
                 if (canPlayerEscape && Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
                 {
@@ -738,7 +738,7 @@ public class BattleInputManager : MonoBehaviour
         Vector2 inputVect = new Vector2(horInput, vertInput);
         inputVect = Vector2.ClampMagnitude(inputVect, 1);
 
-        Vector2 movement = inputVect * GameMaster.playerSpeed;
+        Vector2 movement = inputVect * 3.0f;
         Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
 
         rb.MovePosition(newPos);

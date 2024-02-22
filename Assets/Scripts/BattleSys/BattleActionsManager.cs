@@ -238,7 +238,7 @@ public class BattleActionsManager : MonoBehaviour
         }
 
         lastBattleState = currentBattleState;
-        currentBattleState = BattleStates.WAITING; // TODO: Why after talking is not DEFENDING but WAITING instead?
+        currentBattleState = BattleStates.WAITING;
 
         ResetBattleArea();
     }
@@ -303,7 +303,7 @@ public class BattleActionsManager : MonoBehaviour
         {
             battleDialogueText.GetComponent<Text>().text = "    YOU CAN NOT RUN FROM A ZODIAC BATTLE";
         }
-        else if (GameMaster.playerSpeed >= 5)
+        else if (GameMaster.playerSpeed >= 10)
         {
             battleDialogueText.GetComponent<Text>().text = "    YOU WERE ABLE TO RUN FROM THE BATTLE";
         }
@@ -657,8 +657,7 @@ public class BattleActionsManager : MonoBehaviour
             }
             else
             {
-                // TODO: Check if this time is correct for all the attacks, and, if not, adjust it
-                yield return new WaitForSeconds(5.0f);
+                yield return new WaitForSeconds(4.25f);
 
                 availableNormalAttacks[numAttack].SetActive(false);
             }
@@ -720,9 +719,12 @@ public class BattleActionsManager : MonoBehaviour
         ResetBattleArea();
         battleDialogueText.GetComponent<Text>().text = baseTextToDisplay;
 
-        battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex].GetComponent<ManageButtonSelection>().OnExitSelection();
+        GameObject currentSelectedButton = battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex];
+        currentSelectedButton.GetComponent<ManageButtonSelection>().OnExitSelection();
+
         battleInputManager.currentActionButtonIndex = 0;
-        battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex].GetComponent<ManageButtonSelection>().OnSelection();
+        GameObject defaultSelectedButton = battleInputManager.battleActionButtons[battleInputManager.currentActionButtonIndex];
+        defaultSelectedButton.GetComponent<ManageButtonSelection>().OnSelection();
 
         yield return new WaitForSeconds(0.25f);
 

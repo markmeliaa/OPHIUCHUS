@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 public static class GameMaster
 {
-    public static int playerLife = 10;
-    public static int maxPlayerLife;
-    public static int playerSpeed;
+    public static int playerLife = 15;
+    public static int maxPlayerLife = playerLife;
+    public static int playerSpeed = 5;
 
     public static int runMoney;
     public static int totalMoney;
@@ -13,7 +13,7 @@ public static class GameMaster
     public static string[] levelsLocations = { "Andromeda", "Triangulum", "Hoags", "Melotte", "Circinus", "The Deep Void" };
 
     public static List<ItemObject> inventory = new();
-    public static int inventoryMaxSpace = 8;
+    public static int inventoryMaxSpace = 4;
 
     public static int attempts;
     public static int successfulAttemps;
@@ -26,8 +26,6 @@ public static class GameMaster
 
     public static void Reset()
     {
-        playerLife = 10;
-        playerSpeed = 3;
         inventory = new List<ItemObject>();
         runMoney = 0;
         currentLevel = 0;
