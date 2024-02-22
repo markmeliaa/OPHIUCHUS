@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum BattleStates 
+public enum BattleStates
 {
     NONE,
     WAITING,
