@@ -78,7 +78,7 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager = GetComponent<BattleActionsManager>();
 
         // Uncomment for the trial scene only
-        StartBattle();
+        StartBossBattle("CAPRICORN");
     }
 
     void Update()
@@ -327,6 +327,7 @@ public class BattleInputManager : MonoBehaviour
 
         overworldPlayer.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
         dungeonMinimapRoomsParent.SetActive(false);
+        menuButton.SetActive(false);
 
         foreach (GameObject animator in battleStartStarAnimations)
         {

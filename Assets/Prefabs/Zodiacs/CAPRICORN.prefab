@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisCardName: CAPRICORN
+  thisCardLife: 50
 --- !u!212 &6581159840359793059
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -3,11 +3,12 @@ using UnityEngine;
 public class EnemyCard : MonoBehaviour
 {
     public string CardName { get; private set; }
-    public int Life { get; set; } = 20;
+    public int Life { get; set; }
 
     //[HideInInspector] public GameObject nameText { private get; set; }
 
     [SerializeField] private string thisCardName;
+    [SerializeField] private int thisCardLife = 20;
 
     private Animator cardAnimator;
     private BattleActionsManager battleActionsManager;
@@ -15,6 +16,7 @@ public class EnemyCard : MonoBehaviour
     private void Awake()
     {
         CardName = thisCardName;
+        Life = thisCardLife;
 
         cardAnimator = GetComponent<Animator>();
         battleActionsManager = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleActionsManager>();

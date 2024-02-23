@@ -200,7 +200,15 @@ public class BattleActionsManager : MonoBehaviour
 
         battleInputManager.playerStarObject.transform.position = battleInputManager.playerStarInitialPosition.transform.position;
 
-        StartCoroutine(nameof(InitiateAttack));
+        bool isZodiacBattle = zodiacToFight != "";
+        if (isZodiacBattle)
+        {
+            StartCoroutine(nameof(InitiateBossAttack));
+        }
+        else
+        {
+            StartCoroutine(nameof(InitiateAttack));
+        }
     }
 
     void ResetBattleArea()
@@ -640,43 +648,34 @@ public class BattleActionsManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        bool isNotZodiacFight = zodiacToFight == "";
+        int numAttack = Random.Range(0, availableNormalAttacks.Count);
+        availableNormalAttacks[numAttack].SetActive(true);
+        bool isMeteoritesAttack = availableNormalAttacks[numAttack].GetComponent<ActivateChildren>() != null;
 
-        if (isNotZodiacFight)
+        if (isMeteoritesAttack)
         {
-            int numAttack = Random.Range(0, availableNormalAttacks.Count);
-            availableNormalAttacks[numAttack].SetActive(true);
-            bool isMeteoritesAttack = availableNormalAttacks[numAttack].GetComponent<ActivateChildren>() != null;
+            availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().ActivateMeteos();
+            yield return new WaitForSeconds(11.0f);
 
-            if (isMeteoritesAttack)
-            {
-                availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().ActivateMeteos();
-                yield return new WaitForSeconds(11.0f);
-
-                availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().DeactivateMeteos();
-            }
-            else
-            {
-                yield return new WaitForSeconds(4.25f);
-
-                availableNormalAttacks[numAttack].SetActive(false);
-            }
+            availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().DeactivateMeteos();
         }
         else
         {
-            int numAttack = Random.Range(0, availableBossAttacks.Count);
-            availableBossAttacks[numAttack].SetActive(true);
+            yield return new WaitForSeconds(4.25f);
 
-            StartCoroutine(nameof(ManageBossStarAttacks), numAttack);
-
-            availableBossAttacks[numAttack].SetActive(false);
+            availableNormalAttacks[numAttack].SetActive(false);
         }
 
         StartCoroutine(nameof(EndAttack));
     }
 
-    IEnumerator ManageBossStarAttacks(int numAttack)
+    IEnumerator InitiateBossAttack()
     {
+        yield return new WaitForSeconds(1f);
+
+        int numAttack = Random.Range(0, availableBossAttacks.Count);
+        availableBossAttacks[numAttack].SetActive(true);
+
         bool isLongerAttack = numAttack == 2;
         int starsToSpawn = isLongerAttack ? 5 : 3;
 
@@ -697,6 +696,10 @@ public class BattleActionsManager : MonoBehaviour
         {
             availableBossAttacks[numAttack].transform.GetChild(i).gameObject.SetActive(false);
         }
+
+        availableBossAttacks[numAttack].SetActive(false);
+
+        StartCoroutine(nameof(EndAttack));
     }
 
     IEnumerator EndAttack()
