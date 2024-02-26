@@ -62,8 +62,8 @@ public class BattleInputManager : MonoBehaviour
 
     [Header("THINGS TO SHOW/HIDE")]
     public GameObject overworldPlayer;
-    [SerializeField] private GameObject dungeonGameRoomsParent;
     public GameObject dungeonMinimapRoomsParent;
+    [SerializeField] private GameObject dungeonGameRoomsParent;
     [SerializeField] private GameObject menuButton;
     [Space(5)]
 
@@ -78,7 +78,7 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager = GetComponent<BattleActionsManager>();
 
         // Uncomment for the trial scene only
-        StartBossBattle("CAPRICORN");
+        //StartBossBattle("CAPRICORN");
     }
 
     void Update()
@@ -309,6 +309,7 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager.SetUpBattle();
 
         overworldPlayer.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
+        overworldPlayer.GetComponent<PlayerMovement>().canMove = false;
         dungeonMinimapRoomsParent.SetActive(false);
         menuButton.SetActive(false);
 
@@ -683,12 +684,11 @@ public class BattleInputManager : MonoBehaviour
         {
             upDownKeyPressed = true;
 
-            if (upDownInput < 0.0f && currentHoveredTextIndex != 0)
+            if (upDownInput > 0.0f && currentHoveredTextIndex != 0)
             {
                 currentHoveredTextIndex--;
-
             }
-            else if (upDownInput > 0.0f && currentHoveredTextIndex != GameMaster.inventory.Count - 1)
+            else if (upDownInput < 0.0f && currentHoveredTextIndex != GameMaster.inventory.Count - 1)
             {
                 currentHoveredTextIndex++;
             }
@@ -893,6 +893,8 @@ public class BattleInputManager : MonoBehaviour
 
         overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -3;
         overworldPlayer.GetComponent<AudioSource>().Play();
+        overworldPlayer.GetComponent<PlayerMovement>().canMove = true;
+
         dungeonGameRoomsParent.SetActive(true);
 
         yield return new WaitForSeconds(1.2f);
@@ -906,10 +908,15 @@ public class BattleInputManager : MonoBehaviour
         menuButton.SetActive(true);
         overworldPlayer.GetComponent<CircleCollider2D>().enabled = true;
 
+        foreach (GameObject card in battleActionsManager.enemiesSpawned)
+        {
+            Destroy(card);
+        }
+
         if (battleType == BattleType.BOSS)
         {
             bossBeaten = true;
-            StartDialogue(battleActionsManager.zodiacToFight, characterSpeaker);
+            //StartDialogue(battleActionsManager.zodiacToFight, characterSpeaker);
         }
     }
 }

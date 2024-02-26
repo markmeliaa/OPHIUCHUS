@@ -68,7 +68,7 @@ public class BattleActionsManager : MonoBehaviour
         battleInputManager = GetComponent<BattleInputManager>();
 
         // Uncomment for the trial scene only
-        SetUpBattle();
+        //SetUpBattle();
     }
 
     private void Update()
@@ -207,7 +207,7 @@ public class BattleActionsManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(nameof(InitiateAttack));
+            StartCoroutine(nameof(InitiateEnemyAttack));
         }
     }
 
@@ -520,9 +520,10 @@ public class BattleActionsManager : MonoBehaviour
             }
         }
 
-        GameMaster.inventory.RemoveAt(itemToRemoveIndex);
         battleInputManager.textsForItemsToBeUsed[GameMaster.inventory.Count - 1].GetComponent<Text>().text = "";
         battleInputManager.textsForItemsToBeUsed[GameMaster.inventory.Count - 1].transform.GetChild(1).GetComponent<Text>().text = "";
+
+        GameMaster.inventory.RemoveAt(itemToRemoveIndex);
 
         return itemToRemoveIndex;
     }
@@ -644,20 +645,20 @@ public class BattleActionsManager : MonoBehaviour
         loseGameCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
     }
 
-    IEnumerator InitiateAttack()
+    IEnumerator InitiateEnemyAttack()
     {
         yield return new WaitForSeconds(1f);
 
         int numAttack = Random.Range(0, availableNormalAttacks.Count);
         availableNormalAttacks[numAttack].SetActive(true);
-        bool isMeteoritesAttack = availableNormalAttacks[numAttack].GetComponent<ActivateChildren>() != null;
+        bool isMeteoritesAttack = availableNormalAttacks[numAttack].GetComponent<ManageMeteosAttackActivation>() != null;
 
         if (isMeteoritesAttack)
         {
-            availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().ActivateMeteos();
+            availableNormalAttacks[numAttack].GetComponent<ManageMeteosAttackActivation>().ActivateMeteos();
             yield return new WaitForSeconds(11.0f);
 
-            availableNormalAttacks[numAttack].GetComponent<ActivateChildren>().DeactivateMeteos();
+            availableNormalAttacks[numAttack].GetComponent<ManageMeteosAttackActivation>().DeactivateMeteos();
         }
         else
         {
@@ -666,7 +667,7 @@ public class BattleActionsManager : MonoBehaviour
             availableNormalAttacks[numAttack].SetActive(false);
         }
 
-        StartCoroutine(nameof(EndAttack));
+        StartCoroutine(nameof(EndEnemyAttack));
     }
 
     IEnumerator InitiateBossAttack()
@@ -699,10 +700,10 @@ public class BattleActionsManager : MonoBehaviour
 
         availableBossAttacks[numAttack].SetActive(false);
 
-        StartCoroutine(nameof(EndAttack));
+        StartCoroutine(nameof(EndEnemyAttack));
     }
 
-    IEnumerator EndAttack()
+    IEnumerator EndEnemyAttack()
     {
         if (currentBattleState != BattleStates.DEFEAT)
         {

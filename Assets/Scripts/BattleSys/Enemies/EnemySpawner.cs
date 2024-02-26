@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            //TriggerEnemyBattle();
+            TriggerEnemyBattle();
         }
     }
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ActivateChildren : MonoBehaviour
+public class ManageMeteosAttackActivation : MonoBehaviour
 {
     public void ActivateMeteos()
     {
@@ -29,7 +29,6 @@ public class ActivateChildren : MonoBehaviour
                 yield return new WaitForSeconds(1.5f);
             }
         }
-        
         else
         {
             for (int i = transform.childCount - 1; i >= 0; i--)

@@ -40,6 +40,7 @@ public class LevelSetUpManager : MonoBehaviour
     public void SpawnCharacterInLevel()
     {
         mainCharacter.GetComponent<SpriteRenderer>().enabled = false;
+        mainCharacter.GetComponent<PlayerMovement>().canMove = false;
         tpCharacter.SetActive(true);
     }
 
@@ -50,6 +51,7 @@ public class LevelSetUpManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         mainCharacter.GetComponent<SpriteRenderer>().enabled = true;
+        mainCharacter.GetComponent<PlayerMovement>().canMove = true;
         tpCharacter.SetActive(false);
     }
 }
