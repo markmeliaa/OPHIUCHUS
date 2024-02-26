@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1493.3334
     height: 842.6667
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Inspector
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 105
+  controlID: 59
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -121,16 +121,16 @@ MonoBehaviour:
     y: 470
     width: 1032.6666
     height: 322.6667
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 20}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
   - {fileID: 20}
   - {fileID: 14}
   - {fileID: 13}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -691,7 +691,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 26084
+  m_LastSelectedObjectID: 30242
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -737,7 +737,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Zodiacs
+    - Assets/Prefabs/RealMapGen
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -745,16 +745,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 75
   m_LastFolders:
-  - Assets/Prefabs/Zodiacs
+  - Assets/Prefabs/RealMapGen
   m_LastFoldersGridSize: 75
   m_LastProjectPath: C:\Users\marca\Desktop\Markk\OPHIUCHUS
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 143}
-    m_SelectedIDs: cc930000
-    m_LastClickedID: 37836
-    m_ExpandedIDs: 00000000e8720000ea720000ec720000ee720000a693000000ca9a3b
+    scrollPos: {x: 0, y: 54.333313}
+    m_SelectedIDs: 36730000
+    m_LastClickedID: 29494
+    m_ExpandedIDs: 00000000f2720000f4720000f6720000fa72000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -782,7 +782,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e8720000ea720000ec720000ee720000
+    m_ExpandedIDs: 00000000f2720000f4720000f6720000f8720000fa720000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -813,18 +813,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c623000000000000aa670000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Room B
+      m_OriginalName: Room B
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 31854
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 5}
     m_CreateAssetUtility:
@@ -924,7 +924,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e6faffff
+      m_ExpandedIDs: f2f6ffff16fbffff9a77000004780000367b0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1330,9 +1330,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.06104929, y: -0.05276891, z: 766.726}
+    m_Target: {x: -4.6845984, y: 0.3300788, z: 1128.6641}
     speed: 2
-    m_Value: {x: -0.06104929, y: -0.05276891, z: 766.726}
+    m_Value: {x: 0.25, y: -0.3830645, z: 0.5}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1382,9 +1382,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 4.004703
+    m_Target: 5.6950903
     speed: 2
-    m_Value: 4.004703
+    m_Value: 12.844774
   m_Ortho:
     m_Target: 1
     speed: 2

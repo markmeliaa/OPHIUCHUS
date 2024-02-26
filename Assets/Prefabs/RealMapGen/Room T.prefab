@@ -301,7 +301,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6880509646936698}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7593153bd468f154f9fa31536b44aa32, type: 3}
   m_Name: 
@@ -707,6 +707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3848a5f5abe2c44bda807e4f631c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextMinimapRoom: {fileID: 0}
+  nextGameRoomObject: {fileID: 0}
   playerEntranceSpawn: {fileID: 4255477120209627593}
 --- !u!1 &3133630924006511725
 GameObject:
@@ -5435,10 +5437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67dde5d0cb558f04a909bf612571c799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisMinimapRoom: {fileID: 0}
-  nextMinimapRoom: {fileID: 0}
+  thisMinimapRoomObject: {fileID: 0}
   thisGameRoomObject: {fileID: 0}
-  nextGameRoomObject: {fileID: 0}
   thisRoomSpawnPoints:
   - {fileID: 764974290649465114}
   thisMinimapRoomSpawnPoints: []
