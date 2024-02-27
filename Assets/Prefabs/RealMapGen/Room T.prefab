@@ -306,14 +306,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7593153bd468f154f9fa31536b44aa32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterProfile: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
+  characterProfile: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
   dialogueBoxObject: {fileID: 8395692930908752291}
   dialogueImage: {fileID: 2240020439931188071}
   dialogueNameText: {fileID: 4549786124257033815}
   dialogueText: {fileID: 73732897024007042}
   nextButton: {fileID: 3392188225513339199}
-  player: {fileID: 0}
-  gameHUD: {fileID: 0}
 --- !u!1 &790336694809083978
 GameObject:
   m_ObjectHideFlags: 0

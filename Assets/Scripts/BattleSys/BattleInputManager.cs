@@ -363,7 +363,7 @@ public class BattleInputManager : MonoBehaviour
         }
     }
 
-    // Dialogue functions ----------------------------------------------- [TO BE REFACTORED]
+    // Dialogue functions ----------------------------------------------- TODO: [TO BE REFACTORED]
     /*
     public void StartDialogue(string zodiac, DialogueBox thisChar)
     {
@@ -497,7 +497,7 @@ public class BattleInputManager : MonoBehaviour
         }
     }
     */
-    // Dialogue functions ----------------------------------------------- [TO BE REFACTORED]
+    // Dialogue functions ----------------------------------------------- TODO: [TO BE REFACTORED]
 
     void ManageBattleActionSelection()
     {

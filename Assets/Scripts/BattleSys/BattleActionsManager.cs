@@ -312,7 +312,7 @@ public class BattleActionsManager : MonoBehaviour
         }
         else if (GameMaster.playerSpeed >= 10)
         {
-            battleDialogueText.GetComponent<Text>().text = "    YOU WERE ABLE TO RUN FROM THE BATTLE";
+            battleDialogueText.GetComponent<Text>().text = "    YOU ESCAPED SUCCESSFULLY FROM THE BATTLE";
         }
         else
         {

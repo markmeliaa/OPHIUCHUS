@@ -2289,14 +2289,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7593153bd468f154f9fa31536b44aa32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterProfile: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
+  characterProfile: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
   dialogueBoxObject: {fileID: 776126148563715161}
   dialogueImage: {fileID: 4247137462493815848}
   dialogueNameText: {fileID: 7694312615600456088}
   dialogueText: {fileID: 5163947341804487331}
   nextButton: {fileID: 2826910261064130307}
-  player: {fileID: 0}
-  gameHUD: {fileID: 0}
 --- !u!1 &6879417436608195346
 GameObject:
   m_ObjectHideFlags: 0

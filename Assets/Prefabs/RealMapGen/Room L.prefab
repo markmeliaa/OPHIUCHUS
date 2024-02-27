@@ -9136,14 +9136,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7593153bd468f154f9fa31536b44aa32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterProfile: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
+  characterProfile: {fileID: 11400000, guid: 5ae0a1fc8b60e8541a6162b98565f8af, type: 2}
   dialogueBoxObject: {fileID: 1688247783888666869}
   dialogueImage: {fileID: 3325467478811319190}
   dialogueNameText: {fileID: 3985106054367208214}
   dialogueText: {fileID: 881393180233489100}
   nextButton: {fileID: 3679759053254598298}
-  player: {fileID: 0}
-  gameHUD: {fileID: 0}
 --- !u!1 &7053479977328616183
 GameObject:
   m_ObjectHideFlags: 0

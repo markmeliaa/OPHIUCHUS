@@ -15,12 +15,15 @@ public class ConversationManager : MonoBehaviour
     [SerializeField] private GameObject nextButton;
 
     // Things to hide
-    [SerializeField] private GameObject player; // TODO: Get through tag
+    private GameObject player;
     private PlayerMovement playerMovement;
-    [SerializeField] private GameObject gameHUD; // TODO: Get trough tag
+    private GameObject gameHUD;
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        gameHUD = GameObject.FindGameObjectWithTag("GameHUD");
+
         playerMovement = player.GetComponent<PlayerMovement>();
     }
 
