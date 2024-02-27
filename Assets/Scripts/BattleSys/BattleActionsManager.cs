@@ -58,7 +58,6 @@ public class BattleActionsManager : MonoBehaviour
 
     [Header("DIALOGUE VARIABLES")]
     [SerializeField] private GameObject dialogueArea;
-    [SerializeField] private GameObject dialogueCanvas;
 
     [HideInInspector] public string baseTextToDisplay;
     public GameObject battleDialogueText;
@@ -367,7 +366,6 @@ public class BattleActionsManager : MonoBehaviour
     {
         currentBattleState = BattleStates.DEFEAT;
         GameMaster.attempts++;
-        dialogueCanvas.SetActive(false);
 
         if (zodiacToFight == "CAPRICORN")
         {
@@ -622,7 +620,6 @@ public class BattleActionsManager : MonoBehaviour
         winCircleAnimator.SetBool("Show", false);
         yield return new WaitForSeconds(1.75f);
 
-        dialogueCanvas.SetActive(false);
         winGameCanvas.SetActive(true);
         battleInputManager.overworldPlayer.GetComponent<AudioSource>().clip = deathSong;
         battleInputManager.overworldPlayer.GetComponent<AudioSource>().Play();

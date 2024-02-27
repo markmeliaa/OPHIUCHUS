@@ -18,6 +18,7 @@ TagManager:
   - SpawnPoints
   - BattleMngr
   - DungeonMngr
+  - GameHUD
   layers:
   - Default
   - TransparentFX

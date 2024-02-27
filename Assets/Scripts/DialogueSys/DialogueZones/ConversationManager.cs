@@ -15,9 +15,9 @@ public class ConversationManager : MonoBehaviour
     [SerializeField] private GameObject nextButton;
 
     // Things to hide
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject player; // TODO: Get through tag
     private PlayerMovement playerMovement;
-    [SerializeField] private GameObject gameHUD;
+    [SerializeField] private GameObject gameHUD; // TODO: Get trough tag
 
     private void Start()
     {

@@ -49,6 +49,7 @@ public class BattleInputManager : MonoBehaviour
     [SerializeField] private GameObject blackScreen;
     [Space(5)]
 
+    /*
     [Header("DIALOGUE UI VARIABLES")]
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private Text dialogueText;
@@ -59,6 +60,7 @@ public class BattleInputManager : MonoBehaviour
 
     private DialogueBox characterSpeaker;
     [Space(5)]
+    */
 
     [Header("THINGS TO SHOW/HIDE")]
     public GameObject overworldPlayer;
@@ -362,6 +364,7 @@ public class BattleInputManager : MonoBehaviour
     }
 
     // Dialogue functions ----------------------------------------------- [TO BE REFACTORED]
+    /*
     public void StartDialogue(string zodiac, DialogueBox thisChar)
     {
         dungeonMinimapRoomsParent.SetActive(false);
@@ -493,6 +496,7 @@ public class BattleInputManager : MonoBehaviour
             battleActionsManager.WinZodiacAndFinishLevel();
         }
     }
+    */
     // Dialogue functions ----------------------------------------------- [TO BE REFACTORED]
 
     void ManageBattleActionSelection()
