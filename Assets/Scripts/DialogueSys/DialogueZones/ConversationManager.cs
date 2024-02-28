@@ -7,6 +7,9 @@ public class ConversationManager : MonoBehaviour
     [SerializeField] private DialogueBox characterProfile;
     private int characterIndex;
 
+    [SerializeField] private bool isBossConversation = true;
+    private bool hasBossFightTriggered;
+
     // Things to show
     [SerializeField] private GameObject dialogueBoxObject;
     [SerializeField] private Image dialogueImage;
@@ -35,7 +38,7 @@ public class ConversationManager : MonoBehaviour
         }
     }
 
-    public void TriggerConversation()
+    public void TriggerNextConversation()
     {
         playerMovement.StopPlayer();
 
@@ -43,7 +46,7 @@ public class ConversationManager : MonoBehaviour
 
         characterIndex = NameToCharIndex.GetCharacterIndexFromName(characterProfile.speakerName);
         int currentDialogueLine = characterProfile.characterConversations[characterIndex].currentDialogueLine;
-        StartCoroutine("WriteDialogue",
+        StartCoroutine(nameof(WriteDialogue),
                        characterProfile.characterConversations[characterIndex].dialogueLines[currentDialogueLine].dialogueText);
 
         // TODO: Check differences when triggering dialogue in scene 2
@@ -68,14 +71,14 @@ public class ConversationManager : MonoBehaviour
         nextButton.SetActive(false);
 
         int currentDialogueLine = characterProfile.characterConversations[characterIndex].currentDialogueLine;
-        int lastDialogueLine = characterProfile.characterConversations[characterIndex].dialogueLines.Count - 1;
+        int maxDialogueLine = characterProfile.characterConversations[characterIndex].dialogueLines.Count - 1;
 
-        if (currentDialogueLine < lastDialogueLine)
+        if (currentDialogueLine < maxDialogueLine)
         {
             dialogueText.text = "";
 
             int nextDialogueLine = ++characterProfile.characterConversations[characterIndex].currentDialogueLine;
-            StartCoroutine("WriteDialogue",
+            StartCoroutine(nameof(WriteDialogue),
                            characterProfile.characterConversations[characterIndex].dialogueLines[nextDialogueLine].dialogueText);
         }
         else
@@ -85,7 +88,7 @@ public class ConversationManager : MonoBehaviour
                 NameToCharIndex.SetCharacterIndexFromName(characterProfile.speakerName, characterIndex + 1);
             }
 
-            StartCoroutine("HideDialogue");
+            StartCoroutine(nameof(HideDialogue));
         }
     }
 
@@ -106,7 +109,29 @@ public class ConversationManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        playerMovement.canMove = true;
         dialogueBoxObject.SetActive(false);
+
+        if (isBossConversation)
+        { 
+            if (!hasBossFightTriggered)
+            {
+                // Trigger Boss Fight
+                BattleActionsManager battleActions = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleActionsManager>();
+                BattleInputManager inputManager = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleInputManager>();
+
+                battleActions.SetUpBossBattle(characterProfile.speakerName);
+                inputManager.StartBossBattle(characterProfile.speakerName);
+
+                hasBossFightTriggered = true;
+            }
+            else
+            {
+                // Trigger End Game (Victory)
+            }
+        }
+        else
+        {
+            playerMovement.canMove = true;
+        }
     }
 }

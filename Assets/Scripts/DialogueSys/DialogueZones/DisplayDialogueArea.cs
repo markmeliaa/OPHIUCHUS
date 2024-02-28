@@ -29,7 +29,7 @@ public class DisplayDialogueArea : MonoBehaviour
                 interactKeyPressed = true;
                 keyToInteract.SetActive(false);
 
-                GetComponent<ConversationManager>()?.TriggerConversation();
+                GetComponent<ConversationManager>()?.TriggerNextConversation();
 
                 if (barrierToUnlock != null)
                 {

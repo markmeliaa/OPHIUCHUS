@@ -516,6 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterProfile: {fileID: 11400000, guid: f2946dafb55d5c3448fb8c13f8f487a8, type: 2}
+  isBossConversation: 1
   dialogueBoxObject: {fileID: 6777935447412632969}
   dialogueImage: {fileID: 3644368246769397010}
   dialogueNameText: {fileID: 8451241852821651757}

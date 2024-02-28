@@ -365,7 +365,7 @@ public class BattleInputManager : MonoBehaviour
 
     // Dialogue functions ----------------------------------------------- TODO: [TO BE REFACTORED]
     /*
-    public void StartDialogue(string zodiac, DialogueBox thisChar)
+    public void TriggerEndBattleDialogue(string zodiac, DialogueBox thisChar)
     {
         dungeonMinimapRoomsParent.SetActive(false);
         battleActionsManager.zodiacToFight = zodiac;
@@ -920,7 +920,7 @@ public class BattleInputManager : MonoBehaviour
         if (battleType == BattleType.BOSS)
         {
             bossBeaten = true;
-            //StartDialogue(battleActionsManager.zodiacToFight, characterSpeaker);
+            //TriggerEndBattleDialogue(battleActionsManager.zodiacToFight, characterSpeaker);
         }
     }
 }

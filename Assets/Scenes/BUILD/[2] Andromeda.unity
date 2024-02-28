@@ -8305,8 +8305,8 @@ MonoBehaviour:
   playerMinimapPosition: {fileID: 1869982794}
   spawnedMinimapRooms: []
   spawnedGameRooms: []
-  minRooms: 10
-  maxRooms: 25
+  minRooms: 5
+  maxRooms: 20
   shopRoomChance: 0
   healRoomChance: 0
   changeRoomAnim: {fileID: 1272354316}
