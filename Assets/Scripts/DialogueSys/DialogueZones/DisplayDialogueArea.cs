@@ -3,7 +3,7 @@ using UnityEngine;
 public class DisplayDialogueArea : MonoBehaviour
 {
     [SerializeField] private GameObject keyToInteract;
-    private bool interactKeyPressed = false;
+    [HideInInspector] public bool interactKeyPressed = false;
 
     [SerializeField] private GameObject barrierToUnlock = null;
 

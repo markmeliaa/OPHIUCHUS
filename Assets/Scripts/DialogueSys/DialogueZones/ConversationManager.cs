@@ -22,12 +22,25 @@ public class ConversationManager : MonoBehaviour
     private PlayerMovement playerMovement;
     private GameObject gameHUD;
 
+    private BattleInputManager battleInputManager;
+    private BattleActionsManager battleActionsManager;
+    private DisplayDialogueArea thisDialogueAreaTrigger;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         gameHUD = GameObject.FindGameObjectWithTag("GameHUD");
 
         playerMovement = player.GetComponent<PlayerMovement>();
+
+        GameObject battleManagerObject = GameObject.FindGameObjectWithTag("BattleMngr");
+        if (battleManagerObject != null)
+        {
+            battleInputManager = battleManagerObject.GetComponent<BattleInputManager>();
+            battleActionsManager = battleManagerObject.GetComponent<BattleActionsManager>();
+        }
+
+        thisDialogueAreaTrigger = GetComponent<DisplayDialogueArea>();
     }
 
     private void Update()
@@ -66,7 +79,7 @@ public class ConversationManager : MonoBehaviour
         characterProfile.characterConversations[characterIndex].currentDialogueLine = 0;
     }
 
-    public void AdvanceConversation()
+    private void AdvanceConversation()
     {
         nextButton.SetActive(false);
 
@@ -111,27 +124,48 @@ public class ConversationManager : MonoBehaviour
 
         dialogueBoxObject.SetActive(false);
 
+        ManageConversationOutcomes();
+    }
+
+    private void ManageConversationOutcomes()
+    {
         if (isBossConversation)
-        { 
+        {
             if (!hasBossFightTriggered)
             {
-                // Trigger Boss Fight
-                BattleActionsManager battleActions = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleActionsManager>();
-                BattleInputManager inputManager = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleInputManager>();
-
-                battleActions.SetUpBossBattle(characterProfile.speakerName);
-                inputManager.StartBossBattle(characterProfile.speakerName);
-
-                hasBossFightTriggered = true;
+                TriggerBossFight();
             }
             else
             {
-                // Trigger End Game (Victory)
+                TriggerVictoryScreen();
             }
         }
         else
         {
             playerMovement.canMove = true;
         }
+    }
+
+    private void TriggerBossFight()
+    {
+        if (battleInputManager == null)
+        {
+            return;
+        }
+
+        battleInputManager.StartBossBattle(characterProfile.speakerName);
+
+        hasBossFightTriggered = true;
+        thisDialogueAreaTrigger.interactKeyPressed = false;
+    }
+
+    private void TriggerVictoryScreen()
+    {
+        if (battleActionsManager == null)
+        {
+            return;
+        }
+
+        battleActionsManager.WinZodiacAndFinishLevel();
     }
 }

@@ -365,43 +365,6 @@ public class BattleInputManager : MonoBehaviour
 
     // Dialogue functions ----------------------------------------------- TODO: [TO BE REFACTORED]
     /*
-    public void TriggerEndBattleDialogue(string zodiac, DialogueBox thisChar)
-    {
-        dungeonMinimapRoomsParent.SetActive(false);
-        battleActionsManager.zodiacToFight = zodiac;
-        characterSpeaker = thisChar;
-
-        overworldPlayer.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
-
-        dialogueImage.sprite = thisChar.speakerImage;
-        dialogueNameText.text = thisChar.speakerName;
-
-        dialogueText.text = "";
-        dialogueBox.SetActive(true);
-        menuButton.SetActive(false);
-
-        if (zodiac == "CANCER")
-        {
-            if (GameMaster.cancerIndex == characterSpeaker.characterConversations.Count - 1)
-            {
-                GameMaster.cancerIndex--;
-            }
-
-            thisChar.characterConversations[GameMaster.cancerIndex].currentDialogueLine = 0;
-            StartCoroutine(nameof(WriteDialogue), thisChar.characterConversations[GameMaster.cancerIndex].dialogueLines[thisChar.characterConversations[GameMaster.cancerIndex].currentDialogueLine].dialogueText);
-        }
-        else if (zodiac == "CAPRICORN")
-        {
-            if (GameMaster.capricornIndex == characterSpeaker.characterConversations.Count - 1)
-            {
-                GameMaster.capricornIndex--;
-            }
-
-            thisChar.characterConversations[GameMaster.capricornIndex].currentDialogueLine = 0;
-            StartCoroutine(nameof(WriteDialogue), thisChar.characterConversations[GameMaster.capricornIndex].dialogueLines[thisChar.characterConversations[GameMaster.capricornIndex].currentDialogueLine].dialogueText);
-        }
-    }
-
     public void PressButton()
     {
         nextButton.SetActive(false);
@@ -466,34 +429,6 @@ public class BattleInputManager : MonoBehaviour
 
                 StartCoroutine(nameof(HideDialogue));
             }
-        }
-    }
-
-    IEnumerator WriteDialogue(string writeDialogue)
-    {
-        foreach (char c in writeDialogue)
-        {
-            dialogueText.text += c;
-            yield return new WaitForSeconds(0.02f);
-        }
-
-        nextButton.SetActive(true);
-    }
-
-    IEnumerator HideDialogue()
-    {
-        dialogueBox.GetComponent<Animator>().SetBool("Hide", true);
-
-        yield return new WaitForSeconds(0.2f);
-        dialogueBox.SetActive(false);
-
-        if (bossBeaten == false)
-        {
-            StartBossBattle(battleActionsManager.zodiacToFight);
-        }
-        else
-        {
-            battleActionsManager.WinZodiacAndFinishLevel();
         }
     }
     */
