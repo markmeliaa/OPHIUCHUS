@@ -7,6 +7,13 @@ public class DisplayDialogueArea : MonoBehaviour
 
     [SerializeField] private GameObject barrierToUnlock = null;
 
+    private ConversationManager thisConversationManager;
+
+    private void Start()
+    {
+        thisConversationManager = GetComponent<ConversationManager>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && !interactKeyPressed)
@@ -29,7 +36,7 @@ public class DisplayDialogueArea : MonoBehaviour
                 interactKeyPressed = true;
                 keyToInteract.SetActive(false);
 
-                GetComponent<ConversationManager>()?.TriggerNextConversation();
+                thisConversationManager.TriggerNextConversation();
 
                 if (barrierToUnlock != null)
                 {

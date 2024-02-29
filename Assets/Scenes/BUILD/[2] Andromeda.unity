@@ -1253,7 +1253,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.46325684}
-  m_SizeDelta: {x: -915.12, y: -1008.8}
+  m_SizeDelta: {x: -769.0724, y: -1008.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &80204941
 Animator:
@@ -1309,7 +1309,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: AT LEAST THIS TIME YOU DEFEATED THE ZODIAC
+  m_Text: SEEMS LIKE YOU WERE STRONGER THAN A ZODIAC THIS TIME
 --- !u!222 &80204943
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8305,8 +8305,8 @@ MonoBehaviour:
   playerMinimapPosition: {fileID: 1869982794}
   spawnedMinimapRooms: []
   spawnedGameRooms: []
-  minRooms: 5
-  maxRooms: 20
+  minRooms: 10
+  maxRooms: 25
   shopRoomChance: 0
   healRoomChance: 0
   changeRoomAnim: {fileID: 1272354316}
@@ -26236,12 +26236,48 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3150592867372996236, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 403247309c70b3f409f8057b061ecf6a, type: 2}
-    - target: {fileID: 7319662485463044465, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 3193672011221394040, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_Name
+      value: Main Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355779377821081477, guid: 2e9df62585eb6bc458c3440b646d6056, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -355,7 +355,7 @@ public class BattleActionsManager : MonoBehaviour
         battleInputManager.dungeonMinimapRoomsParent.SetActive(false);
 
         battleInputManager.overworldPlayer.GetComponent<SpriteRenderer>().enabled = false;
-        battleInputManager.overworldPlayer.transform.GetChild(0).gameObject.SetActive(true);
+        battleInputManager.overworldPlayer.transform.GetChild(2).gameObject.SetActive(true);
         GameMaster.temperanceIndex++;
 
         StartCoroutine(nameof(WaitWinAnim));

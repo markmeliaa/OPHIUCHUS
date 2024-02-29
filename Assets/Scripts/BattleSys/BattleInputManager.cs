@@ -49,19 +49,6 @@ public class BattleInputManager : MonoBehaviour
     [SerializeField] private GameObject blackScreen;
     [Space(5)]
 
-    /*
-    [Header("DIALOGUE UI VARIABLES")]
-    [SerializeField] private GameObject dialogueBox;
-    [SerializeField] private Text dialogueText;
-    [SerializeField] private GameObject nextButton;
-
-    [SerializeField] private Image dialogueImage;
-    [SerializeField] private Text dialogueNameText;
-
-    private DialogueBox characterSpeaker;
-    [Space(5)]
-    */
-
     [Header("THINGS TO SHOW/HIDE")]
     public GameObject overworldPlayer;
     public GameObject dungeonMinimapRoomsParent;
@@ -328,7 +315,7 @@ public class BattleInputManager : MonoBehaviour
     {
         battleActionsManager.SetUpBossBattle(zodiac);
 
-        overworldPlayer.GetComponent<PlayerAnimationDirection>().SetDirection(new Vector2(0, 0));
+        overworldPlayer.GetComponent<PlayerMovement>().StopPlayer();
         dungeonMinimapRoomsParent.SetActive(false);
         menuButton.SetActive(false);
 
@@ -362,77 +349,6 @@ public class BattleInputManager : MonoBehaviour
             text.transform.GetChild(1).GetComponent<Text>().text = "";
         }
     }
-
-    // Dialogue functions ----------------------------------------------- TODO: [TO BE REFACTORED]
-    /*
-    public void PressButton()
-    {
-        nextButton.SetActive(false);
-        selectionKeyPressed = false;
-
-        if (battleActionsManager.zodiacToFight == "CANCER")
-        {
-            if (characterSpeaker.characterConversations[GameMaster.cancerIndex].currentDialogueLine < characterSpeaker.characterConversations[GameMaster.cancerIndex].dialogueLines.Count - 1)
-            {
-                dialogueText.text = "";
-                characterSpeaker.characterConversations[GameMaster.cancerIndex].currentDialogueLine++;
-                StartCoroutine(nameof(WriteDialogue), characterSpeaker.characterConversations[GameMaster.cancerIndex].dialogueLines[characterSpeaker.characterConversations[GameMaster.cancerIndex].currentDialogueLine].dialogueText);
-            }
-            else
-            {
-                if (GameMaster.cancerIndex < characterSpeaker.characterConversations.Count - 1)
-                {
-                    GameMaster.cancerIndex++;
-                }
-
-                if (GameMaster.cancerIndex == 2 && GameMaster.capricornIndex == 0)
-                {
-                    GameMaster.capricornIndex = 2;
-                    GameMaster.cancerIndex = 4;
-                    GameMaster.whoFirst = "CANCER";
-                }
-
-                if (GameMaster.cancerIndex == 4 && GameMaster.whoFirst == "CAPRICORN")
-                {
-                    GameMaster.cancerIndex = 6;
-                }
-
-                StartCoroutine(nameof(HideDialogue));
-            }
-        }
-        else if (battleActionsManager.zodiacToFight == "CAPRICORN")
-        {
-            if (characterSpeaker.characterConversations[GameMaster.capricornIndex].currentDialogueLine < characterSpeaker.characterConversations[GameMaster.capricornIndex].dialogueLines.Count - 1)
-            {
-                dialogueText.text = "";
-                characterSpeaker.characterConversations[GameMaster.capricornIndex].currentDialogueLine++;
-                StartCoroutine(nameof(WriteDialogue), characterSpeaker.characterConversations[GameMaster.capricornIndex].dialogueLines[characterSpeaker.characterConversations[GameMaster.capricornIndex].currentDialogueLine].dialogueText);
-            }
-            else
-            {
-                if (GameMaster.capricornIndex < characterSpeaker.characterConversations.Count - 1)
-                {
-                    GameMaster.capricornIndex++;
-                }
-
-                if (GameMaster.capricornIndex == 2 && GameMaster.cancerIndex == 0)
-                {
-                    GameMaster.cancerIndex = 2;
-                    GameMaster.capricornIndex = 4;
-                    GameMaster.whoFirst = "CAPRICORN";
-                }
-
-                if (GameMaster.capricornIndex == 4 && GameMaster.whoFirst == "CANCER")
-                {
-                    GameMaster.capricornIndex = 6;
-                }
-
-                StartCoroutine(nameof(HideDialogue));
-            }
-        }
-    }
-    */
-    // Dialogue functions ----------------------------------------------- TODO: [TO BE REFACTORED]
 
     void ManageBattleActionSelection()
     {
@@ -855,7 +771,54 @@ public class BattleInputManager : MonoBehaviour
         if (battleType == BattleType.BOSS)
         {
             bossBeaten = true;
-            //TriggerEndBattleDialogue(battleActionsManager.zodiacToFight, characterSpeaker);
+            AdvanceCharacterConversationIndexes();
+        }
+    }
+
+    private void AdvanceCharacterConversationIndexes()
+    {
+        switch(battleActionsManager.zodiacToFight)
+        {
+            case "CANCER":
+                ManageCancerConversationIndex();
+                break;
+
+            case "CAPRICORN":
+                ManageCapricornConversationIndex();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void ManageCancerConversationIndex()
+    {
+        if (GameMaster.cancerIndex == 2 && GameMaster.capricornIndex == 0)
+        {
+            GameMaster.capricornIndex = 2;
+            GameMaster.cancerIndex = 4;
+            GameMaster.whoFirst = "CANCER";
+        }
+
+        if (GameMaster.cancerIndex == 4 && GameMaster.whoFirst == "CAPRICORN")
+        {
+            GameMaster.cancerIndex = 6;
+        }
+    }
+
+    private void ManageCapricornConversationIndex()
+    {
+        if (GameMaster.capricornIndex == 2 && GameMaster.cancerIndex == 0)
+        {
+            GameMaster.cancerIndex = 2;
+            GameMaster.capricornIndex = 4;
+            GameMaster.whoFirst = "CAPRICORN";
+        }
+
+        if (GameMaster.capricornIndex == 4 && GameMaster.whoFirst == "CANCER")
+        {
+            GameMaster.capricornIndex = 6;
         }
     }
 }

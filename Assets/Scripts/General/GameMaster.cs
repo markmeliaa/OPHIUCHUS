@@ -4,7 +4,7 @@ public static class GameMaster
 {
     public static int playerLife = 15;
     public static int maxPlayerLife = playerLife;
-    public static int playerSpeed = 50;
+    public static int playerSpeed = 5;
 
     public static int runMoney;
     public static int totalMoney;
