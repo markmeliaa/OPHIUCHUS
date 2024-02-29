@@ -771,54 +771,6 @@ public class BattleInputManager : MonoBehaviour
         if (battleType == BattleType.BOSS)
         {
             bossBeaten = true;
-            AdvanceCharacterConversationIndexes();
-        }
-    }
-
-    private void AdvanceCharacterConversationIndexes()
-    {
-        switch(battleActionsManager.zodiacToFight)
-        {
-            case "CANCER":
-                ManageCancerConversationIndex();
-                break;
-
-            case "CAPRICORN":
-                ManageCapricornConversationIndex();
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    private void ManageCancerConversationIndex()
-    {
-        if (GameMaster.cancerIndex == 1 && GameMaster.capricornIndex == 0)
-        {
-            GameMaster.capricornIndex = 2;
-            GameMaster.cancerIndex = 4;
-            GameMaster.whoFirst = "CANCER";
-        }
-
-        if (GameMaster.cancerIndex == 3 && GameMaster.whoFirst == "CAPRICORN")
-        {
-            GameMaster.cancerIndex = 6;
-        }
-    }
-
-    private void ManageCapricornConversationIndex()
-    {
-        if (GameMaster.capricornIndex == 1 && GameMaster.cancerIndex == 0)
-        {
-            GameMaster.cancerIndex = 2;
-            GameMaster.capricornIndex = 4;
-            GameMaster.whoFirst = "CAPRICORN";
-        }
-
-        if (GameMaster.capricornIndex == 3 && GameMaster.whoFirst == "CANCER")
-        {
-            GameMaster.capricornIndex = 6;
         }
     }
 }

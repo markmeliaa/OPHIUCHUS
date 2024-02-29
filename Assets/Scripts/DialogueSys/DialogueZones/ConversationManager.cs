@@ -101,7 +101,56 @@ public class ConversationManager : MonoBehaviour
                 NameToCharIndex.SetCharacterIndexFromName(characterProfile.speakerName, characterIndex + 1);
             }
 
+            AdvanceCharacterConversationIndexes();
+
             StartCoroutine(nameof(HideDialogue));
+        }
+    }
+
+    private void AdvanceCharacterConversationIndexes()
+    {
+        switch (battleActionsManager.zodiacToFight)
+        {
+            case "CANCER":
+                ManageCancerConversationIndex();
+                break;
+
+            case "CAPRICORN":
+                ManageCapricornConversationIndex();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void ManageCancerConversationIndex()
+    {
+        if (GameMaster.cancerIndex == 2 && GameMaster.capricornIndex == 0)
+        {
+            GameMaster.capricornIndex = 2;
+            GameMaster.cancerIndex = 4;
+            GameMaster.whoFirst = "CANCER";
+        }
+
+        if (GameMaster.cancerIndex == 4 && GameMaster.whoFirst == "CAPRICORN")
+        {
+            GameMaster.cancerIndex = 6;
+        }
+    }
+
+    private void ManageCapricornConversationIndex()
+    {
+        if (GameMaster.capricornIndex == 2 && GameMaster.cancerIndex == 0)
+        {
+            GameMaster.cancerIndex = 2;
+            GameMaster.capricornIndex = 4;
+            GameMaster.whoFirst = "CAPRICORN";
+        }
+
+        if (GameMaster.capricornIndex == 4 && GameMaster.whoFirst == "CANCER")
+        {
+            GameMaster.capricornIndex = 6;
         }
     }
 
