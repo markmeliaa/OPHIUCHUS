@@ -101,7 +101,10 @@ public class ConversationManager : MonoBehaviour
                 NameToCharIndex.SetCharacterIndexFromName(characterProfile.speakerName, characterIndex + 1);
             }
 
-            AdvanceCharacterConversationIndexes();
+            if (isBossConversation)
+            {
+                AdvanceCharacterConversationIndexes();
+            }
 
             StartCoroutine(nameof(HideDialogue));
         }

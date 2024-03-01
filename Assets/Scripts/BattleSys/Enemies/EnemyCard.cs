@@ -35,5 +35,6 @@ public class EnemyCard : MonoBehaviour
     {
         cardAnimator.SetBool("Death", true);
         battleActionsManager.UpdateEnemiesInBattle();
+        Destroy(gameObject);
     }
 }
