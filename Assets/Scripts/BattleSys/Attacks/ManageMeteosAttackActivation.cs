@@ -26,7 +26,7 @@ public class ManageMeteosAttackActivation : MonoBehaviour
             for (int i = 0; i < transform.childCount; i++)
             {
                 transform.GetChild(i).GetComponent<Animator>().SetBool("FallMeteo", true);
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(1.65f);
             }
         }
         else
@@ -34,7 +34,7 @@ public class ManageMeteosAttackActivation : MonoBehaviour
             for (int i = transform.childCount - 1; i >= 0; i--)
             {
                 transform.GetChild(i).GetComponent<Animator>().SetBool("FallMeteo", true);
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(1.65f);
             }
         }
     }

@@ -747,9 +747,6 @@ public class BattleInputManager : MonoBehaviour
         battleCanvas.SetActive(false);
 
         overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -3;
-        overworldPlayer.GetComponent<AudioSource>().Play();
-        overworldPlayer.GetComponent<PlayerMovement>().canMove = true;
-
         dungeonGameRoomsParent.SetActive(true);
 
         yield return new WaitForSeconds(1.2f);
@@ -761,7 +758,10 @@ public class BattleInputManager : MonoBehaviour
 
         dungeonMinimapRoomsParent.SetActive(true);
         menuButton.SetActive(true);
+
         overworldPlayer.GetComponent<CircleCollider2D>().enabled = true;
+        overworldPlayer.GetComponent<AudioSource>().Play();
+        overworldPlayer.GetComponent<PlayerMovement>().canMove = true;
 
         foreach (GameObject card in battleActionsManager.enemiesSpawned)
         {

@@ -653,7 +653,7 @@ public class BattleActionsManager : MonoBehaviour
         if (isMeteoritesAttack)
         {
             availableNormalAttacks[numAttack].GetComponent<ManageMeteosAttackActivation>().ActivateMeteos();
-            yield return new WaitForSeconds(11.0f);
+            yield return new WaitForSeconds(12.0f);
 
             availableNormalAttacks[numAttack].GetComponent<ManageMeteosAttackActivation>().DeactivateMeteos();
         }
