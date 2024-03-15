@@ -58,6 +58,7 @@ public class BattleInputManager : MonoBehaviour
 
     [Header("AUDIO VARIABLES")]
     [SerializeField] private AudioSource globalAudioSource;
+    [SerializeField] private AudioSource battleSoundsAudioSource;
     [SerializeField] private AudioClip selectOptionSound;
     [SerializeField] private AudioClip attackEnemyAudio;
     [SerializeField] private AudioClip useItemAudio;
@@ -106,8 +107,8 @@ public class BattleInputManager : MonoBehaviour
             }
             else if (currentActionButtonIndex + 1 == (int)BattleActions.USE_ITEM && Input.GetKeyDown(KeyCode.Z))
             {
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
+                battleSoundsAudioSource.clip = selectOptionSound;
+                battleSoundsAudioSource.Play();
 
                 if (GameMaster.inventory.Count != 0)
                 {
@@ -135,8 +136,8 @@ public class BattleInputManager : MonoBehaviour
             // Select RUN action
             else if (currentActionButtonIndex + 1 == (int)BattleActions.RUN && Input.GetKeyDown(KeyCode.Z))
             {
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
+                battleSoundsAudioSource.clip = selectOptionSound;
+                battleSoundsAudioSource.Play();
 
                 battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
                 battleActionsManager.currentBattleState = BattleStates.RUNNING;
@@ -154,8 +155,8 @@ public class BattleInputManager : MonoBehaviour
             if (battleActionsManager.currentBattleState == BattleStates.ATTACKING &&
                 Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
-                globalAudioSource.clip = attackEnemyAudio;
-                globalAudioSource.Play();
+                battleSoundsAudioSource.clip = attackEnemyAudio;
+                battleSoundsAudioSource.Play();
 
                 battleActionsManager.AttackAction(textsForEnemiesInBattle, currentHoveredTextIndex);
 
@@ -164,8 +165,8 @@ public class BattleInputManager : MonoBehaviour
             else if (battleActionsManager.currentBattleState == BattleStates.TALKING &&
                      Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
-                globalAudioSource.clip = selectOptionSound;
-                globalAudioSource.Play();
+                battleSoundsAudioSource.clip = selectOptionSound;
+                battleSoundsAudioSource.Play();
 
                 battleActionsManager.TalkAction(textsForEnemiesInBattle);
 
@@ -183,8 +184,8 @@ public class BattleInputManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Z) && !selectionKeyPressed)
             {
-                globalAudioSource.clip = useItemAudio;
-                globalAudioSource.Play();
+                battleSoundsAudioSource.clip = useItemAudio;
+                battleSoundsAudioSource.Play();
 
                 battleActionsManager.UseItemAction(textsForItemsToBeUsed, currentHoveredTextIndex);
 
@@ -392,8 +393,8 @@ public class BattleInputManager : MonoBehaviour
     void ShowBattleEnemyNames()
     {
         battleActionsManager.battleDialogueText.SetActive(false);
-        globalAudioSource.clip = selectOptionSound;
-        globalAudioSource.Play();
+        battleSoundsAudioSource.clip = selectOptionSound;
+        battleSoundsAudioSource.Play();
 
         for (int i = 0; i < battleActionsManager.enemiesSpawned.Count; i++)
         {
@@ -607,8 +608,8 @@ public class BattleInputManager : MonoBehaviour
 
         StartCoroutine(nameof(ManageFinishBattle), BattleType.NORMAL);
 
-        globalAudioSource.clip = selectOptionSound;
-        globalAudioSource.Play();
+        battleSoundsAudioSource.clip = selectOptionSound;
+        battleSoundsAudioSource.Play();
     }
 
     void GoBackToBattleAfterTryingToEscape()
@@ -618,8 +619,8 @@ public class BattleInputManager : MonoBehaviour
 
         battleActionsManager.battleDialogueText.GetComponent<Text>().text = battleActionsManager.baseTextToDisplay;
 
-        globalAudioSource.clip = selectOptionSound;
-        globalAudioSource.Play();
+        battleSoundsAudioSource.clip = selectOptionSound;
+        battleSoundsAudioSource.Play();
     }
 
     void GoBackToBattleAfterTryingToUseItem()
@@ -629,8 +630,8 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager.currentBattleState = BattleStates.CHOOSING;
         battleActionsManager.lastBattleState = BattleStates.WAITING;
 
-        globalAudioSource.clip = selectOptionSound;
-        globalAudioSource.Play();
+        battleSoundsAudioSource.clip = selectOptionSound;
+        battleSoundsAudioSource.Play();
 
         didUseItemFail = false;
     }
@@ -647,8 +648,8 @@ public class BattleInputManager : MonoBehaviour
         battleActionsManager.lastBattleState = battleActionsManager.currentBattleState;
         battleActionsManager.currentBattleState = BattleStates.TALKING;
 
-        globalAudioSource.clip = selectOptionSound;
-        globalAudioSource.Play();
+        battleSoundsAudioSource.clip = selectOptionSound;
+        battleSoundsAudioSource.Play();
     }
 
     void CancelActionSelection(BattleStates actionToCancel)
@@ -679,8 +680,8 @@ public class BattleInputManager : MonoBehaviour
 
         battleActionsManager.battleDialogueText.SetActive(true);
 
-        globalAudioSource.clip = selectOptionSound;
-        globalAudioSource.Play();
+        battleSoundsAudioSource.clip = selectOptionSound;
+        battleSoundsAudioSource.Play();
     }
 
     IEnumerator SetStarReadyToMove()
@@ -701,6 +702,7 @@ public class BattleInputManager : MonoBehaviour
         }
 
         battleCanvas.SetActive(true);
+        globalAudioSource.Stop();
 
         overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -10;
         overworldPlayer.GetComponent<AudioSource>().Stop();
@@ -744,7 +746,9 @@ public class BattleInputManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.25f);
         ClearGame();
+
         battleCanvas.SetActive(false);
+        globalAudioSource.Play();
 
         overworldPlayer.GetComponent<SpriteRenderer>().sortingOrder = -3;
         dungeonGameRoomsParent.SetActive(true);
