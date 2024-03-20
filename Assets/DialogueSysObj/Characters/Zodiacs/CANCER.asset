@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa37dedccabd664e96300afb2fdb224, type: 3}
   m_Name: CANCER
   m_EditorClassIdentifier: 
-  nameSpeaker: CANCER
-  imageSpeaker: {fileID: 7766734869932432087, guid: a22aaf1b7f6a5934097367fc637031cd, type: 3}
+  speakerName: CANCER
+  speakerImage: {fileID: 7766734869932432087, guid: a22aaf1b7f6a5934097367fc637031cd, type: 3}
   characterConversations:
   - {fileID: 11400000, guid: d189a8af03956ba418c7f0e5b17c0be8, type: 2}
   - {fileID: 11400000, guid: 6e27eb87b00c942449e30c772efdd614, type: 2}

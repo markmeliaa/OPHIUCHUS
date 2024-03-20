@@ -1,23 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum objectTypes { health, attack, defense, speed }
+public enum ObjectTypes 
+{ 
+    NONE, 
+    HEALTH, 
+    ATTACK, 
+    DEFENSE,
+    SPEED
+}
 
 public class ItemObject
 {
-    public string objectName { get; set; }
-    public objectTypes type { get; set; }
-    public int level { get; set; }
-    public GameObject gameText { get; set; }
-    public bool used { get; set; }
+    public string ObjectName { get; private set; }
+    public ObjectTypes Type { get; private set; }
+    public bool Consumed { get; set; }
+    public int Level { get; set; }
 
-    public ItemObject (string _objectName, objectTypes _type, int _level)
+    public ItemObject (string objectName, ObjectTypes type, int level)
     {
-        objectName = _objectName;
-        type = _type;
-        level = _level;
-        gameText = null;
-        used = false;
+        ObjectName = objectName;
+        Type = type;
+        Consumed = false;
+        Level = level;
     }
 }

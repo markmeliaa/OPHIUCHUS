@@ -1,34 +1,48 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyCard : MonoBehaviour
 {
-    public string cardName;
-    public int life = 20;
-    public int speed = 5;
-    [HideInInspector] public GameObject nameText;
+    public string CardName { get; private set; }
+    public int Life { get; set; }
+
+    //[HideInInspector] public GameObject nameText { private get; set; }
+
+    [SerializeField] private string thisCardName;
+    [SerializeField] private int thisCardLife = 20;
 
     private Animator cardAnimator;
-    private BattleManager battleManager;
+    private BattleActionsManager battleActionsManager;
 
     private void Awake()
     {
+        CardName = thisCardName;
+        Life = thisCardLife;
+
         cardAnimator = GetComponent<Animator>();
-        battleManager = GameObject.FindGameObjectWithTag("Battle").GetComponent<BattleManager>();
+        battleActionsManager = GameObject.FindGameObjectWithTag("BattleMngr").GetComponent<BattleActionsManager>();
     }
 
     private void Update()
     {
-        if (life <= 0 && !cardAnimator.GetBool("Death"))
-            OnDie();
+        // TODO: Ideally, this would not need an Update and it should be checked in the damage script
+        if (Life <= 0 && !cardAnimator.GetBool("Death"))
+        {
+            ManageCardDeath();
+        }
     }
 
-    private void OnDie()
+    private void ManageCardDeath()
     {
         cardAnimator.SetBool("Death", true);
+        battleActionsManager.UpdateEnemiesInBattle();
+        StartCoroutine(nameof(WaitForDeathAnimation));
+    }
 
-        battleManager.RedistributeEnemyTexts();
+    IEnumerator WaitForDeathAnimation()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        Destroy(gameObject);
     }
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ChangeSceneBar7
+  m_Controller: {fileID: 9100000, guid: e635e84f86265c54e9270a65d8c3a491, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 90300411173ad1e4cb973b3d94932d54, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 90300411173ad1e4cb973b3d94932d54, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 61c14f16ff2e9fa4382f7fe8a52c9a5d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 61c14f16ff2e9fa4382f7fe8a52c9a5d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 43a1fbe831d857444a6dae2554704fb5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 728b8df4942b1154cba61804a014fa1d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: cbdf64b429068d84cb577956808029b5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 16bc102295690dc47953f5348806416d, type: 2}
