@@ -620,9 +620,8 @@ public class BattleActionsManager : MonoBehaviour
         winCircleAnimator.SetBool("Show", false);
         yield return new WaitForSeconds(1.75f);
 
+        battleInputManager.overworldPlayer.transform.GetChild(1).GetComponent<AudioSource>().Stop();
         winGameCanvas.SetActive(true);
-        battleInputManager.overworldPlayer.GetComponent<AudioSource>().clip = deathSong;
-        battleInputManager.overworldPlayer.GetComponent<AudioSource>().Play();
 
         yield return new WaitForSeconds(1.0f);
         winGameCanvas.transform.GetChild(3).gameObject.GetComponent<Image>().enabled = false;
@@ -632,8 +631,7 @@ public class BattleActionsManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.55f);
 
-        battleInputManager.overworldPlayer.GetComponent<AudioSource>().clip = deathSong;
-        battleInputManager.overworldPlayer.GetComponent<AudioSource>().Play();
+        battleInputManager.overworldPlayer.GetComponent<AudioSource>().Stop();
 
         yield return new WaitForSeconds(0.65f);
         loseGameCanvas.SetActive(true);
