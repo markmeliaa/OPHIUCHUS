@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyCard : MonoBehaviour
@@ -35,6 +36,13 @@ public class EnemyCard : MonoBehaviour
     {
         cardAnimator.SetBool("Death", true);
         battleActionsManager.UpdateEnemiesInBattle();
+        StartCoroutine(nameof(WaitForDeathAnimation));
+    }
+
+    IEnumerator WaitForDeathAnimation()
+    {
+        yield return new WaitForSeconds(1.0f);
+
         Destroy(gameObject);
     }
 }
