@@ -1,0 +1,51 @@
+EXISTING SCRIPTS: (✅ aka Refactored)              
+-- UI - HUD --
+	- Trigger Intro Button ✅
+	- Hover Button ✅
+	- Exit Game Manager ✅
+	- Load Scene Manager ✅
+	- Settings Manager ✅
+
+-- PANTWO & ANDROMEDA --
+	- Volume Manager ✅
+	- Play Sound ✅
+	- Game Master
+	- Player Animation Direction ✅
+	- Player Movement ✅
+	- Lobby Set Up Manager ✅
+	- Level Set Up Manager ✅
+
+-- MAP GENERATION -- 
+	- Display Change Room Area ✅
+	- Game Room ✅
+	- Game Room Spawner ✅
+	- Minimap Room ✅
+	- Minimap Room Spawner ✅
+	- DoorOrientationToRooms ✅ (STATIC)
+	- Overlapper Room Destroyer ✅
+	- Rooms Holder Singleton ✅
+	- Dungeon Map Manager ✅
+
+-- BATTLE SYSTEM --
+	- Battle Actions Manager ✅
+	- Battle Input Manager
+	- Update Player Status ✅
+	- Manage Button Selection ✅
+	- Manage Meteos Attack Activation ✅
+	- Deal Damage To Player ✅
+	- Enemy Card ✅
+	- Enemy Spawner ✅
+	- Item Object ✅
+
+-- DIALOGUE SYSTEM [SCRIPTABLE OBJS] --
+	- Display Dialogue Area ✅
+	- Conversation Manager ✅
+	- NameToCharIndex ✅ (STATIC)
+---------------------------------------
+	- Dialogue Lines ✅
+	- Dialogue Box ✅
+	- Dialogue Conversation ✅
+
+-- TO FIX --
+	- Dialogue box's border stars layered behing everithing for boss conversations
+	- In battle boss does not fade out correctly like the other cards
